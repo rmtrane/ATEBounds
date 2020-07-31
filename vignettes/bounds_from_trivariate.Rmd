@@ -1,0 +1,296 @@
+---
+title: "Utilize bivariate data in trivariate bounds"
+---
+
+Bounds constructed using bivariate data generally provides much less information than bounds constructed using trivariate data. We will here see how we can squeeze a bit more information out of bivariate data by considering the potential distributions of $(X,Y)|Z$ that are in agreement with the observed $X|Z$ and $Y|Z$, and the model.
+
+```{r message = FALSE}
+library(tidyverse)
+library(ACEBounds)
+```
+
+We will consider IVs that take three levels. To generate values of $P(X = 1 | Z = z)$ we simply choose three values from a uniform distribution. The matrices obtained from the polymake program give us some constraints on the values of $P(Y = 1 | Z = z)$. These are included below. 
+
+```{r echo = FALSE}
+ACEBounds:::matrices_from_polymake %>% 
+  filter(!x_monotone, !y_monotone,
+         data_format == "bivariate", 
+         n_z_levels == 3) %>% 
+  pull(matrix) %>% .[[1]] %>% 
+  filter(alpha == 0) %>%
+  select(where(~sum(abs(.x)) > 0)) %>%
+  filter(rowSums(abs(.)) > 1) %>% 
+  pander::pander()
+```
+
+
+The function `simulate_gammas_from_thetas` takes a vector of length 3 of values of $P(X = 1 | Z = z)$, and return a vector of length 3 of values of $P(Y = 1 | Z = z)$ such that no constraint is violated.
+
+```{r}
+simulate_gammas_from_thetas <- function(thetas){
+
+  gammas <- vector(length = length(thetas))
+
+
+  gammas[1] <- runif(1)
+
+  gammas[2] <- runif(1,
+                     min = max(0,
+                               gammas[1] - thetas[1] - thetas[2], # row 3
+                               gammas[1] + thetas[1] + thetas[2] - 2), # row 5
+                     max = min(1,
+                               gammas[1] - thetas[1] - thetas[2] + 2, # row 11
+                               gammas[1] + thetas[1] + thetas[2]) # row 16
+                     )
+
+  gammas[3] <- runif(1,
+                     min = max(0,
+                               gammas[1] - thetas[1] - thetas[3], # row 4
+                               gammas[1] + thetas[1] + thetas[3] - 2, # row 6
+                               gammas[2] - thetas[2] - thetas[3], # row 12
+                               gammas[2] + thetas[2] + thetas[3] - 2), # row 9
+                     max = min(1,
+                               gammas[2] - thetas[2] - thetas[3] + 2, # row 10
+                               gammas[2] + thetas[2] + thetas[3], # row 13
+                               gammas[1] - thetas[1] - thetas[3] + 2, # row 17
+                               gammas[1] + thetas[1] + thetas[3])) # row 15
+  return(gammas)
+}
+```
+
+For each set of values of $P(X = 1 | Z = z)$ and $P(Y = 1 | Z = z)$, we first get the constraints on the values of $\text{Cov}(X,Y | Z = z)$ that must be satisfied for the resulting distribution of $(X,Y|Z)$ to be valid. Note: the constraints used are based on the inequalities $0 \le P(X = x, Y = y | Z = z) \le 1$, and the IV inequalities $\max_x \sum_y \max_z P(X = x, Y = y | Z = z) \le 1$. These hold no matter the number of levels of $Z$. However, when the number of levels of $Z$ is greater than $2$, these are not sufficient, only necessary, for the joint condition $(X,Y|Z)$ to be valid. Therefore, every time we sample a set of values of $\text{Cov}(X,Y | Z = z)$, we check if the resulting joint conditional violates any of the constraints using the results from polymake. If they do violate, we reject the set of values, and sample a new set of values. We do this $1000$ times, which results in us getting $1000$ possible distributions of $(X,Y|Z)$ for each set of $(X|Z)$ and $(Y|Z)$. Since this takes a while to run, we save the results to a .rds file, so we can read it in for later use. 
+
+The result of this chunk is a `tibble` calles `many_sample_joints` with 5 columns:
+
+* `j` is simply for book keeping
+* `thetas` are the values of $P(X = 1 | Z = z)$
+* `gammas` are the values of $P(Y = 1 | Z = z)$
+* `pot_covs` contain the constraints on $\text{Cov}(X,Y|Z=z)$
+* `samp_joints` with the sampled joint distributions, $1000$ for each set of $P(X = 1 | Z = z)$ and $P(Y = 1 | Z = z)$. 
+
+The first six rows are shown below.
+
+```{r many_sample_joints}
+if(file.exists(here::here("vignettes/many_sample_joints.rds"))){
+  many_sample_joints <- read_rds(here::here("vignettes/many_sample_joints.rds"))
+} else {
+  
+  library(furrr)
+  
+  if(!interactive())
+    plan(multiprocess)
+ 
+  set.seed(7226637)
+  sim_probs <- tibble(j = 1:100) %>%
+    mutate(thetas = map(j, ~runif(n = 3, min = 0, max = 1)), 
+           gammas = map(thetas, simulate_gammas_from_thetas),
+           pot_covs = map2(thetas, gammas, potential_covs))
+  
+  many_sample_joints <- sim_probs %>%
+    filter(j <= 15)
+    mutate(samp_joints = map(pot_covs, ~sample_joint_probs(.x, return_bounds = TRUE, n = 1000, max_rejections = 500)))
+  
+  write_rds(many_sample_joints,
+            here::here("vignettes/many_sample_joints.rds"))
+}
+
+head(many_sample_joints)
+```
+
+Everything we need is included in this object. We simply need to unnest a few list columns to get the upper and lower bounds for the sampled joint distributions. 
+
+```{r trivariate_bounds}
+trivariate_bounds <- many_sample_joints %>% 
+  unnest(samp_joints) %>% 
+  unnest(joint) %>% 
+  unnest_wider(bounds) %>% 
+  select(j, joint, trivariate_lower = lower, trivariate_upper = upper, n_rejected)
+
+head(trivariate_bounds)
+```
+
+We then find the bounds we get if we only use the bivariate distributions. 
+
+```{r bivariate_bounds}
+bivariate_bounds <- many_sample_joints %>% 
+  rowwise() %>% 
+  mutate(bounds = list(get_bounds(thetas = thetas, gammas = gammas, stop = FALSE, warning = FALSE)),
+         bivariate_constraints_violated = bounds$constraints_violated,
+         interval = list(bounds$interval)) %>% 
+  ungroup() %>% 
+  unnest_wider(interval) %>% 
+  rename(bivariate_lower = lower,
+         bivariate_upper = upper) %>% 
+  print() %>% 
+  select(j, contains("bivariate"))
+
+head(bivariate_bounds)
+```
+
+To plot it all, we combine the two sets of bounds. We order by lower limit of trivariate bounds, give `id` for plotting, and then create a variable `contains_zero` which simply tells us if the trivariate bounds contain zero (`TRUE`) or not (`FALSE`). 
+
+```{r for_plot}
+for_plot <- trivariate_bounds %>% 
+  left_join(bivariate_bounds) %>% 
+  arrange(j, trivariate_lower) %>% 
+  group_by(j) %>% 
+  mutate(id = row_number()) %>% 
+  ungroup() %>% 
+  mutate(contains_zero = if_else(trivariate_lower < 0 & trivariate_upper > 0, "Zero in range", "Zero NOT in range"))
+
+head(for_plot)
+```
+
+Finally, the plot.
+
+```{r plot, fig.width = 10, fig.height = 10, dpi = 300}
+plot <- for_plot %>% 
+  mutate(facet_row = ceiling(j/10), 
+         facet_col = j %% 10) %>% 
+  ggplot(aes(x = id/max(id))) + 
+    geom_hline(aes(yintercept = bivariate_lower, color = "Bivariate Bounds")) + 
+    geom_hline(aes(yintercept = bivariate_upper, color = "Bivariate Bounds")) + 
+    geom_errorbar(aes(ymin = trivariate_lower, ymax = trivariate_upper,
+                      color = contains_zero)) + 
+    ylim(c(-1,1)) +
+    facet_grid(facet_row ~ facet_col) +
+    coord_fixed() +
+    scale_color_manual(values = c("black", "red4", "grey50")) + 
+    labs(x = "", y = "ACE",
+         title = "Bounds on ACE",
+         color = "",
+         linetype = ""
+    ) + 
+    theme_bw() +
+    theme(axis.ticks.x = element_blank(),
+          axis.text.x = element_blank())
+
+plot
+```
+
+Save the plot to a file for later use. 
+
+```{r}
+ggsave(plot, filename = here::here("figures/trivariate_bounds_plot.png"),
+       width = 10, height = 10, dpi = 300)
+```
+
+## Monotonicity of $P(X = 1 | Z = z, U)$.
+
+Below, we go through the exact same steps as above, except we now assume that $P(X = 1 | Z = z, U)$ is monotonically increasing. 
+
+```{r fig.width = 10, fig.height = 10, dpi = 300}
+simulate_gammas_from_thetas_mono <- function(thetas){
+
+  gammas <- vector(length = length(thetas))
+
+  ## constraints: 
+  # matrices_from_polymake %>%
+  #   filter(n_z_levels == 3, x_monotone, !y_monotone, data_format == "bivariate") %>%
+  #   pull(matrix) %>% .[[1]] %>%
+  #   filter(alpha == 0) %>%
+  #   select(where(~sum(abs(.x)) > 0)) %>%
+  #   filter(rowSums(abs(.)) > 1)
+  
+  gammas[1] <- runif(1)
+
+  gammas[2] <- runif(1,
+                     min = max(0,
+                               gammas[1] - thetas[2] + thetas[1]), # row 8
+                     max = min(1,
+                               gammas[1] + thetas[2] - thetas[1])) # row 4
+
+  gammas[3] <- runif(1,
+                     min = max(0,
+                               gammas[2] - gammas[1], # row 5
+                               gammas[2] + thetas[2] - thetas[3]), # row 3
+                     max = min(1,
+                               gammas[2] + thetas[3] - thetas[2], # row 2
+                               1 + gammas[2] - gammas[1])) # row 7
+  return(gammas)
+}
+
+if(file.exists(here::here("vignettes/many_sample_joints_mono.rds"))){
+  many_sample_joints_mono <- read_rds(here::here("vignettes/many_sample_joints_mono.rds"))
+} else {
+  
+  library(furrr)
+
+  if(!interactive())
+    plan(multiprocess)
+ 
+  set.seed(2884193)
+  sim_probs_mono <- tibble(j = 1:100) %>%
+    mutate(thetas = map(j, ~sort(runif(n = 3, min = 0, max = 1))), 
+           gammas = map(thetas, simulate_gammas_from_thetas_mono),
+           pot_covs = map2(thetas, gammas, potential_covs, x_mono = TRUE))
+  
+  many_sample_joints_mono <- sim_probs_mono %>%
+    #filter(j <= 5) %>% 
+    mutate(samp_joints = future_map2(pot_covs, j,
+                                  function(x,y){
+                                    print(y)
+                                    sample_joint_probs(x, return_bounds = TRUE, n = 1000, max_rejections = 100,
+                                                       x_mono = TRUE)
+                                  }))
+  
+  write_rds(many_sample_joints_mono,
+            here::here("vignettes/many_sample_joints_mono.rds"))
+}
+
+
+trivariate_bounds_mono <- many_sample_joints_mono %>% 
+  unnest(samp_joints) %>% 
+  unnest(joint) %>% 
+  unnest_wider(bounds) %>% 
+  select(j, joint, trivariate_lower = lower, trivariate_upper = upper, n_rejected)
+
+bivariate_bounds_mono <- many_sample_joints_mono %>% 
+  rowwise() %>% 
+  mutate(bounds = list(get_bounds(thetas = thetas, gammas = gammas, x_mono = TRUE, stop = FALSE, warning = FALSE)),
+         bivariate_constraints_violated = bounds$constraints_violated,
+         interval = list(bounds$interval)) %>% 
+  ungroup() %>% 
+  unnest_wider(interval) %>% 
+  rename(bivariate_lower = lower,
+         bivariate_upper = upper) %>% 
+  print() %>% 
+  select(j, contains("bivariate"))
+
+for_plot_mono <- trivariate_bounds_mono %>% 
+  left_join(bivariate_bounds_mono) %>% 
+  arrange(j, trivariate_lower) %>% 
+  group_by(j) %>% 
+  mutate(id = row_number()) %>% 
+  ungroup() %>% 
+  mutate(contains_zero = if_else(trivariate_lower < 0 & trivariate_upper > 0, "Zero in range", "Zero NOT in range"))
+
+plot_mono <- for_plot_mono %>% 
+  mutate(facet_row = ceiling(j/10), 
+         facet_col = j %% 10) %>% 
+  #filter(j <= 10) %>% 
+  ggplot(aes(x = id/max(id))) + 
+    geom_hline(aes(yintercept = bivariate_lower, color = "Bivariate Bounds")) + 
+    geom_hline(aes(yintercept = bivariate_upper, color = "Bivariate Bounds")) + 
+    geom_errorbar(aes(ymin = trivariate_lower, ymax = trivariate_upper,
+                      color = contains_zero)) + 
+    ylim(c(-1,1)) +
+    facet_grid(facet_row ~ facet_col) +
+    coord_fixed() +
+    scale_color_manual(values = c("black", "red4", "grey50")) + 
+    labs(x = "", y = "ACE",
+         title = "Bounds on ACE",
+         caption = "Assuming P(X = 1 | Z = z, U) is monotonically increasing.",
+         color = "",
+         linetype = ""
+    ) + 
+    theme_bw() +
+    theme(axis.ticks.x = element_blank(),
+          axis.text.x = element_blank())
+
+plot_mono
+
+ggsave(plot_mono, filename = here::here("figures/trivariate_bounds_mono_plot.png"),
+       width = 10, height = 10, dpi = 300)
+```
+

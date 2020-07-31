@@ -1,0 +1,81 @@
+---
+title: "`get_bounds`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{`get_bounds`}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: "references.bib"
+---
+
+To get bounds on $\alpha$, one simply provides values of $\theta$ and $\gamma$, or $\zeta$ to the function `get_bounds()`. Let's generate some random values of $\theta$ and $\gamma$ for a three-leveled IV:
+
+```{r}
+set.seed(1406)
+(thetas <- runif(3))
+(gammas <- runif(3))
+```
+
+Here, `thetas` and `gammas` must be vectors of length 3 (since the IV is three-leveled). The i'th element of `thetas` must be $P(X = 1 | Z = i-1)$, and the i'th element of `gammas` must be $P(Y = 1 | Z = i-1)$. We can then feed these values to the `get_bounds()` function, and it will return a list with some results, including the interval given by the lower and upper bounds for $\alpha$. 
+
+```{r}
+library(ACEBounds)
+
+get_bounds(thetas = thetas,
+           gammas = gammas)
+```
+
+
+Similarly, you can choose to provide a 3 dimensional array of values to the `zetas` argument. This should have $P(Y = y, X = x | Z = z)$ as element $(y+1,x+1,z+1)$ (when $y \in \{0,1\}, x \in \{0,1\}, z \in \{0,...,(k-1)})$. Here is an example for an IV with four levels:
+
+```{r}
+probs <- c(.83, .05, .11, .01, 
+           .88, .06, .05, .01, 
+           .72, .05, .10, .13,
+           .85, .02, .07, .06)
+
+zetas <- array(probs, dim = c(2, 2, 4),
+               dimnames = list(x = c(0, 1),
+                               y = c(0, 1),
+                               z = c(0, 1, 2, 3)))
+zetas
+
+get_bounds(zetas = zetas)
+```
+
+
+If the values you provide violate some of the constraints, an error is thrown by default. Here, $P(X = 1, Y = 0 | Z = 1) + P(X = 1, Y = 1 | Z = 2) = 1.08 > 1$, which violates the Balke and Pearl IV inequalities [@balke_bounds_1997]). 
+
+```{r}
+invalid_probs <- c(.83, .05, .11, .01, 
+                   .88, .06, .05, .01, 
+                   .72, .05, .20, .03)
+invalid_zetas <- array(invalid_probs, dim = c(2, 2, 3),
+                       dimnames = list(x = c(0, 1),
+                                       y = c(0, 1),
+                                       z = c(0, 1, 2)))
+invalid_zetas
+```
+
+```{r eval = FALSE}
+get_bounds(zetas = invalid_zetas)
+```
+
+```{r echo = FALSE, results="hide"}
+get_bounds(zetas = invalid_zetas, stop = FALSE)
+```
+
+
+If you use this function programmatically, for example for a simulation study, you might want to change this behaviour. This can be achieved by setting `stop = FALSE`. A warning will be printed instead, but your program won't stop. The element `constraints_violated` in the output indicates that some constraints were not satisfied. 
+
+```{r}
+get_bounds(zetas = invalid_zetas, stop = FALSE)
+```
+
+This warning can also be disabled:
+
+```{r}
+get_bounds(zetas = invalid_zetas, stop = FALSE, warning = FALSE)
+```
+
+## References

@@ -312,7 +312,8 @@ sample_joint_probs <- function(pot_covs, n = 1000, max_rejections = Inf,
 
   output <- tibble(id = 1:n) %>%
     mutate(tmp = map(id, function(i){
-      #print(i)
+  #for (i in 1:11){
+      cat("i = ", i, "\n")
       n_rejected <- 0
       suggested_covs <- c(z0[i], rep(NA, length(z)-1))
 
@@ -336,16 +337,16 @@ sample_joint_probs <- function(pot_covs, n = 1000, max_rejections = Inf,
           ## If smallest value is greater than largest value, we reject the
           ## chosen value of Cov(X,Y | Z = z[j-1]) by taking a step back. This
           ## means we redraw the value of Cov(X,Y | Z = z[j-1]).
-          if(cur_min > cur_max){
+          if(cur_min > cur_max | is.na(suggested_covs[j-1])){
             j <- j - 1
-            (n_rejected <- n_rejected + 1)
+            n_rejected <- n_rejected + 1
           }
 
           suggested_covs[j] <- runif(n = 1,
                                      min = max(suggested_covs[!is.na(suggested_covs)] - check_past[[j]]$max,
                                                filter(pot_covs$potential_cov_range, z == z[j])$min,
                                                future_proof[[j]]$z1_min,
-                                               na.rm = TRUE) ,
+                                               na.rm = TRUE),
                                      max = min(suggested_covs[!is.na(suggested_covs)] - check_past[[j]]$min,
                                                filter(pot_covs$potential_cov_range, z == z[j])$max,
                                                future_proof[[j]]$z1_max,
@@ -364,7 +365,7 @@ sample_joint_probs <- function(pot_covs, n = 1000, max_rejections = Inf,
 
           # If the joint is not valid, reset suggested values of Cov(X,Y|Z=z).
           if((is.array(joint) && any(is.na(joint))) | (!is.array(joint) && any(is.na(joint$joint[[1]])))){
-            suggested_covs <- c(z0[i], rep(NA, length(z)-1))
+            suggested_covs <- rep(NA, length(z))
             n_rejected <- n_rejected + 1
           } else {
             out <- tibble(covs = list(setNames(suggested_covs, paste0("z", 0:(length(z)-1)))),
@@ -372,19 +373,18 @@ sample_joint_probs <- function(pot_covs, n = 1000, max_rejections = Inf,
                           n_rejected = n_rejected)
           }
         } else {
-          suggested_covs <- c(z0[i], rep(NA, length(z)-1))
+          suggested_covs <- rep(NA, length(z))
           n_rejected <- n_rejected + 1
         }
-
-
       }
 
       # If we hit max_rejections, return missing values.
-      if (n_rejected >= max_rejections)
-        out <- tibble(covs = list(NA), joint = list(NA), n_rejected = n_rejected)
-
+      if (n_rejected >= max_rejections){
+        out <- tibble(covs = list(NA), joint = list(NA), n_rejected = n_rejected); cat("max_rejections hit!")
+      }
       return(out)
-    }))
+    }
+  ))
 
     return(unnest(output, tmp))
 }

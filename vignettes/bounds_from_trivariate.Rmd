@@ -87,8 +87,13 @@ if(file.exists(here::here("vignettes/many_sample_joints.rds"))){
            pot_covs = map2(thetas, gammas, potential_covs))
   
   many_sample_joints <- sim_probs %>%
-    filter(j <= 15)
-    mutate(samp_joints = map(pot_covs, ~sample_joint_probs(.x, return_bounds = TRUE, n = 1000, max_rejections = 500)))
+    filter(j <= 15) %>% 
+    mutate(samp_joints = map2(pot_covs, j,
+                              function(x,y){
+                               print(y); 
+                                RS <<- .Random.seed
+                               sample_joint_probs(x, return_bounds = TRUE, n = 1000, max_rejections = 500)
+                             }))
   
   write_rds(many_sample_joints,
             here::here("vignettes/many_sample_joints.rds"))
@@ -146,7 +151,7 @@ Finally, the plot.
 ```{r plot, fig.width = 10, fig.height = 10, dpi = 300}
 plot <- for_plot %>% 
   mutate(facet_row = ceiling(j/10), 
-         facet_col = j %% 10) %>% 
+         facet_col = j %% 10) %>% filter(j == 15) %>% print
   ggplot(aes(x = id/max(id))) + 
     geom_hline(aes(yintercept = bivariate_lower, color = "Bivariate Bounds")) + 
     geom_hline(aes(yintercept = bivariate_upper, color = "Bivariate Bounds")) + 

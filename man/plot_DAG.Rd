@@ -2,10 +2,10 @@
 % Please edit documentation in R/plot.R
 \name{plot_DAG}
 \alias{plot_DAG}
-\title{Plot dat from simulation}
+\title{Plot DAG from simulation}
 \usage{
 plot_DAG(sim_data)
 }
 \description{
-Plot dat from simulation
+Plot DAG from simulation
 }

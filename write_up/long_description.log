@@ -1,0 +1,1289 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.9.14)  24 SEP 2020 13:58
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**long_description.tex
+(./long_description.tex
+LaTeX2e <2020-02-02> patch level 5
+L3 programming layer <2020-09-06> (/Users/ralphtrane/Library/TinyTeX/texmf-dist
+/tex/latex/base/article.cls
+Document Class: article 2019/12/20 v1.4l Standard LaTeX document class
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2019/12/20 v1.4l Standard LaTeX file (size option)
+)
+\c@part=\count168
+\c@section=\count169
+\c@subsection=\count170
+\c@subsubsection=\count171
+\c@paragraph=\count172
+\c@subparagraph=\count173
+\c@figure=\count174
+\c@table=\count175
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen134
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/lm/lmodern.sty
+Package: lmodern 2009/10/30 v1.6 Latin Modern Fonts
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
+(Font)                  OML/cmm/m/it --> OML/lmm/m/it on input line 23.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
+(Font)                  OMS/cmsy/m/n --> OMS/lmsy/m/n on input line 24.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 25.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 26.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/cmm/b/it --> OML/lmm/b/it on input line 27.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/cmsy/b/n --> OMS/lmsy/b/n on input line 28.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 29.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 31.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
+(Font)                  OT1/cmss/m/n --> OT1/lmss/m/n on input line 32.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/cmr/m/it --> OT1/lmr/m/it on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 34.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 35.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
+(Font)                  OT1/cmss/bx/n --> OT1/lmss/bx/n on input line 36.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/bx/it --> OT1/lmr/bx/it on input line 37.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\@emptytoks=\toks15
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2020/01/20 v2.17e AMS math features
+\@mathmargin=\skip49
+For additional information on amsmath, use the `?' option.
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01 AMS text
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks16
+\ex@=\dimen135
+)) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen136
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count176
+LaTeX Info: Redefining \frac on input line 227.
+\uproot@=\count177
+\leftroot@=\count178
+LaTeX Info: Redefining \overline on input line 389.
+\classnum@=\count179
+\DOTSCASE@=\count180
+LaTeX Info: Redefining \ldots on input line 486.
+LaTeX Info: Redefining \dots on input line 489.
+LaTeX Info: Redefining \cdots on input line 610.
+\Mathstrutbox@=\box45
+\strutbox@=\box46
+\big@size=\dimen137
+LaTeX Font Info:    Redeclaring font encoding OML on input line 733.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 734.
+\macc@depth=\count181
+\c@MaxMatrixCols=\count182
+\dotsspace@=\muskip16
+\c@parentequation=\count183
+\dspbrk@lvl=\count184
+\tag@help=\toks17
+\row@=\count185
+\column@=\count186
+\maxfields@=\count187
+\andhelp@=\toks18
+\eqnshift@=\dimen138
+\alignsep@=\dimen139
+\tagshift@=\dimen140
+\tagwidth@=\dimen141
+\totwidth@=\dimen142
+\lineht@=\dimen143
+\@envbody=\toks19
+\multlinegap=\skip50
+\multlinetaggap=\skip51
+\mathdisplay@stack=\toks20
+LaTeX Info: Redefining \[ on input line 2859.
+LaTeX Info: Redefining \] on input line 2860.
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/iftex/ifxetex.sty
+Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2020/03/06 v1.0d TeX engine tests
+)) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/iftex/ifluatex.sty
+Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2020/02/11 v2.0o Standard LaTeX package
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 11
+2.
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/lm/t1lmr.fd
+File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2018/08/11 v1.3c Input encoding file
+\inpenc@prehook=\toks21
+\inpenc@posthook=\toks22
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/base/textcomp.sty
+Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2020/08/26 v1.2 Graphics/color driver for pdftex
+)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2020-05-15 v7.00e Hypertext links for LaTeX
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2019/12/15 v1.24 LaTeX kernel commands for general use (HO)
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdftexcmds
+.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/infwarerr/infwarerr.s
+ty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks23
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.s
+ty
+Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/kvdefinekeys/kvdefine
+keys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pdfescape/pdfescape.s
+ty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/hycolor/hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/letltxmacro/letltxmacro
+.sty
+Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/auxhook/auxhook.sty
+Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2019/11/29 v3.13 Key value format for package options (HO)
+)
+\@linkdim=\dimen144
+\Hy@linkcounter=\count188
+\Hy@pagecounter=\count189
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2020-05-15 v7.00e Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/etexcmds/etexcmds.sty
+Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
+)
+\Hy@SavedSpaceFactor=\count190
+Package hyperref Info: Option `unicode' set `true' on input line 4338.
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
+File: puenc.def 2020-05-15 v7.00e Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+Package hyperref Info: Hyper figures OFF on input line 4464.
+Package hyperref Info: Link nesting OFF on input line 4469.
+Package hyperref Info: Hyper index ON on input line 4472.
+Package hyperref Info: Plain pages OFF on input line 4479.
+Package hyperref Info: Backreferencing OFF on input line 4484.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4717.
+\c@Hy@tempcnt=\count191
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 5076.
+\XeTeXLinkMargin=\dimen145
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/bigintcalc/bigintcalc
+.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
+))
+\Fld@menulength=\count192
+\Field@Width=\dimen146
+\Fld@charsize=\dimen147
+Package hyperref Info: Hyper figures OFF on input line 6347.
+Package hyperref Info: Link nesting OFF on input line 6352.
+Package hyperref Info: Hyper index ON on input line 6355.
+Package hyperref Info: backreferencing OFF on input line 6362.
+Package hyperref Info: Link coloring OFF on input line 6367.
+Package hyperref Info: Link coloring with OCG OFF on input line 6372.
+Package hyperref Info: PDF/A mode OFF on input line 6377.
+LaTeX Info: Redefining \ref on input line 6417.
+LaTeX Info: Redefining \pageref on input line 6421.
+
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/atbegshi/atbegshi.sty
+Package: atbegshi 2019/12/05 v1.19 At begin shipout hook (HO)
+)
+\Hy@abspage=\count193
+\c@Item=\count194
+\c@Hfootnote=\count195
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2020-05-15 v7.00e Hyperref driver for pdfTeX
+
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/atveryend/atveryend.sty
+Package: atveryend 2019-12-11 v1.11 Hooks at the very end of document (HO)
+Package atveryend Info: \enddocument detected (standard20110627).
+)
+\Fld@listcount=\count196
+\c@bookmark@seq@number=\count197
+
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/rerunfilecheck/rerunfil
+echeck.sty
+Package: rerunfilecheck 2019/12/05 v1.9 Rerun checks for auxiliary files (HO)
+
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/uniquecounter/uniquec
+ounter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+86.
+)
+\Hy@SectionHShift=\skip52
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/iftex/ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+)
+\Gm@cnth=\count198
+\Gm@cntv=\count199
+\c@Gm@tempcnt=\count266
+\Gm@bindingoffset=\dimen148
+\Gm@wd@mp=\dimen149
+\Gm@odd@mp=\dimen150
+\Gm@even@mp=\dimen151
+\Gm@layoutwidth=\dimen152
+\Gm@layoutheight=\dimen153
+\Gm@layouthoffset=\dimen154
+\Gm@layoutvoffset=\dimen155
+\Gm@dimlist=\toks24
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/tools/longtable.sty
+Package: longtable 2020/01/07 v4.13 Multi-page Table package (DPC)
+\LTleft=\skip53
+\LTright=\skip54
+\LTpre=\skip55
+\LTpost=\skip56
+\LTchunksize=\count267
+\LTcapwidth=\dimen156
+\LT@head=\box47
+\LT@firsthead=\box48
+\LT@foot=\box49
+\LT@lastfoot=\box50
+\LT@cols=\count268
+\LT@rows=\count269
+\c@LT@tables=\count270
+\c@LT@chunks=\count271
+\LT@p@ftn=\toks25
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen157
+\lightrulewidth=\dimen158
+\cmidrulewidth=\dimen159
+\belowrulesep=\dimen160
+\belowbottomsep=\dimen161
+\aboverulesep=\dimen162
+\abovetopsep=\dimen163
+\cmidrulesep=\dimen164
+\cmidrulekern=\dimen165
+\defaultaddspace=\dimen166
+\@cmidla=\count272
+\@cmidlb=\count273
+\@aboverulesep=\dimen167
+\@belowrulesep=\dimen168
+\@thisruleclass=\count274
+\@lastruleclass=\count275
+\@thisrulewidth=\dimen169
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2020/08/24 v2.5j e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count276
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/mdwtools/footnote.sty
+Package: footnote 1997/01/28 1.13 Save footnotes around boxes
+\fn@notes=\box51
+\fn@width=\dimen170
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2019/11/30 v1.2a Enhanced LaTeX Graphics (DPC,SPQR)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2019/11/30 v1.4a Standard LaTeX Graphics (DPC,SPQR)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/graphics-cfg/graphics.c
+fg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 105.
+)
+\Gin@req@height=\dimen171
+\Gin@req@width=\dimen172
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/grffile/grffile.sty
+Package: grffile 2019/11/11 v2.1 Extended file name support for graphics (legac
+y)
+Package grffile Info: This package is an empty stub for compatibility on input 
+line 40.
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/amscls/amsthm.sty
+Package: amsthm 2020/05/29 v2.20.6
+\thm@style=\toks26
+\thm@bodyfont=\toks27
+\thm@headfont=\toks28
+\thm@notefont=\toks29
+\thm@headpunct=\toks30
+\thm@preskip=\skip57
+\thm@postskip=\skip58
+\thm@headsep=\skip59
+\dth@everypar=\toks31
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/pgf/frontendlayer/tikz.
+sty (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgf.
+sty
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfrcs.st
+y
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil
+-common.tex
+\pgfutil@everybye=\toks32
+\pgfutil@tempdima=\dimen173
+\pgfutil@tempdimb=\dimen174
+
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil
+-common-lists.tex))
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil
+-latex.def
+\pgfutil@abb=\box52
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/ms/everyshi.sty
+Package: everyshi 2001/05/15 v3.00 EveryShipout Package (MS)
+))
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfrcs.
+code.tex (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/pgf.revi
+sion.tex)
+Package: pgfrcs 2020/01/08 v3.1.5b (3.1.5b)
+))
+Package: pgf 2020/01/08 v3.1.5b (3.1.5b)
+
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.
+sty
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.
+sty
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsy
+s.code.tex
+Package: pgfsys 2020/01/08 v3.1.5b (3.1.5b)
+
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys
+.code.tex
+\pgfkeys@pathtoks=\toks33
+\pgfkeys@temptoks=\toks34
+
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys
+filtered.code.tex
+\pgfkeys@tmptoks=\toks35
+))
+\pgf@x=\dimen175
+\pgf@y=\dimen176
+\pgf@xa=\dimen177
+\pgf@ya=\dimen178
+\pgf@xb=\dimen179
+\pgf@yb=\dimen180
+\pgf@xc=\dimen181
+\pgf@yc=\dimen182
+\pgf@xd=\dimen183
+\pgf@yd=\dimen184
+\w@pgf@writea=\write3
+\r@pgf@reada=\read2
+\c@pgf@counta=\count277
+\c@pgf@countb=\count278
+\c@pgf@countc=\count279
+\c@pgf@countd=\count280
+\t@pgf@toka=\toks36
+\t@pgf@tokb=\toks37
+\t@pgf@tokc=\toks38
+\pgf@sys@id@count=\count281
+
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgf.c
+fg
+File: pgf.cfg 2020/01/08 v3.1.5b (3.1.5b)
+)
+Driver file for pgf: pgfsys-pdftex.def
+
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsy
+s-pdftex.def
+File: pgfsys-pdftex.def 2020/01/08 v3.1.5b (3.1.5b)
+
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsy
+s-common-pdf.def
+File: pgfsys-common-pdf.def 2020/01/08 v3.1.5b (3.1.5b)
+)))
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsy
+ssoftpath.code.tex
+File: pgfsyssoftpath.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgfsyssoftpath@smallbuffer@items=\count282
+\pgfsyssoftpath@bigbuffer@items=\count283
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsy
+sprotocol.code.tex
+File: pgfsysprotocol.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+))
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
+e.code.tex
+Package: pgfcore 2020/01/08 v3.1.5b (3.1.5b)
+
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code
+.tex
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathcalc.
+code.tex
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathutil.
+code.tex)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathparse
+r.code.tex
+\pgfmath@dimen=\dimen185
+\pgfmath@count=\count284
+\pgfmath@box=\box53
+\pgfmath@toks=\toks39
+\pgfmath@stack@operand=\toks40
+\pgfmath@stack@operation=\toks41
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunct
+ions.code.tex
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunct
+ions.basic.code.tex)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunct
+ions.trigonometric.code.tex)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunct
+ions.random.code.tex)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunct
+ions.comparison.code.tex)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunct
+ions.base.code.tex)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunct
+ions.round.code.tex)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunct
+ions.misc.code.tex)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunct
+ions.integerarithmetics.code.tex)))
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfloat
+.code.tex
+\c@pgfmathroundto@lastzeros=\count285
+))
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfint.code.
+tex)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
+epoints.code.tex
+File: pgfcorepoints.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgf@picminx=\dimen186
+\pgf@picmaxx=\dimen187
+\pgf@picminy=\dimen188
+\pgf@picmaxy=\dimen189
+\pgf@pathminx=\dimen190
+\pgf@pathmaxx=\dimen191
+\pgf@pathminy=\dimen192
+\pgf@pathmaxy=\dimen193
+\pgf@xx=\dimen194
+\pgf@xy=\dimen195
+\pgf@yx=\dimen196
+\pgf@yy=\dimen197
+\pgf@zx=\dimen198
+\pgf@zy=\dimen199
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
+epathconstruct.code.tex
+File: pgfcorepathconstruct.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgf@path@lastx=\dimen256
+\pgf@path@lasty=\dimen257
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
+epathusage.code.tex
+File: pgfcorepathusage.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgf@shorten@end@additional=\dimen258
+\pgf@shorten@start@additional=\dimen259
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
+escopes.code.tex
+File: pgfcorescopes.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgfpic=\box54
+\pgf@hbox=\box55
+\pgf@layerbox@main=\box56
+\pgf@picture@serial@count=\count286
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
+egraphicstate.code.tex
+File: pgfcoregraphicstate.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgflinewidth=\dimen260
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
+etransformations.code.tex
+File: pgfcoretransformations.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgf@pt@x=\dimen261
+\pgf@pt@y=\dimen262
+\pgf@pt@temp=\dimen263
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
+equick.code.tex
+File: pgfcorequick.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
+eobjects.code.tex
+File: pgfcoreobjects.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
+epathprocessing.code.tex
+File: pgfcorepathprocessing.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
+earrows.code.tex
+File: pgfcorearrows.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgfarrowsep=\dimen264
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
+eshade.code.tex
+File: pgfcoreshade.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgf@max=\dimen265
+\pgf@sys@shading@range@num=\count287
+\pgf@shadingcount=\count288
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
+eimage.code.tex
+File: pgfcoreimage.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
+eexternal.code.tex
+File: pgfcoreexternal.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgfexternal@startupbox=\box57
+))
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
+elayers.code.tex
+File: pgfcorelayers.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
+etransparency.code.tex
+File: pgfcoretransparency.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
+epatterns.code.tex
+File: pgfcorepatterns.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
+erdf.code.tex
+File: pgfcorerdf.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+)))
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmodule
+shapes.code.tex
+File: pgfmoduleshapes.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgfnodeparttextbox=\box58
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmodule
+plot.code.tex
+File: pgfmoduleplot.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfco
+mp-version-0-65.sty
+Package: pgfcomp-version-0-65 2020/01/08 v3.1.5b (3.1.5b)
+\pgf@nodesepstart=\dimen266
+\pgf@nodesepend=\dimen267
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfco
+mp-version-1-18.sty
+Package: pgfcomp-version-1-18 2020/01/08 v3.1.5b (3.1.5b)
+))
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgffor.st
+y
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfkeys.s
+ty
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys
+.code.tex)) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/pgf/math/pg
+fmath.sty
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code
+.tex))
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgffor.
+code.tex
+Package: pgffor 2020/01/08 v3.1.5b (3.1.5b)
+
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code
+.tex)
+\pgffor@iter=\dimen268
+\pgffor@skip=\dimen269
+\pgffor@stack=\toks42
+\pgffor@toks=\toks43
+))
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tik
+z/tikz.code.tex
+Package: tikz 2020/01/08 v3.1.5b (3.1.5b)
+
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/libraries/pgflibr
+aryplothandlers.code.tex
+File: pgflibraryplothandlers.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgf@plot@mark@count=\count289
+\pgfplotmarksize=\dimen270
+)
+\tikz@lastx=\dimen271
+\tikz@lasty=\dimen272
+\tikz@lastxsaved=\dimen273
+\tikz@lastysaved=\dimen274
+\tikz@lastmovetox=\dimen275
+\tikz@lastmovetoy=\dimen276
+\tikzleveldistance=\dimen277
+\tikzsiblingdistance=\dimen278
+\tikz@figbox=\box59
+\tikz@figbox@bg=\box60
+\tikz@tempbox=\box61
+\tikz@tempbox@bg=\box62
+\tikztreelevel=\count290
+\tikznumberofchildren=\count291
+\tikznumberofcurrentchild=\count292
+\tikz@fig@count=\count293
+
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmodule
+matrix.code.tex
+File: pgfmodulematrix.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgfmatrixcurrentrow=\count294
+\pgfmatrixcurrentcolumn=\count295
+\pgf@matrix@numberofcolumns=\count296
+)
+\tikz@expandcount=\count297
+
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tik
+z/libraries/tikzlibrarytopaths.code.tex
+File: tikzlibrarytopaths.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+)))
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tik
+z/libraries/tikzlibrarypositioning.code.tex
+File: tikzlibrarypositioning.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/caption/subcaption.st
+y
+Package: subcaption 2020/08/23 v1.3g Sub-captions (AR)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2020/09/12 v3.5b Customizing captions (AR)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2020/09/17 v2.1b caption3 kernel (AR)
+\captionmargin=\dimen279
+\captionmargin@=\dimen280
+\captionwidth=\dimen281
+\caption@tempdima=\dimen282
+\caption@indent=\dimen283
+\caption@parindent=\dimen284
+\caption@hangindent=\dimen285
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count298
+\c@continuedfloat=\count299
+Package caption Info: hyperref package is loaded.
+Package caption Info: longtable package is loaded.
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/caption/ltcaption.sty
+Package: ltcaption 2020/05/30 v1.4b longtable captions (AR)
+))
+\c@subfigure=\count300
+\c@subtable=\count301
+)
+\c@theorem=\count302
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/tools/array.sty
+Package: array 2019/08/31 v2.4l Tabular extension package (FMi)
+\col@sep=\dimen286
+\ar@mcellbox=\box63
+\extrarowheight=\dimen287
+\NC@list=\toks44
+\extratabsurround=\skip60
+\backup@length=\skip61
+\ar@cellbox=\box64
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/multirow/multirow.sty
+Package: multirow 2019/05/31 v2.5 Span multiple rows of a table
+\multirow@colwidth=\skip62
+\multirow@cntb=\count303
+\multirow@dima=\skip63
+\bigstrutjot=\dimen288
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+\wrapoverhang=\dimen289
+\WF@size=\dimen290
+\c@WF@wrappedlines=\count304
+\WF@box=\box65
+\WF@everypar=\toks45
+Package: wrapfig 2003/01/31  v 3.6
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count305
+\float@exts=\toks46
+\float@box=\box66
+\@float@everytoks=\toks47
+\@floatcapt=\box67
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2020/01/04 v1.0e Color table columns (DPC)
+\everycr=\toks48
+\minrowclearance=\skip64
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape.sty
+Package: pdflscape 2019/12/05 v0.12 Display of landscape pages in PDF (HO)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/graphics/lscape.sty
+Package: lscape 2000/10/22 v3.01 Landscape Pages (DPC)
+)
+Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/tabu/tabu.sty
+Package: tabu 2019/01/11 v2.9 - flexible LaTeX tabulars (FC+tabu-fixed)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/varwidth/varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box68
+\sift@deathcycles=\count306
+\@vwid@loff=\dimen291
+\@vwid@roff=\dimen292
+)
+\c@taburow=\count307
+\tabu@nbcols=\count308
+\tabu@cnt=\count309
+\tabu@Xcol=\count310
+\tabu@alloc=\count311
+\tabu@nested=\count312
+\tabu@target=\dimen293
+\tabu@spreadtarget=\dimen294
+\tabu@naturalX=\dimen295
+\tabucolX=\dimen296
+\tabu@Xsum=\dimen297
+\extrarowdepth=\dimen298
+\abovetabulinesep=\dimen299
+\belowtabulinesep=\dimen300
+\tabustrutrule=\dimen301
+\tabu@thebody=\toks49
+\tabu@footnotes=\toks50
+\tabu@box=\box69
+\tabu@arstrutbox=\box70
+\tabu@hleads=\box71
+\tabu@vleads=\box72
+\tabu@cellskip=\skip65
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/threeparttable/threepar
+ttable.sty
+Package: threeparttable 2003/06/13  v 3.0
+\@tempboxb=\box73
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/threeparttablex/threepa
+rttablex.sty
+Package: threeparttablex 2013/07/23 v0.3 by daleif
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/environ/environ.sty
+Package: environ 2014/05/04 v0.3 A new way to define environments
+
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/trimspaces/trimspaces.s
+ty
+Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
+))
+\TPTL@width=\skip66
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/ulem/ulem.sty
+\UL@box=\box74
+\UL@hyphenbox=\box75
+\UL@skip=\skip67
+\UL@hook=\toks51
+\UL@height=\dimen302
+\UL@pe=\count313
+\UL@pixel=\dimen303
+\ULC@box=\box76
+Package: ulem 2019/11/18
+\ULdepth=\dimen304
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/makecell/makecell.sty
+Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
+\rotheadsize=\dimen305
+\c@nlinenum=\count314
+\TeXr@lab=\toks52
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdf
+tex.def
+File: l3backend-pdftex.def 2020-09-11 L3 backend support: PDF output (pdfTeX)
+\l__kernel_color_stack_int=\count315
+\l__pdf_internal_box=\box77
+) (./long_description.aux)
+\openout1 = `long_description.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 96.
+LaTeX Font Info:    ... okay on input line 96.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 96.
+LaTeX Font Info:    ... okay on input line 96.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 96.
+LaTeX Font Info:    ... okay on input line 96.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 96.
+LaTeX Font Info:    ... okay on input line 96.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 96.
+LaTeX Font Info:    ... okay on input line 96.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 96.
+LaTeX Font Info:    ... okay on input line 96.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 96.
+LaTeX Font Info:    ... okay on input line 96.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 96.
+LaTeX Font Info:    ... okay on input line 96.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 96.
+LaTeX Font Info:    ... okay on input line 96.
+
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-b
+ase.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sy
+s.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+\AtBeginShipoutBox=\box78
+Package hyperref Info: Link coloring OFF on input line 96.
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/gettitlestring/gettit
+lestring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+)
+\c@section@level=\count316
+)
+LaTeX Info: Redefining \ref on input line 96.
+LaTeX Info: Redefining \pageref on input line 96.
+LaTeX Info: Redefining \nameref on input line 96.
+(./long_description.out) (./long_description.out)
+\@outlinefile=\write4
+\openout4 = `long_description.out'.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(72.26999pt, 469.75502pt, 72.26999pt)
+* v-part:(T,H,B)=(72.26999pt, 650.43001pt, 72.26999pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=469.75502pt
+* \textheight=650.43001pt
+* \oddsidemargin=0.0pt
+* \evensidemargin=0.0pt
+* \topmargin=-37.0pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=65.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+ABD: EveryShipout initializing macros
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
+Package caption Info: threeparttable package is loaded.
+Package caption Info: wrapfig package is loaded.
+Package caption Info: End \AtBeginDocument code.
+(./long_description.toc
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 2
+.
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
+File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 2
+.
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
+File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
+2.
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
+File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
+2.
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
+File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 2.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 2.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 2.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 2.
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 2.
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+))
+\tf@toc=\write5
+\openout5 = `long_description.toc'.
+
+[1
+
+{/Users/ralphtrane/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map
+}] [2]
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
+51.
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
+File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+Underfull \hbox (badness 10000) in paragraph at lines 170--171
+
+ []
+
+[3pdfTeX warning (ext4): destination with the same identifier (name{equation.2.
+1}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.186 
+      pdfTeX warning (ext4): destination with the same identifier (name{equatio
+n.2.1}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.186 
+      ]pdfTeX warning (ext4): destination with the same identifier (name{equati
+on.2.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.189 \begin{equation}
+                      pdfTeX warning (ext4): destination with the same identifi
+er (name{equation.2.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.189 \begin{equation}
+                      pdfTeX warning (ext4): destination with the same identifi
+er (name{equation.2.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.189 \begin{equation}
+                      pdfTeX warning (ext4): destination with the same identifi
+er (name{equation.2.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.189 \begin{equation}
+                       [4pdfTeX warning (ext4): destination with the same ident
+ifier (name{equation.2.1}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.249 S
+       ince \(\vec{v} = E_U[\vec{v}^*]\), \(\vec{v}\) must be a convex combi...
+]
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 2
+57.
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
+File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_widths_
+vs_strengths.png, id=158, 2880.7625pt x 1371.1225pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_wi
+dths_vs_strengths.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_wid
+ths_vs_strengths.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/trivariate_widths_vs_strengths.png  used on input line 268.
+(pdftex.def)             Requested size: 457.98631pt x 217.98233pt.
+
+Overfull \hbox (1.43364pt too wide) detected at line 364
+[][]
+ []
+
+[5] [6 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_
+widths_vs_strengths.png>]
+
+LaTeX Warning: Reference `fig:all_bi_bounds' on page 7 undefined on input line 
+385.
+
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/all_bivariate_boun
+ds.png, id=182, 2107.875pt x 1505.625pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/all_bivariate
+_bounds.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/all_bivariate_
+bounds.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/all_bivariate_bounds.png  used on input line 399.
+(pdftex.def)             Requested size: 234.85817pt x 167.75584pt.
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bivariate_width_vs
+_strength.png, id=183, 2107.875pt x 1505.625pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bivariate_wid
+th_vs_strength.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bivariate_widt
+h_vs_strength.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/bivariate_width_vs_strength.png  used on input line 405.
+(pdftex.def)             Requested size: 234.85817pt x 167.75584pt.
+
+Overfull \hbox (4.44441pt too wide) in paragraph at lines 397--409
+ [][]  [] 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[7 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/all_bivariate_b
+ounds.png> </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bivaria
+te_width_vs_strength.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/varying_betas_boun
+ds_vs_strength_no_mono.png, id=201, 2107.875pt x 1204.5pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/varying_betas
+_bounds_vs_strength_no_mono.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/varying_betas_
+bounds_vs_strength_no_mono.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/varying_betas_bounds_vs_strength_no_mono.png  used on input line 466.
+(pdftex.def)             Requested size: 458.00882pt x 261.71933pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[8] [9 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/varying_bet
+as_bounds_vs_strength_no_mono.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_bounds_
+subset_plot.png, id=221, 2409.0pt x 2107.875pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_bo
+unds_subset_plot.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_bou
+nds_subset_plot.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/trivariate_bounds_subset_plot.png  used on input line 570.
+(pdftex.def)             Requested size: 469.73474pt x 411.0179pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[10]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[11 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_bou
+nds_subset_plot.png>] [12]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
+moking_depression_bivaraite_bounds_ukb-d-20116_0_ukb-d-20544_11.png, id=248, 21
+95.20125pt x 1356.06625pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/smoking_depression_bivaraite_bounds_ukb-d-20116_0_ukb-d-20544_11.png Graphi
+c file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_depression_bivaraite_bounds_ukb-d-20116_0_ukb-d-20544_11.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/smoking_depression_bivaraite_bounds_ukb-d-20116_0_ukb-d-
+20544_11.png  used on input line 671.
+(pdftex.def)             Requested size: 457.99123pt x 282.92004pt.
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
+trength_histogram.png, id=251, 4215.75pt x 2107.875pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/strength_histogram.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/strength_histogram.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/strength_histogram.png  used on input line 691.
+(pdftex.def)             Requested size: 458.00883pt x 229.00441pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[13 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_depression_bivaraite_bounds_ukb-d-20116_0_ukb-d-20544_11.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
+moking_depression_individual_SNPs_plot_ukb-d-20116_0_ukb-d-20544_11.png, id=265
+, 4215.75pt x 3011.25pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/smoking_depression_individual_SNPs_plot_ukb-d-20116_0_ukb-d-20544_11.png Gr
+aphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_depression_individual_SNPs_plot_ukb-d-20116_0_ukb-d-20544_11.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/smoking_depression_individual_SNPs_plot_ukb-d-20116_0_uk
+b-d-20544_11.png  used on input line 702.
+(pdftex.def)             Requested size: 458.00883pt x 327.14915pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
+moking_depression_intersection_bounds_plot_ukb-d-20116_0_ukb-d-20544_11.png, id
+=267, 3011.25pt x 4215.75pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/smoking_depression_intersection_bounds_plot_ukb-d-20116_0_ukb-d-20544_11.pn
+g Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_depression_intersection_bounds_plot_ukb-d-20116_0_ukb-d-20544_11.png
+>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/smoking_depression_intersection_bounds_plot_ukb-d-20116_
+0_ukb-d-20544_11.png  used on input line 711.
+(pdftex.def)             Requested size: 328.80328pt x 460.3246pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[14 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/strength_histogram.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
+moking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb-d-40001_C349.png, id=27
+8, 2195.20125pt x 1356.06625pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/smoking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb-d-40001_C349.png G
+raphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb-d-40001_C349.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/smoking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb
+-d-40001_C349.png  used on input line 726.
+(pdftex.def)             Requested size: 457.99123pt x 282.92004pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
+moking_lung_cancer_3_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.png, i
+d=279, 4215.75pt x 3011.25pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/smoking_lung_cancer_3_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.p
+ng Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_lung_cancer_3_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.pn
+g>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/smoking_lung_cancer_3_individual_SNPs_plot_ukb-d-20116_0
+_ukb-d-40001_C349.png  used on input line 732.
+(pdftex.def)             Requested size: 458.00883pt x 327.14915pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
+moking_lung_cancer_3_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C349.pn
+g, id=280, 3011.25pt x 4215.75pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/smoking_lung_cancer_3_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C3
+49.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_lung_cancer_3_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C34
+9.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/smoking_lung_cancer_3_intersection_bounds_plot_ukb-d-201
+16_0_ukb-d-40001_C349.png  used on input line 738.
+(pdftex.def)             Requested size: 458.00883pt x 641.21237pt.
+
+LaTeX Warning: Float too large for page by 12.78236pt on input line 741.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[15 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_depression_individual_SNPs_plot_ukb-d-20116_0_ukb-d-20544_11.png>] [
+16 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyse
+s/smoking_depression_intersection_bounds_plot_ukb-d-20116_0_ukb-d-20544_11.png>
+] [17 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_anal
+yses/smoking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb-d-40001_C349.png>
+]
+Overfull \hbox (85.58923pt too wide) detected at line 803
+[][]
+ []
+
+[18 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_lung_cancer_3_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.pn
+g>]
+Overfull \hbox (85.58923pt too wide) detected at line 821
+[][]
+ []
+
+
+Overfull \hbox (13.94629pt too wide) detected at line 831
+[][]
+ []
+
+
+Overfull \hbox (13.94629pt too wide) detected at line 852
+[][]
+ []
+
+[19] [20] [21] [22 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures
+/example_analyses/smoking_lung_cancer_3_intersection_bounds_plot_ukb-d-20116_0_
+ukb-d-40001_C349.png>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 921.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 921.
+(./long_description.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 921.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 921.
+Package rerunfilecheck Info: File `long_description.out' has not changed.
+(rerunfilecheck)             Checksum: EB5E4544F85E3538B29A564A48B334C1;3830.
+
+LaTeX Warning: There were undefined references.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 921.
+ ) 
+Here is how much of TeX's memory you used:
+ 23680 strings out of 482824
+ 428734 string characters out of 5954936
+ 658500 words of memory out of 5000000
+ 38461 multiletter control sequences out of 15000+600000
+ 587881 words of font info for 60 fonts, out of 8000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 60i,14n,60p,1085b,492s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/Users/ralphtrane/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/
+Users/ralphtrane/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/
+Users/ralphtrane/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/
+Users/ralphtrane/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/Use
+rs/ralphtrane/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/Users/r
+alphtrane/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}</Users/r
+alphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Users/r
+alphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></Users/r
+alphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb></Users/r
+alphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></Users/r
+alphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></Users/ra
+lphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/ral
+phtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr5.pfb></Users/ralph
+trane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></Users/ralphtr
+ane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.pfb></Users/ralphtran
+e/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/ralphtran
+e/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></Users/ralphtran
+e/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></Users/ralphtrane
+/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></Users/ralphtrane/
+Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></Users/ralphtrane/
+Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on long_description.pdf (22 pages, 6897536 bytes).
+PDF statistics:
+ 428 PDF objects out of 1000 (max. 8388607)
+ 359 compressed objects within 4 object streams
+ 101 named destinations out of 1000 (max. 500000)
+ 233 words of extra memory for PDF output out of 10000 (max. 10000000)
+

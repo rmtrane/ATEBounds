@@ -11,13 +11,29 @@ sample_joint_probs(
   x_mono = FALSE,
   y_mono = FALSE,
   from_polymake = NULL,
-  return_bounds = FALSE
+  return_bounds = FALSE,
+  print_progress = TRUE,
+  print_as_progress = NULL
 )
 }
 \arguments{
 \item{pot_covs}{output from \code{potential_covs()}}
 
 \item{n}{number of samples to draw}
+
+\item{max_rejections}{number of rejections at which point we move on}
+
+\item{x_mono}{should it be assumed that P(X = 1 | Z = z) is monotonically increasing?}
+
+\item{y_mono}{should it be assumed that P(Y = 1 | Z = z) is monotonically increasing?}
+
+\item{from_polymake}{if NULL (default), we look through the pre-constructed matrices to find one that matches our setup. Otherwise, a matrix can be provided.}
+
+\item{return_bounds}{logical; should the bounds be returned for each sampled joint distribution? (Default: FALSE)}
+
+\item{print_progress}{logical; should process be printed?}
+
+\item{print_as_progress}{if not NULL (default), whatever is provided will be printed in beginning. Useful for batch runs.}
 }
 \value{
 \verb{n x 4} tibble with the following columns:

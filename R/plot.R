@@ -1,6 +1,8 @@
 #' Create tidy DAG from simulation
 #'
-#' @export
+#' @importFrom dagitty dagitty
+#' @importFrom ggdag tidy_dagitty
+#'
 from_simulated_to_dag <- function(simulated_data, layout = "auto"){
 
   coefs <- simulated_data$coefficients
@@ -45,16 +47,20 @@ from_simulated_to_dag <- function(simulated_data, layout = "auto"){
   return(tidy_dag)
 }
 
-#' Plot dat from simulation
+#' Plot DAG from simulation
 #'
 #' @export
 plot_DAG <- function(sim_data){
+
+  if(!"ggdag" %in% loadedNamespaces())
+    stop("You have to load the ggdag library to use this function.")
+
   tidyDAG <- from_simulated_to_dag(sim_data)
 
-  ggdag(tidyDAG) +
-    geom_dag_label_repel(aes(label = coef,
+  ggdag::ggdag(tidyDAG) +
+    ggdag::geom_dag_label_repel(aes(label = coef,
                              x = label_x,
                              y = label_y)) +
-    theme_dag_blank() +
+    ggdag::theme_dag_blank() +
     ggtitle("DAG structure used for simulation")
 }

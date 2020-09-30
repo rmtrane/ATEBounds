@@ -64,22 +64,22 @@ joint_from_marginal <- function(thetas, gammas, cov, stop = TRUE, message = TRUE
   trivariate_bounds <- get_bounds(zetas = tabp, stop = FALSE, warning = FALSE,
                                   x_mono = x_mono, y_mono = y_mono, from_polymake = from_polymake)
 
-  if(bivariate_bounds$constraints_violated){
+  if(bivariate_bounds$constraints_violated | bivariate_bounds$interval$upper < bivariate_bounds$interval$lower){
     if (stop)
-      stop("thetas and gammas do not satisfy the constraints.")
+      stop("thetas and gammas do not satisfy the constraints, or upper bound less than lower bound.")
 
     if (message)
-      message("thetas and gammas do not satisfy the constraints.")
+      message("thetas and gammas do not satisfy the constraints, or upper bound less than lower bound.")
 
     tabp <- array(data = NA, dim = dim(tabp), dimnames = dimnames(tabp))
   }
 
-  if(trivariate_bounds$constraints_violated){
+  if(trivariate_bounds$constraints_violated | bivariate_bounds$interval$upper < bivariate_bounds$interval$lower){
     if (stop)
-      stop("The reconstructed P(Y,X|Z) do not satisfy the constraints.")
+      stop("The reconstructed P(Y,X|Z) do not satisfy the constraints, or upper bound less than lower bound.")
 
     if (message)
-      message("The reconstructed P(Y,X|Z) do not satisfy the constraints.")
+      message("The reconstructed P(Y,X|Z) do not satisfy the constraints, or upper bound less than lower bound.")
 
     tabp <- array(data = NA, dim = dim(tabp), dimnames = dimnames(tabp))
   }
@@ -100,6 +100,7 @@ joint_from_marginal <- function(thetas, gammas, cov, stop = TRUE, message = TRUE
 #'
 #' @param gammas vector of length `n_z_levels` giving P(Y = 1 | Z = z), z = 0, ..., (`n_z_levels` - 1).
 #' @param thetas vector of length `n_z_levels` giving P(X = 1 | Z = z), z = 0, ..., (`n_z_levels` - 1).
+#' @param x_mono logical; should monotonicity of P(X = 1 | Z = z) be assumed?
 #'
 #' @return A list with four elements:
 #'
@@ -111,8 +112,6 @@ joint_from_marginal <- function(thetas, gammas, cov, stop = TRUE, message = TRUE
 #'
 #' @export
 potential_covs <- function(thetas, gammas, x_mono = FALSE){
-
-  ##### Check that abs(thetas[i] - thetas[j]) >= abs(gammas[i] - gammas[j])
 
   ##### Limits obtained from 0 <= P(X,Y|Z) <= 1.
   ## Upper limits
@@ -155,7 +154,7 @@ potential_covs <- function(thetas, gammas, x_mono = FALSE){
     unnest(const) %>%
     ungroup()
 
-  ## If monotonicity is assumed, we get an extra set of constraint
+  ## If monotonicity is assumed, we get an extra set of constraints
   if(x_mono){
     constraints <- constraints %>%
       rowwise() %>%
@@ -258,7 +257,13 @@ plot_valid_covs <- function(pot_covs, Zs = c(0,1)){
 #'
 #' @param pot_covs output from `potential_covs()`
 #' @param n number of samples to draw
-#'
+#' @param max_rejections number of rejections at which point we move on
+#' @param x_mono should it be assumed that P(X = 1 | Z = z) is monotonically increasing?
+#' @param y_mono should it be assumed that P(Y = 1 | Z = z) is monotonically increasing?
+#' @param from_polymake if NULL (default), we look through the pre-constructed matrices to find one that matches our setup. Otherwise, a matrix can be provided.
+#' @param return_bounds logical; should the bounds be returned for each sampled joint distribution? (Default: FALSE)
+#' @param print_progress logical; should process be printed?
+#' @param print_as_progress if not NULL (default), whatever is provided will be printed in beginning. Useful for batch runs.
 #'
 #' @return `n x 4` tibble with the following columns:
 #'
@@ -270,8 +275,18 @@ plot_valid_covs <- function(pot_covs, Zs = c(0,1)){
 #'   not satisfying the constraints.
 #'
 #' @export
-sample_joint_probs <- function(pot_covs, n = 1000, max_rejections = Inf,
-                               x_mono = FALSE, y_mono = FALSE, from_polymake = NULL, return_bounds = FALSE){
+sample_joint_probs <- function(pot_covs,
+                               n = 1000,
+                               max_rejections = Inf,
+                               x_mono = FALSE,
+                               y_mono = FALSE,
+                               from_polymake = NULL,
+                               return_bounds = FALSE,
+                               print_progress = TRUE,
+                               print_as_progress = NULL){
+
+  if(!is.null(print_as_progress))
+    cat("j =", print_as_progress, "\n")
 
   # Simple vector with values for Z
   z <- pot_covs$potential_cov_range$z
@@ -312,8 +327,10 @@ sample_joint_probs <- function(pot_covs, n = 1000, max_rejections = Inf,
 
   output <- tibble(id = 1:n) %>%
     mutate(tmp = map(id, function(i){
-  #for (i in 1:11){
-      cat("i = ", i, "\n")
+
+      if(i %% 100 == 0 & print_progress) cat("i = ", i, "\n")
+
+      ## Reset number of rejections.
       n_rejected <- 0
       suggested_covs <- c(z0[i], rep(NA, length(z)-1))
 
@@ -380,11 +397,12 @@ sample_joint_probs <- function(pot_covs, n = 1000, max_rejections = Inf,
 
       # If we hit max_rejections, return missing values.
       if (n_rejected >= max_rejections){
-        out <- tibble(covs = list(NA), joint = list(NA), n_rejected = n_rejected); cat("max_rejections hit!")
+        out <- tibble(covs = list(NA), joint = list(NA), n_rejected = n_rejected); message("max_rejections hit for!")
       }
-      return(out)
-    }
-  ))
 
-    return(unnest(output, tmp))
+      return(out)
+    })
+    )
+
+  return(unnest(output, tmp))
 }

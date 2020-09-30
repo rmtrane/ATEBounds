@@ -1,12 +1,14 @@
 ---
-title: "`get_bounds`"
-output: rmarkdown::html_vignette
+title: "How to use the `get_bounds` function"
+output: html_vignette
+description: "On the usage of the `get_bounds` function to get bounds in various settings."
 vignette: >
   %\VignetteIndexEntry{`get_bounds`}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: "references.bib"
 ---
+
 
 To get bounds on $\alpha$, one simply provides values of $\theta$ and $\gamma$, or $\zeta$ to the function `get_bounds()`. Let's generate some random values of $\theta$ and $\gamma$ for a three-leveled IV:
 

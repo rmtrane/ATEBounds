@@ -1,268 +1,217 @@
 ---
-title: "Bounds from IVs in Bivariate Data"
+title: "Bounds using Bivariate Data"
+description: "Obtaining bounds on the ACE using bivariate data."
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Bounds from Bivariate Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
-## Introduction
+Here we will see how bounds on the ACE behaves when derived from a single IV in bivariate data. We know that the width of the bounds is bounded above by $2\cdot (1 - ST_X)$, when monotonicity of the effect of $Z$ on both $X$ and $Y$ holds. Here, we will see throught simulations, that the same is the case without these assumptions. 
 
-The purpose of this document is to illustrate the impact of utilizing multiple IVs to construct bounds on $\alpha$. When a data set with all variables is not available, but we have to rely on multiple data sets to get observations of $(X,Z)$ and $(Y,Z)$, obtained bounds tend to be significantly less informative. It can be shown that if the effect of the IV is monotone on both $X$ and $Y$, the strength of the IV on $X$ (here defined as $P(X = 1 | Z = k) - P(X = 1 | Z = 0)$) has to be at least $0.5$ for the width of the bounds to be guaranteed to be less than $1$, something which is always the case when obtaining bounds through trivariate data. 
+## Generate Distributions
 
-A natural question to ask is if we can make up for this lack of information by utilizing multiple IVs.
+We will consider IVs that take three levels. To generate values of $P(X = 1 | Z = z)$ we simply choose three values from a uniform distribution. The matrices obtained from the polymake program give us some constraints on the values of $P(Y = 1 | Z = z)$. These are included below. 
 
-## The model
-
-We will investigate this through the following model, which is often used in mendelian randomization (MR) analyses:
-
-$$\begin{aligned}
-\text{logit}(P(X = 1 | Z_1 = z_1, ..., Z_n = z_n)) &= \beta_0 + \sum_i \beta_i z_i \\
-\text{logit}(P(Y = 1 | X = x)) &= \gamma_0 + \gamma_1 x
-\end{aligned}$$
-
-Here, $Y \in \{0,1\}, X \in \{0,1\}$, and $Z_i \in \{0, 1, 2\}$. The function `marginals_from_logit()` calculates the value of $P(X = 1 | Z_j = z)$ for all $j$, $z$. For more info, see `?marignals_from_logit`. 
-
-## Constant $\beta_i = \beta$
-
-First, we will consider the example where $\beta_1 = \beta_2 = ... = \beta_n = \beta$. We will consider scenarios for every combination of $\beta_0 = -2, \beta \in \{0.1, 0.3, 1, 3\}, \gamma_0 = -1, \gamma_1 = 1, n = \{3, 10, 20, 30, 40, 50\}$.
-
-### Calculate bounds in different settings
-
-First, create tibble with row for each combination, and add columns for $P(Y = 1 | X = 0)$ and $P(Y = 1 | X = 1)$. 
-
-```{r}
-library(ACEBounds, quietly = TRUE)
+```{r echo = FALSE}
 library(tidyverse, quietly = TRUE)
-
-set.seed(14141414)
-
-many_IVs <- expand_grid(beta = c(0.1, 0.3, 1, 3),
-                        n = c(3, 1:5*10),
-                        beta0 = -3,
-                        gamma0 = -1,
-                        gamma1 = 1) %>%
-  rowwise() %>%
-  mutate(`P(X = 1 | Z)` = list(marginals_from_logit(b0 = beta0, b = rep(beta, n), p.z = rep(list(c(1,1,1)/3), n)))) %>%
-  ungroup() %>%
-  mutate(`P(Y = 1 | X = 0)` = 1/(1+exp(-gamma0)),
-         `P(Y = 1 | X = 1)` = 1/(1+exp(-gamma0 - gamma1))) 
-```
-
-Next, we add columns for $P(Y = 1 | Z = z), z = 0,1,2$, and calculate bounds both without any monotonicity assumptions, and where we assume the effect of $Z$ on $X$ is monotonically increasing.
-
-```{r}
-with_bounds <- many_IVs %>%
-  unnest(`P(X = 1 | Z)`) %>%
-  mutate(`P(Y = 1 | Z_j = 0)` = `P(Y = 1 | X = 1)`*`P(X = 1 | Z_j = 0)` +
-           `P(Y = 1 | X = 0)`*(1-`P(X = 1 | Z_j = 0)`),
-         `P(Y = 1 | Z_j = 1)` = `P(Y = 1 | X = 1)`*`P(X = 1 | Z_j = 1)` +
-           `P(Y = 1 | X = 0)`*(1-`P(X = 1 | Z_j = 1)`),
-         `P(Y = 1 | Z_j = 2)` = `P(Y = 1 | X = 1)`*`P(X = 1 | Z_j = 2)` +
-           `P(Y = 1 | X = 0)`*(1-`P(X = 1 | Z_j = 2)`)) %>%
-  rowwise() %>%
-  mutate(gammas = list(c(`P(Y = 1 | Z_j = 0)`, `P(Y = 1 | Z_j = 1)`, `P(Y = 1 | Z_j = 2)`)),
-         thetas = list(c(`P(X = 1 | Z_j = 0)`, `P(X = 1 | Z_j = 1)`, `P(X = 1 | Z_j = 2)`)),
-         bounds = list(get_bounds(gammas = gammas,
-                                  thetas = thetas,
-                                  stop = FALSE)),
-         mono_bounds = list(get_bounds(gammas = gammas,
-                                       thetas = thetas,
-                                       stop = FALSE,
-                                       x_mono = TRUE)))
-```
-
-### Plots
-
-When all coefficients are identical, probabilities $P(X = 1 | Z_j = z)$ are identical for all IVs. Therefore, we collapse the tibble to only have one row per set of parameters. For each set of parameters, we have lower and upper bounds (both with and without the monotonicity assumption), and we also calculate the strength of $Z$ on $X$, i.e. $P(X = 1 | Z_j = 2) - P(X = 1 | Z_j = 0)$. 
-
-```{r}
-for_plots <- with_bounds %>%
-  mutate(interval = list(bounds$interval),
-         mono_interval = list(mono_bounds$interval)) %>%
-  ungroup() %>%
-  mutate(strength = `P(X = 1 | Z_j = 2)` - `P(X = 1 | Z_j = 0)`) %>%
-  select(-contains("P(")) %>%
-  unnest_wider(mono_interval) %>%
-  rename(mono_upper = upper,
-         mono_lower = lower) %>%
-  unnest_wider(interval) %>%
-  group_by(beta, n) %>%
-  summarize(lower = unique(lower),
-            upper = unique(upper),
-            mono_lower = unique(mono_lower),
-            mono_upper = unique(mono_upper),
-            strength = unique(strength))
-
-print(for_plots, n = 24)
-```
-
-The following figure shows the bounds for each setting.
-
-```{r}
-for_plots %>%
-  select(n, contains("lower"), contains("upper"), beta, strength) %>%
-  pivot_longer(cols = c(contains("lower"), contains("upper"))) %>%
-  separate(name, into = c("assumption", "bound"), sep = "_", fill = "left") %>%
-  mutate(assumption = if_else(is.na(assumption), "none", assumption)) %>%
-  pivot_wider(names_from = bound, values_from = value) %>%
-  ggplot(aes(x = n)) +
-    geom_errorbar(aes(ymin = lower, ymax = upper)) +
-    facet_grid(assumption ~ beta) +
-    labs(title = "Bounds vs. number of IVs",
-         subtitle = "All coefficients equal")
-```
-
-Next, we show the same intervals, but plotted against strength rather than number of IVs. 
-
-```{r}
-for_plots %>%
-  select(n, contains("lower"), contains("upper"), beta, strength) %>%
-  pivot_longer(cols = c(contains("lower"), contains("upper"))) %>%
-  separate(name, into = c("assumption", "bound"), sep = "_", fill = "left") %>%
-  mutate(assumption = if_else(is.na(assumption), "", assumption),
-         n = factor(n)) %>%
-  pivot_wider(names_from = bound, values_from = value) %>%
-  ggplot(aes(x = strength)) +
-    geom_errorbar(aes(ymin = lower, ymax = upper, color = n)) +
-    facet_grid(assumption ~ beta,
-               scales = "free") +
-    labs(title = "Bounds vs. strength",
-         subtitle = "All coefficients equal")
-```
-
-Relationship between number of IVs and the strength of the IVs. 
-
-```{r}
-ggplot(for_plots,
-       aes(x = n, y = strength)) +
-  geom_point() +
-  facet_grid(~beta, scales = "free") +
-  labs(title = "Number of IVs vs. strength",
-       subtitle = "All coefficients equal")
+ACEBounds:::matrices_from_polymake %>% 
+  filter(!x_monotone, !y_monotone,
+         data_format == "bivariate", 
+         n_z_levels == 3) %>% 
+  pull(matrix) %>% .[[1]] %>% 
+  filter(alpha == 0) %>%
+  select(where(~sum(abs(.x)) > 0)) %>%
+  filter(rowSums(abs(.)) > 1) %>% 
+  pander::pander()
 ```
 
 
-## Random Coefficients
-
-Since all intervals are the same for all IVs when all $\beta_i$'s are equal, little information is gained by having multiple IVs in this case. Let us see what happen when the IVs have varying coefficients. Here, we let $\beta_i \sim \text{Uniform}(0,3)$. 
-
-## Calculate bounds in different settings
-
-The following is the same as previously, except coefficients are now drawn from a uniform distribution. 
+The function `simulate_gammas_from_thetas` takes a vector of length 3 of values of $P(X = 1 | Z = z)$, and returns a vector of length 3 of values of $P(Y = 1 | Z = z)$ such that no constraint is violated.
 
 ```{r}
-varying_betas <- expand_grid(n = c(3, 1:5*10),
-                             beta0 = -3,
-                             gamma0 = -1,
-                             gamma1 = 1) %>%
-  rowwise() %>%
-  mutate(betas = list(runif(n = n, min = 0, max = 3)),
-         `P(X = 1 | Z)` = list(marginals_from_logit(b0 = beta0, b = betas,
-                                                    p.z = rep(list(c(1,1,1)/3), n)))) %>%
-  ungroup() %>%
-  mutate(`P(Y = 1 | X = 0)` = 1/(1+exp(-gamma0)),
-         `P(Y = 1 | X = 1)` = 1/(1+exp(-gamma0 - gamma1)))
+simulate_gammas_from_thetas <- function(thetas){
 
-varying_betas_with_bounds <- varying_betas %>%
-  rowwise() %>%
-  mutate(pxz = list(bind_cols(tibble(betas = betas), `P(X = 1 | Z)`))) %>%
-  select(-betas, -`P(X = 1 | Z)`) %>% 
-  unnest(pxz) %>% 
-  mutate(`P(Y = 1 | Z_j = 0)` = `P(Y = 1 | X = 1)`*`P(X = 1 | Z_j = 0)` +
-           `P(Y = 1 | X = 0)`*(1-`P(X = 1 | Z_j = 0)`),
-         `P(Y = 1 | Z_j = 1)` = `P(Y = 1 | X = 1)`*`P(X = 1 | Z_j = 1)` +
-           `P(Y = 1 | X = 0)`*(1-`P(X = 1 | Z_j = 1)`),
-         `P(Y = 1 | Z_j = 2)` = `P(Y = 1 | X = 1)`*`P(X = 1 | Z_j = 2)` +
-           `P(Y = 1 | X = 0)`*(1-`P(X = 1 | Z_j = 2)`),
-         strength = `P(X = 1 | Z_j = 2)` - `P(X = 1 | Z_j = 0)`) %>%
-  rowwise() %>%
-  mutate(gammas = list(c(`P(Y = 1 | Z_j = 0)`, `P(Y = 1 | Z_j = 1)`, `P(Y = 1 | Z_j = 2)`)),
-         thetas = list(c(`P(X = 1 | Z_j = 0)`, `P(X = 1 | Z_j = 1)`, `P(X = 1 | Z_j = 2)`)),
-         bounds = list(get_bounds(gammas = gammas,
-                                  thetas = thetas,
-                                  stop = FALSE)),
-         mono_bounds = list(get_bounds(gammas = gammas,
-                                       thetas = thetas,
-                                       stop = FALSE,
-                                       x_mono = TRUE)))
+  gammas <- vector(length = length(thetas))
 
-DT::datatable(
-  varying_betas_with_bounds,
-  options = list(scrollX = TRUE,
-                 scrollY = 300,
-                 dom = "t"),
-  rownames = FALSE
-)
+
+  gammas[1] <- runif(1)
+
+  gammas[2] <- runif(1,
+                     min = max(0,
+                               gammas[1] - thetas[1] - thetas[2], # row 3
+                               gammas[1] + thetas[1] + thetas[2] - 2), # row 5
+                     max = min(1,
+                               gammas[1] - thetas[1] - thetas[2] + 2, # row 11
+                               gammas[1] + thetas[1] + thetas[2]) # row 16
+                     )
+
+  gammas[3] <- runif(1,
+                     min = max(0,
+                               gammas[1] - thetas[1] - thetas[3], # row 4
+                               gammas[1] + thetas[1] + thetas[3] - 2, # row 6
+                               gammas[2] - thetas[2] - thetas[3], # row 12
+                               gammas[2] + thetas[2] + thetas[3] - 2), # row 9
+                     max = min(1,
+                               gammas[2] - thetas[2] - thetas[3] + 2, # row 10
+                               gammas[2] + thetas[2] + thetas[3], # row 13
+                               gammas[1] - thetas[1] - thetas[3] + 2, # row 17
+                               gammas[1] + thetas[1] + thetas[3])) # row 15
+  return(gammas)
+}
 ```
 
-### Plots
-
-Since coefficients vary, we do not reproduce the first plot presented above, but instead go straight to bounds vs. strength. What's interesting to observe here is that the bounds are monotonically shrinking as the strength increases. We know this to be the case in theory when *everything else is equal*. 
+We generate $10,000$ sets of distributions.
 
 ```{r}
-varying_betas_for_plots <- varying_betas_with_bounds %>%
-  rowwise() %>%
-  mutate(interval = list(bounds$interval),
-         mono_interval = list(mono_bounds$interval)) %>%
-  ungroup() %>%
-  select(-contains("P(")) %>%
-  unnest_wider(mono_interval) %>%
-  rename(mono_upper = upper,
-         mono_lower = lower) %>%
-  unnest_wider(interval) %>%
-  ungroup()
+library(tidyverse)
+library(ACEBounds)
 
-
-varying_betas_for_plots %>%
-  select(n, contains("lower"), contains("upper"), betas, strength) %>%
-  pivot_longer(cols = c(contains("lower"), contains("upper"))) %>%
-  separate(name, into = c("assumption", "bound"), sep = "_", fill = "left") %>%
-  mutate(assumption = if_else(is.na(assumption), "", assumption)) %>%
-  pivot_wider(names_from = bound, values_from = value) %>%
-  ggplot(aes(x = strength)) +
-    geom_errorbar(aes(ymin = lower, ymax = upper)) +
-    facet_grid(assumption ~ n,
-               scales = "free") +
-    labs(title = "Bounds vs. strength",
-         subtitle = "Coefficients Unif(0,3)")
+set.seed(7226637)
+sim_probs <- tibble(j = 1:10000) %>%
+  mutate(thetas = map(j, ~runif(n = 3, min = 0, max = 1)), 
+         gammas = map(thetas, simulate_gammas_from_thetas))
 ```
 
-Here is the strength of each IV against the corresponding coefficient. We see that increasing the coefficient by a certain amount leads to much smaller increase in strength when the total number of IVs included is larger. This makes sense, since when we include more variables in our model, $P(X = 1 | Z_1,...,Z_n)$ will increase, and eventually be practically one. 
+
+## Get Strength and Bounds.
+
+Here, we define the strength of $Z$ on $X$ as $\max_{z_1,z_2} \left | P(X = 1 | Z = z_1) - P(X = 1 | Z = z_2) \right |$, and the strength of $Z$ on $Y$ similarly as $\max_{z_1,z_2} \left | P(Y = 1 | Z = z_1) - P(Y = 1 | Z = z_2) \right |$. 
+
+We then calculate the strength of $Z$ on $X$, $Z$ on $Y$, and find the bounds. 
 
 ```{r}
-ggplot(varying_betas_for_plots,
-       aes(x = betas, y = strength)) +
-  geom_point() +
-  facet_grid(~n, scales = "free")  +
-  labs(title = "Coefficients vs. Strength",
-       subtitle = "Coefficients Unif(0,3)")
+bounds <- sim_probs %>% 
+  rowwise() %>% 
+  mutate(strength_x = max(abs(outer(thetas, thetas, `-`))),
+         strength_y = max(abs(outer(gammas, gammas, `-`))),
+         bounds = list(get_bounds(thetas = thetas,
+                                  gammas = gammas,
+                                  stop = FALSE, 
+                                  warning = FALSE))) %>% 
+  ungroup() %>% 
+  mutate(violations = map_lgl(bounds, "constraints_violated"),
+         intervals = map(bounds, "interval")) %>% 
+  unnest_wider(intervals) %>% 
+  mutate(width = upper - lower)
 ```
 
-### Intersections
-
-The main question here is "what happens if we have many IVs, and combine the information to obtain bounds?" One way of doing that is by taking intersections of multiple bounds. It turns out that the information we obtain from doing so is practically equivalent to simply using the strongest IV. This is the case since the bounds are monotonically shrinking. 
-
-The plot below illustrates this by showing the width of the intersections plotted against the smallest width of the bounds going into that intersection.
+The plot below shows the width plotted against the strength of $Z$ on both $X$ and $Y$. The black line has slope $-2$ and intercept $2$ -- i.e. it represents the upper bound on the width derived under the two monotonicity assumptions. 
 
 ```{r}
-varying_betas_for_plots %>%
-  group_by(n = factor(n)) %>%
-  summarize(int_lower = max(lower),
-            int_upper = min(upper),
-            best_width = min(upper - lower),
-            int_width = int_upper - int_lower) %>%
-  ggplot(aes(x = best_width, y = int_width, color = n)) +
-  geom_point() +
-  geom_abline() +
-  labs(title = "Intersection Width vs. Min width",
-       subtitle = "Coefficients Unif(0,3)")
+width_vs_strength <- bounds %>% 
+  filter(!violations, upper > lower) %>% 
+  ggplot(aes(x = strength_x, y = width)) + 
+    geom_point(alpha = 0.2) + 
+    geom_abline(slope = -2, intercept = 2) +
+    labs(title = "Width of Bivariate Bounds as function of strength",
+         x = "Strength of Z on X",
+         y = "Width of bounds") + 
+    theme_bw()
+
+width_vs_strength
 ```
 
-For good measure, here are the values plotted above:
+```{r}
+all_bounds_plot <- bounds %>% 
+  filter(!violations, upper > lower) %>% 
+  select(contains("strength"), upper, lower) %>% 
+  arrange((upper + lower)/2) %>% 
+  mutate(id = row_number()) %>% 
+  ggplot(aes(x = id, y = (upper + lower)/2)) + 
+    geom_line(aes(color = "Center of bounds")) + 
+    geom_errorbar(aes(ymin = lower, ymax = upper),
+                  width = 0.001, alpha = 0.05) + 
+    labs(title = "Bounds from ≈10,000 randomly generated distributions",
+         y = "ACE",
+         x = "",
+         color = ""
+         #caption = paste("Note:", sum(bounds$upper <= bounds$lower), "of the", nrow(bounds), "simulated distributions resulted in upper limits smaller than the lower limits. These have been removed.")
+    ) +
+    theme_bw() +
+    theme(axis.text.x = element_blank(),
+          axis.ticks.x = element_blank(),
+          panel.grid.major.x = element_blank(),
+          panel.grid.minor.x = element_blank(),
+          legend.position = "bottom")
+
+all_bounds_plot
+```
+
+
+As we can see, quite a few of the data
 
 ```{r}
-varying_betas_for_plots %>%
-  group_by(n = factor(n)) %>%
-  summarize(int_lower = max(lower),
-            int_upper = min(upper),
-            best_width = min(upper - lower),
-            int_width = int_upper - int_lower)
+proportion_of_widths_greater_than <- bounds %>% 
+  #filter(strength_x <= 0.5) %>% 
+  group_by(Strength = cut(strength_x, breaks = c(0, 0.05, 0.1, 0.25, 0.5, 1), 
+                          include.lowest = TRUE)) %>% 
+  summarize(
+    w = c(1, 0.75, 0.5),
+    #`Proportion with width > w` = map_dbl(c(1, 0.75, 0.5), ~mean(width > .x))
+    prop = map_dbl(c(1, 0.75, 0.5), ~mean(width > .x))
+  ) %>% 
+  mutate(w = glue::glue("P(W > {w})")) %>% 
+  pivot_wider(names_from = w, values_from = prop) %>% print
+  
+pander::pander(proportion_of_widths_greater_than)
+```
+
+
+
+```{r}
+ggsave(plot = width_vs_strength,
+       filename = here::here("figures", "bivariate_width_vs_strength.png"), 
+       dpi = 300, width = 7, height = 5)
+
+ggsave(plot = all_bounds_plot,
+       filename = here::here("figures", "all_bivariate_bounds.png"),
+       dpi = 300, width = 7, height = 5)
+
+write_csv(proportion_of_widths_greater_than,
+          path = here::here("tables", "proportion_of_biv_widths_greater_than.csv"))
+```
+
+
+
+```{r eval = FALSE, include = FALSE}
+bounds_w_bpbounds <- bounds %>% 
+  filter(lower > upper) %>% 
+  rowwise() %>% 
+  mutate(bpbounds = list(tidy_bpbounds(bpbounds::bpbounds(p = as.table(rbind(1-gammas, gammas)), 
+                                                          t = as.table(rbind(1-thetas, thetas)), 
+                                                          fmt = "bivariate")) %>% 
+                           filter(Assumption == "IV Inequality", `Causal parameter` == "ACE") %>% 
+                           select(assumption_holds = `Assumption Holds`, bplower = `Lower bound`, bpupper = `Upper bound`)))
+
+bounds_w_bpbounds %>% 
+  ungroup() %>% 
+  unnest(bpbounds) %>% 
+  select(j, violations, bp_violations = assumption_holds, contains("lower"), contains("upper")) %>% 
+  mutate(bp_violations = !bp_violations) %>% 
+  filter(abs(upper - bpupper) > 10e-5) 
+
+sim_zetas <- function(nz){
+  zetas <- array(runif(4*nz), dim = c(2,2,nz), dimnames = list(x = 0:1, y = 0:1, z = 0:(nz-1)))
+  
+  return(zetas / rep(apply(zetas, 3, sum), each = 4))
+}
+
+sim_trivariate_probs <- tibble(j = 1:10000) %>%
+  mutate(zetas = map(j, ~sim_zetas(nz = 3)))
+
+trivariate_bounds <- sim_trivariate_probs %>% 
+  rowwise() %>% 
+  mutate(bounds = list(get_bounds(zetas = zetas, stop = FALSE, warning = FALSE)),
+         violations = bounds$constraints_violated,
+         intervals = list(bounds$interval))
+
+
+trivariate_bounds %>% 
+  ungroup() %>% 
+  unnest_wider(intervals) %>% 
+  filter(upper < lower) %>% 
+  count(violations)
 ```
 

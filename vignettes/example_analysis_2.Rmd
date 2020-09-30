@@ -1,0 +1,389 @@
+---
+title: "Example Analysis of Data from the IEU GWAS Database"
+description: >
+  Step-by-step example of a MR analysis using the methods discussed in our paper on data obtained from the IEU GWAS Database.
+output: rmarkdown::html_vignette
+---
+
+## Example Analysis
+
+Here, we will use smoking as exposure, and depression as outcome (both as binary).
+
+```{r}
+library(TwoSampleMR)
+library(tidyverse)
+library(magrittr)
+library(ACEBounds)
+
+run_mono <- FALSE
+```
+
+Using the `TwoSampleMR` package, we get the data from the online database. First, we get a `tibble` with all available outcomes. 
+
+```{r}
+ao <- available_outcomes()
+```
+
+From this, we identify an experiment. The ID is saved to the object `exposure_id`, and information about the study is saved to the `exposure_experiment` object.
+
+```{r}
+exposure_id <- "ukb-d-20116_0"
+exposure_experiment <- ao %>% filter(id == exposure_id)
+```
+
+Next, we obtain potential instruments for the exposure variable. 
+
+```{r}
+exposure_dat <- extract_instruments(exposure_id)
+```
+
+Similarly, we obtain outcome data: identify an appropriate study, save the ID to `outcome_id` and information to `outcome_experiment`. 
+
+```{r}
+outcome_id <- "ukb-d-20544_11" # Depression
+outcome_id <- "bbj-a-133" # "ieu-a-966" # Lung Cancer
+outcome_experiment <- ao %>% filter(id == outcome_id)
+```
+
+Finally, we extract data from the study.
+
+```{r}
+outcome_dat <- extract_outcome_data(snps = exposure_dat$SNP, outcomes = outcome_id)
+```
+
+Data is then harmonized.
+
+```{r}
+dat <- harmonise_data(exposure_dat, outcome_dat) %>% as_tibble()
+```
+
+Since the results reported to the database do not include $P(Y = 1 | Z = z)$ and $P(X = 1 | Z = z)$, we need to reconstruct those. To do so, we first need to find $P(Y = 1)$ and $P(X = 1)$:
+
+```{r}
+pop_probs <- tibble(regression = c("outcome", "exposure"),
+                    p_outcome = c(outcome_experiment  %$% { ncase / (ncase + ncontrol) },
+                                  exposure_experiment %$% { ncase / (ncase + ncontrol) }))
+```
+
+The following helper function takes finds the intercept in logistic regression that ensures the marginal probabilities $P(Y = 1)$ and $P(X = 1)$ match what's observed.
+
+```{r}
+find_intercept <- function(beta1, p_outcome, pz, interval = c(-5, 5), zs = 0:2){
+  uniroot(f = function(beta0) sum((1+exp(-beta0-beta1*zs))^(-1) * pz) - p_outcome,
+          interval = interval)
+}
+```
+
+Next, we need $P(Z = z)$. These can be found from the allele frequencies. Since we have data on $Z$ from two separate sources, and the allele frequencies vary ever so slightly between the two, we use a weighted average of the allele frequencies as our final estimates. With these estimated allele frequencies, we can find $P(Z = z)$.  
+
+```{r}
+prep_for_bounds <- dat %>%
+  rowwise() %>% 
+  mutate(samplesize.exposure = if_else(is.na(samplesize.exposure), 
+                                       exposure_experiment$ncase + exposure_experiment$ncontrol,
+                                       as.integer(samplesize.exposure)),
+         samplesize.outcome = if_else(is.na(samplesize.outcome), 
+                                      outcome_experiment$ncase + outcome_experiment$ncontrol,
+                                      as.integer(samplesize.outcome)),
+         ave_eaf = weighted.mean(x = c_across(c(eaf.exposure, eaf.outcome)),
+                                 w = c_across(c(samplesize.exposure, samplesize.outcome)))) %>% 
+  select(SNP, contains("beta"), ave_eaf) %>% 
+  pivot_longer(contains("beta")) %>% 
+  separate(name, into = c("variable", "regression"), sep = "\\.") %>% 
+  pivot_wider(names_from = variable, values_from = value) %>% 
+  mutate(`P(Z = 2)` = (1 - ave_eaf)^2,
+         `P(Z = 1)` = 2*ave_eaf*(1 - ave_eaf),
+         `P(Z = 0)` = ave_eaf^2)
+```
+
+We add the values of $P(X = 1)$ and $P(Y = 1)$ to the tibble, and can now use the helper function defined above to find the intercepts that matches with the marginals. 
+
+```{r}
+prep_for_bounds_w_intercept <- prep_for_bounds %>% 
+  left_join(pop_probs) %>% 
+  rowwise() %>% 
+  mutate(find_intercept = list(find_intercept(beta1 = beta,
+                                              p_outcome = p_outcome,
+                                              pz = c(`P(Z = 0)`, `P(Z = 1)`, `P(Z = 2)`),
+                                              interval = c(-7,7))),
+         beta0 = find_intercept$root,
+         `thetas/gammas` = list(1/(1+exp(-beta0 - 0:2*beta))))
+```
+
+Finally, we calculate the bounds (both with and without assuming monotonicity of $P(X = 1 | Z = z)$) using the `get_bounds()` function.
+
+```{r}
+bounds <- prep_for_bounds_w_intercept %>% 
+  select(-find_intercept, -beta0, -beta, -p_outcome, -ave_eaf) %>% 
+  mutate(regression = if_else(regression == "outcome", "gammas", "thetas")) %>% 
+  pivot_wider(names_from = regression, values_from = `thetas/gammas`) %>% 
+  rowwise() %>% 
+  mutate(bivariate_bounds = list(get_bounds(thetas = thetas, gammas = gammas, 
+                                            stop = FALSE, warning = FALSE)),
+         interval = list(bivariate_bounds$interval),
+         constraints_violated = bivariate_bounds$constraints_violated, 
+         bivariate_bounds_mono = list(get_bounds(thetas = thetas, gammas = gammas, 
+                                                 stop = FALSE, warning = FALSE,
+                                                  x_mono = TRUE)),
+         interval_mono = list(bivariate_bounds_mono$interval),
+         constraints_violated_mono = bivariate_bounds_mono$constraints_violated) %>% 
+  ungroup() %>% 
+  unnest_wider(col = interval_mono) %>% 
+  rename(upper_mono = upper, lower_mono = lower) %>% 
+  unnest_wider(interval)
+```
+
+The bivariate bounds obtained from the `r n_distinct(bounds$SNP)` SNPs are shown on the following plot. As can be seen, none of the bounds provide much information at all, and all intervals are rather wide. 
+
+```{r}
+all_bivariate_bounds <- bounds %>% 
+  arrange(lower) %>% 
+  ggplot(aes(x = SNP)) +
+    geom_errorbar(aes(ymax = upper, ymin = lower)) +
+    theme_bw() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    labs(title = "Bivariate bounds",
+         subtitle = paste0("Exposure Experiment id: ", exposure_id, ". ",
+                           "Outcome Experiment id: ", outcome_id, "."))
+
+all_bivariate_bounds
+```
+
+## Random Sampling of Potential Joint Distributions
+
+To try to squeeze more information out of the data at hand, we try to randomly sample distributions $P(Y = y, X = x | Z = z)$ that match the marginals we have, and don't violate the IV model. 
+
+Using the function `potential_covs()`, we get constraints on the values of $\text{Cov}(X,Y | Z = z)$. Feeding these constraints to `sample_joint_probs()`, we sample $500$ joint distributions for each SNP. 
+
+```{r}
+filename <- paste0("samples_of_joints_", exposure_id, "_", outcome_id, ".Rds")
+
+if(file.exists(here::here("vignettes_data/example_analyses", filename))){
+  samples_of_joints <- read_rds(here::here("vignettes_data/example_analyses", filename))
+} else {
+  samples_of_joints <- bounds %>% 
+    rowwise() %>% 
+    mutate(pot_covs = list(potential_covs(thetas = thetas, gammas = gammas)),
+           sample_joint = list(sample_joint_probs(pot_covs, n = 500, return_bounds = TRUE)))
+  
+  write_rds(samples_of_joints, here::here("vignettes_data/example_analyses", filename))
+}
+```
+
+We do some expanding to expose the bounds from these joint distributions.
+
+```{r}
+trivariate_bounds <- samples_of_joints %>% 
+  ungroup() %>% 
+  select(SNP, bivariate_lower = lower, bivariate_upper = upper, sample_joint) %>% 
+  unnest(sample_joint) %>% 
+  unnest(joint) %>% 
+  unnest_wider(bounds) %>% 
+  mutate(contains_zero = lower < 0 & upper > 0)
+```
+
+The plot below shows all bounds obtained from sampled joint distributions along with the original bivariate bounds. In this particular example, having a dataset with observations of $(X,Y,Z)$ would not provide much more information. There seems to be essentially no setting where the IV model holds, the marginals we observe are correct, AND the joint distribution would allow to determine direction of the ACE. 
+
+```{r fig.height = 8, fig.width = 13}
+individual_SNPs_plot <- trivariate_bounds %>% 
+  group_by(SNP) %>% 
+  arrange(lower) %>% 
+  mutate(id = row_number()) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = id)) +
+    geom_hline(aes(yintercept = bivariate_lower),
+               linetype = "dashed") +  
+    geom_hline(aes(yintercept = bivariate_upper),
+               linetype = "dashed") +
+    geom_hline(yintercept = 0) +
+    geom_errorbar(aes(ymin = lower,
+                      ymax = upper,
+                      color = contains_zero)) +
+    facet_wrap(~SNP, nrow = 7)
+
+individual_SNPs_plot
+```
+
+
+
+Below is a similar plot where we assume monotonicity of $P(X = 1 | Z = z)$. This is only done in cases where the marginals are such that the bivariate constraints are not violated.
+
+```{r fig.height = 8, fig.width = 13, eval = run_mono}
+filename_mono <- paste0("samples_of_joints_mono_", exposure_id, "_", outcome_id, ".Rds")
+if(file.exists(here::here("vignettes_data/example_analyses", filename_mono))){
+  samples_of_joints_mono <- read_rds(here::here("vignettes_data/example_analyses",
+                                                filename_mono))
+} else {
+samples_of_joints_mono <- bounds %>% 
+  filter(!constraints_violated_mono) %>% 
+  mutate(i = row_number()) %>% 
+  rowwise() %>% 
+  mutate(pot_covs = list(potential_covs(thetas = thetas, gammas = gammas, x_mono = TRUE)),
+         sample_joint = list(sample_joint_probs(pot_covs, n = 500, return_bounds = TRUE,
+                                                x_mono = TRUE, print_progress = FALSE,
+                                                print_as_progress = NULL)))
+
+  write_rds(samples_of_joints_mono,
+            here::here("vignettes_data/example_analyses",
+                       filename_mono))
+}
+
+trivariate_mono_bounds <- samples_of_joints_mono %>% 
+  ungroup() %>% 
+  select(SNP, bivariate_lower = lower_mono, bivariate_upper = upper_mono, sample_joint) %>% 
+  unnest(sample_joint) %>% 
+  unnest(joint) %>% 
+  unnest_wider(bounds) %>% 
+  mutate(contains_zero = lower < 0 & upper > 0)
+
+individual_SNPs_mono_plot <- trivariate_mono_bounds %>% 
+  group_by(SNP) %>% 
+  arrange(lower) %>% 
+  mutate(id = row_number()) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = id)) +
+    geom_hline(aes(yintercept = bivariate_lower),
+               linetype = "dashed") +  
+    geom_hline(aes(yintercept = bivariate_upper),
+               linetype = "dashed") +
+    geom_hline(yintercept = 0) +
+    geom_errorbar(aes(ymin = lower,
+                      ymax = upper,
+                      color = contains_zero)) +
+    facet_wrap(~SNP, nrow = 7)
+
+individual_SNPs_mono_plot
+```
+
+## Intersections of Bounds from Randomly Sampled Joint Distributions
+
+First, we create a tibble with all unique pairs of SNPs. 
+
+```{r}
+pairs_of_snps <- expand_grid(SNP1 = unique(trivariate_bounds$SNP),
+                             SNP2 = unique(trivariate_bounds$SNP)) %>% 
+  filter(SNP1 != SNP2) %>% 
+  rowwise() %>% 
+  summarize(SNPs = list(sort(c(SNP1, SNP2)))) %>% 
+  filter(duplicated(SNPs)) %>% 
+  mutate(SNPs = map(SNPs, ~tibble_row(SNP1 = .x[1], SNP2 = .x[2]))) %>% 
+  unnest_wider(SNPs)
+
+pairs_of_snps
+```
+
+The resulting tibble has `r nrow(pairs_of_snps)` rows, which is exactly ${`r n_distinct(trivariate_bounds[['SNP']])` \choose 2}$. 
+
+It is not feasible (and probably not even useful...) to go through all pairs, so instead we will simply look at a random sample of 9 pairs.
+
+```{r}
+set.seed(493637)
+
+chosen_pairs <- pairs_of_snps %>% 
+  sample_n(9)
+
+pander::pander(chosen_pairs)
+```
+
+We simply reuse the joint distributions and bounds found previously noting that this imposes the assumption that the distributions of $(X,Y|Z_1)$ and $(X,Y|Z_2)$ are independent of each other. 
+
+```{r}
+both_bounds <- chosen_pairs %>% 
+  rowwise() %>% 
+  mutate(
+    SNP1_bounds = list(
+      trivariate_bounds %>% 
+        filter(SNP == SNP1) %>% 
+        select(SNP1_bivariate_lower = bivariate_lower, SNP1_bivariate_upper = bivariate_upper, 
+               SNP1_lower = lower, SNP1_upper = upper)
+    ),
+    SNP2_bounds = list(
+      trivariate_bounds %>% 
+        filter(SNP == SNP2) %>% 
+        select(SNP2_bivariate_lower = bivariate_lower, SNP2_bivariate_upper = bivariate_upper,
+               SNP2_lower = lower, SNP2_upper = upper)
+    )
+  ) %>% 
+  ungroup() %>% 
+  unnest(cols = c(SNP1_bounds, SNP2_bounds))
+
+both_bounds
+```
+Finally, we construct intersection bounds.
+
+```{r}
+intersection_bounds <- both_bounds %>% 
+  rowwise() %>% 
+  mutate(intersection_lower = max(SNP1_lower, SNP2_lower),
+         intersection_upper = min(SNP1_upper, SNP2_upper),
+         bivariate_intersection_lower = max(SNP1_bivariate_lower, SNP2_bivariate_lower),
+         bivariate_intersection_upper = min(SNP1_bivariate_upper, SNP2_bivariate_upper),
+         ) %>% 
+  ungroup() %>% 
+  mutate(contains_zero = intersection_lower < 0 & intersection_upper > 0)
+```
+
+A plot to display them.
+
+```{r fig.height = 14, fig.width = 10}
+intersection_bounds_plot <- intersection_bounds %>% 
+  group_by(SNP1, SNP2) %>% 
+  arrange(intersection_lower) %>% 
+  mutate(i = row_number()) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = i)) + 
+    geom_hline(aes(yintercept = bivariate_intersection_lower),
+               linetype = "dashed") +
+    geom_hline(aes(yintercept = bivariate_intersection_upper),
+               linetype = "dashed") +
+    geom_errorbar(aes(ymin = intersection_lower,
+                      ymax = intersection_upper,
+                      color = contains_zero),
+                  alpha = 0.7) +
+    geom_hline(yintercept = 0) +
+    facet_wrap(~SNP1 + SNP2,
+               labeller = label_both) +
+    theme_bw()
+
+intersection_bounds_plot
+```
+
+
+
+## Save Plots
+
+
+Save plots for later use.
+
+```{r}
+ggsave(
+  plot = all_bivariate_bounds,
+  filename = here::here("figures/example_analyses", 
+                        paste0("all_bivaraite_bounds_", exposure_id, "_", outcome_id,".png"))
+)
+
+ggsave(
+  plot = individual_SNPs_plot,
+  filename = here::here("figures/example_analyses", 
+                        paste0("individual_SNPs_plot", exposure_id, "_", outcome_id,".png")),
+  height = 10, width = 14
+)
+
+
+if(run_mono){
+  ggsave(
+    plot = individual_SNPs_mono_plot,
+    filename = here::here("figures/example_analyses", 
+                          paste0("individual_SNPs_mono_plot.png", exposure_id, "_", outcome_id,".png")),
+    height = 10, width = 14
+  )
+}  
+ggsave(
+  plot = intersection_bounds_plot,
+  filename = here::here("figures/example_analyses", 
+                        paste0("intersection_bounds_plot.png", exposure_id, "_", outcome_id,".png")),
+  height = 14, width = 10
+)
+
+```
+

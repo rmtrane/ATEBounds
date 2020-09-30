@@ -1,5 +1,12 @@
 ---
 title: "Utilize bivariate data in trivariate bounds"
+description: >
+  See how we can use bivariate data to get a sense of what the bounds obtained from trivariate data could look like.
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Trivariate Bounds from Bivariate Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 Bounds constructed using bivariate data generally provides much less information than bounds constructed using trivariate data. We will here see how we can squeeze a bit more information out of bivariate data by considering the potential distributions of $(X,Y)|Z$ that are in agreement with the observed $X|Z$ and $Y|Z$, and the model.
@@ -71,8 +78,8 @@ The result of this chunk is a `tibble` calles `many_sample_joints` with 5 column
 The first six rows are shown below.
 
 ```{r many_sample_joints}
-if(file.exists(here::here("vignettes/many_sample_joints.rds"))){
-  many_sample_joints <- read_rds(here::here("vignettes/many_sample_joints.rds"))
+if(file.exists(here::here("vignettes_data/many_sample_joints.rds"))){
+  many_sample_joints <- read_rds(here::here("vignettes_data/many_sample_joints.rds"))
 } else {
   
   library(furrr)
@@ -87,16 +94,12 @@ if(file.exists(here::here("vignettes/many_sample_joints.rds"))){
            pot_covs = map2(thetas, gammas, potential_covs))
   
   many_sample_joints <- sim_probs %>%
-    filter(j <= 15) %>% 
-    mutate(samp_joints = map2(pot_covs, j,
-                              function(x,y){
-                               print(y); 
-                                RS <<- .Random.seed
-                               sample_joint_probs(x, return_bounds = TRUE, n = 1000, max_rejections = 500)
-                             }))
+    mutate(
+      samp_joints = future_map(pot_covs, sample_joint_probs, return_bounds = TRUE, n = 1000, max_rejections = 500)
+    )
   
   write_rds(many_sample_joints,
-            here::here("vignettes/many_sample_joints.rds"))
+            here::here("vignettes_data/many_sample_joints.rds"))
 }
 
 head(many_sample_joints)
@@ -127,7 +130,7 @@ bivariate_bounds <- many_sample_joints %>%
   rename(bivariate_lower = lower,
          bivariate_upper = upper) %>% 
   print() %>% 
-  select(j, contains("bivariate"))
+  select(j, contains("bivariate"), thetas, gammas)
 
 head(bivariate_bounds)
 ```
@@ -136,12 +139,17 @@ To plot it all, we combine the two sets of bounds. We order by lower limit of tr
 
 ```{r for_plot}
 for_plot <- trivariate_bounds %>% 
-  left_join(bivariate_bounds) %>% 
+  left_join(bivariate_bounds %>% 
+              mutate(center = (bivariate_upper + bivariate_lower) / 2) %>% 
+              arrange(center) %>% 
+              mutate(k = row_number())) %>% 
   arrange(j, trivariate_lower) %>% 
   group_by(j) %>% 
   mutate(id = row_number()) %>% 
   ungroup() %>% 
-  mutate(contains_zero = if_else(trivariate_lower < 0 & trivariate_upper > 0, "Zero in range", "Zero NOT in range"))
+  mutate(contains_zero = if_else(trivariate_lower < 0 & trivariate_upper > 0, "Zero in range", "Zero NOT in range"),
+         facet_row = ceiling(k/10), 
+         facet_col = k - (facet_row-1)*10)
 
 head(for_plot)
 ```
@@ -149,18 +157,21 @@ head(for_plot)
 Finally, the plot.
 
 ```{r plot, fig.width = 10, fig.height = 10, dpi = 300}
-plot <- for_plot %>% 
-  mutate(facet_row = ceiling(j/10), 
-         facet_col = j %% 10) %>% filter(j == 15) %>% print
+plot <- for_plot %>% #select(k, center, facet_row, facet_col) %>% arrange(center) %>% unique() %>% View()
   ggplot(aes(x = id/max(id))) + 
     geom_hline(aes(yintercept = bivariate_lower, color = "Bivariate Bounds")) + 
     geom_hline(aes(yintercept = bivariate_upper, color = "Bivariate Bounds")) + 
     geom_errorbar(aes(ymin = trivariate_lower, ymax = trivariate_upper,
                       color = contains_zero)) + 
+    geom_text(data = for_plot %>% 
+                select(j, k, contains("facet"), bivariate_upper) %>% 
+                unique(),
+              aes(label = j, x = 0.25, y = if_else(bivariate_upper < 0.6,
+                                                   0.85, -0.85))) +
     ylim(c(-1,1)) +
     facet_grid(facet_row ~ facet_col) +
     coord_fixed() +
-    scale_color_manual(values = c("black", "red4", "grey50")) + 
+    scale_color_manual(values = c("black", "grey50", "red4")) + 
     labs(x = "", y = "ACE",
          title = "Bounds on ACE",
          color = "",
@@ -168,7 +179,9 @@ plot <- for_plot %>%
     ) + 
     theme_bw() +
     theme(axis.ticks.x = element_blank(),
-          axis.text.x = element_blank())
+          axis.text.x = element_blank(),
+          strip.background = element_blank(),
+          strip.text = element_blank())
 
 plot
 ```
@@ -176,9 +189,96 @@ plot
 Save the plot to a file for later use. 
 
 ```{r}
-ggsave(plot, filename = here::here("figures/trivariate_bounds_plot.png"),
-       width = 10, height = 10, dpi = 300)
+ggsave(
+  plot, 
+  filename = here::here("figures/trivariate_bounds_plot.png"),
+  width = 10, height = 10, dpi = 300
+)
 ```
+
+Below are 9 of the 100 runs displayed. The figures are the same as in the plot below. 
+
+
+```{r}
+chosen_ones <- c(53, 6, 66, #19,36, 94, 26
+                 38, 7, 88,
+                 73, 44, 60)
+
+for_subset_plot <- for_plot %>% 
+  filter(j %in% chosen_ones) %>% 
+  mutate(J = as.numeric(factor(j, levels = chosen_ones)),
+         row_i = case_when(J %in% 1:3 ~ "a",
+                           J %in% 4:6 ~ "b",
+                           J %in% 7:9 ~ "c",
+                           TRUE ~ NA_character_),
+         col_j = (J-1) %% 3 + 1)
+
+subset_plot_summaries <- for_subset_plot %>% 
+  group_by(row_i, col_j, thetas, gammas) %>% 
+  summarize(bivariate_lower = unique(bivariate_lower),
+            bivariate_upper = unique(bivariate_upper),
+            p_no_zero = mean(contains_zero == "Zero NOT in range")) %>% 
+  rowwise() %>% 
+  mutate(thetas = list(setNames(thetas, paste0("P(X = 1 | Z = ", 0:2, ")"))),
+         gammas = list(setNames(gammas, paste0("P(Y = 1 | Z = ", 0:2, ")")))) %>% 
+  unnest_wider(thetas) %>% 
+  unnest_wider(gammas)
+
+subset_plot <- ggplot(for_subset_plot,
+       aes(x = id/max(id))) + 
+  geom_hline(aes(yintercept = bivariate_lower, color = "Bivariate Bounds")) + 
+  geom_hline(aes(yintercept = bivariate_upper, color = "Bivariate Bounds")) + 
+  geom_errorbar(aes(ymin = trivariate_lower, ymax = trivariate_upper,
+                    color = contains_zero)) + 
+  ylim(c(-1,1)) +
+  # facet_wrap(~J, 
+  #            nrow = 3) + 
+  facet_grid(row_i ~ col_j) +
+  coord_fixed(ratio = 1/2) +
+  scale_color_manual(values = c("black", "grey50", "red4")) + 
+  labs(x = "", y = "ACE",
+       title = "Bounds on ACE",
+       color = "",
+       linetype = ""
+  ) + 
+  theme_bw() +
+  theme(axis.ticks.x = element_blank(),
+        axis.text.x = element_blank(),
+        legend.position = "bottom")
+
+```
+
+This is meant to illustrate the different scenarios we can end up in:
+
+* The first row shows us three scenarios with relatively wide bivariate bounds, more or less centered around zero. Yet we would draw three different conclusions:
+    * `r chosen_ones[1]`: even with trivariate data, we would not be able to determine direction
+    * `r chosen_ones[2]`: with trivariate data, we would not be able to determine direction if the true ACE is negative. About `r filter(subset_plot_summaries, J == chosen_ones[2])[["p_no_zero"]]*100`% of the joint probabilities would result in the trivariate data giving us the direction, and in all of these cases the direction is positive. 
+    * `r chosen_ones[3]`: with trivariate data, we would be able to determine direction with about `r filter(subset_plot_summaries, J == chosen_ones[3])[["p_no_zero"]]*100`% of the possible joint distributions, but the direction could go either way. 
+
+* The second row shows scenarios where the bounds are relatively wide and centered relatively far from zero (here, it is above, but you can similarly find cases where it would be below). Again, three difference conclusions:
+    * `r chosen_ones[4]`: even with trivariate data, would would not be able to determine direction
+    * `r chosen_ones[5]`: `r filter(subset_plot_summaries, J == chosen_ones[5])[["p_no_zero"]]*100`% of the drawn joint distributions let us determine direction, and in all cases the direction is positive.
+    * `r chosen_ones[6]`: `r filter(subset_plot_summaries, J == chosen_ones[6])[["p_no_zero"]]*100`% of the drawn joint distributions let us determine direction, and in all cases the direction is positive. 
+    * Notice the big difference in information in the bivariate data between `r chosen_ones[5]` and `r chosen_ones[6]` even though the bivariate bounds are relatively similar. One tells us that it is pretty likely that trivariate data would allow us to conclude the direction of the effect is positive, while the other one tells us it is rather unlikely we would be able to determine direction based on trivariate data. 
+    
+* Finally, the third row shows us three scenarios where the bivariate bounds are relatively narrow and centered around zero. Once again, we would arrive at three different conclusions:
+    * `r chosen_ones[7]`: trivariate data would not help us determine direction
+    * `r chosen_ones[8]`: we would be able to determine direction from trivariate data in `r filter(subset_plot_summaries, J == chosen_ones[8])[["p_no_zero"]]*100`% of the drawn joints, but from the information in the bivariate data, we cannot rule out either direction. This seems rather surprising to me: even though the bivariate bounds are pretty tight around zero, bounds from trivariate data could still end up entirely on either side of zero!
+    * `r chosen_ones[9]`: in `r filter(subset_plot_summaries, J == chosen_ones[9])[["p_no_zero"]]*100`% of the drawn joints, we would be able to determine direction, and in all of these the direction is positive.
+
+Save plot and a few objects for later use.
+
+```{r}
+write_rds(x = subset_plot_summaries,
+          path = here::here("vignettes_data", "subset_plot_summaries.Rds"))
+
+ggsave(
+  plot = subset_plot,
+  filename = here::here("figures", "trivariate_bounds_subset_plot.png"),
+  height = 7, width = 8, dpi = 300
+)
+```
+
 
 ## Monotonicity of $P(X = 1 | Z = z, U)$.
 
@@ -215,8 +315,8 @@ simulate_gammas_from_thetas_mono <- function(thetas){
   return(gammas)
 }
 
-if(file.exists(here::here("vignettes/many_sample_joints_mono.rds"))){
-  many_sample_joints_mono <- read_rds(here::here("vignettes/many_sample_joints_mono.rds"))
+if(file.exists(here::here("vignettes_data/many_sample_joints_mono.rds"))){
+  many_sample_joints_mono <- read_rds(here::here("vignettes_data/many_sample_joints_mono.rds"))
 } else {
   
   library(furrr)
@@ -231,16 +331,13 @@ if(file.exists(here::here("vignettes/many_sample_joints_mono.rds"))){
            pot_covs = map2(thetas, gammas, potential_covs, x_mono = TRUE))
   
   many_sample_joints_mono <- sim_probs_mono %>%
-    #filter(j <= 5) %>% 
-    mutate(samp_joints = future_map2(pot_covs, j,
-                                  function(x,y){
-                                    print(y)
-                                    sample_joint_probs(x, return_bounds = TRUE, n = 1000, max_rejections = 100,
-                                                       x_mono = TRUE)
-                                  }))
+    mutate(
+      samp_joints = future_map(pot_covs, sample_joint_probs, x, return_bounds = TRUE, n = 1000, max_rejections = 100,
+                               x_mono = TRUE)
+    )
   
   write_rds(many_sample_joints_mono,
-            here::here("vignettes/many_sample_joints_mono.rds"))
+            here::here("vignettes_data/many_sample_joints_mono.rds"))
 }
 
 
@@ -272,8 +369,7 @@ for_plot_mono <- trivariate_bounds_mono %>%
 
 plot_mono <- for_plot_mono %>% 
   mutate(facet_row = ceiling(j/10), 
-         facet_col = j %% 10) %>% 
-  #filter(j <= 10) %>% 
+         facet_col = j - (facet_row-1)*10) %>% 
   ggplot(aes(x = id/max(id))) + 
     geom_hline(aes(yintercept = bivariate_lower, color = "Bivariate Bounds")) + 
     geom_hline(aes(yintercept = bivariate_upper, color = "Bivariate Bounds")) + 
@@ -282,7 +378,7 @@ plot_mono <- for_plot_mono %>%
     ylim(c(-1,1)) +
     facet_grid(facet_row ~ facet_col) +
     coord_fixed() +
-    scale_color_manual(values = c("black", "red4", "grey50")) + 
+    scale_color_manual(values = c("black", "grey50", "red4")) + 
     labs(x = "", y = "ACE",
          title = "Bounds on ACE",
          caption = "Assuming P(X = 1 | Z = z, U) is monotonically increasing.",

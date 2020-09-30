@@ -1,0 +1,1867 @@
+---
+title: "Example Analysis of Data from the IEU GWAS Database"
+description: >
+  Step-by-step example of a MR analysis using the methods discussed in our paper on data obtained from the IEU GWAS Database.
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Example Analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+Here, we will demonstrate how to use bivariate data sources (in particular, the MR-Base database) to bound the average treatment effect, and gain insights into what such bounds would look like if a trivariate data set was available.
+
+# Effect of Smoking on Depression
+
+Our first example will use smoking as exposure, and depression as outcome (both as binary). 
+
+```{r}
+library(TwoSampleMR)
+library(tidyverse)
+library(magrittr)
+library(ACEBounds)
+
+
+theme_set(
+    theme_bw() +
+    theme(axis.text.x = element_blank(),
+          axis.ticks.x = element_blank(),
+          panel.grid.major.x = element_blank(),
+          panel.grid.minor.x = element_blank())
+)
+```
+
+## Collect Data
+
+Using the `TwoSampleMR` package, we get the data from the online database. First, we get a `tibble` with all available outcomes. 
+
+```{r}
+ao <- available_outcomes()
+```
+
+From this, we identify an experiment. We save information about the experiment to the `smoking_experiment` object.
+
+```{r}
+smoking_experiment <- ao %>% filter(id == "ukb-d-20116_0")
+```
+
+Next, we obtain potential instruments for the exposure variable. 
+
+```{r}
+smoking_instruments <- extract_instruments(smoking_experiment$id)
+```
+
+Similarly, we obtain outcome data: identify an appropriate study with data on depression, and create an object with the informaiton available about that study. We call this object `depression_experiment`.
+
+```{r}
+depression_experiment <- ao %>% filter(id == "ukb-d-20544_11")
+depression_data <- extract_outcome_data(snps = smoking_instruments$SNP, outcomes = depression_experiment$id)
+```
+
+Finally, we extract data from the study.
+
+```{r}
+smoking_depression_harmonized <- harmonise_data(smoking_instruments, depression_data) %>% as_tibble()
+```
+
+
+```{r}
+smoking_depression_pop_probs <- tibble(regression = c("outcome", "exposure"),
+                                       p_outcome = c(depression_experiment  %$% { ncase / (ncase + ncontrol) },
+                                                     smoking_experiment %$% { ncase / (ncase + ncontrol) }))
+```
+
+
+The following helper function takes finds the intercept in logistic regression that ensures the marginal probabilities $P(Y = 1)$ and $P(X = 1)$ match what's observed given the marginal distributions of the dependendt (i.e. either smoking or depression) and the IV (SNPs). 
+
+```{r}
+find_intercept <- function(beta1, p_outcome, pz, interval = c(-5, 5), zs = 0:2){
+  uniroot(f = function(beta0) sum((1+exp(-beta0-beta1*zs))^(-1) * pz) - p_outcome,
+          interval = interval)
+}
+```
+
+We have $P(X = 1)$ and $P(Y = 1)$. We still need $P(Z = z)$. These can be found from the allele frequencies. Since we have data on $Z$ from two separate sources, and the allele frequencies vary ever so slightly between the two, we use a weighted average of the allele frequencies as our final estimates. With these estimated allele frequencies, we can find $P(Z = z)$.  
+
+```{r}
+smoking_depression_prep_for_bounds <- smoking_depression_harmonized %>%
+  rowwise() %>% 
+  mutate(samplesize.exposure = smoking_experiment$ncase + smoking_experiment$ncontrol,
+         samplesize.outcome = depression_experiment$ncase + depression_experiment$ncontrol,
+         ave_eaf = weighted.mean(x = c_across(c(eaf.exposure, eaf.outcome)),
+                                 w = c_across(c(samplesize.exposure, samplesize.outcome)))) %>% 
+  select(SNP, contains("beta"), ave_eaf) %>% 
+  pivot_longer(contains("beta")) %>% 
+  separate(name, into = c("variable", "regression"), sep = "\\.") %>% 
+  pivot_wider(names_from = variable, values_from = value) %>% 
+  mutate(`P(Z = 2)` = (1 - ave_eaf)^2,
+         `P(Z = 1)` = 2*ave_eaf*(1 - ave_eaf),
+         `P(Z = 0)` = ave_eaf^2)
+```
+
+We add the values of $P(X = 1)$ and $P(Y = 1)$ to the tibble, and can now use the helper function defined above to find the intercepts that matches with the marginals. 
+
+```{r}
+smoking_depression_w_intercept <- smoking_depression_prep_for_bounds %>% 
+  left_join(smoking_depression_pop_probs) %>% 
+  rowwise() %>% 
+  mutate(find_intercept = list(find_intercept(beta1 = beta,
+                                              p_outcome = p_outcome,
+                                              pz = c(`P(Z = 0)`, `P(Z = 1)`, `P(Z = 2)`),
+                                              interval = c(-7,7))),
+         beta0 = find_intercept$root,
+         `thetas/gammas` = list(1/(1+exp(-beta0 - 0:2*beta))))
+```
+
+
+## Bound ACE using the bivariate data
+
+Finally, we calculate the bounds (both with and without assuming monotonicity of $P(X = 1 | Z = z)$) using the `get_bounds()` function.
+
+```{r}
+smoking_depression_bounds <- smoking_depression_w_intercept %>% 
+  select(-find_intercept, -beta0, -beta, -p_outcome, -ave_eaf) %>% 
+  mutate(regression = if_else(regression == "outcome", "gammas", "thetas")) %>% 
+  pivot_wider(names_from = regression, values_from = `thetas/gammas`) %>% 
+  rowwise() %>% 
+  mutate(bivariate_bounds = list(get_bounds(thetas = thetas, gammas = gammas, 
+                                            stop = FALSE, warning = FALSE)),
+         interval = list(bivariate_bounds$interval),
+         constraints_violated = bivariate_bounds$constraints_violated, 
+         bivariate_bounds_mono = list(get_bounds(thetas = thetas, gammas = gammas, 
+                                                 stop = FALSE, warning = FALSE,
+                                                 x_mono = TRUE)),
+         interval_mono = list(bivariate_bounds_mono$interval),
+         constraints_violated_mono = bivariate_bounds_mono$constraints_violated) %>% 
+  ungroup() %>% 
+  unnest_wider(col = interval_mono) %>% 
+  rename(upper_mono = upper, lower_mono = lower) %>% 
+  unnest_wider(interval)
+```
+
+The bivariate bounds obtained from the `r n_distinct(smoking_depression_bounds$SNP)` SNPs are shown on the following plot. As can be seen, none of the bounds provide much information at all, and all intervals are rather wide. 
+
+```{r}
+smoking_depression_bivariate_bounds <- smoking_depression_bounds %>% 
+  arrange(lower) %>% 
+  ggplot(aes(x = SNP)) +
+    geom_errorbar(aes(ymax = upper, ymin = lower)) +
+    theme_bw() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    labs(title = "Bivariate bounds",
+         subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
+                           "Outcome: Depression (id: ", depression_experiment$id, ").")) + 
+    lims(y = c(-1, 1))
+
+smoking_depression_bivariate_bounds
+```
+
+```{r}
+strength_histogram <- smoking_depression_bounds %>% 
+  rowwise() %>% 
+  mutate(strength = max(abs(outer(thetas, thetas, `-`)))) %>% 
+  ungroup() %>%
+  ggplot(aes(x = strength)) + 
+    geom_histogram(binwidth = 0.001, boundary = 0) + 
+    scale_x_continuous(limits = c(0, 0.012), 
+                       breaks = seq(0, 0.012, by = 0.002)) +
+    labs(x = "Strength", y = "Count",
+         title = "Strength of IVs on Smoking") +
+    theme_bw()
+
+strength_histogram
+```
+
+
+## Random Sampling of Potential Joint Distributions
+
+To try to squeeze more information out of the data at hand, we try to randomly sample distributions $P(Y = y, X = x | Z = z)$ that match the marginals we have, and don't violate the IV model. 
+
+Using the function `potential_covs()`, we get constraints on the values of $\text{Cov}(X,Y | Z = z)$. Feeding these constraints to `sample_joint_probs()`, we sample $500$ joint distributions for each SNP. (Note: we save the results to a file so we can recompile this document much more efficiently.)
+
+```{r}
+smoking_depression_filename <- paste0("samples_of_joints_", smoking_experiment$id, "_", depression_experiment$id, ".Rds")
+
+if(file.exists(here::here("vignettes_data/example_analyses", smoking_depression_filename))){
+  smoking_depression_samples_of_joints <- read_rds(here::here("vignettes_data/example_analyses", smoking_depression_filename))
+} else {
+  set.seed(7892312)
+  
+  smoking_depression_samples_of_joints <- smoking_depression_bounds %>% 
+    rowwise() %>% 
+    mutate(pot_covs = list(potential_covs(thetas = thetas, gammas = gammas)),
+           sample_joint = list(sample_joint_probs(pot_covs, n = 500, return_bounds = TRUE)))
+  
+  write_rds(smoking_depression_samples_of_joints, here::here("vignettes_data/example_analyses", smoking_depression_filename))
+}
+```
+
+We do some expanding to expose the bounds from these joint distributions.
+
+```{r}
+smoking_depression_trivariate_bounds <- smoking_depression_samples_of_joints %>% 
+  ungroup() %>% 
+  select(SNP, bivariate_lower = lower, bivariate_upper = upper, sample_joint) %>% 
+  unnest(sample_joint) %>% 
+  unnest(joint) %>% 
+  unnest_wider(bounds) %>% 
+  mutate(contains_zero = lower < 0 & upper > 0)
+```
+
+The plot below shows all bounds obtained from sampled joint distributions along with the original bivariate bounds. In this particular example, having a dataset with observations of $(X,Y,Z)$ would not provide much more information. There seems to be essentially no setting where the IV model holds, the marginals we observe are correct, AND the joint distribution would allow to determine direction of the ACE. 
+
+```{r fig.height = 8, fig.width = 13}
+smoking_depression_individual_SNPs_plot <- smoking_depression_trivariate_bounds %>% 
+  group_by(SNP) %>% 
+  arrange(lower) %>% 
+  mutate(id = row_number()) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = id)) +
+    geom_hline(aes(yintercept = bivariate_lower),
+               linetype = "dashed") +  
+    geom_hline(aes(yintercept = bivariate_upper),
+               linetype = "dashed") +
+    geom_hline(yintercept = 0) +
+    geom_errorbar(aes(ymin = lower,
+                      ymax = upper,
+                      color = contains_zero)) +
+    scale_color_manual(values = c("red4", "grey50"),
+                       breaks = c(FALSE, TRUE))  + 
+    lims(y = c(-1, 1)) + 
+    coord_fixed(ratio = 500/2) + 
+    facet_wrap(~SNP, nrow = 7) + 
+    labs(title = "Possible Trivariate Bounds from Bivariate Data",
+         subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
+                           "Outcome: Depression (id: ", depression_experiment$id, ")."))
+
+smoking_depression_individual_SNPs_plot
+```
+
+Below is a similar plot where we assume monotonicity of $P(X = 1 | Z = z)$. This is only done in cases where the marginals are such that the bivariate constraints are not violated.
+
+```{r fig.height = 8, fig.width = 13}
+smoking_depression_filename_mono <- paste0("samples_of_joints_mono_", smoking_experiment$id, "_", depression_experiment$id, ".Rds")
+
+if(file.exists(here::here("vignettes_data/example_analyses", smoking_depression_filename_mono))){
+  smoking_depression_samples_of_joints_mono <- read_rds(here::here("vignettes_data/example_analyses",
+                                                                   smoking_depression_filename_mono))
+} else {
+  set.seed(6925896)
+  smoking_depression_samples_of_joints_mono <- smoking_depression_bounds %>% 
+    filter(!constraints_violated_mono) %>% 
+    mutate(i = row_number()) %>% 
+    rowwise() %>% 
+    mutate(pot_covs = list(potential_covs(thetas = thetas, gammas = gammas, x_mono = TRUE)),
+           sample_joint = list(sample_joint_probs(pot_covs, n = 500, return_bounds = TRUE,
+                                                  x_mono = TRUE, print_progress = FALSE,
+                                                  print_as_progress = NULL)))
+  
+  write_rds(smoking_depression_samples_of_joints_mono,
+            here::here("vignettes_data/example_analyses",
+                       smoking_depression_filename_mono))
+}
+
+smoking_depression_trivariate_mono_bounds <- smoking_depression_samples_of_joints_mono %>% 
+  ungroup() %>% 
+  select(SNP, bivariate_lower = lower_mono, bivariate_upper = upper_mono, sample_joint) %>% 
+  unnest(sample_joint) %>% 
+  unnest(joint) %>% 
+  unnest_wider(bounds) %>% 
+  mutate(contains_zero = lower < 0 & upper > 0)
+
+smoking_depression_individual_SNPs_mono_plot <- smoking_depression_trivariate_mono_bounds %>% 
+  group_by(SNP) %>% 
+  arrange(lower) %>% 
+  mutate(id = row_number()) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = id)) +
+    geom_hline(aes(yintercept = bivariate_lower),
+               linetype = "dashed") +  
+    geom_hline(aes(yintercept = bivariate_upper),
+               linetype = "dashed") +
+    geom_hline(yintercept = 0) +
+    geom_errorbar(aes(ymin = lower,
+                      ymax = upper,
+                      color = contains_zero)) +
+    scale_color_manual(values = c("red4", "grey50"),
+                       breaks = c(FALSE, TRUE)) + 
+    lims(y = c(-1, 1)) + 
+    coord_fixed(ratio = 500/2) +
+    facet_wrap(~SNP, nrow = 7) +
+    labs(title = "Possible Trivariate Bounds from Bivariate Data assuming Monotonicity",
+         subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
+                           "Outcome: Depression (id: ", depression_experiment$id, ")."))
+
+smoking_depression_individual_SNPs_mono_plot
+```
+
+## Intersections of Bounds from Randomly Sampled Joint Distributions
+
+First, we create a tibble with all unique pairs of SNPs. 
+
+```{r}
+smoking_depression_pairs_of_snps <- expand_grid(SNP1 = unique(smoking_depression_trivariate_bounds$SNP),
+                                                SNP2 = unique(smoking_depression_trivariate_bounds$SNP)) %>% 
+  filter(SNP1 != SNP2) %>% 
+  rowwise() %>% 
+  summarize(SNPs = list(sort(c(SNP1, SNP2)))) %>% 
+  filter(duplicated(SNPs)) %>% 
+  mutate(SNPs = map(SNPs, ~tibble_row(SNP1 = .x[1], SNP2 = .x[2]))) %>% 
+  unnest_wider(SNPs)
+
+smoking_depression_pairs_of_snps
+```
+
+The resulting tibble has `r nrow(smoking_depression_pairs_of_snps)` rows, which is exactly ${`r n_distinct(smoking_depression_trivariate_bounds[['SNP']])` \choose 2}$. 
+
+It is not feasible (and probably not even useful...) to go through all pairs, so instead we will simply look at a random sample of 9 pairs.
+
+```{r}
+set.seed(493637)
+
+smoking_depression_chosen_pairs <- smoking_depression_pairs_of_snps %>% 
+  sample_n(9)
+
+pander::pander(smoking_depression_chosen_pairs)
+```
+
+We simply reuse the joint distributions and bounds found previously noting that this imposes the assumption that the distributions of $(X,Y|Z_1)$ and $(X,Y|Z_2)$ are independent of each other. 
+
+```{r}
+smoking_depression_both_bounds <- smoking_depression_chosen_pairs %>% 
+  rowwise() %>% 
+  mutate(
+    SNP1_bounds = list(
+      smoking_depression_trivariate_bounds %>% 
+        filter(SNP == SNP1) %>% 
+        select(SNP1_bivariate_lower = bivariate_lower, SNP1_bivariate_upper = bivariate_upper, 
+               SNP1_lower = lower, SNP1_upper = upper)
+    ),
+    SNP2_bounds = list(
+      smoking_depression_trivariate_bounds %>% 
+        filter(SNP == SNP2) %>% 
+        select(SNP2_bivariate_lower = bivariate_lower, SNP2_bivariate_upper = bivariate_upper,
+               SNP2_lower = lower, SNP2_upper = upper)
+    )
+  ) %>% 
+  ungroup() %>% 
+  unnest(cols = c(SNP1_bounds, SNP2_bounds))
+
+smoking_depression_both_bounds
+```
+Finally, we construct intersection bounds.
+
+```{r}
+smoking_depression_intersection_bounds <- smoking_depression_both_bounds %>% 
+  rowwise() %>% 
+  mutate(intersection_lower = max(SNP1_lower, SNP2_lower),
+         intersection_upper = min(SNP1_upper, SNP2_upper),
+         bivariate_intersection_lower = max(SNP1_bivariate_lower, SNP2_bivariate_lower),
+         bivariate_intersection_upper = min(SNP1_bivariate_upper, SNP2_bivariate_upper),
+  ) %>% 
+  ungroup() %>% 
+  mutate(contains_zero = intersection_lower < 0 & intersection_upper > 0)
+```
+
+A plot to display them.
+
+```{r fig.height = 14, fig.width = 10}
+smoking_depression_intersection_bounds_plot <- smoking_depression_intersection_bounds %>% 
+  group_by(SNP1, SNP2) %>% 
+  arrange(intersection_lower) %>% 
+  mutate(i = row_number()) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = i)) + 
+    geom_hline(aes(yintercept = bivariate_intersection_lower),
+               linetype = "dashed") +
+    geom_hline(aes(yintercept = bivariate_intersection_upper),
+               linetype = "dashed") +
+    geom_errorbar(aes(ymin = intersection_lower,
+                      ymax = intersection_upper,
+                      color = contains_zero),
+                  alpha = 0.7) +
+    scale_color_manual(values = c("red4", "grey50"),
+                       breaks = c(FALSE, TRUE)) + 
+    lims(y = c(-1, 1)) + 
+    coord_fixed(ratio = 500/2) + 
+    geom_hline(yintercept = 0) +
+    facet_wrap(~SNP1 + SNP2,
+               labeller = label_both) +
+    theme_bw() +
+    labs(title = "Intersections of Possible Trivariate Bounds from Bivariate Data",
+         subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
+                           "Outcome: Depression (id: ", depression_experiment$id, ")."))
+
+smoking_depression_intersection_bounds_plot
+```
+
+
+
+
+
+# Lung Cancer
+
+In the following, we repeat the above analysis, but here we will use lung cancer as outcome instead of depression
+
+## Collect Data
+
+```{r}
+lung_cancer_experiment <- ao %>% filter(id == "bbj-a-133") 
+
+lung_cancer_data <- extract_outcome_data(snps = smoking_instruments$SNP, outcomes = lung_cancer_experiment$id)
+
+smoking_lung_cancer_harmonized <- harmonise_data(smoking_instruments, lung_cancer_data) %>% as_tibble()
+```
+
+## Summarize to find probabilities
+
+```{r}
+smoking_lung_cancer_pop_probs <- tibble(regression = c("outcome", "exposure"),
+                                       p_outcome = c(lung_cancer_experiment  %$% { ncase / (ncase + ncontrol) },
+                                                     smoking_experiment %$% { ncase / (ncase + ncontrol) }))
+
+smoking_lung_cancer_prep_for_bounds <- smoking_lung_cancer_harmonized %>%
+  rowwise() %>% 
+  mutate(samplesize.exposure = smoking_experiment$ncase + smoking_experiment$ncontrol,
+         samplesize.outcome = lung_cancer_experiment$ncase + lung_cancer_experiment$ncontrol,
+         ave_eaf = weighted.mean(x = c_across(c(eaf.exposure, eaf.outcome)),
+                                 w = c_across(c(samplesize.exposure, samplesize.outcome)))) %>% 
+  select(SNP, contains("beta"), ave_eaf) %>% 
+  pivot_longer(contains("beta")) %>% 
+  separate(name, into = c("variable", "regression"), sep = "\\.") %>% 
+  pivot_wider(names_from = variable, values_from = value) %>% 
+  mutate(`P(Z = 2)` = (1 - ave_eaf)^2,
+         `P(Z = 1)` = 2*ave_eaf*(1 - ave_eaf),
+         `P(Z = 0)` = ave_eaf^2)
+
+smoking_lung_cancer_w_intercept <- smoking_lung_cancer_prep_for_bounds %>% 
+  left_join(smoking_lung_cancer_pop_probs) %>% 
+  rowwise() %>% 
+  mutate(find_intercept = list(find_intercept(beta1 = beta,
+                                              p_outcome = p_outcome,
+                                              pz = c(`P(Z = 0)`, `P(Z = 1)`, `P(Z = 2)`),
+                                              interval = c(-7,7))),
+         beta0 = find_intercept$root,
+         `thetas/gammas` = list(1/(1+exp(-beta0 - 0:2*beta))))
+```
+
+## Bound ACE using the bivariate data
+
+```{r}
+smoking_lung_cancer_bounds <- smoking_lung_cancer_w_intercept %>% 
+  select(-find_intercept, -beta0, -beta, -p_outcome, -ave_eaf) %>% 
+  mutate(regression = if_else(regression == "outcome", "gammas", "thetas")) %>% 
+  pivot_wider(names_from = regression, values_from = `thetas/gammas`) %>% 
+  rowwise() %>% 
+  mutate(bivariate_bounds = list(get_bounds(thetas = thetas, gammas = gammas, 
+                                            stop = FALSE, warning = FALSE)),
+         interval = list(bivariate_bounds$interval),
+         constraints_violated = bivariate_bounds$constraints_violated, 
+         bivariate_bounds_mono = list(get_bounds(thetas = thetas, gammas = gammas, 
+                                                 stop = FALSE, warning = FALSE,
+                                                 x_mono = TRUE)),
+         interval_mono = list(bivariate_bounds_mono$interval),
+         constraints_violated_mono = bivariate_bounds_mono$constraints_violated) %>% 
+  ungroup() %>% 
+  unnest_wider(col = interval_mono) %>% 
+  rename(upper_mono = upper, lower_mono = lower) %>% 
+  unnest_wider(interval)
+
+
+smoking_lung_cancer_bivariate_bounds <- smoking_lung_cancer_bounds %>% 
+  arrange(lower) %>% 
+  ggplot(aes(x = SNP)) +
+    geom_errorbar(aes(ymax = upper, ymin = lower)) + 
+    lims(y = c(-1, 1)) +
+    theme_bw() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    labs(title = "Bivariate bounds",
+         subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
+                           "Outcome: Lung Cancer (id: ", lung_cancer_experiment$id, ")."))
+
+smoking_lung_cancer_bivariate_bounds
+```
+
+## Random Sampling of Potential Joint Distributions
+
+```{r}
+smoking_lung_cancer_filename <- paste0("samples_of_joints_", smoking_experiment$id, "_", lung_cancer_experiment$id, ".Rds")
+
+if(file.exists(here::here("vignettes_data/example_analyses", smoking_lung_cancer_filename))){
+  smoking_lung_cancer_samples_of_joints <- read_rds(here::here("vignettes_data/example_analyses", smoking_lung_cancer_filename))
+} else {
+  set.seed(7892312)
+  
+  smoking_lung_cancer_samples_of_joints <- smoking_lung_cancer_bounds %>% 
+    filter(SNP %in% sample(unique(SNP), 10)) %>% 
+    rowwise() %>% 
+    mutate(pot_covs = list(potential_covs(thetas = thetas, gammas = gammas)),
+           sample_joint = list(sample_joint_probs(pot_covs, n = 300, return_bounds = TRUE)))
+  
+  write_rds(smoking_lung_cancer_samples_of_joints, here::here("vignettes_data/example_analyses", smoking_lung_cancer_filename))
+}
+
+smoking_lung_cancer_trivariate_bounds <- smoking_lung_cancer_samples_of_joints %>% 
+  ungroup() %>% 
+  select(SNP, bivariate_lower = lower, bivariate_upper = upper, sample_joint) %>% 
+  unnest(sample_joint) %>% 
+  unnest(joint) %>% 
+  unnest_wider(bounds) %>% 
+  mutate(contains_zero = lower < 0 & upper > 0)
+
+smoking_lung_cancer_individual_SNPs_plot <- smoking_lung_cancer_trivariate_bounds %>% 
+  group_by(SNP) %>% 
+  arrange(lower) %>% 
+  mutate(id = row_number()) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = id)) +
+    geom_hline(aes(yintercept = bivariate_lower),
+               linetype = "dashed") +  
+    geom_hline(aes(yintercept = bivariate_upper),
+               linetype = "dashed") +
+    geom_hline(yintercept = 0) +
+    geom_errorbar(aes(ymin = lower,
+                      ymax = upper,
+                      color = contains_zero)) + 
+    lims(y = c(-1, 1)) +
+    coord_fixed(ratio = 500/2) + 
+    scale_color_manual(values = c("red4", "grey50"),
+                       breaks = c(FALSE, TRUE)) + 
+    facet_wrap(~SNP, nrow = 7) +
+    labs(title = "Possible Trivariate Bounds from Bivariate Data",
+         subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
+                           "Outcome: Lung Cancer (id: ", lung_cancer_experiment$id, ")."))
+```
+
+```{r fig.height = 8, fig.width = 13}
+smoking_lung_cancer_individual_SNPs_plot
+```
+
+### Monotonicity Assumed
+
+```{r fig.height = 8, fig.width = 13}
+smoking_lung_cancer_filename_mono <- paste0("samples_of_joints_mono_", smoking_experiment$id, "_", lung_cancer_experiment$id, ".Rds")
+if(file.exists(here::here("vignettes_data/example_analyses", smoking_lung_cancer_filename_mono))){
+  smoking_lung_cancer_samples_of_joints_mono <- read_rds(here::here("vignettes_data/example_analyses",
+                                                                   smoking_lung_cancer_filename_mono))
+} else {
+  set.seed(6925896)
+  smoking_lung_cancer_samples_of_joints_mono <- smoking_lung_cancer_bounds %>% 
+    filter(!constraints_violated_mono) %>% 
+    mutate(i = row_number()) %>% 
+    rowwise() %>% 
+    mutate(pot_covs = list(potential_covs(thetas = thetas, gammas = gammas, x_mono = TRUE)),
+           sample_joint = list(sample_joint_probs(pot_covs, n = 500, return_bounds = TRUE,
+                                                  x_mono = TRUE, print_progress = FALSE,
+                                                  print_as_progress = NULL)))
+  
+  write_rds(smoking_lung_cancer_samples_of_joints_mono,
+            here::here("vignettes_data/example_analyses",
+                       smoking_lung_cancer_filename_mono))
+}
+
+smoking_lung_cancer_trivariate_mono_bounds <- smoking_lung_cancer_samples_of_joints_mono %>% 
+  ungroup() %>% 
+  select(SNP, bivariate_lower = lower_mono, bivariate_upper = upper_mono, sample_joint) %>% 
+  unnest(sample_joint) %>% 
+  unnest(joint) %>% 
+  unnest_wider(bounds) %>% 
+  mutate(contains_zero = lower < 0 & upper > 0)
+
+smoking_lung_cancer_individual_SNPs_mono_plot <- smoking_lung_cancer_trivariate_mono_bounds %>% 
+  group_by(SNP) %>% 
+  arrange(lower) %>% 
+  mutate(id = row_number()) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = id)) +
+    geom_hline(aes(yintercept = bivariate_lower),
+               linetype = "dashed") +  
+    geom_hline(aes(yintercept = bivariate_upper),
+               linetype = "dashed") +
+    geom_hline(yintercept = 0) +
+    geom_errorbar(aes(ymin = lower,
+                      ymax = upper,
+                      color = contains_zero)) + 
+    lims(y = c(-1, 1)) +
+    scale_color_manual(values = c("red4", "grey50"),
+                       breaks = c(FALSE, TRUE)) + 
+    facet_wrap(~SNP, nrow = 7) +
+    coord_fixed(ratio = 500/2) + 
+    labs(title = "Possible Trivariate Bounds from Bivariate Data assuming Monotonicity",
+         subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
+                           "Outcome: Lung Cancer (id: ", lung_cancer_experiment$id, ")."))
+
+smoking_lung_cancer_individual_SNPs_mono_plot
+```
+
+## Intersections of Bounds from Randomly Sampled Joint Distributions
+
+```{r}
+smoking_lung_cancer_pairs_of_snps <- expand_grid(SNP1 = unique(smoking_lung_cancer_trivariate_bounds$SNP),
+                                                SNP2 = unique(smoking_lung_cancer_trivariate_bounds$SNP)) %>% 
+  filter(SNP1 != SNP2) %>% 
+  rowwise() %>% 
+  summarize(SNPs = list(sort(c(SNP1, SNP2)))) %>% 
+  filter(duplicated(SNPs)) %>% 
+  mutate(SNPs = map(SNPs, ~tibble_row(SNP1 = .x[1], SNP2 = .x[2]))) %>% 
+  unnest_wider(SNPs)
+
+set.seed(493637)
+
+smoking_lung_cancer_chosen_pairs <- smoking_lung_cancer_pairs_of_snps %>% 
+  sample_n(9)
+
+pander::pander(smoking_lung_cancer_chosen_pairs)
+
+smoking_lung_cancer_both_bounds <- smoking_lung_cancer_chosen_pairs %>% 
+  rowwise() %>% 
+  mutate(
+    SNP1_bounds = list(
+      smoking_lung_cancer_trivariate_bounds %>% 
+        filter(SNP == SNP1) %>% 
+        select(SNP1_bivariate_lower = bivariate_lower, SNP1_bivariate_upper = bivariate_upper, 
+               SNP1_lower = lower, SNP1_upper = upper)
+    ),
+    SNP2_bounds = list(
+      smoking_lung_cancer_trivariate_bounds %>% 
+        filter(SNP == SNP2) %>% 
+        select(SNP2_bivariate_lower = bivariate_lower, SNP2_bivariate_upper = bivariate_upper,
+               SNP2_lower = lower, SNP2_upper = upper)
+    )
+  ) %>% 
+  ungroup() %>% 
+  unnest(cols = c(SNP1_bounds, SNP2_bounds))
+
+smoking_lung_cancer_both_bounds
+
+smoking_lung_cancer_intersection_bounds <- smoking_lung_cancer_both_bounds %>% 
+  rowwise() %>% 
+  mutate(intersection_lower = max(SNP1_lower, SNP2_lower),
+         intersection_upper = min(SNP1_upper, SNP2_upper),
+         bivariate_intersection_lower = max(SNP1_bivariate_lower, SNP2_bivariate_lower),
+         bivariate_intersection_upper = min(SNP1_bivariate_upper, SNP2_bivariate_upper),
+  ) %>% 
+  ungroup() %>% 
+  mutate(contains_zero = intersection_lower < 0 & intersection_upper > 0)
+```
+
+```{r fig.height = 14, fig.width = 10}
+smoking_lung_cancer_intersection_bounds_plot <- smoking_lung_cancer_intersection_bounds %>% 
+  group_by(SNP1, SNP2) %>% 
+  arrange(intersection_lower) %>% 
+  mutate(i = row_number()) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = i)) + 
+    geom_hline(aes(yintercept = bivariate_intersection_lower),
+               linetype = "dashed") +
+    geom_hline(aes(yintercept = bivariate_intersection_upper),
+               linetype = "dashed") +
+    geom_errorbar(aes(ymin = intersection_lower,
+                      ymax = intersection_upper,
+                      color = contains_zero),
+                  alpha = 0.7) +
+    scale_color_manual(values = c("red4", "grey50"),
+                       breaks = c(FALSE, TRUE)) + 
+    lims(y = c(-1, 1)) + 
+    geom_hline(yintercept = 0) +
+    coord_fixed(ratio = 500/2) + 
+    facet_wrap(~SNP1 + SNP2,
+               labeller = label_both) +
+    theme_bw() +
+    labs(title = "Intersections of Possible Trivariate Bounds from Bivariate Data",
+         subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
+                           "Outcome: Lung Cancer (id: ", lung_cancer_experiment$id, ")."))
+
+smoking_lung_cancer_intersection_bounds_plot
+```
+
+# Lung Cancer 2
+
+In the following, we repeat the above analysis, but here we will use lung cancer as outcome instead of depression
+
+## Collect Data
+
+```{r}
+lung_cancer_2_experiment <- ao %>% filter(id == "ieu-a-966")
+lung_cancer_2_data <- extract_outcome_data(snps = smoking_instruments$SNP, outcomes = lung_cancer_2_experiment$id)
+
+smoking_lung_cancer_2_harmonized <- harmonise_data(smoking_instruments, lung_cancer_2_data) %>% as_tibble()
+```
+
+## Summarize to find probabilities
+
+```{r}
+smoking_lung_cancer_2_pop_probs <- tibble(regression = c("outcome", "exposure"),
+                                          p_outcome = c(lung_cancer_2_experiment  %$% { ncase / (ncase + ncontrol) },
+                                                        smoking_experiment %$% { ncase / (ncase + ncontrol) }))
+
+smoking_lung_cancer_2_prep_for_bounds <- smoking_lung_cancer_2_harmonized %>%
+  rowwise() %>% 
+  mutate(samplesize.exposure = smoking_experiment$ncase + smoking_experiment$ncontrol,
+         samplesize.outcome = lung_cancer_2_experiment$ncase + lung_cancer_2_experiment$ncontrol,
+         ave_eaf = weighted.mean(x = c_across(c(eaf.exposure, eaf.outcome)),
+                                 w = c_across(c(samplesize.exposure, samplesize.outcome)))) %>% 
+  select(SNP, contains("beta"), ave_eaf) %>% 
+  pivot_longer(contains("beta")) %>% 
+  separate(name, into = c("variable", "regression"), sep = "\\.") %>% 
+  pivot_wider(names_from = variable, values_from = value) %>% 
+  mutate(`P(Z = 2)` = (1 - ave_eaf)^2,
+         `P(Z = 1)` = 2*ave_eaf*(1 - ave_eaf),
+         `P(Z = 0)` = ave_eaf^2)
+
+smoking_lung_cancer_2_w_intercept <- smoking_lung_cancer_2_prep_for_bounds %>% 
+  left_join(smoking_lung_cancer_2_pop_probs) %>% 
+  rowwise() %>% 
+  mutate(find_intercept = list(find_intercept(beta1 = beta,
+                                              p_outcome = p_outcome,
+                                              pz = c(`P(Z = 0)`, `P(Z = 1)`, `P(Z = 2)`),
+                                              interval = c(-7,7))),
+         beta0 = find_intercept$root,
+         `thetas/gammas` = list(1/(1+exp(-beta0 - 0:2*beta))))
+```
+
+## Bound ACE using the bivariate data
+
+```{r}
+smoking_lung_cancer_2_bounds <- smoking_lung_cancer_2_w_intercept %>% 
+  select(-find_intercept, -beta0, -beta, -p_outcome, -ave_eaf) %>% 
+  mutate(regression = if_else(regression == "outcome", "gammas", "thetas")) %>% 
+  pivot_wider(names_from = regression, values_from = `thetas/gammas`) %>% 
+  rowwise() %>% 
+  mutate(bivariate_bounds = list(get_bounds(thetas = thetas, gammas = gammas, 
+                                            stop = FALSE, warning = FALSE)),
+         interval = list(bivariate_bounds$interval),
+         constraints_violated = bivariate_bounds$constraints_violated, 
+         bivariate_bounds_mono = list(get_bounds(thetas = thetas, gammas = gammas, 
+                                                 stop = FALSE, warning = FALSE,
+                                                 x_mono = TRUE)),
+         interval_mono = list(bivariate_bounds_mono$interval),
+         constraints_violated_mono = bivariate_bounds_mono$constraints_violated) %>% 
+  ungroup() %>% 
+  unnest_wider(col = interval_mono) %>% 
+  rename(upper_mono = upper, lower_mono = lower) %>% 
+  unnest_wider(interval)
+
+
+smoking_lung_cancer_2_bivariate_bounds <- smoking_lung_cancer_2_bounds %>% 
+  arrange(lower) %>% 
+  ggplot(aes(x = SNP)) +
+    geom_errorbar(aes(ymax = upper, ymin = lower)) +
+    theme_bw() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    scale_color_manual(values = c("red4", "grey50"),
+                       breaks = c(FALSE, TRUE)) + 
+    lims(y = c(-1, 1)) + 
+    labs(title = "Bivariate bounds",
+         subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
+                           "Outcome: Lung Cancer (id: ", lung_cancer_2_experiment$id, ")."))
+
+smoking_lung_cancer_2_bivariate_bounds
+```
+
+## Random Sampling of Potential Joint Distributions
+
+```{r}
+smoking_lung_cancer_2_filename <- paste0("samples_of_joints_", smoking_experiment$id, "_", lung_cancer_2_experiment$id, ".Rds")
+
+if(file.exists(here::here("vignettes_data/example_analyses", smoking_lung_cancer_2_filename))){
+  smoking_lung_cancer_2_samples_of_joints <- read_rds(here::here("vignettes_data/example_analyses", smoking_lung_cancer_2_filename))
+} else {
+  set.seed(7892312)
+  
+  smoking_lung_cancer_2_samples_of_joints <- smoking_lung_cancer_2_bounds %>% 
+    rowwise() %>% 
+    mutate(pot_covs = list(potential_covs(thetas = thetas, gammas = gammas)),
+           sample_joint = list(sample_joint_probs(pot_covs, n = 500, return_bounds = TRUE)))
+  
+  write_rds(smoking_lung_cancer_2_samples_of_joints, here::here("vignettes_data/example_analyses", smoking_lung_cancer_2_filename))
+}
+
+smoking_lung_cancer_2_trivariate_bounds <- smoking_lung_cancer_2_samples_of_joints %>% 
+  ungroup() %>% 
+  select(SNP, bivariate_lower = lower, bivariate_upper = upper, sample_joint) %>% 
+  unnest(sample_joint) %>% 
+  unnest(joint) %>% 
+  unnest_wider(bounds) %>% 
+  mutate(contains_zero = lower < 0 & upper > 0)
+
+smoking_lung_cancer_2_individual_SNPs_plot <- smoking_lung_cancer_2_trivariate_bounds %>% 
+  group_by(SNP) %>% 
+  arrange(lower) %>% 
+  mutate(id = row_number()) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = id)) +
+    geom_hline(aes(yintercept = bivariate_lower),
+               linetype = "dashed") +  
+    geom_hline(aes(yintercept = bivariate_upper),
+               linetype = "dashed") +
+    geom_hline(yintercept = 0) +
+    geom_errorbar(aes(ymin = lower,
+                      ymax = upper,
+                      color = contains_zero)) +
+    scale_color_manual(values = c("red4", "grey50"),
+                       breaks = c(FALSE, TRUE)) + 
+    lims(y = c(-1, 1)) + 
+    facet_wrap(~SNP, nrow = 7) +
+    coord_fixed(ratio = 500/2) + 
+    labs(title = "Possible Trivariate Bounds from Bivariate Data",
+         subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
+                           "Outcome: Lung Cancer (id: ", lung_cancer_2_experiment$id, ")."))
+```
+
+```{r fig.height = 8, fig.width = 13}
+smoking_lung_cancer_2_individual_SNPs_plot
+```
+
+### Monotonicity Assumed
+
+```{r fig.height = 8, fig.width = 13}
+smoking_lung_cancer_2_filename_mono <- paste0("samples_of_joints_mono_", smoking_experiment$id, "_", lung_cancer_2_experiment$id, ".Rds")
+if(file.exists(here::here("vignettes_data/example_analyses", smoking_lung_cancer_2_filename_mono))){
+  smoking_lung_cancer_2_samples_of_joints_mono <- read_rds(here::here("vignettes_data/example_analyses",
+                                                                   smoking_lung_cancer_2_filename_mono))
+} else {
+  set.seed(6925896)
+  smoking_lung_cancer_2_samples_of_joints_mono <- smoking_lung_cancer_2_bounds %>% 
+    filter(!constraints_violated_mono) %>% 
+    mutate(i = row_number()) %>% 
+    rowwise() %>% 
+    mutate(pot_covs = list(potential_covs(thetas = thetas, gammas = gammas, x_mono = TRUE)),
+           sample_joint = list(sample_joint_probs(pot_covs, n = 500, return_bounds = TRUE,
+                                                  x_mono = TRUE, print_progress = FALSE,
+                                                  print_as_progress = NULL)))
+  
+  write_rds(smoking_lung_cancer_2_samples_of_joints_mono,
+            here::here("vignettes_data/example_analyses",
+                       smoking_lung_cancer_2_filename_mono))
+}
+
+smoking_lung_cancer_2_trivariate_mono_bounds <- smoking_lung_cancer_2_samples_of_joints_mono %>% 
+  ungroup() %>% 
+  select(SNP, bivariate_lower = lower_mono, bivariate_upper = upper_mono, sample_joint) %>% 
+  unnest(sample_joint) %>% 
+  unnest(joint) %>% 
+  unnest_wider(bounds) %>% 
+  mutate(contains_zero = lower < 0 & upper > 0)
+
+smoking_lung_cancer_2_individual_SNPs_mono_plot <- smoking_lung_cancer_2_trivariate_mono_bounds %>% 
+  group_by(SNP) %>% 
+  arrange(lower) %>% 
+  mutate(id = row_number()) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = id)) +
+    geom_hline(aes(yintercept = bivariate_lower),
+               linetype = "dashed") +  
+    geom_hline(aes(yintercept = bivariate_upper),
+               linetype = "dashed") +
+    geom_hline(yintercept = 0) +
+    geom_errorbar(aes(ymin = lower,
+                      ymax = upper,
+                      color = contains_zero)) +
+    scale_color_manual(values = c("red4", "grey50"),
+                       breaks = c(FALSE, TRUE)) + 
+    lims(y = c(-1, 1)) + 
+    facet_wrap(~SNP, nrow = 7) +
+    coord_fixed(ratio = 500/2) + 
+    labs(title = "Possible Trivariate Bounds from Bivariate Data assuming Monotonicity",
+         subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
+                           "Outcome: Lung Cancer (id: ", lung_cancer_2_experiment$id, ")."))
+
+smoking_lung_cancer_2_individual_SNPs_mono_plot
+```
+
+## Intersections of Bounds from Randomly Sampled Joint Distributions
+
+```{r}
+smoking_lung_cancer_2_pairs_of_snps <- expand_grid(SNP1 = unique(smoking_lung_cancer_2_trivariate_bounds$SNP),
+                                                SNP2 = unique(smoking_lung_cancer_2_trivariate_bounds$SNP)) %>% 
+  filter(SNP1 != SNP2) %>% 
+  rowwise() %>% 
+  summarize(SNPs = list(sort(c(SNP1, SNP2)))) %>% 
+  filter(duplicated(SNPs)) %>% 
+  mutate(SNPs = map(SNPs, ~tibble_row(SNP1 = .x[1], SNP2 = .x[2]))) %>% 
+  unnest_wider(SNPs)
+
+set.seed(493637)
+
+smoking_lung_cancer_2_chosen_pairs <- smoking_lung_cancer_2_pairs_of_snps %>% 
+  sample_n(9)
+
+pander::pander(smoking_lung_cancer_2_chosen_pairs)
+
+smoking_lung_cancer_2_both_bounds <- smoking_lung_cancer_2_chosen_pairs %>% 
+  rowwise() %>% 
+  mutate(
+    SNP1_bounds = list(
+      smoking_lung_cancer_2_trivariate_bounds %>% 
+        filter(SNP == SNP1) %>% 
+        select(SNP1_bivariate_lower = bivariate_lower, SNP1_bivariate_upper = bivariate_upper, 
+               SNP1_lower = lower, SNP1_upper = upper)
+    ),
+    SNP2_bounds = list(
+      smoking_lung_cancer_2_trivariate_bounds %>% 
+        filter(SNP == SNP2) %>% 
+        select(SNP2_bivariate_lower = bivariate_lower, SNP2_bivariate_upper = bivariate_upper,
+               SNP2_lower = lower, SNP2_upper = upper)
+    )
+  ) %>% 
+  ungroup() %>% 
+  unnest(cols = c(SNP1_bounds, SNP2_bounds))
+
+smoking_lung_cancer_2_both_bounds
+
+smoking_lung_cancer_2_intersection_bounds <- smoking_lung_cancer_2_both_bounds %>% 
+  rowwise() %>% 
+  mutate(intersection_lower = max(SNP1_lower, SNP2_lower),
+         intersection_upper = min(SNP1_upper, SNP2_upper),
+         bivariate_intersection_lower = max(SNP1_bivariate_lower, SNP2_bivariate_lower),
+         bivariate_intersection_upper = min(SNP1_bivariate_upper, SNP2_bivariate_upper),
+  ) %>% 
+  ungroup() %>% 
+  mutate(contains_zero = intersection_lower < 0 & intersection_upper > 0)
+```
+
+```{r fig.height = 14, fig.width = 10}
+smoking_lung_cancer_2_intersection_bounds_plot <- smoking_lung_cancer_2_intersection_bounds %>% 
+  group_by(SNP1, SNP2) %>% 
+  arrange(intersection_lower) %>% 
+  mutate(i = row_number()) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = i)) + 
+    geom_hline(aes(yintercept = bivariate_intersection_lower),
+               linetype = "dashed") +
+    geom_hline(aes(yintercept = bivariate_intersection_upper),
+               linetype = "dashed") +
+    geom_errorbar(aes(ymin = intersection_lower,
+                      ymax = intersection_upper,
+                      color = contains_zero),
+                  alpha = 0.7) +
+    scale_color_manual(values = c("red4", "grey50"),
+                       breaks = c(FALSE, TRUE)) + 
+    lims(y = c(-1, 1)) + 
+    geom_hline(yintercept = 0) +
+    facet_wrap(~SNP1 + SNP2,
+               labeller = label_both) +
+    theme_bw() +
+    coord_fixed(ratio = 500/2) + 
+    labs(title = "Intersections of Possible Trivariate Bounds from Bivariate Data",
+         subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
+                           "Outcome: Lung Cancer (id: ", lung_cancer_2_experiment$id, ")."))
+
+smoking_lung_cancer_2_intersection_bounds_plot
+```
+
+```{r}
+triplets_of_snps <- expand_grid(SNP1 = unique(smoking_lung_cancer_2_trivariate_bounds$SNP),
+                                SNP2 = unique(smoking_lung_cancer_2_trivariate_bounds$SNP),
+                                SNP3 = unique(smoking_lung_cancer_2_trivariate_bounds$SNP)) %>% 
+  sample_n(1000) %>% 
+  filter(SNP1 != SNP2,
+         SNP2 != SNP3,
+         SNP1 != SNP3) %>% 
+  rowwise() %>% 
+  summarize(SNPs = list(sort(c(SNP1, SNP2, SNP3)))) %>% 
+  filter(!duplicated(SNPs)) %>% 
+  mutate(SNPs = map(SNPs, ~tibble_row(SNP1 = .x[1], SNP2 = .x[2], SNP3 = .x[3]))) %>% 
+  unnest_wider(SNPs)
+
+set.seed(493637)
+
+chosen_triplets <- triplets_of_snps %>% 
+  sample_n(9)
+
+pander::pander(chosen_triplets)
+
+all_bounds <- chosen_triplets %>% 
+  rowwise() %>% 
+  mutate(
+    SNP1_bounds = list(
+      smoking_lung_cancer_2_trivariate_bounds %>% 
+        filter(SNP == SNP1) %>% 
+        select(SNP1_bivariate_lower = bivariate_lower, SNP1_bivariate_upper = bivariate_upper, 
+               SNP1_lower = lower, SNP1_upper = upper)
+    ),
+    SNP2_bounds = list(
+      smoking_lung_cancer_2_trivariate_bounds %>% 
+        filter(SNP == SNP2) %>% 
+        select(SNP2_bivariate_lower = bivariate_lower, SNP2_bivariate_upper = bivariate_upper,
+               SNP2_lower = lower, SNP2_upper = upper)
+    ),
+    SNP3_bounds = list(
+      smoking_lung_cancer_2_trivariate_bounds %>% 
+        filter(SNP == SNP3) %>% 
+        select(SNP3_bivariate_lower = bivariate_lower, SNP3_bivariate_upper = bivariate_upper,
+               SNP3_lower = lower, SNP3_upper = upper)
+    )
+  ) %>% 
+  ungroup() %>% 
+  unnest(cols = c(SNP1_bounds, SNP2_bounds, SNP3_bounds))
+
+intersection_bounds <- all_bounds %>% 
+  rowwise() %>% 
+  mutate(intersection_lower = max(SNP1_lower, SNP2_lower, SNP3_lower),
+         intersection_upper = min(SNP1_upper, SNP2_upper, SNP3_upper),
+         bivariate_intersection_lower = max(SNP1_bivariate_lower, SNP2_bivariate_lower, SNP3_bivariate_lower),
+         bivariate_intersection_upper = min(SNP1_bivariate_upper, SNP2_bivariate_upper, SNP3_bivariate_upper),
+  ) %>% 
+  ungroup() %>% 
+  mutate(contains_zero = intersection_lower < 0 & intersection_upper > 0)
+
+intersection_bounds %>% 
+  group_by(SNP1, SNP2, SNP3) %>% 
+  arrange(intersection_lower) %>% 
+  mutate(i = row_number()) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = i)) + 
+    geom_hline(aes(yintercept = bivariate_intersection_lower),
+               linetype = "dashed") +
+    geom_hline(aes(yintercept = bivariate_intersection_upper),
+               linetype = "dashed") +
+    geom_errorbar(aes(ymin = intersection_lower,
+                      ymax = intersection_upper,
+                      color = contains_zero),
+                  alpha = 0.7) +
+    scale_color_manual(values = c("red4", "grey50"),
+                       breaks = c(FALSE, TRUE)) + 
+    lims(y = c(-1, 1)) + 
+    geom_hline(yintercept = 0) +
+    facet_wrap(~SNP1 + SNP2 + SNP3,
+               labeller = label_both) +
+    coord_fixed(ratio = 500/2) + 
+    labs(title = "Intersections of Possible Trivariate Bounds from Bivariate Data",
+         subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
+                           "Outcome: Lung Cancer (id: ", lung_cancer_2_experiment$id, ")."))
+```
+
+# Lung Cancer 3
+
+In the following, we repeat the above analysis, but here we will use lung cancer as outcome instead of depression
+
+## Collect Data
+
+```{r}
+lung_cancer_3_experiment <- ao %>% filter(id == "ukb-d-40001_C349") # ukb-a-54
+lung_cancer_3_data <- extract_outcome_data(snps = smoking_instruments$SNP, outcomes = lung_cancer_3_experiment$id)
+
+smoking_lung_cancer_3_harmonized <- harmonise_data(smoking_instruments, lung_cancer_3_data) %>% as_tibble()
+```
+
+## Summarize to find probabilities
+
+```{r}
+smoking_lung_cancer_3_pop_probs <- tibble(regression = c("outcome", "exposure"),
+                                          p_outcome = c(lung_cancer_3_experiment  %$% { ncase / (ncase + ncontrol) },
+                                                        smoking_experiment %$% { ncase / (ncase + ncontrol) }))
+
+smoking_lung_cancer_3_prep_for_bounds <- smoking_lung_cancer_3_harmonized %>%
+  rowwise() %>% 
+  mutate(samplesize.exposure = smoking_experiment$ncase + smoking_experiment$ncontrol,
+         samplesize.outcome = lung_cancer_3_experiment$ncase + lung_cancer_3_experiment$ncontrol,
+         ave_eaf = weighted.mean(x = c_across(c(eaf.exposure, eaf.outcome)),
+                                 w = c_across(c(samplesize.exposure, samplesize.outcome)))) %>% 
+  select(SNP, contains("beta"), ave_eaf) %>% 
+  pivot_longer(contains("beta")) %>% 
+  separate(name, into = c("variable", "regression"), sep = "\\.") %>% 
+  pivot_wider(names_from = variable, values_from = value) %>% 
+  mutate(`P(Z = 2)` = (1 - ave_eaf)^2,
+         `P(Z = 1)` = 2*ave_eaf*(1 - ave_eaf),
+         `P(Z = 0)` = ave_eaf^2)
+
+smoking_lung_cancer_3_w_intercept <- smoking_lung_cancer_3_prep_for_bounds %>% 
+  left_join(smoking_lung_cancer_3_pop_probs) %>% 
+  rowwise() %>% 
+  mutate(find_intercept = list(find_intercept(beta1 = beta,
+                                              p_outcome = p_outcome,
+                                              pz = c(`P(Z = 0)`, `P(Z = 1)`, `P(Z = 2)`),
+                                              interval = c(-7,7))),
+         beta0 = find_intercept$root,
+         `thetas/gammas` = list(1/(1+exp(-beta0 - 0:2*beta))))
+```
+
+## Bound ACE using the bivariate data
+
+```{r}
+smoking_lung_cancer_3_bounds <- smoking_lung_cancer_3_w_intercept %>% 
+  select(-find_intercept, -beta0, -beta, -p_outcome, -ave_eaf) %>% 
+  mutate(regression = if_else(regression == "outcome", "gammas", "thetas")) %>% 
+  pivot_wider(names_from = regression, values_from = `thetas/gammas`) %>% 
+  rowwise() %>% 
+  mutate(bivariate_bounds = list(get_bounds(thetas = thetas, gammas = gammas, 
+                                            stop = FALSE, warning = FALSE)),
+         interval = list(bivariate_bounds$interval),
+         constraints_violated = bivariate_bounds$constraints_violated, 
+         bivariate_bounds_mono = list(get_bounds(thetas = thetas, gammas = gammas, 
+                                                 stop = FALSE, warning = FALSE,
+                                                 x_mono = TRUE)),
+         interval_mono = list(bivariate_bounds_mono$interval),
+         constraints_violated_mono = bivariate_bounds_mono$constraints_violated) %>% 
+  ungroup() %>% 
+  unnest_wider(col = interval_mono) %>% 
+  rename(upper_mono = upper, lower_mono = lower) %>% 
+  unnest_wider(interval)
+
+
+smoking_lung_cancer_3_bivariate_bounds <- smoking_lung_cancer_3_bounds %>% 
+  arrange(lower) %>% 
+  ggplot(aes(x = SNP)) +
+    geom_errorbar(aes(ymax = upper, ymin = lower)) +
+    theme_bw() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    scale_color_manual(values = c("red4", "grey50"),
+                       breaks = c(FALSE, TRUE)) + 
+    lims(y = c(-1, 1)) + 
+    labs(title = "Bivariate bounds",
+         subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
+                           "Outcome: Lung Cancer (id: ", lung_cancer_3_experiment$id, ")."))
+
+smoking_lung_cancer_3_bivariate_bounds
+```
+
+## Random Sampling of Potential Joint Distributions
+
+```{r}
+smoking_lung_cancer_3_filename <- paste0("samples_of_joints_", smoking_experiment$id, "_", lung_cancer_3_experiment$id, ".Rds")
+
+if(file.exists(here::here("vignettes_data/example_analyses", smoking_lung_cancer_3_filename))){
+  smoking_lung_cancer_3_samples_of_joints <- read_rds(here::here("vignettes_data/example_analyses", smoking_lung_cancer_3_filename))
+} else {
+  set.seed(7892312)
+  
+  smoking_lung_cancer_3_samples_of_joints <- smoking_lung_cancer_3_bounds %>% 
+    rowwise() %>% 
+    mutate(pot_covs = list(potential_covs(thetas = thetas, gammas = gammas)),
+           sample_joint = list(sample_joint_probs(pot_covs, n = 500, return_bounds = TRUE)))
+  
+  write_rds(smoking_lung_cancer_3_samples_of_joints, here::here("vignettes_data/example_analyses", smoking_lung_cancer_3_filename))
+}
+
+smoking_lung_cancer_3_trivariate_bounds <- smoking_lung_cancer_3_samples_of_joints %>% 
+  ungroup() %>% 
+  select(SNP, bivariate_lower = lower, bivariate_upper = upper, sample_joint) %>% 
+  unnest(sample_joint) %>% 
+  unnest(joint) %>% 
+  unnest_wider(bounds) %>% 
+  mutate(contains_zero = lower < 0 & upper > 0)
+
+smoking_lung_cancer_3_individual_SNPs_plot <- smoking_lung_cancer_3_trivariate_bounds %>% 
+  group_by(SNP) %>% 
+  arrange(lower) %>% 
+  mutate(id = row_number()) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = id)) +
+    geom_hline(aes(yintercept = bivariate_lower),
+               linetype = "dashed") +  
+    geom_hline(aes(yintercept = bivariate_upper),
+               linetype = "dashed") +
+    geom_hline(yintercept = 0) +
+    geom_errorbar(aes(ymin = lower,
+                      ymax = upper,
+                      color = contains_zero)) +
+    scale_color_manual(values = c("red4", "grey50"),
+                       breaks = c(FALSE, TRUE)) + 
+    lims(y = c(-1, 1)) + 
+    coord_fixed(ratio = 500/2) + 
+    facet_wrap(~SNP, nrow = 7) +
+    labs(title = "Possible Trivariate Bounds from Bivariate Data",
+         subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
+                           "Outcome: Lung Cancer (id: ", lung_cancer_3_experiment$id, ")."))
+```
+
+```{r fig.height = 8, fig.width = 13}
+smoking_lung_cancer_3_individual_SNPs_plot
+```
+
+### Monotonicity Assumed
+
+```{r fig.height = 8, fig.width = 13, eval = FALSE}
+smoking_lung_cancer_3_filename_mono <- paste0("samples_of_joints_mono_", smoking_experiment$id, "_", lung_cancer_3_experiment$id, ".Rds")
+if(file.exists(here::here("vignettes_data/example_analyses", smoking_lung_cancer_3_filename_mono))){
+  smoking_lung_cancer_3_samples_of_joints_mono <- read_rds(here::here("vignettes_data/example_analyses",
+                                                                   smoking_lung_cancer_3_filename_mono))
+} else {
+  set.seed(6925896)
+  smoking_lung_cancer_3_samples_of_joints_mono <- smoking_lung_cancer_3_bounds %>% 
+    filter(!constraints_violated_mono) %>% 
+    mutate(i = row_number()) %>% 
+    rowwise() %>% 
+    mutate(pot_covs = list(potential_covs(thetas = thetas, gammas = gammas, x_mono = TRUE)),
+           sample_joint = list(sample_joint_probs(pot_covs, n = 500, return_bounds = TRUE,
+                                                  x_mono = TRUE, print_progress = FALSE,
+                                                  print_as_progress = NULL)))
+  
+  write_rds(smoking_lung_cancer_3_samples_of_joints_mono,
+            here::here("vignettes_data/example_analyses",
+                       smoking_lung_cancer_3_filename_mono))
+}
+
+smoking_lung_cancer_3_trivariate_mono_bounds <- smoking_lung_cancer_3_samples_of_joints_mono %>% 
+  ungroup() %>% 
+  select(SNP, bivariate_lower = lower_mono, bivariate_upper = upper_mono, sample_joint) %>% 
+  unnest(sample_joint) %>% 
+  unnest(joint) %>% 
+  unnest_wider(bounds) %>% 
+  mutate(contains_zero = lower < 0 & upper > 0)
+
+smoking_lung_cancer_3_individual_SNPs_mono_plot <- smoking_lung_cancer_3_trivariate_mono_bounds %>% 
+  group_by(SNP) %>% 
+  arrange(lower) %>% 
+  mutate(id = row_number()) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = id)) +
+    geom_hline(aes(yintercept = bivariate_lower),
+               linetype = "dashed") +  
+    geom_hline(aes(yintercept = bivariate_upper),
+               linetype = "dashed") +
+    geom_hline(yintercept = 0) +
+    geom_errorbar(aes(ymin = lower,
+                      ymax = upper,
+                      color = contains_zero)) +
+    scale_color_manual(values = c("red4", "grey50"),
+                       breaks = c(FALSE, TRUE)) + 
+    lims(y = c(-1, 1)) + 
+    coord_fixed(ratio = 500/2) + 
+    facet_wrap(~SNP, nrow = 7) +
+    labs(title = "Possible Trivariate Bounds from Bivariate Data assuming Monotonicity",
+         subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
+                           "Outcome: Lung Cancer (id: ", lung_cancer_3_experiment$id, ")."))
+
+smoking_lung_cancer_3_individual_SNPs_mono_plot
+```
+
+## Intersections of Bounds from Randomly Sampled Joint Distributions
+
+```{r}
+smoking_lung_cancer_3_pairs_of_snps <- expand_grid(SNP1 = unique(smoking_lung_cancer_3_trivariate_bounds$SNP),
+                                                SNP2 = unique(smoking_lung_cancer_3_trivariate_bounds$SNP)) %>% 
+  filter(SNP1 != SNP2) %>% 
+  rowwise() %>% 
+  summarize(SNPs = list(sort(c(SNP1, SNP2)))) %>% 
+  filter(duplicated(SNPs)) %>% 
+  mutate(SNPs = map(SNPs, ~tibble_row(SNP1 = .x[1], SNP2 = .x[2]))) %>% 
+  unnest_wider(SNPs)
+
+set.seed(493637)
+
+smoking_lung_cancer_3_chosen_pairs <- smoking_lung_cancer_3_pairs_of_snps %>% 
+  sample_n(9)
+
+pander::pander(smoking_lung_cancer_3_chosen_pairs)
+
+smoking_lung_cancer_3_both_bounds <- smoking_lung_cancer_3_chosen_pairs %>% 
+  rowwise() %>% 
+  mutate(
+    SNP1_bounds = list(
+      smoking_lung_cancer_3_trivariate_bounds %>% 
+        filter(SNP == SNP1) %>% 
+        select(SNP1_bivariate_lower = bivariate_lower, SNP1_bivariate_upper = bivariate_upper, 
+               SNP1_lower = lower, SNP1_upper = upper)
+    ),
+    SNP2_bounds = list(
+      smoking_lung_cancer_3_trivariate_bounds %>% 
+        filter(SNP == SNP2) %>% 
+        select(SNP2_bivariate_lower = bivariate_lower, SNP2_bivariate_upper = bivariate_upper,
+               SNP2_lower = lower, SNP2_upper = upper)
+    )
+  ) %>% 
+  ungroup() %>% 
+  unnest(cols = c(SNP1_bounds, SNP2_bounds))
+
+smoking_lung_cancer_3_both_bounds
+
+smoking_lung_cancer_3_intersection_bounds <- smoking_lung_cancer_3_both_bounds %>% 
+  rowwise() %>% 
+  mutate(intersection_lower = max(SNP1_lower, SNP2_lower),
+         intersection_upper = min(SNP1_upper, SNP2_upper),
+         bivariate_intersection_lower = max(SNP1_bivariate_lower, SNP2_bivariate_lower),
+         bivariate_intersection_upper = min(SNP1_bivariate_upper, SNP2_bivariate_upper),
+  ) %>% 
+  ungroup() %>% 
+  mutate(contains_zero = intersection_lower < 0 & intersection_upper > 0)
+```
+
+```{r fig.height = 14, fig.width = 10}
+smoking_lung_cancer_3_intersection_bounds_plot <- smoking_lung_cancer_3_intersection_bounds %>% 
+  group_by(SNP1, SNP2) %>% 
+  arrange(intersection_lower) %>% 
+  mutate(i = row_number()) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = i)) + 
+    geom_hline(aes(yintercept = bivariate_intersection_lower),
+               linetype = "dashed") +
+    geom_hline(aes(yintercept = bivariate_intersection_upper),
+               linetype = "dashed") +
+    geom_errorbar(aes(ymin = intersection_lower,
+                      ymax = intersection_upper,
+                      color = contains_zero),
+                  alpha = 0.7) +
+    scale_color_manual(values = c("red4", "grey50"),
+                       breaks = c(FALSE, TRUE)) + 
+    lims(y = c(-1, 1)) + 
+    geom_hline(yintercept = 0) +
+    facet_wrap(~SNP1 + SNP2,
+               labeller = label_both) +
+    coord_fixed(ratio = 500/2) + 
+    labs(title = "Intersections of Possible Trivariate Bounds from Bivariate Data",
+         subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
+                           "Outcome: Lung Cancer (id: ", lung_cancer_3_experiment$id, ")."))
+
+smoking_lung_cancer_3_intersection_bounds_plot
+```
+
+# Lung Cancer 4
+
+In the following, we repeat the above analysis, but here we will use lung cancer as outcome instead of depression
+
+## Collect Data
+
+```{r}
+lung_cancer_4_experiment <- ao %>% filter(id == "ukb-a-54")
+lung_cancer_4_data <- extract_outcome_data(snps = smoking_instruments$SNP, outcomes = lung_cancer_4_experiment$id)
+
+smoking_lung_cancer_4_harmonized <- harmonise_data(smoking_instruments, lung_cancer_4_data) %>% as_tibble()
+```
+
+## Summarize to find probabilities
+
+```{r}
+smoking_lung_cancer_4_pop_probs <- tibble(regression = c("outcome", "exposure"),
+                                          p_outcome = c(lung_cancer_4_experiment  %$% { ncase / (ncase + ncontrol) },
+                                                        smoking_experiment %$% { ncase / (ncase + ncontrol) }))
+
+smoking_lung_cancer_4_prep_for_bounds <- smoking_lung_cancer_4_harmonized %>%
+  rowwise() %>% 
+  mutate(samplesize.exposure = smoking_experiment$ncase + smoking_experiment$ncontrol,
+         samplesize.outcome = lung_cancer_4_experiment$ncase + lung_cancer_4_experiment$ncontrol,
+         ave_eaf = weighted.mean(x = c_across(c(eaf.exposure, eaf.outcome)),
+                                 w = c_across(c(samplesize.exposure, samplesize.outcome)))) %>% 
+  select(SNP, contains("beta"), ave_eaf) %>% 
+  pivot_longer(contains("beta")) %>% 
+  separate(name, into = c("variable", "regression"), sep = "\\.") %>% 
+  pivot_wider(names_from = variable, values_from = value) %>% 
+  mutate(`P(Z = 2)` = (1 - ave_eaf)^2,
+         `P(Z = 1)` = 2*ave_eaf*(1 - ave_eaf),
+         `P(Z = 0)` = ave_eaf^2)
+
+smoking_lung_cancer_4_w_intercept <- smoking_lung_cancer_4_prep_for_bounds %>% 
+  left_join(smoking_lung_cancer_4_pop_probs) %>% 
+  rowwise() %>% 
+  mutate(find_intercept = list(find_intercept(beta1 = beta,
+                                              p_outcome = p_outcome,
+                                              pz = c(`P(Z = 0)`, `P(Z = 1)`, `P(Z = 2)`),
+                                              interval = c(-10,10))),
+         beta0 = find_intercept$root,
+         `thetas/gammas` = list(1/(1+exp(-beta0 - 0:2*beta))))
+```
+
+## Bound ACE using the bivariate data
+
+```{r}
+smoking_lung_cancer_4_bounds <- smoking_lung_cancer_4_w_intercept %>% 
+  select(-find_intercept, -beta0, -beta, -p_outcome, -ave_eaf) %>% 
+  mutate(regression = if_else(regression == "outcome", "gammas", "thetas")) %>% 
+  pivot_wider(names_from = regression, values_from = `thetas/gammas`) %>% 
+  rowwise() %>% 
+  mutate(bivariate_bounds = list(get_bounds(thetas = thetas, gammas = gammas, 
+                                            stop = FALSE, warning = FALSE)),
+         interval = list(bivariate_bounds$interval),
+         constraints_violated = bivariate_bounds$constraints_violated, 
+         bivariate_bounds_mono = list(get_bounds(thetas = thetas, gammas = gammas, 
+                                                 stop = FALSE, warning = FALSE,
+                                                 x_mono = TRUE)),
+         interval_mono = list(bivariate_bounds_mono$interval),
+         constraints_violated_mono = bivariate_bounds_mono$constraints_violated) %>% 
+  ungroup() %>% 
+  unnest_wider(col = interval_mono) %>% 
+  rename(upper_mono = upper, lower_mono = lower) %>% 
+  unnest_wider(interval)
+
+
+smoking_lung_cancer_4_bivariate_bounds <- smoking_lung_cancer_4_bounds %>% 
+  arrange(lower) %>% 
+  ggplot(aes(x = SNP)) +
+    geom_errorbar(aes(ymax = upper, ymin = lower)) +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    scale_color_manual(values = c("red4", "grey50"),
+                       breaks = c(FALSE, TRUE)) + 
+    lims(y = c(-1, 1)) + 
+    labs(title = "Bivariate bounds",
+         subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
+                           "Outcome: Lung Cancer (id: ", lung_cancer_4_experiment$id, ")."))
+
+smoking_lung_cancer_4_bivariate_bounds
+```
+
+## Random Sampling of Potential Joint Distributions
+
+```{r}
+smoking_lung_cancer_4_filename <- paste0("samples_of_joints_", smoking_experiment$id, "_", lung_cancer_4_experiment$id, ".Rds")
+
+if(file.exists(here::here("vignettes_data/example_analyses", smoking_lung_cancer_4_filename))){
+  smoking_lung_cancer_4_samples_of_joints <- read_rds(here::here("vignettes_data/example_analyses", smoking_lung_cancer_4_filename))
+} else {
+  set.seed(7892312)
+  
+  smoking_lung_cancer_4_samples_of_joints <- smoking_lung_cancer_4_bounds %>% 
+    group_by(SNP) %>% 
+    mutate(SNP_number = cur_group_id()) %>% 
+    rowwise() %>% 
+    mutate(pot_covs = list(potential_covs(thetas = thetas, gammas = gammas)),
+           sample_joint = list(sample_joint_probs(pot_covs, n = 100, return_bounds = TRUE,
+                                                  print_progress = FALSE,
+                                                  print_as_progress = SNP_number)))
+  
+  write_rds(smoking_lung_cancer_4_samples_of_joints, 
+            here::here("vignettes_data/example_analyses", smoking_lung_cancer_4_filename))
+}
+
+smoking_lung_cancer_4_trivariate_bounds <- smoking_lung_cancer_4_samples_of_joints %>% 
+  ungroup() %>% 
+  select(SNP, bivariate_lower = lower, bivariate_upper = upper, sample_joint) %>% 
+  unnest(sample_joint) %>% 
+  unnest(joint) %>% 
+  unnest_wider(bounds) %>% 
+  mutate(contains_zero = lower < 0 & upper > 0)
+
+smoking_lung_cancer_4_individual_SNPs_plot <- smoking_lung_cancer_4_trivariate_bounds %>% 
+  group_by(SNP) %>% 
+  arrange(lower) %>% 
+  mutate(id = row_number()) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = id)) +
+    geom_hline(aes(yintercept = bivariate_lower),
+               linetype = "dashed") +  
+    geom_hline(aes(yintercept = bivariate_upper),
+               linetype = "dashed") +
+    geom_hline(yintercept = 0) +
+    geom_errorbar(aes(ymin = lower,
+                      ymax = upper,
+                      color = contains_zero)) +
+    scale_color_manual(values = c("red4", "grey50"),
+                       breaks = c(FALSE, TRUE)) + 
+    coord_fixed(ratio = 500/2) + 
+    lims(y = c(-1, 1)) + 
+    facet_wrap(~SNP, nrow = 7) +
+    labs(title = "Possible Trivariate Bounds from Bivariate Data",
+         subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
+                           "Outcome: Lung Cancer (id: ", lung_cancer_4_experiment$id, ")."))
+```
+
+```{r fig.height = 8, fig.width = 13}
+smoking_lung_cancer_4_individual_SNPs_plot
+```
+
+## Intersections of Bounds from Randomly Sampled Joint Distributions
+
+```{r}
+smoking_lung_cancer_4_pairs_of_snps <- expand_grid(SNP1 = unique(smoking_lung_cancer_4_trivariate_bounds$SNP),
+                                                SNP2 = unique(smoking_lung_cancer_4_trivariate_bounds$SNP)) %>% 
+  filter(SNP1 != SNP2) %>% 
+  rowwise() %>% 
+  summarize(SNPs = list(sort(c(SNP1, SNP2)))) %>% 
+  filter(duplicated(SNPs)) %>% 
+  mutate(SNPs = map(SNPs, ~tibble_row(SNP1 = .x[1], SNP2 = .x[2]))) %>% 
+  unnest_wider(SNPs)
+
+set.seed(493637)
+
+smoking_lung_cancer_4_chosen_pairs <- smoking_lung_cancer_4_pairs_of_snps %>% 
+  sample_n(9)
+
+pander::pander(smoking_lung_cancer_4_chosen_pairs)
+
+smoking_lung_cancer_4_both_bounds <- smoking_lung_cancer_4_chosen_pairs %>% 
+  rowwise() %>% 
+  mutate(
+    SNP1_bounds = list(
+      smoking_lung_cancer_4_trivariate_bounds %>% 
+        filter(SNP == SNP1) %>% 
+        select(SNP1_bivariate_lower = bivariate_lower, SNP1_bivariate_upper = bivariate_upper, 
+               SNP1_lower = lower, SNP1_upper = upper)
+    ),
+    SNP2_bounds = list(
+      smoking_lung_cancer_4_trivariate_bounds %>% 
+        filter(SNP == SNP2) %>% 
+        select(SNP2_bivariate_lower = bivariate_lower, SNP2_bivariate_upper = bivariate_upper,
+               SNP2_lower = lower, SNP2_upper = upper)
+    )
+  ) %>% 
+  ungroup() %>% 
+  unnest(cols = c(SNP1_bounds, SNP2_bounds))
+
+smoking_lung_cancer_4_both_bounds
+
+smoking_lung_cancer_4_intersection_bounds <- smoking_lung_cancer_4_both_bounds %>% 
+  rowwise() %>% 
+  mutate(intersection_lower = max(SNP1_lower, SNP2_lower),
+         intersection_upper = min(SNP1_upper, SNP2_upper),
+         bivariate_intersection_lower = max(SNP1_bivariate_lower, SNP2_bivariate_lower),
+         bivariate_intersection_upper = min(SNP1_bivariate_upper, SNP2_bivariate_upper),
+  ) %>% 
+  ungroup() %>% 
+  mutate(contains_zero = intersection_lower < 0 & intersection_upper > 0)
+```
+
+```{r fig.height = 14, fig.width = 10}
+smoking_lung_cancer_4_intersection_bounds_plot <- smoking_lung_cancer_4_intersection_bounds %>% 
+  group_by(SNP1, SNP2) %>% 
+  arrange(intersection_lower) %>% 
+  mutate(i = row_number()) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = i)) + 
+    geom_hline(aes(yintercept = bivariate_intersection_lower),
+               linetype = "dashed") +
+    geom_hline(aes(yintercept = bivariate_intersection_upper),
+               linetype = "dashed") +
+    geom_errorbar(aes(ymin = intersection_lower,
+                      ymax = intersection_upper,
+                      color = contains_zero),
+                  alpha = 0.7) +
+    scale_color_manual(values = c("red4", "grey50"),
+                       breaks = c(FALSE, TRUE)) + 
+    lims(y = c(-1, 1)) + 
+    coord_fixed(ratio = 500/2) + 
+    geom_hline(yintercept = 0) +
+    facet_wrap(~SNP1 + SNP2,
+               labeller = label_both) +
+    theme_bw() +
+    labs(title = "Intersections of Possible Trivariate Bounds from Bivariate Data",
+         subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
+                           "Outcome: Lung Cancer (id: ", lung_cancer_4_experiment$id, ")."))
+
+smoking_lung_cancer_4_intersection_bounds_plot
+```
+
+
+# Summary of all probabilities
+
+```{r}
+depression_probs <- smoking_depression_bounds %>% 
+  select(SNP, thetas, gammas) %>% 
+  mutate(thetas = map(thetas, setNames, nm = paste0("P(exposure | Z = ", 0:2, ")")),
+         gammas = map(gammas, setNames, nm = paste0("P(outcome | Z = ", 0:2, ")")),
+         dataset = depression_experiment$id) %>% 
+  unnest_wider(thetas) %>% 
+  unnest_wider(gammas) %>% 
+  pivot_longer(cols = -c(SNP, dataset))
+
+lung_cancer_probs <- smoking_lung_cancer_bounds %>% 
+  select(SNP, thetas, gammas) %>% 
+  mutate(thetas = map(thetas, setNames, nm = paste0("P(exposure | Z = ", 0:2, ")")),
+         gammas = map(gammas, setNames, nm = paste0("P(outcome | Z = ", 0:2, ")")),
+         dataset = lung_cancer_experiment$id) %>% 
+  unnest_wider(thetas) %>% 
+  unnest_wider(gammas) %>% 
+  pivot_longer(cols = -c(SNP, dataset))
+
+lung_cancer_2_probs <- smoking_lung_cancer_2_bounds %>% 
+  select(SNP, thetas, gammas) %>% 
+  mutate(thetas = map(thetas, setNames, nm = paste0("P(exposure | Z = ", 0:2, ")")),
+         gammas = map(gammas, setNames, nm = paste0("P(outcome | Z = ", 0:2, ")")),
+         dataset = lung_cancer_2_experiment$id) %>% 
+  unnest_wider(thetas) %>% 
+  unnest_wider(gammas) %>% 
+  pivot_longer(cols = -c(SNP, dataset))
+
+lung_cancer_3_probs <- smoking_lung_cancer_3_bounds %>% 
+  select(SNP, thetas, gammas) %>% 
+  mutate(thetas = map(thetas, setNames, nm = paste0("P(exposure | Z = ", 0:2, ")")),
+         gammas = map(gammas, setNames, nm = paste0("P(outcome | Z = ", 0:2, ")")),
+         dataset = lung_cancer_3_experiment$id) %>% 
+  unnest_wider(thetas) %>% 
+  unnest_wider(gammas) %>% 
+  pivot_longer(cols = -c(SNP, dataset))
+
+lung_cancer_4_probs <- smoking_lung_cancer_4_bounds %>% 
+  select(SNP, thetas, gammas) %>% 
+  mutate(thetas = map(thetas, setNames, nm = paste0("P(exposure | Z = ", 0:2, ")")),
+         gammas = map(gammas, setNames, nm = paste0("P(outcome | Z = ", 0:2, ")")),
+         dataset = lung_cancer_4_experiment$id) %>% 
+  unnest_wider(thetas) %>% 
+  unnest_wider(gammas) %>% 
+  pivot_longer(cols = -c(SNP, dataset))
+
+  
+all_datasets_probs <- bind_rows(
+  depression_probs,
+  lung_cancer_probs,
+  lung_cancer_2_probs,
+  lung_cancer_3_probs,
+  lung_cancer_4_probs
+)
+
+
+ggplot(all_datasets_probs,
+       aes(x = dataset, y = value)) + 
+  geom_boxplot(coef = Inf) + 
+  facet_wrap(~name, scales = "free") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+all_datasets_probs %>% 
+  mutate(effect = unlist(str_extract_all(name, pattern = "exposure|outcome"))) %>% 
+  group_by(dataset, effect, SNP) %>% 
+  summarize(strength = max(value) - min(value),
+            .groups = "drop") %>% 
+  ggplot(aes(x = dataset, y = strength)) + 
+    geom_boxplot() + 
+    facet_grid(effect ~ .,
+               scales = "free")
+```
+
+
+# Save Plots and Experiment Information
+
+Save plots for later use.
+
+```{r}
+write_csv(x = 
+            bind_rows(
+              smoking_experiment,
+              depression_experiment,
+              lung_cancer_experiment,
+              lung_cancer_2_experiment,
+              lung_cancer_3_experiment,
+              lung_cancer_4_experiment
+            ),
+          path = here::here("vignettes_data/example_analyses/experiment_info.csv")
+)
+
+ggsave(
+  plot = smoking_depression_bivariate_bounds,
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_depression_bivaraite_bounds_", smoking_experiment$id, "_", depression_experiment$id,".png")),
+  dpi = 300
+)
+
+ggsave(
+  plot = smoking_depression_individual_SNPs_plot,
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_depression_individual_SNPs_plot_", smoking_experiment$id, "_", depression_experiment$id,".png")),
+  height = 10, width = 14, dpi = 300
+)
+
+ggsave(
+  plot = strength_histogram,
+  filename = here::here("figures/example_analyses",
+                        "strength_histogram.png"),
+  dpi = 300, width = 14, height = 7
+)
+
+ggsave(
+  plot = smoking_depression_individual_SNPs_mono_plot,
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_depression_individual_SNPs_mono_plot_", smoking_experiment$id, "_", depression_experiment$id,".png")),
+  height = 10, width = 14, 
+  dpi = 300
+)
+
+ggsave(
+  plot = smoking_depression_intersection_bounds_plot,
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_depression_intersection_bounds_plot_", smoking_experiment$id, "_", depression_experiment$id,".png")),
+  height = 14, width = 10, 
+  dpi = 300
+)
+
+ggsave(
+  plot = smoking_lung_cancer_bivariate_bounds,
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_lung_cancer_bivaraite_bounds_", smoking_experiment$id, "_", lung_cancer_experiment$id,".png")), 
+  dpi = 300
+)
+
+ggsave(
+  plot = smoking_lung_cancer_individual_SNPs_plot,
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_lung_cancer_individual_SNPs_plot_", smoking_experiment$id, "_", lung_cancer_experiment$id,".png")),
+  height = 10, width = 14, 
+  dpi = 300
+)
+
+ggsave(
+  plot = smoking_lung_cancer_individual_SNPs_mono_plot,
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_lung_cancer_individual_SNPs_mono_plot_", smoking_experiment$id, "_", lung_cancer_experiment$id,".png")),
+  height = 10, width = 14, 
+  dpi = 300
+)
+
+ggsave(
+  plot = smoking_lung_cancer_intersection_bounds_plot,
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_lung_cancer_intersection_bounds_plot_", smoking_experiment$id, "_", lung_cancer_experiment$id,".png")),
+  height = 14, width = 10, 
+  dpi = 300
+)
+
+
+ggsave(
+  plot = smoking_lung_cancer_2_bivariate_bounds,
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_lung_cancer_2_bivaraite_bounds_", smoking_experiment$id, "_", lung_cancer_2_experiment$id,".png")), 
+  dpi = 300
+)
+
+ggsave(
+  plot = smoking_lung_cancer_2_individual_SNPs_plot,
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_lung_cancer_2_individual_SNPs_plot_", smoking_experiment$id, "_", lung_cancer_2_experiment$id,".png")),
+  height = 10, width = 14, 
+  dpi = 300
+)
+
+ggsave(
+  plot = smoking_lung_cancer_2_individual_SNPs_mono_plot,
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_lung_cancer_2_individual_SNPs_mono_plot_", smoking_experiment$id, "_", lung_cancer_2_experiment$id,".png")),
+  height = 10, width = 14, 
+  dpi = 300
+)
+
+ggsave(
+  plot = smoking_lung_cancer_2_intersection_bounds_plot,
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_lung_cancer_2_intersection_bounds_plot_", smoking_experiment$id, "_", lung_cancer_2_experiment$id,".png")),
+  height = 14, width = 10, 
+  dpi = 300
+)
+
+ggsave(
+  plot = smoking_lung_cancer_3_bivariate_bounds,
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_lung_cancer_3_bivaraite_bounds_", smoking_experiment$id, "_", lung_cancer_3_experiment$id,".png")), 
+  dpi = 300
+)
+
+ggsave(
+  plot = smoking_lung_cancer_3_individual_SNPs_plot,
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_lung_cancer_3_individual_SNPs_plot_", smoking_experiment$id, "_", lung_cancer_3_experiment$id,".png")),
+  height = 10, width = 14, 
+  dpi = 300
+)
+
+
+ggsave(
+  plot = smoking_lung_cancer_3_intersection_bounds_plot,
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_lung_cancer_3_intersection_bounds_plot_", smoking_experiment$id, "_", lung_cancer_3_experiment$id,".png")),
+  height = 14, width = 10, 
+  dpi = 300
+)
+
+
+ggsave(
+  plot = smoking_lung_cancer_4_bivariate_bounds,
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_lung_cancer_4_bivaraite_bounds_", smoking_experiment$id, "_", lung_cancer_4_experiment$id,".png")), 
+  dpi = 300
+)
+
+ggsave(
+  plot = smoking_lung_cancer_4_individual_SNPs_plot,
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_lung_cancer_4_individual_SNPs_plot_", smoking_experiment$id, "_", lung_cancer_4_experiment$id,".png")),
+  height = 10, width = 14, 
+  dpi = 300
+)
+
+
+ggsave(
+  plot = smoking_lung_cancer_4_intersection_bounds_plot,
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_lung_cancer_4_intersection_bounds_plot_", smoking_experiment$id, "_", lung_cancer_4_experiment$id,".png")),
+  height = 14, width = 10, 
+  dpi = 300
+)
+
+```
+
+
+
+
+
+
+```{r}
+triplets_of_snps <- expand_grid(SNP1 = unique(smoking_lung_cancer_2_trivariate_bounds$SNP),
+                                SNP2 = unique(smoking_lung_cancer_2_trivariate_bounds$SNP),
+                                SNP3 = unique(smoking_lung_cancer_2_trivariate_bounds$SNP)) %>% 
+  sample_n(1000) %>% 
+  filter(SNP1 != SNP2,
+         SNP2 != SNP3,
+         SNP1 != SNP3) %>% 
+  rowwise() %>% 
+  summarize(SNPs = list(sort(c(SNP1, SNP2, SNP3)))) %>% 
+  filter(!duplicated(SNPs)) %>% 
+  mutate(SNPs = map(SNPs, ~tibble_row(SNP1 = .x[1], SNP2 = .x[2], SNP3 = .x[3]))) %>% 
+  unnest_wider(SNPs)
+
+set.seed(493637)
+
+chosen_triplets <- triplets_of_snps %>% 
+  sample_n(9)
+
+pander::pander(chosen_triplets)
+
+all_bounds <- chosen_triplets %>% 
+  rowwise() %>% 
+  mutate(
+    SNP1_bounds = list(
+      smoking_lung_cancer_2_trivariate_bounds %>% 
+        filter(SNP == SNP1) %>% 
+        select(SNP1_bivariate_lower = bivariate_lower, SNP1_bivariate_upper = bivariate_upper, 
+               SNP1_lower = lower, SNP1_upper = upper)
+    ),
+    SNP2_bounds = list(
+      smoking_lung_cancer_2_trivariate_bounds %>% 
+        filter(SNP == SNP2) %>% 
+        select(SNP2_bivariate_lower = bivariate_lower, SNP2_bivariate_upper = bivariate_upper,
+               SNP2_lower = lower, SNP2_upper = upper)
+    ),
+    SNP3_bounds = list(
+      smoking_lung_cancer_2_trivariate_bounds %>% 
+        filter(SNP == SNP3) %>% 
+        select(SNP3_bivariate_lower = bivariate_lower, SNP3_bivariate_upper = bivariate_upper,
+               SNP3_lower = lower, SNP3_upper = upper)
+    )
+  ) %>% 
+  ungroup() %>% 
+  unnest(cols = c(SNP1_bounds, SNP2_bounds, SNP3_bounds))
+
+intersection_bounds <- all_bounds %>% 
+  rowwise() %>% 
+  mutate(intersection_lower = max(SNP1_lower, SNP2_lower, SNP3_lower),
+         intersection_upper = min(SNP1_upper, SNP2_upper, SNP3_upper),
+         bivariate_intersection_lower = max(SNP1_bivariate_lower, SNP2_bivariate_lower, SNP3_bivariate_lower),
+         bivariate_intersection_upper = min(SNP1_bivariate_upper, SNP2_bivariate_upper, SNP3_bivariate_upper),
+  ) %>% 
+  ungroup() %>% 
+  mutate(contains_zero = intersection_lower < 0 & intersection_upper > 0)
+
+intersection_bounds %>% 
+  group_by(SNP1, SNP2, SNP3) %>% 
+  arrange(intersection_lower) %>% 
+  mutate(i = row_number()) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = i)) + 
+    geom_hline(aes(yintercept = bivariate_intersection_lower),
+               linetype = "dashed") +
+    geom_hline(aes(yintercept = bivariate_intersection_upper),
+               linetype = "dashed") +
+    geom_errorbar(aes(ymin = intersection_lower,
+                      ymax = intersection_upper,
+                      color = contains_zero),
+                  alpha = 0.7) +
+    scale_color_manual(values = c("red4", "grey50"),
+                       breaks = c(FALSE, TRUE)) + 
+    geom_hline(yintercept = 0) +
+    facet_wrap(~SNP1 + SNP2 + SNP3,
+               labeller = label_both) +
+    theme_bw()# +
+    labs(title = "Intersections of Possible Trivariate Bounds from Bivariate Data",
+         subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
+                           "Outcome: Lung Cancer (id: ", lung_cancer_2_experiment$id, ")."))
+```
+

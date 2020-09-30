@@ -43,6 +43,8 @@
 #' @param depIVs_on_Y numeric vector specifying the effects of the dependent IVs on Y (i.e. \eqn{\beta_{D1}} and \eqn{\beta_{D2}}).
 #' @param dep_probs numeric vector. The length specifies the number of categories for the IVs, and the values give \eqn{P(Z_i = z)}.
 #'
+#' @import stringr
+#'
 #' @export
 simulate_data <- function(sample_size = 10000,
                           IVs_ps = list(c(0.5, 0.5), c(0.5, 0.5)),

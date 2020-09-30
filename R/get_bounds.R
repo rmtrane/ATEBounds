@@ -121,6 +121,14 @@ get_bounds <- function(gammas = NULL, thetas = NULL,
                         width = min(combine_bounds$upper_bounds) -
                           max(combine_bounds$lower_bounds))
 
+  if (actual_bounds$interval$upper < actual_bounds$interval$lower & stop){
+    stop("Upper bound is smaller than lower bound.")
+  }
+
+  if (actual_bounds$interval$upper < actual_bounds$interval$lower & warning & !stop){
+    warning("Upper bound is smaller than lower bound.")
+  }
+
   output <- c(actual_bounds, combine_bounds,
               list(assumptions = c(x_mono = x_mono, y_mono = y_mono)),
               constraints_violated = sum(constraints_violated) > 0)

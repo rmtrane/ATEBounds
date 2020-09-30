@@ -1,0 +1,154 @@
+---
+output: rmarkdown::html_vignette
+---
+
+```{r}
+library(tidyverse)
+library(ACEBounds)
+
+pZ1 <- 1/3
+
+if(file.exists(here::here("vignettes_data", "many_IVs_from_logistic_models.Rds"))){
+  many_IVs <- read_rds(here::here("vignettes_data", "many_IVs_from_logistic_models.Rds"))
+} else {
+  set.seed(4700075)
+
+  many_IVs <- expand_grid(i = 1:100,
+                        Z_on_X = c(0.1, 0.3, 1, 3),
+                        nIVs = c(2, 1:5*10)) %>%
+    rowwise() %>%
+    mutate(sim_data = list(simulate_data(sample_size = 1000,
+                                         indIVs_on_X = rep(Z_on_X, nIVs),
+                                         IVs_ps = rep(list(c(1, 1, 1)/3), nIVs),
+                                         U = distributions3::Bernoulli(0.5),
+                                         X_intercept = -Z_on_X*nIVs*pZ1, U_on_X = 0.2,
+                                         Y_intercept = -0.5, X_on_Y = 1, U_on_Y = 0.5)))
+
+  write_rds(many_IVs, here::here("vignettes_data", "many_IVs_from_logistic_models.Rds"))
+}
+
+if(file.exists(here::here("vignettes_data", "all_bounds_many_IVs_from_logistic_models.Rds"))){
+  all_bounds <- read_rds(here::here("vignettes_data", "all_bounds_many_IVs_from_logistic_models.Rds"))
+} else {
+  
+  all_bounds <- many_IVs %>%
+    ungroup() %>%
+    mutate(simulated_data = map(sim_data, "simulated_data"),
+           summary_probs_and_bounds = map(simulated_data,
+                                          function(x){
+                                            Zs <- colnames(x)[str_sub(colnames(x), end = 1) == "Z"]
+                                            
+                                            output <- tibble(Z = Zs) %>% 
+                                              mutate(sum_probs = map(Z, 
+                                                                     function(z){
+                                                                       probs_from_data(x, X = X, Y = Y, Z = !!enquo(z),
+                                                                                       data_format = "bivariate")
+                                                                     })) %>% 
+                                              unnest_wider(sum_probs) %>%
+                                              mutate(strength = map_dbl(thetas, ~.x[length(.x)] - .x[1]),
+                                                     get_bounds = map2(thetas, gammas,
+                                                                       ~get_bounds(thetas = .x,
+                                                                                   gammas = .y,
+                                                                                   stop = FALSE, 
+                                                                                   warning = FALSE)),
+                                                     constraints_violated = map_lgl(get_bounds, "constraints_violated"),
+                                                     bounds = map(get_bounds, "interval")) %>%
+                                              unnest_wider(bounds)
+                                            
+                                            return(output)
+                                          }))
+ 
+  write_rds(all_bounds,
+            here::here("vignettes_data", "all_bounds_many_IVs_from_logistic_models.Rds"))
+}
+```
+
+```{r}
+all_bounds %>%
+  mutate(violations = map(summary_probs_and_bounds, ~map_lgl(.x$get_bounds, "constraints_violated"))) %>%
+  group_by(Z_on_X, nIVs) %>%
+  summarize(N = n(),
+            n_violations = sum(map_dbl(violations, sum)),
+            mean_n_violations = mean(map_dbl(violations, sum)),
+            prop_violations = sum(n_violations)/sum(nIVs*N)) %>%
+  arrange(nIVs, Z_on_X) %>%
+  print(n = 30)
+```
+
+
+```{r}
+
+intersections <- all_bounds %>%
+  mutate(lower_upper = map(summary_probs_and_bounds,
+                           ~.x %>%
+                             # mutate(lower = if_else(constraints_violated, NA_real_, lower),
+                             #        upper = if_else(constraints_violated, NA_real_, upper)) %>%
+                             select(Z, lower, upper, constraints_violated))) %>%
+  unnest_wider(lower_upper) %>%
+  mutate(min_width = map2_dbl(upper, lower, ~if_else(all(is.na(.x)) | all(is.na(.y)), NA_real_, min(.x - .y, na.rm = TRUE))),
+         int_lower = map_dbl(lower, ~if_else(all(is.na(.x)), NA_real_, max(.x, na.rm = TRUE))),
+         int_upper = map_dbl(upper, ~if_else(all(is.na(.x)), NA_real_, min(.x, na.rm = TRUE))),
+         int_width = int_upper - int_lower)
+
+
+
+################
+intersections %>%
+  mutate(n_lower = map_dbl(lower, ~sum(!is.na(.x))),
+         n_upper = map_dbl(upper, ~sum(!is.na(.x))),
+         max_strength = map_dbl(summary_probs_and_bounds, ~max(.x$strength))) %>%
+  ggplot(aes(x = max_strength, y = min_width)) +
+    geom_point() +
+    geom_abline() +
+    facet_grid(Z_on_X ~ nIVs,
+               labeller = label_both)
+
+intersections %>%
+  mutate(n_lower = map_dbl(lower, ~sum(!is.na(.x))),
+         n_upper = map_dbl(upper, ~sum(!is.na(.x))),
+         max_strength = map_dbl(summary_probs_and_bounds, ~max(.x$strength))) %>%
+  ggplot(aes(x = max_strength, y = min_width)) +
+  geom_point() +
+  geom_abline() +
+  facet_grid(Z_on_X ~ nIVs,
+             labeller = label_both)
+
+average_widths <- intersections %>%
+  select(Z_on_X, nIVs, min_width, int_width) %>%
+  pivot_longer(cols = c(min_width, int_width)) %>%
+  group_by(Z_on_X, nIVs, name) %>%
+  summarize(
+        ave = mean(value, na.rm = TRUE),
+        sd = sd(value, na.rm = TRUE),
+        N = n(),
+        N_NA = mean(is.na(value))
+      )
+
+average_widths %>%
+  pivot_longer(cols = c(ave, sd, N, N_NA),
+               names_to = "metric") %>%
+  mutate(metric_group = if_else(metric %in% c("ave", "sd"), "ave_sd", "N_N_NA"),
+         metric = if_else(metric %in% c("ave", "N_NA"), "first", "second")) %>%
+  pivot_wider(names_from = metric, values_from = value) %>%
+  mutate(metric_group_label = if_else(metric_group == "ave_sd",
+                                      "Average width +/- 1.96 SD",
+                                      "Number of missing intervals\n(out of 50)")) %>%
+  ggplot(aes(x = nIVs - 1 + 2*(name == "int_width"), y = first, color = name)) +
+    geom_point() +
+    geom_errorbar(aes(ymin = if_else(metric_group == "ave_sd",
+                                     first - 1.96*second, NA_real_),
+                      ymax = if_else(metric_group == "ave_sd",
+                                     first + 1.96*second, NA_real_)),
+                  width = 1) +
+    labs(x = "nIVs") +
+    facet_grid(
+      metric_group_label ~ Z_on_X,
+      scales = "free_y",
+      labeller = labeller(
+        .rows = label_value,
+        .cols = label_both,
+        .multi_line = TRUE
+      )
+    )
+
+```

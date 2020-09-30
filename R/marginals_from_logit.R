@@ -92,7 +92,7 @@ marginals_from_logit <- function(b0, b, p.z = rep(list(c(1, 1, 1)/3),3), nSim = 
     }
   } else {
     if(length(p.z) > 15) {
-      warning("You'll run out of memory. Switching to MCMC approx...")
+      message("You'll run out of memory. Switching to MCMC approx...")
       for(i in 1:length(b)) {
         # Sample "observed" values of other Z's.
         Z_minus_i <- sapply(seq_along(b)[-i], FUN = function(y) sample(x = 0:(length(p.z[[1]])-1), size = nSim, replace = TRUE, prob = p.z[[y]]))

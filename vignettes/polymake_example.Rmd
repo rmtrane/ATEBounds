@@ -1,5 +1,7 @@
 ---
 title: "Polymake Example"
+description: >
+  An introduction to the polymake helper functions.
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Polymake Example}

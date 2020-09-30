@@ -1,25 +1,25 @@
 title: ACEBounds
 
-# articles:
-#   - title: Step-by-step Instructions
-#     navbar: ~
-#     contents:
-#     - polymake_example
-#     - get_bounds
-
-navbar:
-  title: ~
-  type: default
-  left:
-    - text: Functions
-      href: reference/index.html
-    - text: How-To's
-      menu:
-        - text: Polymake Example
-          href: articles/polymake_example.html
-        - text: Get Bounds
-          href: articles/get_bounds.html
-    - text: Exploration of Bounds from Bivariate Data
-      href: articles/bounds_from_bivariate.html
-    - text: Extracting more Information from Bivariate Data
-      href: articles/bounds_from_trivariate.html
+articles:
+  - title: Exploration of Bounds
+    navbar: Exploration of Bounds
+    contents:
+      - bounds_from_bivariate
+      - bounds_from_bivariate_multiple_IVs
+      - bounds_from_trivariate
+      # - text: Exploration of Bounds from Bivariate Data
+      #   href: articles/bounds_from_bivariate.html
+      # - text: Extracting more Information from Bivariate Data
+        # href: articles/bounds_from_trivariate.html
+  - title: How-To's
+    navbar: How-To's
+    contents:
+      - polymake_example
+      - get_bounds
+      - example_analysis
+# navbar:
+#   left:
+#     - text: Figures
+#       menu:
+#         - text: Test
+#           href: articles/index.html

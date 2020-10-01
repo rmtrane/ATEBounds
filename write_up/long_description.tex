@@ -264,10 +264,10 @@ Non-parametric bounds obtained from trivariate data sources have been thoroughly
 Scenarios where \(k > 2\) has, to our knowledge, not been thoroughly explored. Richardson and Robins (2014) provide bounds for a general categorical instrumental variable, but the behavior of the bounds in this settings is not described in detail. Since the main scope of this paper is to explore bounds from bivariate data sources, we will not spend much time on the trivariate case, but will note that from simulations, it seems that the width of trivariate bounds are indeed still bounded by \(1 - \text{ST}\) for \(k=3\) and \(k=4\) (Figure \ref{fig:trivariate-bound-on-width}).
 
 \begin{figure}
-\center
-\includegraphics[width = 0.975\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_widths_vs_strengths.png}
-\caption{The results of calculating widths of bounds. \ensuremath{10^{5}} distributions of $(X,Y|Z)$ were randomly generated for both $k = 3$ and $k = 4$. For $k = 3$, 11,741 of these violated one or more of the constraints. For $k = 4$, 21,779 violated one or more of the constraints, and 37 resulted in an upper bound that is smaller than the lower bound. These are not included here. Black line indicates $\text{Width} = 1-\text{ST}$.}
-\label{fig:trivariate-bound-on-width}
+  \center
+  \includegraphics[width = 0.975\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_widths_vs_strengths.png}
+  \caption{The results of calculating widths of bounds. \ensuremath{10^{5}} distributions of $(X,Y|Z)$ were randomly generated for both $k = 3$ and $k = 4$. For $k = 3$, 11,741 of these violated one or more of the constraints. For $k = 4$, 21,779 violated one or more of the constraints, and 37 resulted in an upper bound that is smaller than the lower bound. These are not included here. Black line indicates $\text{Width} = 1-\text{ST}$.}
+  \label{fig:trivariate-bound-on-width}
 \end{figure}
 
 In Mendelian randomization, trivariate data sources are scarce. Bivariate data sources, on the other hand, are plentiful. The rest of this section is dedicated to explore the behavior of non-parametric bounds derived from bivariate data sources. These were first introduced by Ramsahai (2007).
@@ -276,68 +276,6 @@ In Mendelian randomization, trivariate data sources are scarce. Bivariate data s
 \subsection{Bounds from Bivariate Data}\label{bounds-from-bivariate-data}}
 
 Following the approach from Ramsahai (2012) as outlined in Section \ref{bounds-on-average-treatment-effect}, we obtain the following bounds on the average treatment effect from the quantities \(P(X = 1 | Z = z)\) and \(P(Y = 1 | Z = z)\), \(z = 0,1,2\):
-
-\iffalse
-
-\[
-\alpha \ge \max
-\begin{Bmatrix}
-P(Y = 1 | Z = 1)-2\cdot P(Y = 1 | Z = 3)-2\cdot P(X = 1 | Z = 3) \\ 
-P(Y = 1 | Z = 1)-P(Y = 1 | Z = 2) +  P(X = 1 | Z = 1)-P(X = 1 | Z = 2) -1 \\ 
-P(Y = 1 | Z = 1)-2\cdot P(Y = 1 | Z = 2)-2\cdot P(X = 1 | Z = 2) \\ 
-2\cdot P(Y = 1 | Z = 1)-P(Y = 1 | Z = 2) +  2\cdot P(X = 1 | Z = 1) -3 \\ 
-2\cdot P(Y = 1 | Z = 1)-P(Y = 1 | Z = 3) +  2\cdot P(X = 1 | Z = 1) -3 \\ 
-P(Y = 1 | Z = 1)-P(Y = 1 | Z = 3) +  P(X = 1 | Z = 1)-P(X = 1 | Z = 3) -1 \\ 
--P(Y = 1 | Z = 3)-P(X = 1 | Z = 3) \\ 
--P(Y = 1 | Z = 2)-P(X = 1 | Z = 2) \\ 
--P(Y = 1 | Z = 2) +  P(Y = 1 | Z = 3)-P(X = 1 | Z = 2) +  P(X = 1 | Z = 3) -1 \\ 
- P(Y = 1 | Z = 3) +  P(X = 1 | Z = 3) -2 \\ 
--P(Y = 1 | Z = 2) +  2\cdot P(Y = 1 | Z = 3) +  2\cdot P(X = 1 | Z = 3) -3 \\ 
- P(Y = 1 | Z = 2) +  P(X = 1 | Z = 2) -2 \\ 
--P(Y = 1 | Z = 1) +  P(Y = 1 | Z = 2)-P(X = 1 | Z = 1) +  P(X = 1 | Z = 2) -1 \\ 
--P(Y = 1 | Z = 1) +  P(Y = 1 | Z = 3)-P(X = 1 | Z = 1) +  P(X = 1 | Z = 3) -1 \\ 
- 2\cdot P(Y = 1 | Z = 2)-P(Y = 1 | Z = 3) +  2\cdot P(X = 1 | Z = 2) -3 \\ 
--P(Y = 1 | Z = 1)-P(X = 1 | Z = 1) \\ 
- P(Y = 1 | Z = 2)-P(Y = 1 | Z = 3) +  P(X = 1 | Z = 2)-P(X = 1 | Z = 3) -1 \\ 
-P(Y = 1 | Z = 1) +  P(X = 1 | Z = 1) -2 \\ 
--2\cdot P(Y = 1 | Z = 1) +  P(Y = 1 | Z = 3)-2\cdot P(X = 1 | Z = 1) \\ 
--P(Y = 1 | Z = 1) +  2\cdot P(Y = 1 | Z = 3) +  2\cdot P(X = 1 | Z = 3) -3 \\ 
--2\cdot P(Y = 1 | Z = 2) +  P(Y = 1 | Z = 3)-2\cdot P(X = 1 | Z = 2) \\ 
--P(Y = 1 | Z = 1) +  2\cdot P(Y = 1 | Z = 2) +  2\cdot P(X = 1 | Z = 2) -3 \\ 
- P(Y = 1 | Z = 2)-2\cdot P(Y = 1 | Z = 3)-2\cdot P(X = 1 | Z = 3) \\ 
--2\cdot P(Y = 1 | Z = 1) +  P(Y = 1 | Z = 2)-2\cdot P(X = 1 | Z = 1)
-\end{Bmatrix}
-\]
-\[
-\alpha \le \min
-\begin{Bmatrix}
--2\cdot P(Y = 1 | Z = 1) +  P(Y = 1 | Z = 3) +  2\cdot P(X = 1 | Z = 1) + 1 \\
--P(Y = 1 | Z = 1) +  P(Y = 1 | Z = 3) +  P(X = 1 | Z = 1)-P(X = 1 | Z = 3) + 1 \\
--P(Y = 1 | Z = 1) +  P(Y = 1 | Z = 2) +  P(X = 1 | Z = 1)-P(X = 1 | Z = 2) + 1 \\
--P(Y = 1 | Z = 1) +  2\cdot P(Y = 1 | Z = 3)-2\cdot P(X = 1 | Z = 3) + 2 \\
--2\cdot P(Y = 1 | Z = 1) +  P(Y = 1 | Z = 2) +  2\cdot P(X = 1 | Z = 1) + 1 \\
--P(Y = 1 | Z = 1) +  2\cdot P(Y = 1 | Z = 2)-2\cdot P(X = 1 | Z = 2) + 2 \\
-P(Y = 1 | Z = 1)-P(Y = 1 | Z = 3)-P(X = 1 | Z = 1) +  P(X = 1 | Z = 3) + 1 \\
- P(Y = 1 | Z = 2)-P(Y = 1 | Z = 3)-P(X = 1 | Z = 2) +  P(X = 1 | Z = 3) + 1 \\
-P(Y = 1 | Z = 1)-2\cdot P(Y = 1 | Z = 2) +  2\cdot P(X = 1 | Z = 2) + 1 \\
- P(Y = 1 | Z = 3)-P(X = 1 | Z = 3) + 1 \\
-2\cdot P(Y = 1 | Z = 1)-P(Y = 1 | Z = 3)-2\cdot P(X = 1 | Z = 1) + 2 \\
-P(Y = 1 | Z = 1)-P(Y = 1 | Z = 2)-P(X = 1 | Z = 1) +  P(X = 1 | Z = 2) + 1 \\
- 2\cdot P(Y = 1 | Z = 2)-P(Y = 1 | Z = 3)-2\cdot P(X = 1 | Z = 2) + 2 \\
-2\cdot P(Y = 1 | Z = 1)-P(Y = 1 | Z = 2)-2\cdot P(X = 1 | Z = 1) + 2 \\
--2\cdot P(Y = 1 | Z = 2) +  P(Y = 1 | Z = 3) +  2\cdot P(X = 1 | Z = 2) + 1 \\
- P(Y = 1 | Z = 2)-P(X = 1 | Z = 2) + 1 \\
--P(Y = 1 | Z = 2) +  P(Y = 1 | Z = 3) +  P(X = 1 | Z = 2)-P(X = 1 | Z = 3) + 1 \\
--P(Y = 1 | Z = 1) +  P(X = 1 | Z = 1) + 1 \\
-P(Y = 1 | Z = 1)-2\cdot P(Y = 1 | Z = 3) +  2\cdot P(X = 1 | Z = 3) + 1 \\
--P(Y = 1 | Z = 2) +  P(X = 1 | Z = 2) + 1 \\
--P(Y = 1 | Z = 3) +  P(X = 1 | Z = 3) + 1 \\
-P(Y = 1 | Z = 1)-P(X = 1 | Z = 1) + 1 \\
--P(Y = 1 | Z = 2) +  2\cdot P(Y = 1 | Z = 3)-2\cdot P(X = 1 | Z = 3) + 2 \\
- P(Y = 1 | Z = 2)-2\cdot P(Y = 1 | Z = 3) +  2\cdot P(X = 1 | Z = 3) + 1
-\end{Bmatrix}
-\]
-\fi
 
 \[
 \begin{aligned}

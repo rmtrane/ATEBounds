@@ -53,35 +53,6 @@ Furthermore, we will be working with a simple measure of strength of the IV $Z$ 
 
 ## IV Assumptions and Two-Sample MR 
 
-<!-- Consider a scenario where the outcome $Y$, exposure $X$, instrumental variable $Z$, and confounder $U$ are causally related as shown in Figure \ref{fig:dag}.  -->
-
-<!-- \begin{figure} -->
-<!--   \center -->
-<!-- 	\large{ -->
-<!-- 	  \begin{tikzpicture}[% -->
-<!--     	->, -->
-<!--   		>=stealth, -->
-<!--   		node distance=1cm, -->
-<!--   		pil/.style={ -->
-<!--   			->, -->
-<!--   			thick, -->
-<!--   			shorten = 2pt, -->
-<!--   		} -->
-<!-- 		] -->
-<!-- 		\node (1) {Z}; -->
-<!-- 		\node[right=of 1] (2) {X}; -->
-<!-- 		\node[above right=of 2] (3) {U}; -->
-<!-- 		\node[right=of 2] (4) {Y}; -->
-<!-- 		\draw [->] (1) to (2); -->
-<!-- 		\draw [->] (2) to (4); -->
-<!-- 		\draw [->] (3) to (2); -->
-<!-- 		\draw [->] (3) to (4); -->
-<!-- 	  \end{tikzpicture} -->
-<!-- 	} -->
-<!-- 	\caption{Graph 3} -->
-<!-- 	\label{fig:dag} -->
-<!-- \end{figure} -->
-
 Although bounds can be derived in settings where some of the following assumptions are relaxed [@ramsahai_causal_2012], we will be working with the following set of assumptions: 
 
 * the instrumental variable $Z$ is independent of the confounder $U$,
@@ -208,132 +179,6 @@ In Mendelian randomization, trivariate data sources are scarce. Bivariate data s
 
 Following the approach from @ramsahai_causal_2012 as outlined in Section \ref{bounds-on-average-treatment-effect}, we obtain the following bounds on the average treatment effect from the quantities $P(X = 1 | Z = z)$ and $P(Y = 1 | Z = z)$, $z = 0,1,2$:
 
-```{r eval = FALSE, echo = FALSE, warning = FALSE, message = FALSE}
-latex_lower_bounds <- ACEBounds:::matrices_from_polymake %>% 
-  filter(n_z_levels == 3, !x_monotone, !y_monotone, data_format == "bivariate") %>% 
-  pull(matrix) %>% .[[1]] %>% 
-  filter(alpha == 1) %>% 
-  mutate(across(everything(), ~-.x),
-         id = row_number()) %>% 
-  pivot_longer(cols = -c(alpha, id), values_to = "coef") %>% 
-  mutate(Z = paste("Z =", str_sub(name, start = -1)),
-         XY_value = str_sub(name, start = -2, end = -2),
-         XY = if_else(str_detect(name, "gamma"), "Y = 1", "X = 1")) %>% 
-  select(-name, -alpha) %>% 
-  pivot_wider(names_from = XY_value, values_from = coef) %>% 
-  mutate(coef = `1` - `0`,
-         p = case_when(coef == 1 ~ paste0("P(", XY, " | ", Z, ")"),
-                       coef == -1 ~ paste0("-P(", XY, " | ", Z, ")"),
-                       coef == 0 ~ "",
-                       TRUE ~ paste0(coef, "\\cdot P(", XY, " | ", Z, ")"))) %>% 
-  rename(const = `0`) %>% 
-  group_by(id) %>% 
-  mutate(p = if_else(row_number() != 1 & str_sub(p, end = 1) != "-" & p != "", 
-                     paste(" + ", p), p)) %>% 
-  summarize(p = paste(p, collapse = ""),
-            const = sum(const)) %>% 
-  mutate(out = case_when(const < 0 ~ paste(p, const),
-                         const > 0 ~ paste(p, const, sep = " + "),
-                         TRUE ~ p),
-         out = if_else(str_sub(out, start = 1, end = 3) == " + ",
-                       str_sub(out, start = 4),
-                       out)) %>% 
-  pull(out)
-
-latex_upper_bounds <- ACEBounds:::matrices_from_polymake %>% 
-  filter(n_z_levels == 3, !x_monotone, !y_monotone, data_format == "bivariate") %>% 
-  pull(matrix) %>% .[[1]] %>% 
-  filter(alpha == -1) %>% 
-  mutate(id = row_number()) %>% 
-  pivot_longer(cols = -c(alpha, id), values_to = "coef") %>% 
-  mutate(Z = paste("Z =", str_sub(name, start = -1)),
-         XY_value = str_sub(name, start = -2, end = -2),
-         XY = if_else(str_detect(name, "gamma"), "Y = 1", "X = 1")) %>% 
-  select(-name, -alpha) %>% 
-  pivot_wider(names_from = XY_value, values_from = coef) %>% 
-  mutate(coef = `1` - `0`,
-         p = case_when(coef == 1 ~ paste0("P(", XY, " | ", Z, ")"),
-                       coef == -1 ~ paste0("-P(", XY, " | ", Z, ")"),
-                       coef == 0 ~ "",
-                       TRUE ~ paste0(coef, "\\cdot P(", XY, " | ", Z, ")"))) %>% 
-  rename(const = `0`) %>% 
-  group_by(id) %>% 
-  mutate(p = if_else(row_number() != 1 & str_sub(p, end = 1) != "-" & p != "", 
-                     paste(" + ", p), p)) %>% 
-  summarize(p = paste(p, collapse = ""),
-            const = sum(const)) %>% 
-  mutate(out = case_when(const < 0 ~ paste(p, const),
-                         const > 0 ~ paste(p, const, sep = " + "),
-                         TRUE ~ p),
-         out = if_else(str_sub(out, start = 1, end = 3) == " + ",
-                       str_sub(out, start = 4),
-                       out)) %>% 
-  pull(out) %>% 
-  str_trim()
-```
-
-\iffalse
-$$
-\alpha \ge \max
-\begin{Bmatrix}
-P(Y = 1 | Z = 1)-2\cdot P(Y = 1 | Z = 3)-2\cdot P(X = 1 | Z = 3) \\ 
-P(Y = 1 | Z = 1)-P(Y = 1 | Z = 2) +  P(X = 1 | Z = 1)-P(X = 1 | Z = 2) -1 \\ 
-P(Y = 1 | Z = 1)-2\cdot P(Y = 1 | Z = 2)-2\cdot P(X = 1 | Z = 2) \\ 
-2\cdot P(Y = 1 | Z = 1)-P(Y = 1 | Z = 2) +  2\cdot P(X = 1 | Z = 1) -3 \\ 
-2\cdot P(Y = 1 | Z = 1)-P(Y = 1 | Z = 3) +  2\cdot P(X = 1 | Z = 1) -3 \\ 
-P(Y = 1 | Z = 1)-P(Y = 1 | Z = 3) +  P(X = 1 | Z = 1)-P(X = 1 | Z = 3) -1 \\ 
--P(Y = 1 | Z = 3)-P(X = 1 | Z = 3) \\ 
--P(Y = 1 | Z = 2)-P(X = 1 | Z = 2) \\ 
--P(Y = 1 | Z = 2) +  P(Y = 1 | Z = 3)-P(X = 1 | Z = 2) +  P(X = 1 | Z = 3) -1 \\ 
- P(Y = 1 | Z = 3) +  P(X = 1 | Z = 3) -2 \\ 
--P(Y = 1 | Z = 2) +  2\cdot P(Y = 1 | Z = 3) +  2\cdot P(X = 1 | Z = 3) -3 \\ 
- P(Y = 1 | Z = 2) +  P(X = 1 | Z = 2) -2 \\ 
--P(Y = 1 | Z = 1) +  P(Y = 1 | Z = 2)-P(X = 1 | Z = 1) +  P(X = 1 | Z = 2) -1 \\ 
--P(Y = 1 | Z = 1) +  P(Y = 1 | Z = 3)-P(X = 1 | Z = 1) +  P(X = 1 | Z = 3) -1 \\ 
- 2\cdot P(Y = 1 | Z = 2)-P(Y = 1 | Z = 3) +  2\cdot P(X = 1 | Z = 2) -3 \\ 
--P(Y = 1 | Z = 1)-P(X = 1 | Z = 1) \\ 
- P(Y = 1 | Z = 2)-P(Y = 1 | Z = 3) +  P(X = 1 | Z = 2)-P(X = 1 | Z = 3) -1 \\ 
-P(Y = 1 | Z = 1) +  P(X = 1 | Z = 1) -2 \\ 
--2\cdot P(Y = 1 | Z = 1) +  P(Y = 1 | Z = 3)-2\cdot P(X = 1 | Z = 1) \\ 
--P(Y = 1 | Z = 1) +  2\cdot P(Y = 1 | Z = 3) +  2\cdot P(X = 1 | Z = 3) -3 \\ 
--2\cdot P(Y = 1 | Z = 2) +  P(Y = 1 | Z = 3)-2\cdot P(X = 1 | Z = 2) \\ 
--P(Y = 1 | Z = 1) +  2\cdot P(Y = 1 | Z = 2) +  2\cdot P(X = 1 | Z = 2) -3 \\ 
- P(Y = 1 | Z = 2)-2\cdot P(Y = 1 | Z = 3)-2\cdot P(X = 1 | Z = 3) \\ 
--2\cdot P(Y = 1 | Z = 1) +  P(Y = 1 | Z = 2)-2\cdot P(X = 1 | Z = 1)
-\end{Bmatrix}
-$$
-$$
-\alpha \le \min
-\begin{Bmatrix}
--2\cdot P(Y = 1 | Z = 1) +  P(Y = 1 | Z = 3) +  2\cdot P(X = 1 | Z = 1) + 1 \\
--P(Y = 1 | Z = 1) +  P(Y = 1 | Z = 3) +  P(X = 1 | Z = 1)-P(X = 1 | Z = 3) + 1 \\
--P(Y = 1 | Z = 1) +  P(Y = 1 | Z = 2) +  P(X = 1 | Z = 1)-P(X = 1 | Z = 2) + 1 \\
--P(Y = 1 | Z = 1) +  2\cdot P(Y = 1 | Z = 3)-2\cdot P(X = 1 | Z = 3) + 2 \\
--2\cdot P(Y = 1 | Z = 1) +  P(Y = 1 | Z = 2) +  2\cdot P(X = 1 | Z = 1) + 1 \\
--P(Y = 1 | Z = 1) +  2\cdot P(Y = 1 | Z = 2)-2\cdot P(X = 1 | Z = 2) + 2 \\
-P(Y = 1 | Z = 1)-P(Y = 1 | Z = 3)-P(X = 1 | Z = 1) +  P(X = 1 | Z = 3) + 1 \\
- P(Y = 1 | Z = 2)-P(Y = 1 | Z = 3)-P(X = 1 | Z = 2) +  P(X = 1 | Z = 3) + 1 \\
-P(Y = 1 | Z = 1)-2\cdot P(Y = 1 | Z = 2) +  2\cdot P(X = 1 | Z = 2) + 1 \\
- P(Y = 1 | Z = 3)-P(X = 1 | Z = 3) + 1 \\
-2\cdot P(Y = 1 | Z = 1)-P(Y = 1 | Z = 3)-2\cdot P(X = 1 | Z = 1) + 2 \\
-P(Y = 1 | Z = 1)-P(Y = 1 | Z = 2)-P(X = 1 | Z = 1) +  P(X = 1 | Z = 2) + 1 \\
- 2\cdot P(Y = 1 | Z = 2)-P(Y = 1 | Z = 3)-2\cdot P(X = 1 | Z = 2) + 2 \\
-2\cdot P(Y = 1 | Z = 1)-P(Y = 1 | Z = 2)-2\cdot P(X = 1 | Z = 1) + 2 \\
--2\cdot P(Y = 1 | Z = 2) +  P(Y = 1 | Z = 3) +  2\cdot P(X = 1 | Z = 2) + 1 \\
- P(Y = 1 | Z = 2)-P(X = 1 | Z = 2) + 1 \\
--P(Y = 1 | Z = 2) +  P(Y = 1 | Z = 3) +  P(X = 1 | Z = 2)-P(X = 1 | Z = 3) + 1 \\
--P(Y = 1 | Z = 1) +  P(X = 1 | Z = 1) + 1 \\
-P(Y = 1 | Z = 1)-2\cdot P(Y = 1 | Z = 3) +  2\cdot P(X = 1 | Z = 3) + 1 \\
--P(Y = 1 | Z = 2) +  P(X = 1 | Z = 2) + 1 \\
--P(Y = 1 | Z = 3) +  P(X = 1 | Z = 3) + 1 \\
-P(Y = 1 | Z = 1)-P(X = 1 | Z = 1) + 1 \\
--P(Y = 1 | Z = 2) +  2\cdot P(Y = 1 | Z = 3)-2\cdot P(X = 1 | Z = 3) + 2 \\
- P(Y = 1 | Z = 2)-2\cdot P(Y = 1 | Z = 3) +  2\cdot P(X = 1 | Z = 3) + 1
-\end{Bmatrix}
-$$
-\fi
-
-
 $$
 \begin{aligned}
 \max &\left \{
@@ -360,37 +205,6 @@ $$
 
 Furthermore, we obtain the following checkable constraints:
 
-```{r eval = FALSE, echo = FALSE, warning = FALSE, message = FALSE}
-latex_constraints <- ACEBounds:::matrices_from_polymake %>% 
-  filter(n_z_levels == 3, !x_monotone, !y_monotone, data_format == "bivariate") %>% 
-  pull(matrix) %>% .[[1]] %>% 
-  filter(alpha == 0) %>% 
-  mutate(id = row_number()) %>% 
-  pivot_longer(cols = -c(alpha, id), values_to = "coef") %>% 
-  mutate(Z = paste("Z =", str_sub(name, start = -1)),
-         XY_value = str_sub(name, start = -2, end = -2),
-         XY = if_else(str_detect(name, "gamma"), "Y = 1", "X = 1")) %>% 
-  select(-name, -alpha) %>% 
-  pivot_wider(names_from = XY_value, values_from = coef) %>% 
-  mutate(coef = `1` - `0`,
-         p = case_when(coef == 1 ~ paste0("P(", XY, " | ", Z, ")"),
-                       coef == -1 ~ paste0("-P(", XY, " | ", Z, ")"),
-                       coef == 0 ~ "",
-                       TRUE ~ paste0(coef, "\\cdot P(", XY, " | ", Z, ")"))) %>% 
-  rename(const = `0`) %>% 
-  group_by(id) %>% 
-  mutate(p = if_else(row_number() != 1 & str_sub(p, end = 1) != "-" & p != "", 
-                     paste(" + ", p), p)) %>% 
-  summarize(p = paste(p, collapse = ""),
-            const = sum(const)) %>% 
-  mutate(out = case_when(const < 0 ~ paste(p, const),
-                         const > 0 ~ paste(p, const, sep = " + "),
-                         TRUE ~ p),
-         out = if_else(str_sub(out, start = 1, end = 3) == " + ",
-                       str_sub(out, start = 4),
-                       out)) %>% 
-  pull(out) %>% str_trim %>% sort()
-```
 
 \begin{equation}
 \min \left\{

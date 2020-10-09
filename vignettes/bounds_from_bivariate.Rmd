@@ -152,7 +152,7 @@ proportion_of_widths_greater_than <- bounds %>%
     #`Proportion with width > w` = map_dbl(c(1, 0.75, 0.5), ~mean(width > .x))
     prop = map_dbl(c(1, 0.75, 0.5), ~mean(width > .x))
   ) %>% 
-  mutate(w = glue::glue("P(W > {w})")) %>% 
+  mutate(w = glue::glue("w = {w}")) %>% 
   pivot_wider(names_from = w, values_from = prop) %>% print
   
 pander::pander(proportion_of_widths_greater_than)

@@ -55,32 +55,64 @@ Furthermore, we will be working with a simple measure of strength of the IV $Z$ 
 
 Although bounds can be derived in settings where some of the following assumptions are relaxed [@ramsahai_causal_2012], we will be working with the following set of assumptions: 
 
-* the instrumental variable $Z$ is independent of the confounder $U$,
-
-\begin{equation}
-  Z \perp U \label{eq:z_ind_u}\tag{A1}
-\end{equation}
-
 * the instrumental variable $Z$ is relevant, i.e. correlated with the exposure $X$,
 
 \begin{equation}
-  Z \not\perp X \label{eq:z_cor_x}\tag{A2}
+  Z \not\perp X \label{eq:z_cor_x}\tag{A1}
 \end{equation}
 
 
+* the instrumental variable $Z$ is independent of the confounder $U$,
+
+  \begin{equation}
+    Z \perp U \tag{A2} \label{eq:marg-exch}  %\label{eq:z_ind_u}
+  \end{equation}
+  
+  which implies $Z \perp Y^{z,x}$ for all $x,z$. 
+
 * Marginal Stochastic Exclusion,  
+
   \begin{equation}
   E[Y^{z,x}] = E[Y^{z',x}] \text{ for all } x,z,z', \label{eq:marg-stoch-excl}\tag{A3}
   \end{equation}  
+  
   where $Y^{z,x}$ is the counterfactual outcome if $X = x$ and $Z = z$,
 
-* Marginal Exchangeability of $Y^{z,x}$
+<!-- * Marginal Exchangeability of $Y^{z,x}$ -->
+
+<!-- \begin{equation} -->
+<!-- Z \perp Y^{z,x} \text{ for all } x,z. \label{eq:marg-exch}\tag{A4} -->
+<!-- \end{equation} -->
+
+<!-- * Stable Unit Treatment Value Assumption (SUTVA) -->
+
+<!-- \begin{equation} -->
+<!-- Y = X Y^{1} + (1-X)Y^{0} \label{eq:sutva} \tag{SUTVA} -->
+<!-- \end{equation} -->
+
+<!-- * Consistency of potential outcomes: -->
+
+<!-- \begin{equation} -->
+<!-- Y^x = Z Y^{x,1} + (1-Z)Y^{x,0} \label{eq:sutva2} \tag{A4}  -->
+<!-- \end{equation} -->
+
+* Stable Unit Treatment Value Assumption (SUTVA)
 
 \begin{equation}
-Z \perp Y^{z,x} \text{ for all } x,z. \label{eq:marg-exch}\tag{A4}
+Y = \sum_{x,z} I[Z = z, X = x] Y^{x,z} \label{eq:sutva} \tag{A4}
 \end{equation}
 
-The specific challenge in two sample mendelian randomization analyses is to utilize knowledge about $P(X = 1 | Z = z)$ and $P(Y = 1 | Z = z)$ without any insights on the full trivariate distribution $P(X = x, Y = y | Z = z)$. 
+For Mendelian randomization studies based on GWAS results, the credibility of assumption \eqref{eq:z_cor_x} can be based on the seemingly high replicability of GWAS findings [@marigorta_replicability_2018].
+
+Assumption \eqref{eq:marg-exch} can be justified, at least to some extent, in many cases based on biological reasons. Since an individuals genotype is, in many cases, independently assigned at conception, the independence of a genetic variant from a large set of potential confounders can be argued to be a reasonable assumption. For example, many socioeconimic and behavioral characteristics that often confound exposure/outcome relationships can be reasonably assumed independent of genetic variants. It is important to note that a similar argument cannot always be made for other potential confounders. 
+
+Assumption \eqref{eq:marg-stoch-excl}, which states that there is no effect of the instrument $Z$ on the outcome $Y$ other than that through the exposure $X$, is potentially violated through Linkage Disequilibrium (LD). LD refers to the correlation of allelic states at different loci. If the genetic variant that is proposed to be an instrument is in LD with another genetic variant, which in turn is correlated with the outcome, assumption \eqref{eq:marg-stoch-excl} could be violated. 
+
+The validity of assumptions \eqref{eq:sutva} and \eqref{eq:sutva2} is harder, if not impossible, to establish through data, and both may be viewed as necessary assumptions that must be justified based on a more heuristic argument.
+
+For a more in-depth discussion of the validity of some of these assumptions in a Mendelian randomization setting, see @lawlor_mendelian_2008. 
+
+<!-- The specific challenge in two sample mendelian randomization analyses is to utilize knowledge about \(P(X = 1 | Z = z)\) and $P(Y = 1 | Z = z)$ without any insights on the full trivariate distribution $P(X = x, Y = y | Z = z)$. -->
 
 In the following, we will refer to two different data settings: the typical MR setting, where we have two separate data sources, one providing information of $(X,Z)$ and one providing information of $(Y,Z)$, and the setting that has traditionally been explored using non-parametric bounds, where we have information on the triplet of variables $(X,Y,Z)$. We will refer to the former as bivariate data, and the latter as trivariate data. 
 
@@ -96,12 +128,9 @@ and monotonicity of the effect of $Z$ on $Y$ assumes
 P(Y = 1 | Z = z, U) \le P(Y = 1 | Z = z+1, U), \label{eq:y_monotone}
 \end{equation}
 
+Both of these assumptions are fairly common in general IV literature, and often implicitly assumed in Mendelian randomization analyses through the models utilized (though the direction might be flipped in some cases). 
 
 ## Bounds on Average Treatment Effect
-
-\iffalse
-Briefly review Ramsahai's approach, and reference theorem
-\fi
 
 We will briefly review the method presented by @ramsahai_causal_2012. Since our main focus is the bivariate data setting, we will demonstrate the method in this setting here. Similar arguments can be made to arrive at bounds from trivariate data.
 
@@ -147,7 +176,7 @@ We define $\mathcal{V} = f([0,1]^{2+k})$.
 
 Since $\vec{v} = E_U[\vec{v}^*]$, $\vec{v}$ must be a convex combination of $\vec{v}^*$. Let $\mathcal{H}$ be the convex hull of $\mathcal{V}$. Then $\vec{v}$ will be in $\mathcal{H}$.
 
-Now, let $\hat{\mathcal{T}}$ be the set of extreme vertices of $[0,1]^{2+k}$, $\hat{\mathcal{V}} = f(\hat{\mathcal{T}})$, and $\hat{\mathcal{H}}$ be the convex hull of $\hat{\mathcal{V}}$. By Theorem 1 in Appendix B of @ramsahai_causal_2012, $\mathcal{H} = \mathcal{\hat{H}}$. This means that $\vec{v} \mathcal{\hat{H}}$. Utilizing a program such as Polymake, we can describe $\mathcal{H}$ with a set of inequalities, which give us constraints that $\vec{v}$ must satisfy.
+Now, let $\hat{\mathcal{T}}$ be the set of extreme vertices of $[0,1]^{2+k}$, $\hat{\mathcal{V}} = f(\hat{\mathcal{T}})$, and $\hat{\mathcal{H}}$ be the convex hull of $\hat{\mathcal{V}}$. By Theorem 1 in Appendix B of @ramsahai_causal_2012, $\mathcal{H} = \mathcal{\hat{H}}$. This means that $\vec{v} \in \mathcal{\hat{H}}$. Utilizing a program such as Polymake, we can describe $\mathcal{H}$ with a set of inequalities, which give us constraints that $\vec{v}$ must satisfy.
 
 This means that we can obtain inequalities that the components of $\vec{v}$ must satisfy by describing the extreme vertices of $[0,1]^{2+k}$, map them to $\mathcal{V}$ using the relatively simple function $f$, and then use polymake to find inequalities that characterize the convex hull of $f([0,1])^{2+k}$. This gives us a set of inequalities involving the components of $\vec{v}$. Some of these will be verifiable, as they will not include the only unobservable quantity $\alpha$. Others will not be verifiable, but will allow us to obtain bounds on the unobservable quantity $\alpha$ using the observable entries of $\vec{v}$.
 
@@ -177,6 +206,8 @@ In Mendelian randomization, trivariate data sources are scarce. Bivariate data s
 
 ## Bounds from Bivariate Data
 
+First, we seek to examine the information one can potentially obtain from bounds found using a single instrumental variable, when only summaries from bivariate data are available. We are particularly interested in whether we can gain any insights into the direction and magnitude of the ATE. One crucial quantity in this quest is the width of the bounds obtained. Wide bounds provide less infromation about the magnitude, and are much less likely to provide any information regarding direction as compared to narrower bounds. Here, we will construct bounds from many sets of randomly generated values of $P(X = 1 | Z = z)$ and $P(Y = 1 | Z = z)$. 
+
 Following the approach from @ramsahai_causal_2012 as outlined in Section \ref{bounds-on-average-treatment-effect}, we obtain the following bounds on the average treatment effect from the quantities $P(X = 1 | Z = z)$ and $P(Y = 1 | Z = z)$, $z = 0,1,2$:
 
 $$
@@ -205,7 +236,6 @@ $$
 
 Furthermore, we obtain the following checkable constraints:
 
-
 \begin{equation}
 \min \left\{
   \begin{array}{ll}
@@ -219,19 +249,59 @@ Furthermore, we obtain the following checkable constraints:
 \right \} \ge 0 \label{eq:constraints}
 \end{equation}
 
-We notice that the constraints from the law of probability are recovered along with 12 non-trivial constraints.
+We notice that the constraints from the law of probability are recovered (the last four expressions above) along with 12 non-trivial constraints. 
 
-Since the bounds involve 24 different expressions on both the lower and upper end, algebraically exploring the width of the bounds is quite the challenge. Instead, we decided to randomly generate values of $P(X = 1 | Z = z)$ and $P(Y = 1 | Z = z)$ to get a sense of the behavior of the bounds. Figure \ref{fig:all_biv_bounds} shows bounds calculated from $9877$ randomly generated distributions.
+These bounds involve 24 different expressions on both the lower and upper end, making an algebraic exploration of the width very challenging. However, by imposing the two monotonicity assumptions \eqref{eq:x_monotone} and \eqref{eq:y_monotone}, the bounds reduce to just three on the lower end and three on the upper end: 
 
-A few interesting things are clear from Figure \ref{fig:biv_bounds_vs_strength}. On Figure \ref{fig:all_bi_bounds}, it is seen that the entire interval from -1 to 1 is covered, and that the widths of the bounds vary a lot, even exceeding 1 in some cases. Figure \ref{fig:biv_width_vs_strength} shows see the width of the bivariate bounds plotted against the strength of the IV on the exposure $X$. Here it is even more evident that the width exceeds 1 in many cases. However, we do also see that the width is always less than $2 - 2\cdot \text{ST}$, which inspired the following result.
+$$
+\begin{aligned}
+    &\max
+      \begin{Bmatrix}
+        -P(Y = 0 | Z = 2) - P(Y = 1 | Z = 0) + P(X = 0 | Z = 0) - P(X = 0 | Z = 2) \\
+        P(Y = 0 | Z = 0) - 2\cdot P(Y = 0 | Z = 2) - P(X = 0 | Z = 2) \\
+        -P(Y = 0 | Z = 2) - 2\cdot P(Y = 1 | Z = 0) + P(X = 0 | Z = 0)
+      \end{Bmatrix} \\
+    &\qquad \qquad \qquad \qquad \qquad\le ATE \le \\
+    &\qquad \qquad \qquad \min
+      \begin{Bmatrix}
+        1 + P(Y = 0 | Z = 0) - P(X = 0 | Z = 0) \\
+        1 + P(Y = 0 | Z = 0) - P(Y = 0 | Z = 2) - P(X = 0 | Z = 0) + P(X = 0 | Z = 2) \\
+        1 - P(Y = 0 | Z = 2) +  P(X = 0 | Z = 2)
+      \end{Bmatrix}
+\end{aligned}
+$$
+
+From these, the following result follows:
 
 \begin{theorem}\label{thm:upperBoundWidth}
-If the effects of $Z$ on $X$ and of $Z$ on $Y$ are both monotonically increasing (that is, \eqref{eq:x_monotone} and \eqref{eq:y_monotone} hold), the width of the bounds obtained from bivariate data is bounded from above by $2 - 2\cdot \text{ST}$. 
+If the effects of $Z$ on $X$ and of $Z$ on $Y$ are both monotonically increasing (that is, \eqref{eq:x_monotone} and \eqref{eq:y_monotone} hold), the width of the bounds obtained from bivariate data is bounded from above by $2 - 2\cdot \text{ST}$. In particular, the width of the bounds is guaranteed to be less than 1 only when the strength is greater than 0.5.
 \end{theorem}
 
 \begin{proof}
 The proof is presented in Appendix \ref{proof-of-theorem}. It is a brute force proof relying on going through all possible pairs of upper and lower bounds. With the two monotonicity assumptions the number of expressions in the upper and lower bounds is only three for each leading to only nine possible expressions for the width. 
 \end{proof}
+
+Note that this result does not rule out the possibility that the bounds from bivariate data with weak IVs have width less than 1. It simply states that, for weak IVs, there are no guarantees. 
+
+To explore the behavior of the width of the bounds without imposing the two monotonicity assumptions, we turn to numerical simulations. We randomly generate $10,000$ sets of values of $P(X = 1 | Z = z)$ and $P(Y = 1 | Z = z)$, and calculate the corresponding bounds. Figure \ref{fig:biv_bounds_vs_strength} shows the bounds for $9,877$ of these. The remaining $123$ resulted in scenarios where the lower bounds were larger than the upper bounds. 
+
+Figure \ref{fig:all_biv_bounds} show all bounds sorted by the center of the bounds. What is interesting about this figure is that the entire interval -1 to 1 is covered, and the widths of the bounds vary quite a bit. In many cases, we do indeed see widths greater than 1. It is important to note that the center of the bounds carry no real significance in this context, but is simply used to sort these bounds for illustrative purposes.
+
+Figure \ref{fig:biv_bounds_vs_strength} show the widths of the same $9,877$ bounds plotted against the strength of the instruments. The black line overlayed the plot has intercept 2 and slope -2, which is the upper bound for the width found when including the two monotonicity assumptions. Here we see that this upper bound might very well hold even when we do not include these two assumptions. Here, it is even more evident that the width exceeds 1 in many cases.
+
+In Table \ref{tab:prop_of_biv_widths_large}, we see the proportion of the intervals presented on Figure \ref{fig:biv_bounds_vs_strength} with width greater than 1, 0.75, and 0.5, stratified by strength. This shows that while not guaranteed, it is not impossible to observe bounds with width less than 1. However, for IVs with strength less than 0.1, it is just above $46\%$ of the randomly generated distributions that lead to widths greater than 1, while only $\approx 10\%$ result in intervals with width less than $0.5$. 
+
+<!-- Since the bounds involve 24 different expressions on both the lower and upper end, algebraically exploring the width of the bounds is quite the challenge. Instead, we decided to randomly generate values of $P(X = 1 | Z = z)$ and $P(Y = 1 | Z = z)$ to get a sense of the behavior of the bounds. Figure \ref{fig:all_biv_bounds} shows bounds calculated from $9877$ randomly generated distributions. -->
+
+<!-- A few interesting things are clear from Figure \ref{fig:biv_bounds_vs_strength}. On Figure \ref{fig:all_biv_bounds}, it is seen that the entire interval from -1 to 1 is covered, and that the widths of the bounds vary a lot, even exceeding 1 in some cases. Figure \ref{fig:biv_width_vs_strength} shows see the width of the bivariate bounds plotted against the strength of the IV on the exposure $X$. Here it is even more evident that the width exceeds 1 in many cases. However, we do also see that the width is always less than $2 - 2\cdot \text{ST}$, which inspired the following result. -->
+
+<!-- \begin{theorem}\label{thm:upperBoundWidth} -->
+<!-- If the effects of $Z$ on $X$ and of $Z$ on $Y$ are both monotonically increasing (that is, \eqref{eq:x_monotone} and \eqref{eq:y_monotone} hold), the width of the bounds obtained from bivariate data is bounded from above by $2 - 2\cdot \text{ST}$. In particular, the width of the bounds is guaranteed to be less than 1 only when the strength is greater than 0.5. -->
+<!-- \end{theorem} -->
+
+<!-- \begin{proof} -->
+<!-- The proof is presented in Appendix \ref{proof-of-theorem}. It is a brute force proof relying on going through all possible pairs of upper and lower bounds. With the two monotonicity assumptions the number of expressions in the upper and lower bounds is only three for each leading to only nine possible expressions for the width.  -->
+<!-- \end{proof} -->
 
 \begin{figure*}[h]
   \centering
@@ -251,18 +321,27 @@ The proof is presented in Appendix \ref{proof-of-theorem}. It is a brute force p
   \label{fig:biv_bounds_vs_strength}
 \end{figure*}
 
-An important consequence of this result is the following:
+Note that this result does not rule out the possibility that the bounds from bivariate data with weak IVs have width less than 1. It simply states that, for weak IVs, there are no guarantees. In Table \ref{tab:prop_of_biv_widths_large}, we see the proportion of the intervals presented on Figure \ref{fig:biv_bounds_vs_strength} with width greater than 1, 0.75, and 0.5, stratified by strength. This shows that while not guaranteed, it is not impossible to observe bounds with width less than 1. However, for IVs with strength less than 0.1, it is just above $46\%$ of the randomly generated distributions that lead to widths greater than 1, while only $\approx 10\%$ result in intervals with width less than $0.5$. 
 
-\begin{corollary}
-From bivariate data where the effects of $Z$ on both $X$ and $Y$ are monotonically increasing, the width of the bounds are guaranteed to be less than $1$ only if the strength of $Z$ on $X$ is greater than $0.5$.
-\end{corollary}
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+proportion_with_width <- read.csv(here::here("tables", "proportion_of_biv_widths_greater_than.csv"), check.names = FALSE)
 
-Note that this does not rule out the possibility that the bounds from bivariate data with weak IVs have width less than 1. It simply states that, for weak IVs, there are no guarantees. In Table \ref{tab:prop_of_biv_widths_large}, we see the proportion of the intervals presented on Figure \ref{fig:biv_bounds_vs_strength} with width greater than 1, 0.75, and 0.5, stratified by strength. This shows that while not guaranteed, it is not impossible to observe bounds with width less than 1. However, for IVs with strength less than 0.1, it is just above $46\%$ of the randomly generated distributions that lead to widths greater than 1, while only $\approx 10\%$ result in intervals with width less than $0.5$. 
+proportion_with_width_latex <- proportion_with_width %>% 
+  rename_with(
+    ~str_split(.x, "= ", simplify = TRUE)[,2],
+    -1
+  ) %>% 
+  knitr::kable(format = "latex") %>% 
+  kableExtra::add_header_above(
+    header = c(" " = 1, "Proportion of bounds with width greater than..." = 3)
+  )
+```
+
 
 \begin{table}[!h]
   \begin{center}
-  `r knitr::kable(read.csv(here::here("tables", "proportion_of_biv_widths_greater_than.csv"), check.names = FALSE), format = "latex")`
-  \caption{Proportion of bounds from distributions where strength of $Z$ on $X$ is less than 0.5 where width is greater than $w$, $w=1,0.75,0.5$.}
+  `r proportion_with_width_latex`
+  \caption{Proportion of bounds from distributions where width is greater than $1$, $0.75$, and $0.5$ stratified by strength of the instrument $Z$ on the exposure $X$.}
   \label{tab:prop_of_biv_widths_large}
   \end{center}
 \end{table}
@@ -280,9 +359,9 @@ $$\begin{aligned}
 \text{logit}(P(Y = 1 | X = x)) &= \gamma_0 + \gamma_1 x,
 \end{aligned}$$
 
-where $\text{logit}(a) = \frac{1}{1 + \exp(-a)}$, $y \in \{0,1\}, x \in \{0,1\}$, $z_i \in \{0, 1, 2\}$, and $\beta_i, \gamma_j \in \mathbb{R}$. Furthermore, $P(Z_j = 0) = P(Z_j = 2) = 0.25$ and $P(Z_j = 1) = 0.5$, and $\gamma_0 = -2, \gamma_1 = 0.2$. 
+where $\text{logit}(a) = \frac{1}{1 + \exp(-a)}$, $y \in \{0,1\}, x \in \{0,1\}$, $z_i \in \{0, 1, 2\}$, and $\beta_i, \gamma_j \in \mathbb{R}$. This particular model is often used in GWAS studies that focus on associations between genetic variants and binary phenotypes [**REFERENCE NEEDED, MAYBE REFERENCE PLINK SOFTWARE?**]. Furthermore, $P(Z_j = 0) = P(Z_j = 2) = 0.25$ and $P(Z_j = 1) = 0.5$, which is in line with what would be expected in a Mendelian randomization scenario where pairs of binary alleles are randomly chosen. Here, we will use $\gamma_0 = -2, \gamma_1 = 0.2$. 
 
-To avoid any unpleasant surprises due to randomness from simulating actual data, we decided to integrate (either exactly or numerically depending on the value of $n$) to find the probabilities $P(Y = 1 | Z_j = z_j)$ and $P(X = 1 | Z_j = z_j)$. We draw the coefficients $\beta_i \sim \text{Uniform}(0, 1/n)$ **(should this be Uniform(-1/n,1/n)?)**. This is a scenario similar to what we encounter in the MR setting. Figure \ref{fig:bounds_vs_strength_many_IVs_varying_betas} shows the resulting bounds for the three different values of $n$ plotted against the strengths of the IVs.
+To avoid any unpleasant surprises due to randomness from simulating actual data, we decided to integrate (either exactly or numerically depending on the value of $n$) to find the probabilities $P(Y = 1 | Z_j = z_j)$ and $P(X = 1 | Z_j = z_j)$. We draw the coefficients $\beta_i \sim \text{Uniform}(0, 1/n)$. This is a scenario similar to what we encounter in the MR setting. Figure \ref{fig:bounds_vs_strength_many_IVs_varying_betas} shows the resulting bounds for the three different values of $n$ plotted against the strengths of the IVs.
 
 \begin{figure}[!h]
   \center
@@ -291,15 +370,11 @@ To avoid any unpleasant surprises due to randomness from simulating actual data,
   \label{fig:bounds_vs_strength_many_IVs_varying_betas}
 \end{figure}
 
-Figure \ref{fig:bounds_vs_strength_many_IVs_varying_betas} shows that when many valid IVs are present, the individual bivariate upper and lower bounds are monotonically decreasing and increasing, respectively, as the strength of the IV increases. I.e. intersections of intervals from many IVs will result in an interval very similar, if not identical, to the most narrow of the individual bounds, which is the interval derived using the strongest of the IVs. It seems that this approach cannot make up for the lack of information in the bivariate bounds by aggregating information across multiple IVs.
+Figure \ref{fig:bounds_vs_strength_many_IVs_varying_betas} shows that when many valid IVs are present, the individual bivariate upper and lower bounds seems to be monotonically decreasing and increasing, respectively, as the strength of the IV increases. This means intersections of intervals from many IVs will result in an interval very similar, if not identical, to the most narrow of the individual bounds, which in turn will be the interval derived using the strongest of the IVs. 
 
-\iffalse
-* Marginalize from logistic regression with multiple IVs, both constant and varying coefficients.
-    *When coefficients constant, all intervals are (not surprisingly) identical. In a logistic model, many IVs present => weak.
-    *When coefficients not constant, strength varies, but again, when many IVs present, IVs are weak.
-    *When many IVs available, and distribution of $Z_j$ as in MR (i.e. approximately $P(Z_j = 0) = 0.25, P(Z_j = 1) = 0.50, P(Z_j = 2) = 0.25$), gains from intersections of multiple bounds is miniscule. 
+Another interesting, although not surprising, observation is the shrinking of the strengths of the indiviudal instruments when the total number of instruments included increases. With many instruments, the linear combination $\beta_0 + \sum_i \beta_i z_i$ will generally be relatively large, simply by chance. This means that the effect on $P(X = 1 | Z_1, ..., Z_n)$ of a single instrument being 1 instead of 0 is quite small. This is important. In Section \ref{bounds-from-bivariate-data}, we saw that chances of obtaining informative bounds with weak instruments are slim. If one believes the true model includes many instruments, chances are that these are relatively weak.
 
-\fi
+In MR analyses based on bivariate data from GWAS results, this indicates that aggregating information from multiple instruments in a simple manor, such as taking interceptions, will not result in more information than simply using the best of the individual bounds. This strategy is only appropriate in a situation where all the proposed instruments are valid. If we on the other hand want to protect ourselves against using bounds from a potentially invalid instrument by taking the union of the bounds from many proposed instruments, we would end up with very conservative bounds. This would in turn provide even less information about the target, namely the ATE. This is partly due to the lack of guarantees on the width of the bounds obtained from bivariate data (Section \ref{bounds-from-bivariate-data}), which means it is very unlikely that a collection of instruments all provide informative bounds. When combining bounds through unions, only attributes shared among all bounds will be preserved, so if just one weak instrument is included, the resulting union bounds will provide very little information.
 
 # What can you do with summary-level data for bounds? A Quasi-Bayesian Path to More Information
 \label{quasi-bayesian}
@@ -308,47 +383,71 @@ Although bivariate data does not provide enough information for the derived boun
 
 The idea is relatively simple: we wish to use the known quantities $P(X = x | Z = z)$ and $P(Y = y | Z = z)$ to get a sense of which possible distributions $P(X = x, Y = y | Z = z)$ marginalize to the known distributions, while satisfying the constraints obtained from the polymake program. By repeatedly, and independently, drawing such trivariate distributions, we can get a sense of the bounds trivariate data could give. Using this, questions about the potential information one could gain from knowing the full trivariate distribution can be answered.
 
-## Setup
+## Sampling Procedure
 
 The joint conditional distribution $P(X = x, Y = y | Z = z)$ can be constructed from the marginal conditional distributions $P(X = x | Z = z)$ and $P(Y = y | Z = z)$ if we know the values of $\text{Cov}(X, Y | Z = z)$ for each $z$, since 
 
-\[
-P(X = x, Y = y | Z = z) = P(X = x | Z = z)P(Y = y | Z = z) + (2\cdot I[x = y] - 1)\text{Cov}(X, Y | Z = z).
-\]
+\begin{equation}
+P(X = x, Y = y | Z = z) = P(X = x | Z = z)P(Y = y | Z = z) + (2\cdot I[x = y] - 1)\text{Cov}(X, Y | Z = z). \label{eq:cov-expression}
+\end{equation}
 
 Since these covariances are essentially completely unknown to us, we draw them uniformly from the set of values that result in the joint conditional distribution of $(X,Y|Z)$ being an actual probability distribution satisfying the verifiable constraints from \eqref{eq:constraints}. 
 
 This set of values is not trivial, but fortunately we can find a superset of values that is much smaller than $[-1,1]^k$. When implementing this approach, we propose a set of covariances by sampling from this superset, construct the trivariate distribution, and check if any constraints are violated. If there are any violations, the proposed set of covariances is discarded, and a new set proposed. 
 
-The ultimate goal of this exercise is to try to assess whether knowledge about the full trivariate probabilities would allow us to determine direction of the ATE. In most cases there is not a firm answer to this question, as some trivariate probabilities result in bounds that would, while other trivariate probability distributions result in bounds that would not. So, we are really trying to asses the questions "given the bivariate probabilities, what is the chance that the trivariate data would allow us to determine direction?" 
+Combining $0 \le P(X = x, Y = y | Z = z) \le 1$ for all values of $z = 0, 1, ..., k-1$ with \eqref{eq:cov-expression}, we see that 
 
-## Sampling Procedure
+\begin{equation*}
+-P(X = x | Z = z) P(Y = y | Z = z) \le \text{Cov}(X, Y | Z = z) \le 1 - P(X = x | Z = z)P(Y = y | Z = z)
+\end{equation*}
 
-From $0 \le P(X = x, Y = y | Z = z) \le 1$ for all $x = 0,1,\ y = 0,1,$ and $z = 0, 1, ..., k-1$, we know that $\text{Cov}(X, Y | Z = z)$ must be such that 
+when $x = y$, and 
+
+\begin{equation*}
+P(X = x | Z = z) P(Y = y | Z = z) - 1 \le \text{Cov}(X, Y | Z = z) \le P(X = x | Z = z)P(Y = y | Z = z)
+\end{equation*}
+
+when $x \neq y$. Since this holds for all $z = 0,1,...,k-1$, we find that $\text{Cov}(X, Y | Z = z)$ must be such that 
 
 $$
 \begin{aligned}
-  \max\left\{ 
+  \max_z\left\{ 
       \begin{array}{c}
-        -P(X = 1 | Z = z)P(Y = 1 | Z = z) \\ 
+        -P(X = 1 | Z = z)P(Y = 1 | Z = z) \\
+        -P(X = 0 | Z = z)P(Y = 0 | Z = z) \\ 
         P(X = 1 | Z = z)P(Y = 0 | Z = z) - 1\\
-        P(X = 0 | Z = z)P(Y = 1 | Z = z) - 1\\
-        - P(X = 0 | Z = z)P(Y = 0 | Z = z)
+        P(X = 0 | Z = z)P(Y = 1 | Z = z) - 1
       \end{array} 
     \right\} & \\ 
     \le \text{Cov}(X, &Y | Z = z) \le \\
-    &\min\left\{ 
+    &\min_z\left\{ 
       \begin{array}{c}
-        1 - P(X = 1 | Z = z)P(Y = 1 | Z = z) \\ 
+        1 - P(X = 1 | Z = z)P(Y = 1 | Z = z) \\
+        1 - P(X = 0 | Z = z)P(Y = 0 | Z = z) \\ 
         P(X = 1 | Z = z)P(Y = 0 | Z = z) \\
-        P(X = 0 | Z = z)P(Y = 1 | Z = z) \\
-        1 - P(X = 0 | Z = z)P(Y = 0 | Z = z)
+        P(X = 0 | Z = z)P(Y = 1 | Z = z)
       \end{array} 
     \right\}
 \end{aligned}
 $$
 
-Furthermore, enforcing the IV inequalities $\max_x \sum_y \max_z P(X = x, Y = y | Z = z) \le 1$, we see that the differences between $\text{Cov}(X, Y | Z = z_1)$ and $\text{Cov}(X, Y | Z = z_2)$ for any pair of $(z_1, z_2) \in \{0,1,...,k-1\} \times \{0,1,...,k-1\}$ must satisfy that 
+Furthermore, enforcing the IV inequalities $\max_x \sum_y \max_z P(X = x, Y = y | Z = z) \le 1$, we get constraints on the differences between $\text{Cov}(X, Y | Z = z_1)$ and $\text{Cov}(X, Y | Z = z_2)$. For any $x=0,1$, and any pair $(z_1, z_2) \in \{0,1,...,k-1\} \times \{0,1,...,k-1\}$, we see that $0 \le P(X = x, Y = 0 | Z = z_1) + P(X = x, Y = 1 | Z = z_2) \le 1$ (where the first inequality is a result of summing two positive quantities). Again, using \eqref{eq:cov-expression}, we see that for $x=0$,
+
+\begin{equation}
+0 \le P(X = 0 | Z = z_1)P(Y = 0 | Z = z_1) + \text{Cov}(X, Y | Z = z_1) + P(X = 0 | Z = z)P(Y = 1 | Z = z_2) - \text{Cov}(X, Y | Z = z_2) \le 1,
+\end{equation}
+
+which is equivalent to 
+
+$$
+\begin{aligned}
+-P(X = 0 | Z = z_1)P(Y = 0 | &Z = z_1) - P(X = 0 | Z = z)P(Y = 1 | Z = z_2) \\
+\le \text{Cov}(X, Y | Z = z_1) &- \text{Cov}(X, Y | Z = z_2) \le \\
+1 - P(X = 0 | &Z = z_1)P(Y = 0 | Z = z_1) - P(X = 0 | Z = z)P(Y = 1 | Z = z_2).
+\end{aligned}
+$$
+
+A similar exercise can be done for $x = 1$. The result is that, for any pair of $(z_1, z_2) \in \{0,1,...,k-1\} \times \{0,1,...,k-1\}$, the values of $\text{Cov}(X, Y | Z = z_1)$ and $\text{Cov}(X, Y | Z = z_1)$ must satisfy  
 
 $$
 \begin{aligned}
@@ -372,24 +471,18 @@ $$
 \end{aligned}
 $$
 
-Sequentially, we draw values for $\text{Cov}(X, Y | Z = 0), \text{Cov}(X, Y | Z = 1), ..., \text{Cov}(X, Y | Z = k-1)$, such that the above inequalities hold, calculate the values of $P(X = x, Y = y | Z = z)$, and check that the constraints in \eqref{eq:constraints} are satisfied. If any of the constraints are violated, the values are rejected, and the procedure repeated until we have a set of values for $\text{Cov}(X, Y | Z = 0), \text{Cov}(X, Y | Z = 1), ..., \text{Cov}(X, Y | Z = k-1)$ that result in a trivariate probability distribution that satisfies the constraints in \eqref{eq:constraints}. 
 
+To create a possible set of values of $P(X = x, Y = y | Z = z)$, we sequentially draw values for $\text{Cov}(X, Y | Z = 0), \text{Cov}(X, Y | Z = 1), ..., \text{Cov}(X, Y | Z = k-1)$, such that the above inequalities hold, calculate the values of $P(X = x, Y = y | Z = z)$ using \eqref{eq:cov-expression}, and check that the constraints in \eqref{eq:constraints} are satisfied. If any of the constraints are violated, the values are rejected, and the procedure repeated until we have a set of values for $\text{Cov}(X, Y | Z = 0), \text{Cov}(X, Y | Z = 1), ..., \text{Cov}(X, Y | Z = k-1)$ that result in a trivariate probability distribution that satisfies the constraints in \eqref{eq:constraints}. 
 
+The ultimate goal of this exercise is to try to assess whether knowledge about the full trivariate probabilities would allow us to determine direction of the ATE. In most cases there is not a firm answer to this question, as some trivariate probabilities result in bounds that would, while other trivariate probability distributions result in bounds that would not. So, we are really trying to asses questions such as "given the bivariate probabilities, what is the chance that the trivariate data would allow us to determine direction?" 
 
-
+The approach presented here can, under the right set of assumptions, be interpreted as generating a sample from the posterior distribution over all possible trivariate distributions given the marginalized probabilities, and a uniform prior on the unknown quantities $\text{Cov}(X, Y | Z = z)$. This means that we can obtain posterior probabilities of certain events. In particular, we will be interested in the posterior probability that the trivariate bounds contain $0$. We will use this as a heuristic measure of the loss of information in going from trivariate to bivariate data. 
 
 ## Single IV Case
 
-Depending on the values of $P(X = 1 | X = z)$ and $P(Y = 1 | Z = z)$, the picture the approach described paints can vary dramatically, which in turn leads to very different conclusions. Figure \ref{fig:trivariate_bounds} shows the bounds derived from 1000 sampled trivariate distributions. 
+To illustrate the method described in the previous section, we start with considering the single IV case. This allows us to easily explore the behavior of this method, and present a few different scenarios. In Section \ref{multiple-iv-case}, we describe how this method can be used if multiple instruments are available.
 
-\begin{figure}[!h]
-  \center
-  \includegraphics[width=\linewidth]{`r here::here("figures", "trivariate_bounds_subset_plot.png")`}
-  \caption{Trivariate bounds are constructed from the bivariate distribution by drawing values for $\text{Cov}(X,Y|Z=z),z=0,1,2$. Even similar bivariate distributions can result in very different insights.}
-  \label{fig:trivariate_bounds}
-\end{figure}
-
-In each of these scenarios, we consider the proportion of trivariate probability distributions that would result in bounds not covering 0. We use this as a simple heuristic to gauge the loss of information in going from trivariate to bivariate data. Table \ref{tab:subset_plot_summaries_a} shows these proportions with the bounds found from the bivariate distributions, and table \ref{tab:subset_plot_summaries_b} shows the underlying bivariate probabilities.
+Depending on the values of $P(X = 1 | X = z)$ and $P(Y = 1 | Z = z)$, the picture this approach paints can vary dramatically, which in turn leads to very different conclusions. Here, we will consider nine different sets of values of these marginal distributions that illustrate a few different scenarios one can end up in when using this quasi-bayesian approach. The marginal distributions are presented in Table \ref{tab:subset_plot_summaries_b} below, while Table \ref{tab:subset_plot_summaries_a} shows the estimated posterior probability of the trivariate bounds containing $0$ based on 1000 trivariate distributions sampled as described in Section \ref{sampling-procedure}. All trivariate bounds are shown on Figure \ref{fig:trivariate_bounds}.
 
 ```{r include = FALSE}
 subset_plot_summaries <- readr::read_rds(here::here("vignettes_data", "subset_plot_summaries.Rds"))
@@ -397,27 +490,56 @@ subset_plot_summaries <- readr::read_rds(here::here("vignettes_data", "subset_pl
 subset_plot_summaries_for_print <- subset_plot_summaries %>% 
   mutate(p_no_zero = 1 - p_no_zero) %>% 
   rename(Row = row_i, Column = col_j,
-         Lower = bivariate_lower, 
-         Upper = bivariate_upper,
-         `Proportion overlapping 0` = p_no_zero) %>% 
-  select(Row, Column, Lower, Upper, `Proportion overlapping 0`, everything()) 
+         Lower = bivariate_lower,
+         Upper = bivariate_upper) %>% 
+  #        `Proportion overlapping 0` = p_no_zero) %>% 
+  select(Row, Column, Lower, Upper, everything())
 
 subset_plot_summaries_for_print_A <- subset_plot_summaries_for_print %>% 
   select(-starts_with("P(")) %>% 
-  knitr::kable(format = "latex", digits = 3)
+  mutate(p_no_zero = sprintf(fmt = "%.2f", p_no_zero * 100),
+         across(c(Lower, Upper), round, digits = 3),
+         across(c(Row, Column), ~paste(cur_column(), .x)),
+         cells = glue::glue("[{Lower}, {Upper}]\n {p_no_zero}\\%")) %>% 
+  select(" " = Row, Column, cells) %>% 
+  mutate(across(everything(), kableExtra::linebreak)) %>% 
+  pivot_wider(names_from = Column, values_from = cells) %>% 
+  knitr::kable(format = "latex", escape = FALSE) 
+
 
 subset_plot_summaries_for_print_B <- subset_plot_summaries_for_print %>% 
   select(Row, Column, starts_with("P(")) %>% 
-  knitr::kable(format = "latex", digits = 3,
-               col.names = c("Row", "Column", rep(paste("z =", 0:2), 2))) %>% 
-  kableExtra::add_header_above(header = c(" " = 2, "P(X = 1 | Z = z)" = 3, "P(Y = 1 | Z = z)" = 3))
+  mutate(across(starts_with("P("), ~sprintf("%.3f", .x))) %>% 
+  unite(col = "pxz", c(3:5), sep = ", ") %>% 
+  unite(col = "pyz", 4:6, sep =", ") %>% 
+  mutate(
+    across(
+      c(pxz, pyz),
+      ~paste0("\\{", .x, "\\}")
+    )
+  ) %>% 
+  unite(col = "p", 3:4, sep = "\n") %>% 
+  mutate(across(p, kableExtra::linebreak),
+         across(c(Row, Column), ~paste(cur_column(), .x))) %>% 
+  pivot_wider(names_from = Column, values_from = p) %>% 
+  rename(" " = Row) %>% 
+  knitr::kable(format = "latex", escape = FALSE) 
+
+# subset_plot_summaries_for_print_B <- subset_plot_summaries_for_print %>% 
+#   select(Row, Column, starts_with("P(")) %>% 
+#   knitr::kable(format = "latex", digits = 3,
+#                col.names = c("Row", "Column", rep(paste("z =", 0:2), 2))) %>% 
+#   kableExtra::add_header_above(header = c(" " = 2, "P(X = 1 | Z = z)" = 3, "P(Y = 1 | Z = z)" = 3))
 ```
 
-Row a shows three scenarios where the bivariate bounds are all more or less centered around zero with similar widths. However, the conclusions are rather different. Column 1 shows no trivariate distribution would allow us to determine the direction of the ATE using bounds. Column 2 indicates that about `r round(subset(subset_plot_summaries, row_i == "a" & col_j == 2)[['p_no_zero']], digits = 3)*100`% of the possible trivariate distributions would allow us to determine direction, while for column 3 that number is approximately `r round(subset(subset_plot_summaries, row_i == "a" & col_j == 3)[['p_no_zero']], digits = 3)*100`%. However, while the direction is always the same for column 2 (positive), it varies for column 3. 
 
-Row b illustrates three scenarios where the bivariate bounds are centered well above zero, and all of similar large widths. Here, we see one case where we have no hope of determining direction from trivariate bounds (column 1), one case where we are most likely to be able to determine the direction of the ATE to be positive from trivariate bounds (column 2), and one case where we are rather unlikely to be able to determine the direction of the ATE from trivariate bounds (column 3). 
+\begin{table}[h]
+  \center
+  `r subset_plot_summaries_for_print_B`
+  \caption{Values of $P(X = 1 | Z = z)$ and $P(Y = 1 | Z = z)$ used to illustrate our quasi-bayesian approach. These are presented with $\{P(X = 1 | Z = 0), P(X = 1 | Z = 1), P(X = 1 | Z = 2)\}$ on the first row, and $\{P(Y = 1 | Z = 0), P(Y = 1 | Z = 1), P(Y = 1 | Z = 2)\}$ on the second row.}
+  \label{tab:subset_plot_summaries_b}
+\end{table}
 
-Row c is similar to row a, but here all bivariate bounds are rather narrow. 
 
 \begin{table}[h]
   \center
@@ -426,36 +548,48 @@ Row c is similar to row a, but here all bivariate bounds are rather narrow.
   \label{tab:subset_plot_summaries_a}
 \end{table}
 
-\begin{table}[h]
+\begin{figure}[h]
   \center
-  `r subset_plot_summaries_for_print_B`
-  \caption{For each of the nine panels displayed in figure \ref{fig:trivariate_bounds}, this table includes the values of $P(X = 1 | Z = z)$ and $P(Y = 1 | Z = z)$.}
-  \label{tab:subset_plot_summaries_b}
-\end{table}
+  \includegraphics[width=\linewidth]{`r here::here("figures", "trivariate_bounds_subset_plot.png")`}
+  \caption{Trivariate bounds are constructed from the bivariate distribution by drawing values for $\text{Cov}(X,Y|Z=z),z=0,1,2$. Even similar bivariate distributions can result in very different insights.}
+  \label{fig:trivariate_bounds}
+\end{figure}
 
-An important note: a scenario like the one resulting in the non-bounds presented in row b, column 2 only provides information about the trivariate bounds under the assumption that all possible valid trivariate probability distributions are equally likely. Under this assumption, it tells us that it is much more likely that the ATE is positive. What it does tell us, regardless of correctness of the assumption that all possible valid trivariate probability distributions are equally likely, is that trivariate bounds will not be able to determine direction *if the ATE is in fact negative*. This latter conclusion only hinges on the correctness of the marginal probabilities, $P(X = 1 | Z = z)$ and $P(Y = 1 | Z = z)$, and the assumptions presented in Section \ref{iv-assumptions-and-two-sample-mr}. 
+Row a shows three scenarios where the bivariate bounds are all more or less centered around zero with similar widths. However, the conclusions are rather different. Column 1 shows no trivariate distribution would allow us to determine the direction of the ATE using bounds. Column 2 indicates that about `r round(subset(subset_plot_summaries, row_i == "a" & col_j == 2)[['p_no_zero']], digits = 3)*100`% of the possible trivariate distributions would allow us to determine direction, while for column 3 that number is approximately `r round(subset(subset_plot_summaries, row_i == "a" & col_j == 3)[['p_no_zero']], digits = 3)*100`%. However, while the direction is always the same for column 2 (positive), it varies for column 3. 
+
+Row b illustrates three scenarios where the bivariate bounds are centered well above zero, and all of similar large widths. Here, we see one case where we have no hope of determining direction from trivariate bounds (column 1), one case where we are most likely to be able to determine the direction of the ATE to be positive from trivariate bounds (column 2), and one case where we are rather unlikely to be able to determine the direction of the ATE from trivariate bounds (column 3). 
+
+Row c is similar to row a in that all bivariate bounds are centered around 0, but here all bivariate bounds are rather narrow. The three columns indicate similar conclusions as seen in row a. This shows that even with rather narrow bivariate bounds centered around 0, the intuitive conclusion that trivariate bounds would not be able to detect direction is nowhere near guaranteed to be correct. 
+
+The nine panels sets of values here indicate that there is no simple way to determine whether trivariate bounds would be useful from just the bivariate bounds. There is a wide variety of possible scenarios where similar bivariate bounds correspond to posterior distributions of trivariate distributions that indicate very different potentials of the trivariate bounds.
+
+It is important to reflect on the interpretation of posterior probabilities. A scenario like the one resulting in the bounds presented in row b, column 2 only provides information about the trivariate bounds under the assumption that all possible valid trivariate probability distributions are equally likely. Under this assumption, it tells us that it is much more likely that the ATE is positive.  It does not, however, rule out a negative value of the ATE. What it does tell us is that trivariate bounds will not be able to determine direction *if the ATE is in fact negative*. This conclusion only hinges on the correctness of the marginal probabilities, $P(X = 1 | Z = z)$ and $P(Y = 1 | Z = z)$, and the assumptions presented in Section \ref{iv-assumptions-and-two-sample-mr}. 
 
 ## Multiple IV Case
 
-Although the bivariate bounds often do not provide much information themselves, as we saw in the previous section, the little information available can sometimes provide some insights. The approach presented draws on the fact that trivariate bounds are guaranteed to be much narrower than bivariate bounds. It remains to be seen if utilizing such an approach while aggregating information from multiple IVs through intersecting bounds. We will illustrate this approach in the next section using data obtained from MRBase. To do so, we draw covariances $\text{Cov}(X, Y | Z_1 = z), \text{Cov}(X,Y | Z_2 = z), z=0,1,2$, construct the trivariate distributions, find the trivariate bounds, and then intersect these to aggregate the information. Repeating this procedure many times gives us a sense of what information we can expect from intersecting trivariate bounds.
+Although the bivariate bounds often do not provide much information themselves, as we saw in the previous section, the little information available can sometimes provide some insights. The approach presented draws on the fact that trivariate bounds are guaranteed to be much narrower than bivariate bounds. It remains to be seen if utilizing such an approach while aggregating information from multiple IVs through intersecting bounds. 
+
+The simplest extension to the multiple IV scenario, is to simply repeat the sampling procedure presented in Section \ref{sampling-procedure} for each proposed instrument before creating the combined bounds by taking the intersection of the pairwise bounds. This builds on one main assumption in that the two sampling procedures are done independently, and so implicitly assume that the covariances of $X$ and $Y$ given $Z_1$ are independent of the covariance of $X$ and $Y$ given $Z_2$. 
+
+We will illustrate this approach in the next section using data obtained from MRBase. 
 
 
 # Data Analysis
 
-In this section we will consider two example analyses demonstrating the approaches presented above. The data was obtained using the IEU GWAS database, which is available in R through the `TwoSampleMR` package. [@mrbase] 
+In this section we will consider two example analyses demonstrating the approaches presented above. The data was obtained using the IEU GWAS database, which is available in R through the `TwoSampleMR` package. [@mrbase] We will explore the non-parametric bounds obtained from bivariate data sources, and what conclusions are attainable based on our quasi-bayesian approach. To do so, we consider two examples: the effect of smoking on depression, and the effect of smoking on lung cancer. 
 
 ```{r include = FALSE}
 experiments <- read_csv(here::here("vignettes_data/example_analyses/experiment_info.csv")) %>% 
   filter(id %in% c("ukb-d-20116_0", "ukb-d-20544_11", "ukb-d-40001_C349"))
 ```
 
-Using the `TwoSampleMR` package, studies containing variables appropriate for exposure and outcome were selected. Instruments were extracted for both studies, and the data harmonized to make sure that the effects of the SNPs on exposure and outcome were measured with the same allele as reference. We obtain coefficients from GWAS experiments corresponding to the effects of the SNPs on the exposure and the outcome from a logistic model. Since no intercept for these models are included in the reported results, but marginal proportions of the outcome, exposure, and allele frequencies are, we find the intercepts by solving $P(X = 1) = \sum_{z = 0}^2\text{logit}(\beta_0 + \hat{\beta_1}\cdot z)\cdot P(Z = z)$ and $P(Y = 1) = \sum_{z = 0}^2\text{logit}(\gamma_0 + \hat{\gamma_1}\cdot z)\cdot P(Z_j = z)$ for $\beta_0$ and $\gamma_0$, respectively. This allows us to calculate $P(Y = 1 | Z_j = z)$ and $P(X = 1 | Z_j = z)$ for every $j$ and $z=0,1,2$. With these quantities, non-parametric bounds on the ATE are calculated.
+To be able to find non-parametric bounds, we need estimates of the marginal probabilities $P(Y = 1 | Z = z)$ and $P(X = 1 | Z = z)$. To do so, we use the `TwoSampleMR` R-package. This allows us to find studies that have explored the effects of genetic variants on the exposure and outcome variables we are interested in. Instruments were extracted, and LD based clumping ($r^2 \ge 0.001$ within a $10,000$ kb window using $p < 5 \times 10^{-8}$ as the level of significance) performed such that only independent instruments with significant associations are returned. The data is harmonized to make sure that the effects of the SNPs on exposure and outcome were measured with the same allele as reference. We obtain coefficients from GWAS experiments corresponding to the effects of the SNPs on the exposure, and the outcome from a logistic model. Since no intercept for these models are included in the reported results, but marginal proportions of the outcome, exposure, and allele frequencies are, we find the intercepts by solving $P(X = 1) = \sum_{z = 0}^2\text{logit}(\beta_0 + \hat{\beta_1}\cdot z)\cdot P(Z = z)$ and $P(Y = 1) = \sum_{z = 0}^2\text{logit}(\gamma_0 + \hat{\gamma_1}\cdot z)\cdot P(Z_j = z)$ for $\beta_0$ and $\gamma_0$, respectively. This allows us to calculate $P(Y = 1 | Z_j = z)$ and $P(X = 1 | Z_j = z)$ for every $j$ and $z=0,1,2$. With these quantities, non-parametric bounds on the ATE can be calculated.
 
 For complete and reproducible code, see **[link to vignette showing analysis on pkgdown page]**. 
 
 ## Smoking effect on depression
 
-In our first example, we explore the effect smoking has as an exposure on the outcome depression.[reference] Data on $(X|Z)$ is obtained from the experiment with id `r filter(experiments, stringr::str_detect(trait, "Smoking"))[['id']]` in the MRBase database, and data on $(Y|Z)$ is obtained from the experiment with id `r filter(experiments, stringr::str_detect(trait, "Depression"))[['id']]`. 
+In our first example, we explore the effect smoking has as an exposure on the outcome depression.[reference] Data on $(X|Z)$ is obtained from the experiment with id `r filter(experiments, stringr::str_detect(trait, "Smoking"))[['id']]` in the MRBase database, and data on $(Y|Z)$ is obtained from the experiment with id `r filter(experiments, stringr::str_detect(trait, "Depression"))[['id']]`. We find 84 genetic variants that can be used as instruments for the effect of smoking on depression. Using these 84 genetic variantes, we want to first explore if non-parametric bounds can be used to obtain any information about the average treatment effect of smoking on the chances of developing depression. We will follow up on this with an exploration of the conclusions our quasi-bayesian approach can provide in this specific example. Finally, we will take a look at intersections of these bounds, and comment on the usefulness of this approach in this practical setting.
 
 \begin{figure}[!h]
   \includegraphics[width = 0.975\linewidth]{`r here::here("figures", "example_analyses", "smoking_depression_bivaraite_bounds_ukb-d-20116_0_ukb-d-20544_11.png")`}
@@ -463,12 +597,9 @@ In our first example, we explore the effect smoking has as an exposure on the ou
   \label{fig:smoking_on_depression_ind_bounds}
 \end{figure}
 
-From the 84 instrumental variables found, we obtain 84 sets of bounds using the values of $P(X = 1 | Z_j = z), P(Y = 1 | Z_j = z), z = 0,1,2,\ j=1,2,...,84$. These are shown on Figure \ref{fig:smoking_on_depression_ind_bounds}. Two things are immediately clear:
+From the 84 instrumental variables found, we obtain 84 sets of bounds using the values of $P(X = 1 | Z_j = z), P(Y = 1 | Z_j = z), z = 0,1,2,\ j=1,2,...,84$. These are shown on Figure \ref{fig:smoking_on_depression_ind_bounds}. From this figure, it is immediately clear that all the intervals are practically identical. This means that trying to aggregate information from these instruments by simply creating the bounds of the intersection of these will lead to essential no gains. We also see that all the intervals are very, very wide, and all overlap zero. None of these instruments result in bounds that can help us determine direction of the ATE. 
 
-1. All intervals are practically identical, meaning that there is almost nothing to gain from intercepting these intervals.
-2. All intervals are very, very wide, and overlapping zero.
-
-In other words, very little information about the ATE can be gained from these bounds. This is no surprise given how weak these IVs are. Figure \ref{fig:strength_histogram} shows a histogram of the strength of all the IVs. The strength of the strongest IV is less than 0.01.
+In other words, very little information about the ATE can be gained from these non-parametric bounds, even if one were to combine these by using the intersection bounds. This is no surprise given how weak these instruments are. Figure \ref{fig:strength_histogram} shows a histogram of the strength of all the IVs. The strength of the strongest IV is less than 0.01, which is much smaller than the 0.5 needed to guarantee narrow bounds. 
 
 \begin{figure}[!h]
   \center
@@ -477,9 +608,9 @@ In other words, very little information about the ATE can be gained from these b
   \label{fig:strength_histogram}
 \end{figure}
 
-With this in mind, we proceed to our quasi-bayesian approach to assess if trivariate bounds would be able to provide any extra information about the ATE. Figure \ref{fig:smoking_on_depression_tri_bounds} shows 500 trivariate bounds based on potential trivariate distributions sampled as described in Section \ref{quasi-bayesian}. We see that these trivariate bounds are all narrower than the bivariate bounds, but also all contain zero. This means that we will not be able to use non-parametric bounds to determine direction of the ATE, even if we were to obtain trivariate data.
+With this in mind, we proceed to explore our quasi-bayesian approach. For each of the 84 genetic variants, we sample 500 potential trivariate distributions as described in Section \ref{quasi-bayesian}. From these 500 trivariate distributions, non-parametric bounds are created. Figure \ref{fig:smoking_on_depression_tri_bounds} shows the resulting bounds. 
 
-It is important to keep in mind that this conclusion is only valid as long as the probabilities obtained are the true population probabilities. If this is the case, then non-parametric bounds simply will not allow us to determine direction of the ATE. 
+It is clear that while the trivariate bounds are much narrower than the corresponding bivariate bounds. This is very much so in line with our expectations. Unfortuntately, all the bounds founds based on potential trivariate distributions overlap 0.sThis means that we will not be able to use non-parametric bounds to determine the direction of the ATE of smoking on the chances of developing depression, even if we were to obtain trivariate data. 
 
 \begin{figure}[!h]
   \centering
@@ -488,7 +619,9 @@ It is important to keep in mind that this conclusion is only valid as long as th
   \label{fig:smoking_on_depression_tri_bounds}
 \end{figure}
 
-Finally, we explore if we could possibly gain any insights by aggregating the information from multiple IVs through intersections. Figure \ref{fig:smoking_on_depression_intersections} shows the results from doing so for 9 pairs of SNPs. For each pair, we created the intersection bounds of both the bivariate bounds, and sampled trivariate bounds. Note that this approach implicitly assumes that the covariances $\text{Cov}(X,Y | Z_j)$ and $\text{Cov}(X,Y | Z_k)$ are independent of one another. Unfortunately, the results are the same. Although the intersection bounds are narrower, we do not encounter any scenario where intersections of trivariate bounds would help us determine direction of the ATE. 
+Aggregating the information from multiple IVs through intersections is a simple idea, but everything we have seen so far points to this not being useful in practice. Figure \ref{fig:smoking_on_depression_intersections} shows the results from doing exactlt this for 9 pairs of SNPs, both when simply creating intersection of the bivariate bounds, and when using our quasi-bayesian approach to estimate the distribution of intersections of bounds from trivariate distributions as described in Section \ref{multiple-iv-case}. Comparing Figure \ref{fig:smoking_on_depression_intersections} to Figure \ref{fig:smoking_on_depression_tri_bounds}, we notice that the intersection bounds are essentially the same width. As for intersections of trivariate bounds, these are narrower than the corresponding intersections of bivariate bounds, but we do not see any scenario where intersections of trivariate bounds would help us determine direction of the ATE. 
+
+Again, the conclusion is that no sets of trivariate distributions allows us to determine direction of the average treatment effect through the use of non-parametric bounds.
 
 \begin{figure}[!h]
   \centering
@@ -497,13 +630,16 @@ Finally, we explore if we could possibly gain any insights by aggregating the in
   \label{fig:smoking_on_depression_intersections}
 \end{figure}
 
+
+It is very important to keep in mind that this conclusion is only valid as long as the probabilities obtained are the true population probabilities. If this is the case, then non-parametric bounds simply will not allow us to determine direction of the ATE. The accuracy of the probabilities can be questioned, as these are derived from logistic regression results. 
+
 \newpage
 
 ## Smoking effect on lung cancer 
 
-As a positive control, we consider the effect of smoking on lung cancer. The procedure is the exact same as above. Here, we obtain data on $(Y|Z)$ from the experiment in MRBase with id `r filter(experiments, stringr::str_detect(tolower(trait), "lung"))[['id']]`.
+As a positive control, we consider the effect of smoking on lung cancer. The general approach is a replicate of the previous section. Here, we obtain data on $(Y|Z)$ from the experiment in MRBase with id `r filter(experiments, stringr::str_detect(tolower(trait), "lung"))[['id']]`, while the data on $(X|Z)$ is again from the experiment with id `r filter(experiments, stringr::str_detect(trait, "Smoking"))[['id']]`.
 
-As before, the bivarate bounds (figure \ref{fig:smoking_on_lung_cancer_ind_bounds}) are rather wide (all have width greater than 1) meaning they convey no truly useful information about the ATE, and even if we were to obtain trivariate data, we will not be able to determine the direction of the ATE (figure \ref{fig:smoking_on_lung_cancer_tri_bounds}). Aggregating through intersections (figure \ref{fig:smoking_on_lung_cancer_intersections}) does not lead to any different results.
+As before, the bivarate bounds (figure \ref{fig:smoking_on_lung_cancer_ind_bounds}) are rather wide (all have width greater than 1) meaning they convey no truly useful information about the ATE, and even if we were to obtain trivariate data, we will not be able to determine the direction of the ATE (figure \ref{fig:smoking_on_lung_cancer_tri_bounds}). Aggregating through intersections (figure \ref{fig:smoking_on_lung_cancer_intersections}) does not lead to real gain in information, even if this is done using bounds based on trivariate distributions.
 
 \begin{figure}[h]
   \includegraphics[width = 0.975\linewidth]{`r here::here("figures", "example_analyses", "smoking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb-d-40001_C349.png")`}
@@ -523,23 +659,30 @@ As before, the bivarate bounds (figure \ref{fig:smoking_on_lung_cancer_ind_bound
   \label{fig:smoking_on_lung_cancer_intersections}
 \end{figure}
 
+
+This is a very concerning result. It is well established that smoking has a strong causal effect on the chances of developing lung cancer [references...]. The fact that we are unable to say anything about the ATE in this case does not leave much hope in terms of future discoveries based on non-parametric bounds obtained using bivariate data. Even more concerning is the fact that trivariate distributions also are unsuccessful in determining the direction of the effect. Non-parametric bounds alone seem unable to give information about the direction of the effect, whether based on bivariate or trivariate data. 
+
 \newpage
 
 # Conclusion and Practical Considerations
 
 Non-parametric bounds are without a doubt an attractive concept. With a minimal set of assumptions they let us obtain bounds on the average treatment effect in a deterministic way -- no probabilistic interpretations needed. It almost sounds to good to be true. As we have seen here, it turns out, in certain settings, it is. 
 
-While non-parametric bounds based on trivariate data come with very nice guarantees, such as the width always being less than 1, they are not applicable in Mendelian randomization analyses based on data made readily available through the many databases full of GWAS results. These databases contain information about bivariate data rather than trivariate data.
+While non-parametric bounds based on trivariate data come with very nice guarantees, such as the width always being less than 1, they are not applicable in Mendelian randomization analyses based on the kind of data that are made readily available through the many databases full of GWAS results. These databases contain information about bivariate data rather than trivariate data.
 
-Fortunately, a framework for working out non-parametric bounds in this setting does exist [@ramsahai_causal_2012], and it can be easily extended to many other scenarios, for example working with Instrumental Variables with more than two levels. Unfortunately, we lose the strong guarantees on the maximum width of the bounds we know from the trivariate bounds. To regain these guarantees, we need rather strong assumptions about the strength of the IV. Depending on the specific context, such strong IVs are very unlikely to be available. In particular, in the two MR analyses presented here, the strongest IV available had a strength of less than $0.01$, much smaller than the $0.5$ needed for us to be guaranteed widths less than 1. This suggests that bivariate bounds using genetic variants as instruments are very unlikely to provide any useful insights about the ATE. 
+Fortunately, a framework for working out non-parametric bounds in this setting does exist [@ramsahai_causal_2012], and it can be easily extended to many other scenarios, for example working with Instrumental Variables with more than two levels. Unfortunately, we lose the strong guarantees on the maximum width of the bounds we know from the trivariate bounds. To regain these guarantees, we need rather strong assumptions about the strength of the IV. Depending on the specific context, such strong IVs are very unlikely to be available. 
 
-To try to make up for the lack of useful results from bivariate bounds, one might consider aggregating the information from multiple IVs. From our explorations, when aggregating using simple intersections of individual bounds, the gain in information is negligible, lending credit to the idea that bivariate data more often than not does not provide the necessary information to obtain useful results about the ATE. 
+Though information from bounds based on bivariate data might be limited, some is still available. Aggregating information from many instruments can be done in a simple fashion using intersections of individual bounds. This simple approach is only valid when all instruments are valid. In that case, it is a very reasonable way of aggregating information, but this will only result in significant gains of information when the individual bounds are shifted from one another, and not almost identical or nested. The problem with these non-parametric bounds is that the upper and lower bounds are close to monotonically decreasing and increasing, respectively, as a function of the strength. This means that intersections of bounds results in the set of bounds obtained from the strongest instrument, which leaves us with no more information than had we simply used the strongest instrument.
 
-In a last effort to fully utilize the information we do have from bivariate data, we outline an approach to explore the potential trivariate distributions that are in agreement with the bivariate data at hand, and the bounds these potential trivariate distributions lead to. This gives us the opportunity to assess the conclusions non-parametric bounds from trivariate data could potentially lead to. One can use this to assess the probability of the trivariate bounds containing zero, something that tells us if trivariate bounds are likely to be useful in determining direction of the average treatment effect, and could help guide a decision to further pursue an experiment aimed at collecting trivariate data. 
+In a last effort to fully utilize the information we do have from bivariate data, we outline an approach to explore the potential trivariate distributions that are in agreement with the bivariate data at hand, and the bounds these potential trivariate distributions lead to. This gives us the opportunity to assess the conclusions non-parametric bounds from trivariate data could potentially lead to. One can use this to assess a posterior probability of the trivariate bounds containing zero, something that tells us if trivariate bounds are likely to be useful in determining direction of the average treatment effect, and could help guide a decision to further pursue an experiment aimed at collecting trivariate data. We considered a few different scenarios that provide different potential conclusions, and saw how diverse conclusions one can get to even when the original bivariate bounds are relatively similar. This suggests that we do indeed lose a lot of information in summarizing a trivariate distribution with only two bivariate distributions. 
 
-This quasi-bayesian approach might prove useful in certain settings. In the Mendelian randomization analyses presented here, the conclusion drawn based on this quasi-bayesian method is that no trivariate distribution will allow us to determine direction of the ATE. This is a very strong conclusion, and quite the blow to the use of non-parametric bounds in Mendelian randomization analyses. If the marignal probabilities found in these studies are correct, there is very little hope of detecting direction of the ATE using non-parametric bounds, even if trivariate data were to be collected. 
+To demonstrate the use of non-parametric bounds in Mendelian randomization analyses, we considered two examples. In the first example, we aimed at finding bounds on the effect of smoking on the chances of developing depression. Unfortunately, all instruments available were very week with the strongest instrument having a strenght of less than $0.01$. This results in bounds that provide very little information. Our quasi-bayesian approach suggests that even trivariate bounds would not be able to provide much extra information.
 
-Using genetic variants as instrumental variables is a very intriguing idea, but combining this setting with non-parametric bounds seems to give very few results.
+In our second example, we explored the effect of smoking on the chances of developing lung cancer. It has been well established that there is a rather strong causal effect of smoking on the chances of developing lung cancer. Unfortunately, our non-parametric bounds were not able to determine the direction of this effect, and our quasi-bayesian approach once again suggests that trivariate bounds would only bring a marginal improvement. 
+
+In this context, it is important to note that the conclusions made about the trivariate distributions only hold if the bivariate probabilities are correct. Whether that is the case here is questionable, as these probabilities are estimated based on logistic regression models. 
+
+Using genetic variants as instrumental variables is a very intriguing idea, but combining this setting with non-parametric bounds seems to give very few results. One potential use case of non-parametric bounds in a Mendelian randomization analysis could be when one has prior knowledge about the direction of the effect, but wish to get a better sense of the magnitude. Non-parametric bounds can provide an upper limit on this magnitude, which might in some scenarios be of use. For example in our second example, where the direction of the effect of smoking on lung cancer is well known, non-parametric bounds might help in providing an upper bound for the effect. 
 
 \newpage
 

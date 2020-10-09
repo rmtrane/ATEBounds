@@ -52,7 +52,7 @@ Next, we obtain potential instruments for the exposure variable.
 smoking_instruments <- extract_instruments(smoking_experiment$id)
 ```
 
-Similarly, we obtain outcome data: identify an appropriate study with data on depression, and create an object with the informaiton available about that study. We call this object `depression_experiment`.
+Similarly, we obtain outcome data: identify an appropriate study with data on depression, and create an object with the information available about that study. We call this object `depression_experiment`.
 
 ```{r}
 depression_experiment <- ao %>% filter(id == "ukb-d-20544_11")

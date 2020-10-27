@@ -48,19 +48,26 @@ if(FALSE){
             here::here("data/many_tri_bounds_violations.csv"))
 
   width_vs_strength <- many_tri_bounds %>%
-    filter(!violations,
-           upper >= lower) %>%
+    filter(!violations) %>%
+           #upper >= lower) %>%
     ggplot(aes(x = strength, y = width)) +
-    geom_abline(slope = -1, intercept = 1) +
-    geom_point(size = 0.3, alpha = 0.1) +
-    facet_grid(~k,
-               labeller = function(...) label_both(..., sep = " = ")) +
-    scale_x_continuous(limits = c(0, 1),
-                       expand = expansion(mult = 0, add = 0)) +
-    scale_y_continuous(limits = c(0, 1),
-                       expand = expansion(mult = 0, add = 0)) +
-    theme_bw()
+      geom_abline(slope = -1, intercept = 1) +
+      geom_point(size = 0.3, alpha = 0.1) +
+      facet_grid(~k,
+                 labeller = function(...) label_both(..., sep = " = ")) +
+      scale_x_continuous(limits = c(0, 1),
+                         expand = expansion(mult = 0, add = 0)) +
+      scale_y_continuous(limits = c(0, 1),
+                         expand = expansion(mult = 0, add = 0)) +
+      coord_fixed() +
+      labs(
+        x = "Strength of IV (Z) on exposure (X)",
+        y = "Width of trivariate"
+      ) +
+      theme_bw() +
+      theme(panel.spacing.x = unit(2, "lines"),
+            plot.margin = unit(c(1,2,1,1), "lines"))
 
-  ggsave(width_vs_strength,
+  ggsave(width_vs_strength, width = 8, height = 4.5, dpi = 300,
          filename = here::here("figures/trivariate_widths_vs_strengths.png"))
 }

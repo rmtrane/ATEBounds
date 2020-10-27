@@ -125,9 +125,17 @@ bounds_vs_nIVs <- for_plots %>%
     geom_errorbar(aes(ymin = lower, ymax = upper)) +
     facet_grid(assumption ~ beta) +
     labs(title = "Bounds vs. number of IVs",
-         subtitle = expression(paste("All coefficients equal, and ", beta[0], "= 1/", sqrt(n)))) 
+         subtitle = expression(paste("All coefficients equal, and ", beta[0], "= 1/", sqrt(n)))) +
+    theme_bw()
 
 bounds_vs_nIVs
+
+ggsave(
+  filename = here::here("figures", "bounds_vs_nIVs.png"),
+  plot = bounds_vs_nIVs, 
+  dpi = 300
+)
+
 ```
 
 Next, we show the same intervals, but plotted against strength rather than number of IVs. 
@@ -149,6 +157,13 @@ bounds_vs_strength <- for_plots %>%
          subtitle = expression(paste("All coefficients equal, and ", beta[0], "= 1/", sqrt(n))))
 
 bounds_vs_strength
+
+ggsave(
+  filename = here::here("figures", "bounds_vs_strength.png"),
+  plot = bounds_vs_strength,
+  dpi = 300
+)
+
 ```
 
 For the paper, we exclude the row where monotonicity is assumed.
@@ -270,15 +285,21 @@ varying_betas_bounds_vs_strength_no_mono <- varying_betas_for_plots %>%
     scale_y_continuous(limits = c(-1,1)) + 
     facet_grid( ~ n,
                labeller = function(...) label_both(..., sep = " = ")) +
-    labs(title = "Bounds vs. strength",
-         subtitle = expression(paste("Coefficients ", beta[i], " ~ Unif(0, 1/n) and ", 
-                                     beta[0], "= 1/", sqrt(n), ".", sep = "")),
-         color = "") +
+    labs(color = "") +
     theme_bw() + 
     theme(axis.text.x = element_text(angle = 45, hjust = 1),
-          legend.position = "bottom")
+          legend.position = "top")
 
-varying_betas_bounds_vs_strength_no_mono
+varying_betas_bounds_vs_strength_no_mono +
+  labs(title = "Bounds vs. strength",
+       subtitle = expression(paste("Coefficients ", beta[i], " ~ Unif(0, 1/n) and ", 
+                                   beta[0], "= 1/", sqrt(n), ".", sep = "")))
+
+ggsave(
+  filename = here::here("figures", "varying_betas_bounds_vs_strength_no_mono.png"),
+  plot = varying_betas_bounds_vs_strength_no_mono,
+  width = 7, height = 4, dpi = 300
+)
 ```
 
 Here is the strength of each IV against the corresponding coefficient. We see that increasing the coefficient by a certain amount leads to much smaller increase in strength when the total number of IVs included is larger. This makes sense, since when we include more variables in our model, $P(X = 1 | Z_1,...,Z_n)$ will increase, and eventually be practically one. 
@@ -292,6 +313,12 @@ varying_betas_coefs_vs_strength <- ggplot(varying_betas_for_plots,
        subtitle = "Coefficients Unif(0,3)")
 
 varying_betas_coefs_vs_strength
+
+ggsave(
+  filename = here::here("figures", "varying_betas_coefs_vs_strength.png"),
+  plot = varying_betas_coefs_vs_strength,
+  dpi = 300
+)
 ```
 
 ### Intersections
@@ -335,18 +362,6 @@ varying_betas_for_plots %>%
 
 ```{r}
 ggsave(
-  filename = here::here("figures", "bounds_vs_nIVs.png"),
-  plot = bounds_vs_nIVs, 
-  dpi = 300
-)
-
-ggsave(
-  filename = here::here("figures", "bounds_vs_strength.png"),
-  plot = bounds_vs_strength,
-  dpi = 300
-)
-
-ggsave(
   filename = here::here("figures", "bounds_vs_strength_paper.png"),
   plot = bounds_vs_strength_paper,
   width = 7, height = 4, dpi = 300
@@ -363,19 +378,6 @@ ggsave(
 #   plot = varying_betas_bounds_vs_strength,
 #   dpi = 300
 # )
-
-ggsave(
-  filename = here::here("figures", "varying_betas_bounds_vs_strength_no_mono.png"),
-  plot = varying_betas_bounds_vs_strength_no_mono,
-  width = 7, height = 4, dpi = 300
-)
-
-
-ggsave(
-  filename = here::here("figures", "varying_betas_coefs_vs_strength.png"),
-  plot = varying_betas_coefs_vs_strength,
-  dpi = 300
-)
 
 ggsave(
   filename = here::here("figures", "varying_betas_intersection_vs_best.png"),

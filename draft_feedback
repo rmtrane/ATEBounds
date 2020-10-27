@@ -1,8 +1,7 @@
 Section 1:
 a. Add more introduction about MR (background, rationale), two-sample MR (background and why it's popular). Currently, the intro is more geared towards RCTs and why people would use an IV, not necessarily why people may use two-sample MR.
-   - TBD
 b. Better integrate bounds into two-sample MR, specifically discussing why bounds may be appealing in the two-sample MR setting (e.g. less assumptions?)
-   - TBD
+   - Tried to do this, but not sure I properly succeeded. 
 
 Section 1.1: 
 I think a deeper review of bounds literature in both IV and MR settings is required, including pointing out each work's contribution to the bounds literature. We would also have to include references for falsification inequality literature since they are related.
@@ -26,11 +25,13 @@ a. Varrow is rarely used; you can simply use bold or skip the bolding all-togeth
 b. In general, this section feels like it is written towards an audience who is very familiar with the bounding literature or for those who can read mathematical proofs. Since the paper is geared more towards MR folks who are primarily epidemiologists with minimal training in this area, I think explaining this that audience in mind might be most useful. For example, for every math equation, I would provide some heuristic explanation as to how this step comes about and/or why this step is needed. If you can explain this section to a quantitative-oriented person who is not necessarily a statistician, you've succeeded in wording this section properly. As long as it's more readable to a quantitative-oriented person than right now, I think that's a success.
    - TBD
 c. Also, we can add a brief note here (or in one of the latter sections) about the lower bound < upper bound and explore this in detail in the supp with the plots you showed me.
-   - TBD
+   - Added a brief note.
+   - TBD: write appendix exploring this
 
 Section 3.1:
 a. The bounding formula here seems a bit disconnected from Section 2.3? But, I don't have immediate ideas on how to make these two sections seem more integrated.
-   - ...?
+   - ...? TBD
+   - Include step by step matrices.
 
 b. I also think the question that this section is trying to address and how it plans to address this question is not very clear in the beginning. Perhaps, start with "the first question we address is whether bounds from bivariate data with a single instrument is useful in the sense of providing some information about the magnitude and the direction of the ATE. To achieve this, we will construct bounds from bivariate data across different DGPS and ....". I think the intro to Section 4 does a good job of this.
    - Added introductory paragraph with such an explanation.
@@ -39,7 +40,7 @@ The ending portion of this section looks good to me.
 
 c. I would roughly add where each line of the max (or min) bracket comes from, explaining in words that these constraints are roughly from Assumption blank or from the law of probability. To add to this point, we can say some expressions are a consequence of certain IV assumptions while others are results from the polytope constraints in Ramasahi(section Blank and Blank). I don't except that we have every part of this equation/bound explained.
    - TBD
-   - The problem is that they all come from the polytope constraints, and I can only really make sense of the once that are related to the law of probability. 
+   - The problem is that they all come from the polytope constraints, and I can only really make sense of the once that are related to the law of probability. QQ
 
 d. After addressing (c), I feel like the explanation of bounds here is more easier to understand than in Section 2.3 and you can perhaps use it as a template to rewrite 2.3 so that it's more presentable.
    - In truth, I'm not sure how to do this while still presenting the theory that this method is based on...
@@ -89,14 +90,14 @@ a. I forget, are we planning to expand this section?
    - Decided yes.
    - Expanded a bit. Not sure what else is needed.
 
-   - TBD: state formally how we get to intersections, make target clear.
+   - Done: state formally how we get to intersections, make target clear.
 
 Section 6:
 a. I would be a bit more specific about the data cleaning/harmonization/data prep process (e.g. linkage equilibrium defaults, clumping defaults, etc.)
    - done. Not sure if more is needed...
    
 b. I would also add descriptive statistics table/plot about the data (e.g. what were the marginal P(X|Z),P(Y|Z) estimates after data cleaning, what were the original summary stats, etc). Since there are many IVs, I would put plots with summary stats in the main text and in the supp, provide a full table with the exact numerical values.
-   - TBD.
+   - TBD: figures created. Need to decide which to include, and describe. QQ
 
 
 Section 6.1
@@ -107,8 +108,8 @@ b. Currently, while the necessary results/text are there, it would be great to h
    - done. Might also need more work...
 
 d. Some references to prior work looking at the relationship between smoking and depression through MR and other means are needed. Ideally, having their magnitudes (even if they are not in the same scale as ours) would be useful.
-   - TBD.
-
+   - TBD
+   
 Section 6.2.
 a. Same as above; some references to prior work looking at the relationship between smoking and lung cancer, through MR and other means are needed.
    - TBD
@@ -124,11 +125,12 @@ Other Thoughts:
 a. I think for the next round of revision, if you can send me the Rmarkdown file, I can start to directly edit on it. Ideally, if you have a cloud storage service that you use (e.g. Dropbox, Google Drive, One Drive, Box, etc.), that would make the collaboration portion easier.
    - will invite to collaborate on github repo
 b. Also, for the next round of revision, I would add an abstract at the top.
+   - TBD
 
 
 ### Figures
 Figure 4: I would make the panel labels (a,b,c; 1,2,3) larger, ideally at the same font size as the X/Y axis. Also, X-axis is missing a label. In the plot caption, I would explain exactly what each color represents.
+       - Should be fixed.
 
 Figure 7/8/9/10: Captioning missing. Also, remove id:ukb; fix x-axis label; replace legend's "TRUE" to human-readable ones;  remove SNP1:rs to simply rs; have legend for dotted lines, etc.. I'm not sure if it's possible to make this plot bigger by using landscape plotting in latex?
-
-Y = sum_{z,x} I(Z=z,X=x) Y(z,x)
+       - TBD

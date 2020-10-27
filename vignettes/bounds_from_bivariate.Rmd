@@ -68,10 +68,12 @@ We generate $10,000$ sets of distributions.
 library(tidyverse)
 library(ACEBounds)
 
+
 set.seed(7226637)
 sim_probs <- tibble(j = 1:10000) %>%
   mutate(thetas = map(j, ~runif(n = 3, min = 0, max = 1)), 
          gammas = map(thetas, simulate_gammas_from_thetas))
+
 ```
 
 
@@ -82,19 +84,25 @@ Here, we define the strength of $Z$ on $X$ as $\max_{z_1,z_2} \left | P(X = 1 | 
 We then calculate the strength of $Z$ on $X$, $Z$ on $Y$, and find the bounds. 
 
 ```{r}
-bounds <- sim_probs %>% 
-  rowwise() %>% 
-  mutate(strength_x = max(abs(outer(thetas, thetas, `-`))),
-         strength_y = max(abs(outer(gammas, gammas, `-`))),
-         bounds = list(get_bounds(thetas = thetas,
-                                  gammas = gammas,
-                                  stop = FALSE, 
-                                  warning = FALSE))) %>% 
-  ungroup() %>% 
-  mutate(violations = map_lgl(bounds, "constraints_violated"),
-         intervals = map(bounds, "interval")) %>% 
-  unnest_wider(intervals) %>% 
-  mutate(width = upper - lower)
+if(!file.exists(here::here("vignettes_data/bivariate_bounds.Rds"))){
+  bounds <- sim_probs %>% 
+    rowwise() %>% 
+    mutate(strength_x = max(abs(outer(thetas, thetas, `-`))),
+           strength_y = max(abs(outer(gammas, gammas, `-`))),
+           bounds = list(get_bounds(thetas = thetas,
+                                    gammas = gammas,
+                                    stop = FALSE, 
+                                    warning = FALSE))) %>% 
+    ungroup() %>% 
+    mutate(violations = map_lgl(bounds, "constraints_violated"),
+           intervals = map(bounds, "interval")) %>% 
+    unnest_wider(intervals) %>% 
+    mutate(width = upper - lower)
+  
+  write_rds(bounds, here::here("vignettes_data/bivariate_bounds.Rds"))
+} else {
+  bounds <- read_rds(here::here("vignettes_data/bivariate_bounds.Rds"))
+}
 ```
 
 The plot below shows the width plotted against the strength of $Z$ on both $X$ and $Y$. The black line has slope $-2$ and intercept $2$ -- i.e. it represents the upper bound on the width derived under the two monotonicity assumptions. 
@@ -105,12 +113,19 @@ width_vs_strength <- bounds %>%
   ggplot(aes(x = strength_x, y = width)) + 
     geom_point(alpha = 0.2) + 
     geom_abline(slope = -2, intercept = 2) +
-    labs(title = "Width of Bivariate Bounds as function of strength",
-         x = "Strength of Z on X",
+    lims(
+      y = c(0,2)
+    ) +
+    labs(x = "Strength of Z on X",
          y = "Width of bounds") + 
     theme_bw()
 
-width_vs_strength
+width_vs_strength +
+  labs(title = "Width of Bivariate Bounds as function of strength")
+
+ggsave(plot = width_vs_strength,
+       filename = here::here("figures", "bivariate_width_vs_strength.png"), 
+       dpi = 300, width = 4, height = 2.86)
 ```
 
 ```{r}
@@ -120,23 +135,37 @@ all_bounds_plot <- bounds %>%
   arrange((upper + lower)/2) %>% 
   mutate(id = row_number()) %>% 
   ggplot(aes(x = id, y = (upper + lower)/2)) + 
-    geom_line(aes(color = "Center of bounds")) + 
     geom_errorbar(aes(ymin = lower, ymax = upper),
                   width = 0.001, alpha = 0.05) + 
-    labs(title = "Bounds from ≈10,000 randomly generated distributions",
-         y = "ACE",
-         x = "",
+    geom_line(aes(color = "Center of bounds"),
+              alpha = 0.75) + 
+    labs(y = "ACE",
+         x = "Simulation run",
          color = ""
-         #caption = paste("Note:", sum(bounds$upper <= bounds$lower), "of the", nrow(bounds), "simulated distributions resulted in upper limits smaller than the lower limits. These have been removed.")
     ) +
+    guides(color = 
+             guide_legend(
+                label.position = "top" 
+             )
+           ) +
+    scale_color_manual(values = "red") +
     theme_bw() +
-    theme(axis.text.x = element_blank(),
-          axis.ticks.x = element_blank(),
+    theme(#axis.text.x = element_blank(),
+          #axis.ticks.x = element_blank(),
           panel.grid.major.x = element_blank(),
           panel.grid.minor.x = element_blank(),
-          legend.position = "bottom")
+          legend.position = c(1, 0),
+          legend.justification = c(1, 0),
+          legend.background = element_blank(),
+          legend.key = element_blank())
 
-all_bounds_plot
+all_bounds_plot +
+  labs(title = "Bounds from ≈10,000 randomly generated distributions",
+       caption = paste("Note:", sum(bounds$upper <= bounds$lower), "of the", nrow(bounds), "simulated distributions resulted in upper limits smaller than the lower limits. These have been removed."))
+
+ggsave(plot = all_bounds_plot,
+       filename = here::here("figures", "all_bivariate_bounds.png"),
+       dpi = 300, width = 4, height = 2.86)
 ```
 
 
@@ -161,14 +190,6 @@ pander::pander(proportion_of_widths_greater_than)
 
 
 ```{r}
-ggsave(plot = width_vs_strength,
-       filename = here::here("figures", "bivariate_width_vs_strength.png"), 
-       dpi = 300, width = 7, height = 5)
-
-ggsave(plot = all_bounds_plot,
-       filename = here::here("figures", "all_bivariate_bounds.png"),
-       dpi = 300, width = 7, height = 5)
-
 write_csv(proportion_of_widths_greater_than,
           path = here::here("tables", "proportion_of_biv_widths_greater_than.csv"))
 ```

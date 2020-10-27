@@ -147,7 +147,7 @@ for_plot <- trivariate_bounds %>%
   group_by(j) %>% 
   mutate(id = row_number()) %>% 
   ungroup() %>% 
-  mutate(contains_zero = if_else(trivariate_lower < 0 & trivariate_upper > 0, "Zero in range", "Zero NOT in range"),
+  mutate(contains_zero = if_else(trivariate_lower < 0 & trivariate_upper > 0, "Overlaps Zero", "Does not Overlap Zero"),
          facet_row = ceiling(k/10), 
          facet_col = k - (facet_row-1)*10)
 
@@ -171,9 +171,9 @@ plot <- for_plot %>% #select(k, center, facet_row, facet_col) %>% arrange(center
     ylim(c(-1,1)) +
     facet_grid(facet_row ~ facet_col) +
     coord_fixed() +
-    scale_color_manual(values = c("black", "grey50", "red4")) + 
-    labs(x = "", y = "ACE",
-         title = "Bounds on ACE",
+    scale_color_manual(values = c("black", "red4", "grey50")) + 
+    labs(x = "", y = "ATE",
+         title = "Bounds on ATE",
          color = "",
          linetype = ""
     ) + 
@@ -214,10 +214,10 @@ for_subset_plot <- for_plot %>%
          col_j = (J-1) %% 3 + 1)
 
 subset_plot_summaries <- for_subset_plot %>% 
-  group_by(row_i, col_j, thetas, gammas) %>% 
+  group_by(row_i, col_j, thetas, gammas, J) %>% 
   summarize(bivariate_lower = unique(bivariate_lower),
             bivariate_upper = unique(bivariate_upper),
-            p_no_zero = mean(contains_zero == "Zero NOT in range")) %>% 
+            p_no_zero = mean(contains_zero == "Does not Overlap Zero")) %>% 
   rowwise() %>% 
   mutate(thetas = list(setNames(thetas, paste0("P(X = 1 | Z = ", 0:2, ")"))),
          gammas = list(setNames(gammas, paste0("P(Y = 1 | Z = ", 0:2, ")")))) %>% 
@@ -235,24 +235,29 @@ subset_plot <- ggplot(for_subset_plot,
   #            nrow = 3) + 
   facet_grid(row_i ~ col_j) +
   coord_fixed(ratio = 1/2) +
-  scale_color_manual(values = c("black", "grey50", "red4")) + 
-  labs(x = "", y = "ACE",
-       title = "Bounds on ACE",
+  scale_color_manual(values = c("black", "grey50", "red4"),
+                     #labels = c("Bivariate Bounds", "Overlaps Zero", "Does not Overlap Zero"),
+                     breaks = c("Bivariate Bounds", "Overlaps Zero", "Does not Overlap Zero")) + 
+  labs(x = "", y = "ATE",
        color = "",
        linetype = ""
   ) + 
   theme_bw() +
   theme(axis.ticks.x = element_blank(),
         axis.text.x = element_blank(),
-        legend.position = "bottom")
+        strip.text = element_text(size = 12),
+        legend.text = element_text(size = 12),
+        legend.position = "top")
 
+subset_plot +
+  labs(title = "Bounds on ATE")
 ```
 
 This is meant to illustrate the different scenarios we can end up in:
 
 * The first row shows us three scenarios with relatively wide bivariate bounds, more or less centered around zero. Yet we would draw three different conclusions:
     * `r chosen_ones[1]`: even with trivariate data, we would not be able to determine direction
-    * `r chosen_ones[2]`: with trivariate data, we would not be able to determine direction if the true ACE is negative. About `r filter(subset_plot_summaries, J == chosen_ones[2])[["p_no_zero"]]*100`% of the joint probabilities would result in the trivariate data giving us the direction, and in all of these cases the direction is positive. 
+    * `r chosen_ones[2]`: with trivariate data, we would not be able to determine direction if the true ACE is negative. About `r filter(subset_plot_summaries, row_i == 1, col_j == 2)[["p_no_zero"]]*100`% of the joint probabilities would result in the trivariate data giving us the direction, and in all of these cases the direction is positive. 
     * `r chosen_ones[3]`: with trivariate data, we would be able to determine direction with about `r filter(subset_plot_summaries, J == chosen_ones[3])[["p_no_zero"]]*100`% of the possible joint distributions, but the direction could go either way. 
 
 * The second row shows scenarios where the bounds are relatively wide and centered relatively far from zero (here, it is above, but you can similarly find cases where it would be below). Again, three difference conclusions:
@@ -275,7 +280,7 @@ write_rds(x = subset_plot_summaries,
 ggsave(
   plot = subset_plot,
   filename = here::here("figures", "trivariate_bounds_subset_plot.png"),
-  height = 7, width = 8, dpi = 300
+  width = 8, dpi = 300, height = 8
 )
 ```
 
@@ -365,7 +370,7 @@ for_plot_mono <- trivariate_bounds_mono %>%
   group_by(j) %>% 
   mutate(id = row_number()) %>% 
   ungroup() %>% 
-  mutate(contains_zero = if_else(trivariate_lower < 0 & trivariate_upper > 0, "Zero in range", "Zero NOT in range"))
+  mutate(contains_zero = if_else(trivariate_lower < 0 & trivariate_upper > 0, "Overlaps Zero", "Does not Overalp Zero"))
 
 plot_mono <- for_plot_mono %>% 
   mutate(facet_row = ceiling(j/10), 

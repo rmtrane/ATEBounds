@@ -97,7 +97,7 @@ a. I would be a bit more specific about the data cleaning/harmonization/data pre
    - done. Not sure if more is needed...
    
 b. I would also add descriptive statistics table/plot about the data (e.g. what were the marginal P(X|Z),P(Y|Z) estimates after data cleaning, what were the original summary stats, etc). Since there are many IVs, I would put plots with summary stats in the main text and in the supp, provide a full table with the exact numerical values.
-   - TBD: figures created. Need to decide which to include, and describe. QQ
+   - done. Included histograms showing P(X = 1 | Z = z) and P(Y = 1 | Z = z)
 
 
 Section 6.1

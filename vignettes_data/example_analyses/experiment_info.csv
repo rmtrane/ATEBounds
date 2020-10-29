@@ -1,7 +1,7 @@
-id,trait,note,group_name,mr,year,author,consortium,sex,priority,pmid,population,unit,sample_size,nsnp,build,subcategory,category,ontology,ncase,ncontrol,sd
-ukb-d-20116_0,Smoking status: Never,"NA",public,1,2018,Neale lab,"NA",Males and Females,0,NA,European,"NA",359706,13586591,HG19/GRCh37,"NA",Binary,"NA",195068,164638,NA
-ukb-d-20544_11,Mental health problems ever diagnosed by a professional: Depression,"NA",public,1,2018,Neale lab,"NA",Males and Females,0,NA,European,"NA",117782,13571547,HG19/GRCh37,"NA",Binary,"NA",25087,92695,NA
-bbj-a-133,Lung cancer,"NA",public,1,2019,Ishigaki K,"NA",Males and Females,0,NA,East Asian,"NA",212453,8885805,HG19/GRCh37,"NA",Binary,"NA",4050,208403,NA
-ieu-a-966,Lung cancer,NA,public,1,2014,Wang Y,"NA",Males and Females,1,24880342,European,"NA",27209,8945893,HG19/GRCh37,Cancer,Disease,"NA",11348,15861,NA
-ukb-d-40001_C349,"Underlying (primary) cause of death: ICD10: C34.9 Bronchus or lung, unspecified","NA",public,1,2018,Neale lab,"NA",Males and Females,0,NA,European,"NA",9092,9452278,HG19/GRCh37,"NA",Binary,"NA",1100,7992,NA
-ukb-a-54,Cancer code  self-reported: lung cancer,"NA",public,1,2017,Neale,Neale Lab,Males and Females,1,NA,European,SD,337159,10894596,HG19/GRCh37,"NA","NA","NA",190,336969,NA
+id,trait,coverage,imputation_panel,ncase,group_name,year,mr,author,sex,pmid,population,unit,sample_size,nsnp,build,study_design,ncontrol,subcategory,category,doi,consortium,covariates,priority,note,ontology,sd
+ukb-d-20116_0,Smoking status: Never,NA,NA,195068,public,2018,1,Neale lab,Males and Females,NA,European,"NA",359706,13586591,HG19/GRCh37,NA,164638,"NA",Binary,NA,"NA",NA,0,"NA","NA",NA
+ukb-d-20544_11,Mental health problems ever diagnosed by a professional: Depression,NA,NA,25087,public,2018,1,Neale lab,Males and Females,NA,European,"NA",117782,13571547,HG19/GRCh37,NA,92695,"NA",Binary,NA,"NA",NA,0,"NA","NA",NA
+bbj-a-133,Lung cancer,NA,NA,4050,public,2019,1,Ishigaki K,Males and Females,NA,East Asian,"NA",212453,8885805,HG19/GRCh37,NA,208403,"NA",Binary,NA,"NA",NA,0,"NA","NA",NA
+ieu-a-966,Lung cancer,NA,NA,11348,public,2014,1,Wang Y,Males and Females,24880342,European,"NA",27209,8945893,HG19/GRCh37,NA,15861,Cancer,Disease,NA,"NA",NA,1,NA,"NA",NA
+ukb-d-40001_C349,"Underlying (primary) cause of death: ICD10: C34.9 Bronchus or lung, unspecified",NA,NA,1100,public,2018,1,Neale lab,Males and Females,NA,European,"NA",9092,9452278,HG19/GRCh37,NA,7992,"NA",Binary,NA,"NA",NA,0,"NA","NA",NA
+ukb-a-54,Cancer code  self-reported: lung cancer,NA,NA,190,public,2017,1,Neale,Males and Females,NA,European,SD,337159,10894596,HG19/GRCh37,NA,336969,"NA","NA",NA,Neale Lab,NA,1,"NA","NA",NA

@@ -483,7 +483,7 @@ $$
 Furthermore, enforcing the IV inequalities $\max_x \sum_y \max_z P(X = x, Y = y | Z = z) \le 1$, we get constraints on the differences between $\text{Cov}(X, Y | Z = z_1)$ and $\text{Cov}(X, Y | Z = z_2)$. For any $x=0,1$, and any pair $(z_1, z_2) \in \{0,1,...,k-1\} \times \{0,1,...,k-1\}$, we see that $0 \le P(X = x, Y = 0 | Z = z_1) + P(X = x, Y = 1 | Z = z_2) \le 1$ (where the first inequality is a result of summing two positive quantities). From \eqref{eq:cov-expression}, we also see that for $x=0$,
 
 $$
-\begin{align}
+\begin{aligned}
 0 \le & \\ 
 & P(X = 0 | Z = z_1)P(Y = 0 | Z = z_1) + \text{Cov}(X, Y | Z = z_1) + P(X = 0 | Z = z)P(Y = 1 | Z = z_2) - \text{Cov}(X, Y | Z = z_2) \\ 
 & \le 1,

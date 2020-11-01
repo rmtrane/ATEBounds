@@ -236,7 +236,7 @@ ggsave(
   plot = smoking_depression_bivariate_bounds,
   filename = here::here("figures/example_analyses", 
                         paste0("smoking_depression_bivaraite_bounds_", smoking_experiment$id, "_", depression_experiment$id,".png")),
-  width = 8, dpi = 300
+  width = 8, height = 6, dpi = 300
 )
 ```
 
@@ -344,7 +344,7 @@ ggsave(
   plot = smoking_depression_individual_SNPs_plot,
   filename = here::here("figures/example_analyses", 
                         paste0("smoking_depression_individual_SNPs_plot_", smoking_experiment$id, "_", depression_experiment$id,".png")),
-  width = 11, dpi = 300
+  width = 11, height = 6.5, dpi = 300
 )
 ```
 
@@ -503,8 +503,7 @@ smoking_depression_intersection_bounds_plot <- smoking_depression_intersection_b
     lims(y = c(-1, 1)) + 
     coord_fixed(ratio = 350/2) + 
     geom_hline(yintercept = 0) +
-    facet_wrap(~SNP1 + SNP2,
-               labeller = label_both) +
+    facet_wrap(~SNP1 + SNP2) +
     labs(
       x = "", y = "ATE"
     ) +
@@ -515,7 +514,7 @@ ggsave(
   plot = smoking_depression_intersection_bounds_plot,
   filename = here::here("figures/example_analyses", 
                         paste0("smoking_depression_intersection_bounds_plot_", smoking_experiment$id, "_", depression_experiment$id,".png")),
-  width = 8, dpi = 300
+  width = 8, height = 8, dpi = 300
 )
 
 
@@ -830,8 +829,7 @@ smoking_lung_cancer_intersection_bounds_plot <- smoking_lung_cancer_intersection
     lims(y = c(-1, 1)) + 
     geom_hline(yintercept = 0) +
     coord_fixed(ratio = 500/2) + 
-    facet_wrap(~SNP1 + SNP2,
-               labeller = label_both) +
+    facet_wrap(~SNP1 + SNP2) +
     theme_bw() +
     labs(title = "Intersections of Possible Trivariate Bounds from Bivariate Data",
          subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
@@ -1105,8 +1103,7 @@ smoking_lung_cancer_2_intersection_bounds_plot <- smoking_lung_cancer_2_intersec
                        breaks = c(FALSE, TRUE)) + 
     lims(y = c(-1, 1)) + 
     geom_hline(yintercept = 0) +
-    facet_wrap(~SNP1 + SNP2,
-               labeller = label_both) +
+    facet_wrap(~SNP1 + SNP2) +
     theme_bw() +
     coord_fixed(ratio = 500/2) + 
     labs(title = "Intersections of Possible Trivariate Bounds from Bivariate Data",
@@ -1362,7 +1359,7 @@ ggsave(
   plot = smoking_lung_cancer_3_individual_SNPs_plot,
   filename = here::here("figures/example_analyses", 
                         paste0("smoking_lung_cancer_3_individual_SNPs_plot_", smoking_experiment$id, "_", lung_cancer_3_experiment$id,".png")),
-  width = 11, dpi = 300
+  width = 11, height = 6.5, dpi = 300
 )
 
 
@@ -1511,8 +1508,7 @@ smoking_lung_cancer_3_intersection_bounds_plot <- smoking_lung_cancer_3_intersec
     lims(y = c(-1, 1)) + 
     coord_fixed(ratio = 350/2) + 
     geom_hline(yintercept = 0) +
-    facet_wrap(~SNP1 + SNP2,
-               labeller = label_both) +
+    facet_wrap(~SNP1 + SNP2) +
     labs(
       x = "", y = "ATE"
     ) +
@@ -1530,7 +1526,7 @@ ggsave(
   plot = smoking_lung_cancer_3_intersection_bounds_plot,
   filename = here::here("figures/example_analyses", 
                         paste0("smoking_lung_cancer_3_intersection_bounds_plot_", smoking_experiment$id, "_", lung_cancer_3_experiment$id,".png")),
-  width = 8, dpi = 300
+  width = 8, height = 8, dpi = 300
 )
 ```
 
@@ -1747,8 +1743,7 @@ smoking_lung_cancer_4_intersection_bounds_plot <- smoking_lung_cancer_4_intersec
     lims(y = c(-1, 1)) + 
     coord_fixed(ratio = 500/2) + 
     geom_hline(yintercept = 0) +
-    facet_wrap(~SNP1 + SNP2,
-               labeller = label_both) +
+    facet_wrap(~SNP1 + SNP2) +
     theme_bw() +
     labs(title = "Intersections of Possible Trivariate Bounds from Bivariate Data",
          subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
@@ -2034,8 +2029,7 @@ intersection_bounds %>%
     scale_color_manual(values = c("red4", "grey50"),
                        breaks = c(FALSE, TRUE)) + 
     geom_hline(yintercept = 0) +
-    facet_wrap(~SNP1 + SNP2 + SNP3,
-               labeller = label_both) +
+    facet_wrap(~SNP1 + SNP2 + SNP3) +
     theme_bw()# +
     labs(title = "Intersections of Possible Trivariate Bounds from Bivariate Data",
          subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",

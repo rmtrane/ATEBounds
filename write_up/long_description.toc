@@ -1,0 +1,21 @@
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Prior Work and Our Contributions}{2}{subsection.1.1}%
+\contentsline {section}{\numberline {2}Setup}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Notation and Definitions}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}IV Assumptions and Two-Sample MR}{3}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Bounds on Average Treatment Effect}{5}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Properties of Bounds from Summary-Level Data}{6}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Bounds from Bivariate Data}{7}{subsection.3.1}%
+\contentsline {section}{\numberline {4}Improving Bounds With Multiple IVs}{12}{section.4}%
+\contentsline {section}{\numberline {5}What can you do with summary-level data for bounds? A Quasi-Bayesian Path to More Information}{14}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Sampling Procedure}{14}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Single IV Case}{16}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Multiple IV Case}{18}{subsection.5.3}%
+\contentsline {section}{\numberline {6}Data Analysis}{18}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Smoking effect on depression}{19}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Smoking effect on lung cancer}{25}{subsection.6.2}%
+\contentsline {section}{\numberline {7}Conclusion and Practical Considerations}{28}{section.7}%
+\contentsline {section}{\numberline {A}Proof of Theorem \ref {thm:upperBoundWidth}}{30}{appendix.A}%
+\contentsline {section}{\numberline {B}Exploration of Scenarios Where Bounds are Flipped}{32}{appendix.B}%
+\contentsline {section}{\numberline {C}More details for smoking on depression example }{32}{appendix.C}%
+\contentsline {section}{References}{33}{section*.23}%

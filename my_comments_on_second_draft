@@ -1,0 +1,14 @@
+Still missing:
+   - references for bounds in MR setting and falsification inequality to include in section 1.1
+   - reference that actually estimates ATE of smoking on lung cancer. Only seen loose references to "4 fold increase" or "9 fold increase", but these were without actual analyses or references to analyses. Do you know of any? I'll keep digging.
+   - section 2.3 untouched.
+   - abstract.
+
+Thoughts:
+   - section 3.1: tried to include the big matrices, but unsure how efficient this is in better communicating the approach. It does, however, kind of show where the actually inequalities come from.
+   - section 4: I found that most GWAS studies don't provide details on methods. I did find the database "GWAS Central", which includes a bunch of results that seem to be from logistic regressions. I included a sentence in section 4 stating the number of hits one gets from searching for "logistic regression" in this database as a way to justify the use of the logistic model.
+   - section 6 intro: included paragraph about the TwoSampleMR R-package. Let me know if more details are needed.
+   - section 6.2: not sure how much I should be repeating myself since the overall picture is identical to section 6.1. For now, 6.2 is very brief.
+   - section 7: could use your feedback on the separation of "practical considerations" and "conclusions"
+   - appendix B: could use more ideas for "possible explanations" of the upper < lower scenario.
+   - appendix C: thoughts on the small differences between P(Z = z) between the two analyses? Should we address this directly? These should preferably be the same, but of course are not. I get these using both (X,Z) and (Y,Z) data, and since the latter varies from section to 6.1 and 6.2 the marginals will vary.

@@ -70,4 +70,14 @@ if(FALSE){
 
   ggsave(width_vs_strength, width = 8, height = 4.5, dpi = 300,
          filename = here::here("figures/trivariate_widths_vs_strengths.png"))
+
+
+  many_tri_bounds_flipped <- many_tri_bounds %>%
+    filter(upper < lower, !violations)
+
+
+  write_rds(many_tri_bounds_flipped,
+            here::here("data/tri_bounds_flipped.Rds"))
+
+
 }

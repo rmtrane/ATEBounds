@@ -124,6 +124,11 @@ summaries_for_plots <- smoking_depression_w_intercept %>%
          xy_given_z1 = ...2,
          xy_given_z2 = ...3)
 
+write_csv(
+  summaries_for_plots,
+  here::here("vignettes_data/summary_stats_smoking_on_depression.csv")
+)
+
 marginal_Z <- summaries_for_plots %>% 
   filter(regression == "exposure") %>% 
   pivot_longer(cols = starts_with("P(Z ="),
@@ -135,7 +140,15 @@ marginal_Z <- summaries_for_plots %>%
     xlim(c(0,1)) + 
     theme_bw()
 
-coefficients <- summaries_for_plots %>% 
+ggsave(
+  plot = marginal_Z,
+  filename = here::here("figures/example_analyses", 
+                        "smoking_depression_marginal_Z.png"),
+  dpi = 300, width = 5, height = 2
+)
+
+
+depression_coefficients <- summaries_for_plots %>% 
   pivot_longer(cols = c(beta, beta0),
                names_to = "coef", values_to = "value") %>% 
   mutate(real_coefs = case_when(coef == "beta" & regression == "exposure" ~ "beta[1]", 
@@ -149,6 +162,13 @@ coefficients <- summaries_for_plots %>%
                scales = "free",
                labeller = label_parsed) +
     theme_bw()
+
+ggsave(
+  plot = depression_coefficients,
+  filename = here::here("figures/example_analyses", 
+                        "smoking_depression_coefficients.png"),
+  dpi = 300, width = 5, height = 3
+)
 
 marginal_conditionals <- summaries_for_plots %>% 
   pivot_longer(cols = starts_with("xy_given_z"),
@@ -1208,6 +1228,7 @@ lung_cancer_3_data <- extract_outcome_data(snps = smoking_instruments$SNP, outco
 smoking_lung_cancer_3_harmonized <- harmonise_data(smoking_instruments, lung_cancer_3_data) %>% as_tibble()
 ```
 
+
 ## Summarize to find probabilities
 
 ```{r}
@@ -1238,6 +1259,65 @@ smoking_lung_cancer_3_w_intercept <- smoking_lung_cancer_3_prep_for_bounds %>%
                                               interval = c(-7,7))),
          beta0 = find_intercept$root,
          `thetas/gammas` = list(1/(1+exp(-beta0 - 0:2*beta))))
+```
+
+## Summaries
+
+```{r}
+summaries_for_plots_lung_cancer_3 <- smoking_lung_cancer_3_w_intercept %>% 
+  ungroup() %>% 
+  select(SNP, regression, beta, starts_with("P(Z ="), p_outcome, beta0, `thetas/gammas`) %>% 
+  unnest_wider(`thetas/gammas`) %>% 
+  rename(xy_given_z0 = ...1,
+         xy_given_z1 = ...2,
+         xy_given_z2 = ...3)
+
+write_csv(
+  summaries_for_plots_lung_cancer_3,
+  here::here("vignettes_data/summary_stats_smoking_on_lung_cancer_3.csv")
+)
+
+
+marginal_Z_lung_cancer_3 <- summaries_for_plots_lung_cancer_3 %>% 
+  filter(regression == "exposure") %>% 
+  pivot_longer(cols = starts_with("P(Z ="),
+               names_to = "z", values_to = "p") %>% 
+  ggplot(aes(x = p)) +
+    geom_histogram(boundary = 0, binwidth = 0.05, 
+                   color = "black") +
+    facet_grid(~ z) +
+    xlim(c(0,1)) + 
+    theme_bw()
+
+ggsave(
+  plot = marginal_Z_lung_cancer_3,
+  filename = here::here("figures/example_analyses", 
+                        "smoking_lung_cancer_3_marginal_Z.png"),
+  dpi = 300, width = 5, height = 2
+)
+
+
+lung_cancer_3_coefficients <- summaries_for_plots_lung_cancer_3 %>% 
+  pivot_longer(cols = c(beta, beta0),
+               names_to = "coef", values_to = "value") %>% 
+  mutate(real_coefs = case_when(coef == "beta" & regression == "exposure" ~ "beta[1]", 
+                                coef == "beta0" & regression == "exposure" ~ "beta[0]",
+                                coef == "beta" & regression == "outcome" ~ "gamma[1]", 
+                                coef == "beta0" & regression == "outcome" ~ "gamma[0]")) %>% 
+  ggplot(aes(x = value)) +
+    geom_histogram(boundary = 0, binwidth = 0.001, 
+                   color = "black") +
+    facet_wrap(~ real_coefs,
+               scales = "free",
+               labeller = label_parsed) +
+    theme_bw()
+
+ggsave(
+  plot = lung_cancer_3_coefficients,
+  filename = here::here("figures/example_analyses", 
+                        "smoking_lung_cancer_3_coefficients.png"),
+  dpi = 300, width = 5, height = 3
+)
 ```
 
 ## Bound ACE using the bivariate data
@@ -1846,20 +1926,6 @@ write_csv(x =
               lung_cancer_4_experiment
             ),
           path = here::here("vignettes_data/example_analyses/experiment_info.csv")
-)
-
-ggsave(
-  plot = marginal_Z,
-  filename = here::here("figures/example_analyses", 
-                        "smoking_depression_marginal_Z.png"),
-  dpi = 300, width = 5, height = 2
-)
-
-ggsave(
-  plot = coefficients,
-  filename = here::here("figures/example_analyses", 
-                        "smoking_depression_coefficients.png"),
-  dpi = 300, width = 5, height = 3
 )
 
 ggsave(

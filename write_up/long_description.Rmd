@@ -124,13 +124,13 @@ In the following, we will refer to two different data settings: the typical MR s
 Two additional assumptions will be referenced throughout this paper. Monotonicity of the effect of $Z$ on $X$ assumes 
 
 \begin{equation}
-P(X = 1 | Z = z, U) \le P(X = 1 | Z = z+1, U), \label{eq:x_monotone}
+P(X = 1 | Z = z, U) \le P(X = 1 | Z = z+1, U), \text{A5} \label{eq:x_monotone}
 \end{equation}
 
 and monotonicity of the effect of $Z$ on $Y$ assumes
 
 \begin{equation}
-P(Y = 1 | Z = z, U) \le P(Y = 1 | Z = z+1, U), \label{eq:y_monotone}
+P(Y = 1 | Z = z, U) \le P(Y = 1 | Z = z+1, U), \tag{A6}\label{eq:y_monotone}
 \end{equation}
 
 Both of these assumptions are fairly common in general IV literature, and often implicitly assumed in Mendelian randomization analyses through the models utilized (though the direction might be flipped in some cases). 
@@ -411,7 +411,7 @@ $$\begin{aligned}
 \text{logit}(P(Y = 1 | X = x)) &= \gamma_0 + \gamma_1 x,
 \end{aligned}$$
 
-where $\text{logit}(a) = \frac{1}{1 + \exp(-a)}$, $y \in \{0,1\}, x \in \{0,1\}$, $z_i \in \{0, 1, 2\}$, and $\beta_i, \gamma_j \in \mathbb{R}$. This particular model is often used in GWAS studies that focus on associations between genetic variants and binary phenotypes [**REFERENCE NEEDED, MAYBE REFERENCE PLINK SOFTWARE?**]. Furthermore, $P(Z_j = 0) = P(Z_j = 2) = 0.25$ and $P(Z_j = 1) = 0.5$, which is in line with what would be expected in a Mendelian randomization scenario where pairs of binary alleles are randomly chosen. Here, we will use $\gamma_0 = -2, \gamma_1 = 0.2$. 
+where $\text{logit}(a) = \frac{1}{1 + \exp(-a)}$, $y \in \{0,1\}, x \in \{0,1\}$, $z_i \in \{0, 1, 2\}$, and $\beta_i, \gamma_j \in \mathbb{R}$. This particular model is often used in GWAS studies that focus on associations between genetic variants and binary phenotypes (for example, a quick search of the GWAS Central [@beck_gwas_2020] for "logistic regression" returns 177 hits **NOTE: MANY OF THE ARTICLES ASSOCIATED WITH THESE DO NOT MENTION LOG REG IN METHODS.**). Furthermore, $P(Z_j = 0) = P(Z_j = 2) = 0.25$ and $P(Z_j = 1) = 0.5$, which is in line with what would be expected in a Mendelian randomization scenario where pairs of binary alleles are randomly chosen. Here, we will use $\gamma_0 = -2, \gamma_1 = 0.2$. 
 
 To avoid any unpleasant surprises due to randomness from simulating actual data, we decided to integrate (either exactly or numerically depending on the value of $n$) to find the probabilities $P(Y = 1 | Z_j = z_j)$ and $P(X = 1 | Z_j = z_j)$. We draw the coefficients $\beta_i \sim \text{Uniform}(0, 1/n)$. This is a scenario similar to what we encounter in the MR setting. Figure \ref{fig:bounds_vs_strength_many_IVs_varying_betas} shows the resulting bounds for the three different values of $n$ plotted against the strengths of the IVs.
 
@@ -660,7 +660,7 @@ The genetic markers that were identified here as potential instruments all look 
 \end{figure}
 
 
-Figure \ref{fig:strength_histogram} shows a histogram of the strength of all the potential instruments. We see here that the strength of the strongest instrument is less than 0.01, which is much smaller than the 0.5 needed to guarantee narrow bounds, and well in line with the observation on Figure \ref{fig:smoking_on_depression_marginals}. More information on the instruments and summary statistics can be found in Appendix \ref{smoking-on-depression-appendix}.
+Figure \ref{fig:strength_histogram} shows a histogram of the strength of all the potential instruments. We see here that the strength of the strongest instrument is less than 0.01, which is much smaller than the 0.5 needed to guarantee narrow bounds, and well in line with the observation on Figure \ref{fig:smoking_on_depression_marginals}. More information on the instruments and summary statistics can be found in Appendix \ref{more-details-data-application-appendix}.
 
 \begin{figure}[H]
   \center
@@ -687,7 +687,7 @@ It is clear that while the trivariate bounds are much narrower than the correspo
 
 \begin{sidewaysfigure}
   \includegraphics[width = 0.99\textheight]{`r here::here("figures", "example_analyses", "smoking_depression_individual_SNPs_plot_ukb-d-20116_0_ukb-d-20544_11.png")`}
-    \caption{500 bounds for each of the 84 SNPs. Each bound is based on a set of values for the trivariate distribution randomyl sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
+    \caption{500 sets of bounds of the average treatment effect of smoking on depression for each of the 84 SNPs. Each bound is based on a set of values for the trivariate distribution randomly sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
     \label{fig:smoking_on_depression_tri_bounds}
 \end{sidewaysfigure}
 
@@ -700,7 +700,7 @@ Again, the conclusion is that no sets of trivariate distributions allows us to d
 \begin{figure}[H]
   \centering
   \includegraphics[width = 0.99\linewidth]{`r here::here("figures", "example_analyses", "smoking_depression_intersection_bounds_plot_ukb-d-20116_0_ukb-d-20544_11.png")`}
-  \caption{Intersection bounds based on randomly sampled trivariate distributions from pairs of SNPs. These 9 pairs were randomly chosen from all possible pairs.}
+  \caption{Intersection bounds of the average treatment effect of smoking on depression based on randomly sampled trivariate distributions from pairs of SNPs. These 9 pairs were randomly chosen from all possible pairs.}
   \label{fig:smoking_on_depression_intersections}
 \end{figure}
 
@@ -711,7 +711,8 @@ It is very important to keep in mind that this conclusion is only valid as long 
 
 As a positive control, we consider the effect of smoking on lung cancer. The general approach is a replicate of the previous section. Here, we obtain data on $(Y|Z)$ from the experiment in MRBase with id `r filter(experiments, stringr::str_detect(tolower(trait), "lung"))[['id']]`, while the data on $(X|Z)$ is again from the experiment with id `r filter(experiments, stringr::str_detect(trait, "Smoking"))[['id']]`.
 
-As before, the bivarate bounds (figure \ref{fig:smoking_on_lung_cancer_ind_bounds}) are rather wide (all have width greater than 1) meaning they convey no truly useful information about the ATE, and even if we were to obtain trivariate data, we will not be able to determine the direction of the ATE (figure \ref{fig:smoking_on_lung_cancer_tri_bounds}). Aggregating through intersections (figure \ref{fig:smoking_on_lung_cancer_intersections}) does not lead to real gain in information, even if this is done using bounds based on trivariate distributions.
+
+The SNPs used here are the same as in Section \ref{smoking-effect-on-depression}, and therefore the marginal conditional distributions and distribution of strengths are the same.  More information on the instruments and summary statistics can be found in Appendix \ref{more-details-data-application-appendix}. Once again, the bivarate bounds (Figure \ref{fig:smoking_on_lung_cancer_ind_bounds}) are rather wide (all have width greater than 1) meaning they convey no truly useful information about the ATE, and even if we were to obtain trivariate data, we will not be able to determine the direction of the ATE (Figure \ref{fig:smoking_on_lung_cancer_tri_bounds}). Aggregating through intersections (Figure \ref{fig:smoking_on_lung_cancer_intersections}) does not lead to real gain in information, even if this is done using bounds based on trivariate distributions.
 
 \begin{figure}[H]
   \includegraphics[width = 0.99\linewidth]{`r here::here("figures", "example_analyses", "smoking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb-d-40001_C349.png")`}
@@ -723,7 +724,7 @@ As before, the bivarate bounds (figure \ref{fig:smoking_on_lung_cancer_ind_bound
 
 \begin{sidewaysfigure}
   \includegraphics[width = 0.99\textheight]{`r here::here("figures", "example_analyses", "smoking_lung_cancer_3_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.png")`}
-    \caption{500 bounds for each of the 84 SNPs. Each bound is based on a set of values for the trivariate distribution randomyl sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
+    \caption{500 sets of bounds of the average treatment effect of smoking on lung cancer for each of the 84 SNPs. Each bound is based on a set of values for the trivariate distribution randomyl sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
     \label{fig:smoking_on_lung_cancer_tri_bounds}
 \end{sidewaysfigure}
 
@@ -731,7 +732,7 @@ As before, the bivarate bounds (figure \ref{fig:smoking_on_lung_cancer_ind_bound
 
 \begin{figure}[H]
   \includegraphics[width = 0.99\linewidth]{`r here::here("figures", "example_analyses", "smoking_lung_cancer_3_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C349.png")`}
-  \caption{Intersection bounds based on randomly sample trivariate distributions from pairs of SNPs. These 9 pairs were randomly chosen from all possible pairs.}
+  \caption{Intersection bounds of the average treatment effect of smoking on lung cancer based on randomly sampled trivariate distributions from pairs of SNPs. These 9 pairs were randomly chosen from all possible pairs.}
   \label{fig:smoking_on_lung_cancer_intersections}
 \end{figure}
 
@@ -883,21 +884,170 @@ U3 - L3 &= 1 + P(X = 0 | Z = 2) + 2\cdot P(Y = 1 | Z = 0) - P(X = 0 | Z = 0) \\
 
 # Exploration of Scenarios Where Bounds are Flipped 
 
-# More details for smoking on depression example \label{smoking-on-depression-appendix}
+```{r include = FALSE}
+bivariate_bounds <- read_rds(here::here("vignettes_data/bivariate_bounds.Rds"))
+
+flipped_bivariate_bounds <- bivariate_bounds %>% 
+  filter(upper < lower, !violations) %>% 
+  arrange(width) %>% 
+  select(Strength = strength_x, lower, upper, width, thetas, gammas) %>% 
+  unnest_wider(thetas) %>% 
+  rename(`P(X=1|Z=0)` = ...1, 
+         `P(X=1|Z=1)` = ...2, 
+         `P(X=1|Z=2)` = ...3) %>% 
+  unnest_wider(gammas) %>% 
+  rename(`P(Y=1|Z=0)` = ...1, 
+         `P(Y=1|Z=1)` = ...2, 
+         `P(Y=1|Z=2)` = ...3,
+         `Lower Bound` = lower,
+         `Upper Bound` = upper,
+         Width = width) %>% 
+  relocate(starts_with("P(X=1"), starts_with("P(Y=1"))
+
+flipped_bivariate_bounds_table <- flipped_bivariate_bounds %>% 
+  kableExtra::kable(format = "latex", booktabs = TRUE, longtable = TRUE, caption = "Marginal conditional probabilities resulting in bounds where the upper bound is smaller than the lower bound.", label = "upper-less-than-lower") %>% 
+  kableExtra::landscape() %>% 
+  kableExtra::kable_styling(
+    font_size = 9, 
+    latex_options = "repeat_header"
+  )
+```
+
+Of `r format(nrow(bivariate_bounds), scientific = FALSE, big.mark = ",")` randomly generated sets of values for $P(X = 1 | Z = z), P(Y = 1 | Z = z),\ z = 0,1,2$, `r nrow(flipped_bivariate_bounds)` resulted in bounds where the upper limit is smaller than the lower limit without violating any of the verifiable constraints presented in \eqref{eq:constraints}. Table \ref{tab:upper-less-than-lower} gives the values of the marginal conditional distributions with the strength of the IV, the corresponding bounds, and the width. It is notable that the IVs are rather strong in all cases where we see the bounds flip, but the bounds themselves and the widths vary quite a bit. 
+
+We first attributed this to the transition from trivariate to bivariate bounds, but later realized similar scenarios arise when dealing with trivariate bounds from four category IVs. Of `r format(sum(pull(filter(violation_summaries, k == 4), n)), scientific = FALSE, big.mark = ",")` randomly generated sets of values for $P(X = x, Y = y | Z = z),\ x=0,1,\ y=0,1,\ z=0,1,2,3$, `r filter(violation_summaries, k == 4, upper_smallest, !violations)[['n']]` result in bounds where the upper limit is smaller than the lower limit without any violation of the verifiable constraints. It is also worth noting that in a similar number of trivariate distributions randomly generated with a trichotomous instrument, we did not see any cases of flipped bounds without a violation of one or more of the verifiable constraints. Table \ref{tab:flipped-trivariates} show the bounds from these trivariate distributions with the strengths of the IVs, and the width. Again, it is interesting to see the large span of widths and strengths present. 
+
+We have been unable to unearth a reason for why we see this phenomenon. One possible explanation is that the distributions that result in flipped bounds violate some uncheckable assumption. 
+
+```{r include = FALSE}
+tri_bounds_flipped <- read_rds(here::here("data/tri_bounds_flipped.Rds"))
+tri_bounds_flipped_table <- tri_bounds_flipped %>% 
+  select(Lower = lower, Upper = upper, Strength = strength, Width = width) %>% 
+  arrange(Width) %>% 
+  kableExtra::kable(format = "latex", 
+                    booktabs = TRUE, longtable = TRUE, 
+                    caption = "Lower and Upper limits of bounds where the upper limit is less than the lower limit for trivariate distributions with four category instruments.", 
+                    label = "flipped-trivariates") %>% 
+  kableExtra::kable_styling(latex_options = "repeat_header")
+```
+
+<!-- Print tables from R -->
+`r flipped_bivariate_bounds_table`
+
+`r tri_bounds_flipped_table`
+
+
+```{r include = FALSE}
+ggplot(flipped_bivariate_bounds,
+       aes(x = Strength, y = Width)) + 
+  geom_point() + 
+  lims(x = c(0, 1), y = c(-1, 0)) +
+  theme_bw()
+```
+
+
+# Additional Summary Statistics for Analyses Presented in Section \ref{data-analysis} \label{more-details-data-application-appendix}
+
+```{r include = FALSE}
+summaries_depression <- read_csv(here::here("vignettes_data/summary_stats_smoking_on_depression.csv"))
+summaries_lung_cancer <- read_csv(here::here("vignettes_data/summary_stats_smoking_on_lung_cancer_3.csv"))
+
+snp_marginals_depression <- summaries_depression %>% 
+  select(SNP, starts_with("P(Z =")) %>% 
+  unique()
+
+snp_coefs_depression <- summaries_depression %>% 
+  select(SNP, regression, starts_with("beta")) %>% 
+  unique() %>% 
+  pivot_longer(cols = c(beta, beta0)) %>% 
+  mutate(name = case_when(regression == "exposure" & name == "beta"  ~ "$\\beta_1$",
+                          regression == "exposure" & name == "beta0" ~ "$\\beta_0$",
+                          regression == "outcome"  & name == "beta"  ~ "$\\gamma_1$",
+                          regression == "outcome"  & name == "beta0" ~ "$\\gamma_0$",
+                          TRUE ~ NA_character_)) %>% 
+  select(-regression) %>% 
+  pivot_wider(names_from = name, values_from = value)
+
+
+snp_marginals_lung_cancer <- summaries_lung_cancer %>% 
+  select(SNP, starts_with("P(Z =")) %>%
+  unique()
+
+snp_coefs_lung_cancer <- summaries_lung_cancer %>% 
+  select(SNP, regression, starts_with("beta")) %>% 
+  unique() %>% 
+  pivot_longer(cols = c(beta, beta0)) %>% 
+  mutate(name = case_when(regression == "exposure" & name == "beta"  ~ "$\\beta_1$",
+                          regression == "exposure" & name == "beta0" ~ "$\\beta_0$",
+                          regression == "outcome"  & name == "beta"  ~ "$\\gamma_1$",
+                          regression == "outcome"  & name == "beta0" ~ "$\\gamma_0$",
+                          TRUE ~ NA_character_)) %>% 
+  select(-regression) %>% 
+  pivot_wider(names_from = name, values_from = value)
+```
+
 
 \begin{figure}[H]
   \center
   \includegraphics[width = \textwidth]{`r here::here("figures/example_analyses/smoking_depression_marginal_Z.png")`}
-  \caption{Histograms of the marginal distribution of instruments, $P(Z = z), z=0,1,2$.}
-  \label{fig:marginal-distribution-of-instruments}
+  \caption{Histograms of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing for analysis in Section \ref{smoking-effect-on-depression}}
+  \label{fig:marginal-distribution-of-instruments-depression}
 \end{figure}
 
+\begin{table}[H]
+  \caption{Table of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing for analysis in Section    \ref{smoking-effect-on-depression}}
+  \label{tab:marginal-distribution-of-instruments-depression}
+  \begin{minipage}{0.5\linewidth}
+    \center
+    `r knitr::kable(filter(snp_marginals_depression, row_number() < 43), format = "latex", booktabs = TRUE) %>% kableExtra::kable_styling(latex_options = "repeat_header")`
+  \end{minipage}
+  \qquad
+  \begin{minipage}{0.5\linewidth}
+    \center
+    `r knitr::kable(filter(snp_marginals_depression, row_number() > 42), format = "latex", booktabs = TRUE) %>% kableExtra::kable_styling(latex_options = "repeat_header")`
+  \end{minipage}
+\end{table}
 
 \begin{figure}[H]
   \center
   \includegraphics[width = \textwidth]{`r here::here("figures/example_analyses/smoking_depression_coefficients.png")`}
-  \caption{Histograms of the coefficients from GWAS results of logistic regression of the SNPs on exposure and outcome. Intercepts ($\beta_0$ and $\gamma_0$) are inferred, while slopes ($\beta_1$ and $\gamma_1$) are as reported.}
-  \label{fig:marginal-distribution-of-coefficients}
+  \caption{Histograms of the coefficients from GWAS results of logistic regression of the SNPs on smoking status and depression status, respectively. Intercepts ($\beta_0$ and $\gamma_0$) are inferred, while slopes ($\beta_1$ and $\gamma_1$) are as reported.}
+  \label{fig:marginal-distribution-of-coefficients-depression}
 \end{figure}
+
+
+<!-- Print table from R -->
+`r kableExtra::kable(snp_coefs_depression, "latex", longtable = T, booktabs = TRUE, caption = "Coefficients from GWAS results of logistic regression of the SNPs on smoking status and depression status. Intercepts ($\\beta_0$ and $\\gamma_0$) are inferred, while slopes ($\\beta_1$ and $\\gamma_1$) are as reported.", label = "coefficients-depression", escape = FALSE) %>% kableExtra::kable_styling(latex_options = "repeat_header")`
+
+\begin{figure}[H]
+  \center
+  \includegraphics[width = \textwidth]{`r here::here("figures/example_analyses/smoking_lung_cancer_3_marginal_Z.png")`}
+  \caption{Histograms of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing for analysis in Section \ref{smoking-effect-on-lung-cancer}.}
+  \label{fig:marginal-distribution-of-instruments-lung-cancer}
+\end{figure}
+
+\begin{table}[H]
+  \caption{Table of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing for analysis in Section \ref{smoking-effect-on-lung-cancer}}
+  \label{tab:marginal-distribution-of-instruments-lung-cancer}
+  \begin{minipage}{0.5\linewidth}
+    \center
+    `r knitr::kable(filter(snp_marginals_lung_cancer, row_number() < 43), format = "latex", booktabs = TRUE) %>% kableExtra::kable_styling(latex_options = "repeat_header")`
+  \end{minipage}
+  \qquad
+  \begin{minipage}{0.5\linewidth}
+    \center
+    `r knitr::kable(filter(snp_marginals_lung_cancer, row_number() > 42), format = "latex", booktabs = TRUE) %>% kableExtra::kable_styling(latex_options = "repeat_header")`
+  \end{minipage}
+\end{table}
+
+\begin{figure}[H]
+  \center
+  \includegraphics[width = \textwidth]{`r here::here("figures/example_analyses/smoking_lung_cancer_3_coefficients.png")`}
+  \caption{Histograms of the coefficients from GWAS results of logistic regression of the SNPs on smoking status and lung cancer status. Intercepts ($\beta_0$ and $\gamma_0$) are inferred, while slopes ($\beta_1$ and $\gamma_1$) are as reported.}
+  \label{fig:marginal-distribution-of-coefficients-lung-cancer}
+\end{figure}
+
+<!-- Print table from R -->
+`r kableExtra::kable(snp_coefs_lung_cancer, "latex", longtable = T, booktabs = TRUE, caption = "Coefficients from GWAS results of logistic regression of the SNPs on smoking status and lung cancer status. Intercepts ($\\beta_0$ and $\\gamma_0$) are inferred, while slopes ($\\beta_1$ and $\\gamma_1$) are as reported.", label = "coefficients-lung-cancer", escape = FALSE) %>% kableExtra::kable_styling(latex_options = "repeat_header")`
 
 # References

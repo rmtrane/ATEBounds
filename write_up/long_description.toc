@@ -17,5 +17,5 @@
 \contentsline {section}{\numberline {7}Conclusion and Practical Considerations}{28}{section.7}%
 \contentsline {section}{\numberline {A}Proof of Theorem \ref {thm:upperBoundWidth}}{30}{appendix.A}%
 \contentsline {section}{\numberline {B}Exploration of Scenarios Where Bounds are Flipped}{32}{appendix.B}%
-\contentsline {section}{\numberline {C}More details for smoking on depression example }{32}{appendix.C}%
-\contentsline {section}{References}{33}{section*.23}%
+\contentsline {section}{\numberline {C}Additional Summary Statistics for Analyses Presented in Section \ref {data-analysis} }{38}{appendix.C}%
+\contentsline {section}{References}{46}{section*.31}%

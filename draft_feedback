@@ -5,7 +5,8 @@ b. Better integrate bounds into two-sample MR, specifically discussing why bound
 
 Section 1.1: 
 I think a deeper review of bounds literature in both IV and MR settings is required, including pointing out each work's contribution to the bounds literature. We would also have to include references for falsification inequality literature since they are related.
-  - TBD
+  - How deep?
+  - TBD: bounds in MR settings, falsification inequality
 
 Section 2.2:
 a. (A1) and (A4) may be the same and if so, unite them? See Eric Tchetgen Tchetgen and Linbo Wang's recent paper in JRSS:B https://arxiv.org/abs/1611.09925v2
@@ -26,12 +27,12 @@ b. In general, this section feels like it is written towards an audience who is 
    - TBD
 c. Also, we can add a brief note here (or in one of the latter sections) about the lower bound < upper bound and explore this in detail in the supp with the plots you showed me.
    - Added a brief note.
-   - TBD: write appendix exploring this
+   - Appendix added. Maybe elaborate on possible explanations, but not sure what should be included as a "possible explanation"
 
 Section 3.1:
 a. The bounding formula here seems a bit disconnected from Section 2.3? But, I don't have immediate ideas on how to make these two sections seem more integrated.
-   - ...? TBD
-   - Include step by step matrices.
+   - ...? 
+   - Tried to include step by step matrices, as a tool to make this more relatable.
 
 b. I also think the question that this section is trying to address and how it plans to address this question is not very clear in the beginning. Perhaps, start with "the first question we address is whether bounds from bivariate data with a single instrument is useful in the sense of providing some information about the magnitude and the direction of the ATE. To achieve this, we will construct bounds from bivariate data across different DGPS and ....". I think the intro to Section 4 does a good job of this.
    - Added introductory paragraph with such an explanation.
@@ -39,8 +40,7 @@ b. I also think the question that this section is trying to address and how it p
 The ending portion of this section looks good to me.
 
 c. I would roughly add where each line of the max (or min) bracket comes from, explaining in words that these constraints are roughly from Assumption blank or from the law of probability. To add to this point, we can say some expressions are a consequence of certain IV assumptions while others are results from the polytope constraints in Ramasahi(section Blank and Blank). I don't except that we have every part of this equation/bound explained.
-   - TBD
-   - The problem is that they all come from the polytope constraints, and I can only really make sense of the once that are related to the law of probability. QQ
+   - The problem is that they all come from the polytope constraints, and I can only really make sense of the once that are related to the law of probability. 
 
 d. After addressing (c), I feel like the explanation of bounds here is more easier to understand than in Section 2.3 and you can perhaps use it as a template to rewrite 2.3 so that it's more presentable.
    - In truth, I'm not sure how to do this while still presenting the theory that this method is based on...
@@ -56,7 +56,7 @@ g.  Table 1: perhaps unify $W$ and $w$? Or to make it even clearer, we can write
 
 Section 4:
 a. The model should have a citation (i.e. who else used a variant of this model in the past? Is this model plausible, in some sense? How/why are the parameters specifically chosen this way.)
-   - Included sentence to justify the use, but missing references still.
+   - Included sentence to justify the use, and references GWAS Central database.
    
 b. For the Uniform, I think having (0,1/n) is fine to me, but if you have any concerns, let me know.
    - done.
@@ -108,11 +108,12 @@ b. Currently, while the necessary results/text are there, it would be great to h
    - done. Might also need more work...
 
 d. Some references to prior work looking at the relationship between smoking and depression through MR and other means are needed. Ideally, having their magnitudes (even if they are not in the same scale as ours) would be useful.
-   - TBD
+   - included reference with estimate and confidence interval for OR.
    
 Section 6.2.
 a. Same as above; some references to prior work looking at the relationship between smoking and lung cancer, through MR and other means are needed.
    - TBD
+   - Turns out to be hard to find actual estimates for ATE of smoking on lung cancer. Found paper that throw out numbers (4 fold, 9 fold increases), but no references to actual analyses. 
 c. This section in general needs more content (e.g. explaining the results in-depth, final thoughts about this positive control, etc.) as well as structure (see Section 6.1(b))
    - first go, done. Might need a second revision.
 
@@ -133,4 +134,4 @@ Figure 4: I would make the panel labels (a,b,c; 1,2,3) larger, ideally at the sa
        - Should be fixed.
 
 Figure 7/8/9/10: Captioning missing. Also, remove id:ukb; fix x-axis label; replace legend's "TRUE" to human-readable ones;  remove SNP1:rs to simply rs; have legend for dotted lines, etc.. I'm not sure if it's possible to make this plot bigger by using landscape plotting in latex?
-       - TBD
+       - Done

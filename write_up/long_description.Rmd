@@ -378,19 +378,19 @@ proportion_with_width <- read.csv(here::here("tables", "proportion_of_biv_widths
 
 proportion_with_width_latex <- proportion_with_width %>% 
   mutate(
+    Strength = paste0("$", Strength, "$"),
     across(
-      everything(),
-      ~paste0("$", .x, "$")
+      where(is.numeric),
+      ~paste0("$", sprintf(.x, fmt = "%.7f"), "$")
     )
   ) %>%
   rename_with(
     ~str_split(.x, "= ", simplify = TRUE)[,2],
     -1
   ) %>% 
-  kableExtra::kable(format = "latex", row.names = FALSE, digits = 3, booktabs = TRUE, escape = FALSE) %>% 
+  kableExtra::kable(format = "latex", row.names = FALSE, booktabs = TRUE, escape = FALSE, align = "lccc") %>% 
   kableExtra::add_header_above(
-    header = c(" " = 1, "Proportion of bounds with width greater than..." = 3),
-    underline = FALSE
+    header = c(" " = 1, "Proportion of bounds with\n width greater than..." = 3)
   )
 ```
 

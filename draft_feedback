@@ -121,7 +121,6 @@ Section 7:
 a. I think this section is well-written. My only suggestion is to separate  "conclusion" portion (e.g. our results from above) and our suggestions/practical considerations where you would have two separate paragraphs for each; currently, both are integrated with each other. Also, when doing this, we can make the practical considerations portion much longer than the conclusion portion; it  might even be useful to have bullet points here so that people can quickly get the takeaway message from the paper.
    - Gave it a shot, but find it difficult to distinguish between "conclusion" and "practical considerations". Might have to give it another go...
 
-
 Other Thoughts:
 a. I think for the next round of revision, if you can send me the Rmarkdown file, I can start to directly edit on it. Ideally, if you have a cloud storage service that you use (e.g. Dropbox, Google Drive, One Drive, Box, etc.), that would make the collaboration portion easier.
    - will invite to collaborate on github repo

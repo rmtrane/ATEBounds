@@ -13,11 +13,9 @@ bibliography: "../references.bib"
 library(tidyverse)
 ```
 
-
 \newpage
 
 # Introduction
-
 
 In many research settings, the end goal is often to asses the treatment (or causal) effect of some treatment or exposure on a specific outcome. The challenges present when estimating causal effects are great and many. The Gold Standard for obtaining good estimates of causal effects is the completely randomized trial, where the treatment is randomly assigned to half the subjects, but in many settings, such as epidemiological studies, such a design is not feasible. For example, a study exploring the negative effects of smoking on depression [@wootton_evidence_2019] would not be possible to conduct through a completely randomized trial due to ethical concerns. In such settings, epidemiologists have to rely on observational data, which introduces the concern of unmeasured confounders.
 
@@ -124,7 +122,7 @@ In the following, we will refer to two different data settings: the typical MR s
 Two additional assumptions will be referenced throughout this paper. Monotonicity of the effect of $Z$ on $X$ assumes 
 
 \begin{equation}
-P(X = 1 | Z = z, U) \le P(X = 1 | Z = z+1, U), \text{A5} \label{eq:x_monotone}
+P(X = 1 | Z = z, U) \le P(X = 1 | Z = z+1, U), \tag{A5} \label{eq:x_monotone}
 \end{equation}
 
 and monotonicity of the effect of $Z$ on $Y$ assumes
@@ -379,22 +377,29 @@ In Table \ref{tab:prop_of_biv_widths_large}, we see the proportion of the interv
 proportion_with_width <- read.csv(here::here("tables", "proportion_of_biv_widths_greater_than.csv"), check.names = FALSE)
 
 proportion_with_width_latex <- proportion_with_width %>% 
+  mutate(
+    across(
+      everything(),
+      ~paste0("$", .x, "$")
+    )
+  ) %>%
   rename_with(
     ~str_split(.x, "= ", simplify = TRUE)[,2],
     -1
   ) %>% 
-  knitr::kable(format = "latex", digits = 3) %>% 
+  kableExtra::kable(format = "latex", row.names = FALSE, digits = 3, booktabs = TRUE, escape = FALSE) %>% 
   kableExtra::add_header_above(
-    header = c(" " = 1, "Proportion of bounds with width greater than..." = 3)
+    header = c(" " = 1, "Proportion of bounds with width greater than..." = 3),
+    underline = FALSE
   )
 ```
 
 
 \begin{table}[H]
   \begin{center}
-  `r proportion_with_width_latex`
   \caption{Proportion of bounds from distributions where width is greater than $1$, $0.75$, and $0.5$ stratified by strength of the instrument $Z$ on the exposure $X$.}
   \label{tab:prop_of_biv_widths_large}
+  `r proportion_with_width_latex`
   \end{center}
 \end{table}
 
@@ -560,7 +565,7 @@ subset_plot_summaries_for_print_A <- subset_plot_summaries_for_print %>%
   select(" " = Row, Column, cells) %>% 
   mutate(across(everything(), kableExtra::linebreak)) %>% 
   pivot_wider(names_from = Column, values_from = cells) %>% 
-  knitr::kable(format = "latex", escape = FALSE) 
+  knitr::kable(format = "latex", escape = FALSE, booktabs = TRUE) 
 
 
 subset_plot_summaries_for_print_B <- subset_plot_summaries_for_print %>% 
@@ -579,7 +584,7 @@ subset_plot_summaries_for_print_B <- subset_plot_summaries_for_print %>%
          across(c(Row, Column), ~paste(cur_column(), .x))) %>% 
   pivot_wider(names_from = Column, values_from = p) %>% 
   rename(" " = Row) %>% 
-  knitr::kable(format = "latex", escape = FALSE) 
+  knitr::kable(format = "latex", escape = FALSE, booktabs = TRUE) 
 
 # subset_plot_summaries_for_print_B <- subset_plot_summaries_for_print %>% 
 #   select(Row, Column, starts_with("P(")) %>% 
@@ -591,17 +596,17 @@ subset_plot_summaries_for_print_B <- subset_plot_summaries_for_print %>%
 
 \begin{table}[H]
   \center
-  `r subset_plot_summaries_for_print_B`
   \caption{Values of $P(X = 1 | Z = z)$ and $P(Y = 1 | Z = z)$ used to illustrate our quasi-bayesian approach. These are presented with $\{P(X = 1 | Z = 0), P(X = 1 | Z = 1), P(X = 1 | Z = 2)\}$ on the first row, and $\{P(Y = 1 | Z = 0), P(Y = 1 | Z = 1), P(Y = 1 | Z = 2)\}$ on the second row.}
   \label{tab:subset_plot_summaries_b}
+  `r subset_plot_summaries_for_print_B`
 \end{table}
 
 
 \begin{table}[H]
   \center
-  `r subset_plot_summaries_for_print_A`
   \caption{For each of the nine panels displayed in figure \ref{fig:trivariate_bounds}, this table includes lower and upper bounds based on the bivariate data, and proportion of trivariate distributions overlapping 0.}
   \label{tab:subset_plot_summaries_a}
+  `r subset_plot_summaries_for_print_A`
 \end{table}
 
 \begin{figure}[H]
@@ -736,7 +741,7 @@ The SNPs used here are the same as in Section \ref{smoking-effect-on-depression}
   \label{fig:smoking_on_lung_cancer_intersections}
 \end{figure}
 
-This is a very concerning result. It is well established that smoking has a strong causal effect on the chances of developing lung cancer [references...]. The fact that we are unable to say anything about the ATE in this case does not leave much hope in terms of future discoveries based on non-parametric bounds obtained using bivariate data. Even more concerning is the fact that trivariate distributions also are unsuccessful in determining the direction of the effect. Non-parametric bounds alone seem unable to give information about the direction of the effect, whether based on bivariate or trivariate data. 
+This is a very concerning result. It is well established that smoking has a strong causal effect on the chances of developing lung cancer [@cornfield_smoking_1959]. The fact that we are unable to say anything about the ATE in this case does not leave much hope in terms of future discoveries based on non-parametric bounds obtained using bivariate data. Even more concerning is the fact that trivariate distributions also are unsuccessful in determining the direction of the effect. Non-parametric bounds alone seem unable to give information about the direction of the effect, whether based on bivariate or trivariate data. 
 
 \newpage
 

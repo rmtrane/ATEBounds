@@ -358,6 +358,87 @@ varying_betas_for_plots %>%
 
 
 
+# Repeat where mimicking smoking data
+
+```{r}
+ao <- available_outcomes()
+
+smoking_experiment <- ao %>% filter(id == "ukb-d-20116_0")
+smoking_instruments <- extract_instruments(smoking_experiment$id)
+
+lung_cancer_3_experiment <- ao %>% filter(id == "ukb-d-40001_C349") # ukb-a-54
+lung_cancer_3_data <- extract_outcome_data(snps = smoking_instruments$SNP, outcomes = lung_cancer_3_experiment$id)
+
+smoking_lung_cancer_3_harmonized <- harmonise_data(smoking_instruments, lung_cancer_3_data) %>% as_tibble()
+
+
+varying_betas_2 <- expand_grid(n = c(3, 10, 50),
+                             gamma0 = -2,
+                             gamma1 = 0.2) %>%
+  rowwise() %>%
+  mutate(betas = list(sample(smoking_lung_cancer_harmonized$beta.exposure, size = n)),
+         `P(X = 1 | Z)` = list(marginals_from_logit(b0 = 1/sqrt(n), b = betas,
+                                                    p.z = rep(list(c(0.25, 0.50, 0.25)), n)))) %>%
+  ungroup() %>%
+  mutate(`P(Y = 1 | X = 0)` = 1/(1+exp(-gamma0)),
+         `P(Y = 1 | X = 1)` = 1/(1+exp(-gamma0 - gamma1)),
+         ACE = `P(Y = 1 | X = 1)` - `P(Y = 1 | X = 0)`)
+
+varying_betas_with_bounds_2 <- varying_betas_2 %>%
+  unnest(cols = c(betas, `P(X = 1 | Z)`)) %>% 
+  mutate(`P(Y = 1 | Z_j = 0)` = `P(Y = 1 | X = 1)`*`P(X = 1 | Z_j = 0)` +
+           `P(Y = 1 | X = 0)`*(1-`P(X = 1 | Z_j = 0)`),
+         `P(Y = 1 | Z_j = 1)` = `P(Y = 1 | X = 1)`*`P(X = 1 | Z_j = 1)` +
+           `P(Y = 1 | X = 0)`*(1-`P(X = 1 | Z_j = 1)`),
+         `P(Y = 1 | Z_j = 2)` = `P(Y = 1 | X = 1)`*`P(X = 1 | Z_j = 2)` +
+           `P(Y = 1 | X = 0)`*(1-`P(X = 1 | Z_j = 2)`),
+         strength = `P(X = 1 | Z_j = 2)` - `P(X = 1 | Z_j = 0)`) %>%
+  rowwise() %>%
+  mutate(
+    gammas = list(c(`P(Y = 1 | Z_j = 0)`, `P(Y = 1 | Z_j = 1)`, `P(Y = 1 | Z_j = 2)`)),
+    thetas = list(c(`P(X = 1 | Z_j = 0)`, `P(X = 1 | Z_j = 1)`, `P(X = 1 | Z_j = 2)`)),
+    bounds = list(get_bounds(gammas = gammas,
+                             thetas = thetas,
+                             stop = FALSE,
+                             warning = FALSE)),
+    mono_bounds = list(get_bounds(gammas = gammas,
+                                  thetas = thetas,
+                                  stop = FALSE,
+                                  warning = FALSE,
+                                  x_mono = TRUE))
+  )
+
+
+varying_betas_2_for_plots <- varying_betas_with_bounds_2 %>%
+  rowwise() %>%
+  mutate(interval = list(bounds$interval),
+         mono_interval = list(mono_bounds$interval)) %>%
+  ungroup() %>%
+  select(-contains("P(")) %>%
+  unnest_wider(mono_interval) %>%
+  rename(mono_upper = upper,
+         mono_lower = lower) %>%
+  unnest_wider(interval) %>%
+  ungroup()
+
+varying_betas_bounds_vs_strength_2 <- varying_betas_2_for_plots %>%
+  ggplot(aes(x = strength)) +
+    geom_hline(aes(yintercept = ACE, color = "ATE")) +
+    geom_errorbar(aes(ymin = lower, ymax = upper)) +
+    scale_x_continuous(limits = c(-0.01, 0.01),
+                       breaks = seq(-0.01, 0.01, by = 0.005)) +
+    scale_y_continuous(limits = c(-1,1)) + 
+    facet_grid( ~ n,
+               labeller = function(...) label_both(..., sep = " = ")) +
+    labs(color = "") +
+    theme_bw() + 
+    theme(axis.text.x = element_text(angle = 45, hjust = 1),
+          legend.position = "top")
+
+varying_betas_bounds_vs_strength_2
+```
+
+
 # Save plots
 
 ```{r}

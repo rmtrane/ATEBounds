@@ -168,7 +168,6 @@ ggsave(plot = all_bounds_plot,
        dpi = 300, width = 4, height = 2.86)
 ```
 
-
 As we can see, quite a few of the data
 
 ```{r}
@@ -190,6 +189,14 @@ pander::pander(proportion_of_widths_greater_than)
 
 
 ```{r}
+bounds %>% 
+  summarize(
+    n = n(),
+    good = sum(upper >= lower),
+    bad = sum(upper < lower)
+  ) %>% 
+  write_csv(here::here("tables/upper_less_than_lower.csv"))
+
 write_csv(proportion_of_widths_greater_than,
           path = here::here("tables", "proportion_of_biv_widths_greater_than.csv"))
 ```

@@ -113,6 +113,7 @@ smoking_depression_w_intercept <- smoking_depression_prep_for_bounds %>%
          beta0 = find_intercept$root,
          `thetas/gammas` = list(1/(1+exp(-beta0 - 0:2*beta))))
 ```
+
 ## Summaries of Marginal Distributions
 
 ```{r message = FALSE, warning = FALSE}
@@ -233,19 +234,19 @@ The bivariate bounds obtained from the `r n_distinct(smoking_depression_bounds$S
 ```{r}
 smoking_depression_bivariate_bounds <- smoking_depression_bounds %>% 
   arrange(lower) %>% 
-  ggplot(aes(x = SNP)) +
-    geom_errorbar(aes(ymax = upper, ymin = lower)) +
+  ggplot(aes(y = SNP)) +
+    geom_errorbar(aes(xmax = upper, xmin = lower)) +
     theme_bw() +
     facet_wrap(~ lower < median(lower),
-               ncol = 1, scales = "free_x") +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1),
+               ncol = 2, scales = "free_y") +
+    theme(#axis.text.x = element_text(angle = 45, hjust = 1),
           strip.text = element_blank(),
           strip.background = element_blank()) + 
     labs(
-      x = "SNP id",
-      y = "ATE"
+      y = "",
+      x = "ATE"
     ) +
-    lims(y = c(-1, 1))
+    lims(x = c(-1, 1))
 
 smoking_depression_bivariate_bounds +
       labs(title = "Bivariate bounds",
@@ -256,7 +257,7 @@ ggsave(
   plot = smoking_depression_bivariate_bounds,
   filename = here::here("figures/example_analyses", 
                         paste0("smoking_depression_bivaraite_bounds_", smoking_experiment$id, "_", depression_experiment$id,".png")),
-  width = 8, height = 6, dpi = 300
+  width = 8, height = 10, dpi = 300
 )
 ```
 
@@ -330,15 +331,15 @@ smoking_depression_individual_SNPs_plot <- smoking_depression_trivariate_bounds 
          #contains_zero = as.character(as.numeric(contains_zero)) #if_else(contains_zero, "Overlaps Zero", "Does not Overlap Zero")
          ) %>% 
   ungroup() %>% 
-  ggplot(aes(x = id, color = contains_zero)) +
-    geom_hline(aes(yintercept = bivariate_lower),
+  ggplot(aes(y = id, color = contains_zero)) +
+    geom_vline(aes(xintercept = bivariate_lower),
                linetype = "dashed") +  
-    geom_hline(aes(yintercept = bivariate_upper),
+    geom_vline(aes(xintercept = bivariate_upper),
                linetype = "dashed") +
-    geom_hline(yintercept = 0) +
-    geom_errorbar(aes(ymin = lower,
-                      ymax = upper)) +
-    geom_point(data = data.frame(x = 10, y = 0,
+    geom_vline(xintercept = 0) +
+    geom_errorbar(aes(xmin = lower,
+                      xmax = upper)) +
+    geom_point(data = data.frame(x = 0, y = 10,
                                  contains_zero = FALSE),
                aes(x = x, y = y),
                alpha = 0) +
@@ -347,11 +348,11 @@ smoking_depression_individual_SNPs_plot <- smoking_depression_trivariate_bounds 
                        labels = c("Overlaps Zero", "Does not Overlap Zero"),
                        breaks = c("TRUE", "FALSE"),
                        drop = FALSE) +
-    lims(y = c(-1, 1)) +
+    lims(x = c(-1, 1)) +
     labs(
         x = "", y = "ATE"
     ) +
-    coord_fixed(ratio = 350/2) + 
+    coord_fixed(ratio = 2/350) + 
     facet_wrap(~SNP, ncol = 12) +
     theme(legend.position = "top")
 
@@ -1345,22 +1346,19 @@ smoking_lung_cancer_3_bounds <- smoking_lung_cancer_3_w_intercept %>%
 
 smoking_lung_cancer_3_bivariate_bounds <- smoking_lung_cancer_3_bounds %>% 
   arrange(lower) %>% 
-  ggplot(aes(x = SNP)) +
-    geom_errorbar(aes(ymax = upper, ymin = lower)) + 
-    lims(y = c(-1, 1)) +
-    facet_wrap(~ lower < median(lower), 
-               scales = "free_x",
-               ncol = 1) +
-    scale_color_manual(values = c("red4", "grey50"),
-                       breaks = c(FALSE, TRUE)) + 
-    labs(
-      x = "SNP id",
-      y = "ATE"
-    ) +
+  ggplot(aes(y = SNP)) +
+    geom_errorbar(aes(xmax = upper, xmin = lower)) +
     theme_bw() +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1),
+    facet_wrap(~ lower < median(lower),
+               ncol = 2, scales = "free_y") +
+    theme(#axis.text.x = element_text(angle = 45, hjust = 1),
           strip.text = element_blank(),
-          strip.background = element_blank())
+          strip.background = element_blank()) + 
+    labs(
+      y = "",
+      x = "ATE"
+    ) +
+    lims(x = c(-1, 1))
 
 smoking_lung_cancer_3_bivariate_bounds + 
     labs(title = "Bivariate bounds",
@@ -1371,7 +1369,7 @@ ggsave(
   plot = smoking_lung_cancer_3_bivariate_bounds,
   filename = here::here("figures/example_analyses", 
                         paste0("smoking_lung_cancer_3_bivaraite_bounds_", smoking_experiment$id, "_", lung_cancer_3_experiment$id,".png")), 
-  dpi = 300, width = 8
+  dpi = 300, width = 8, height = 10
 )
 
 
@@ -2102,3 +2100,394 @@ intersection_bounds %>%
                            "Outcome: Lung Cancer (id: ", lung_cancer_2_experiment$id, ")."))
 ```
 
+
+
+## Obesity
+
+```{r}
+obesity_experiment <- ao %>% filter(id == "ieu-a-91")
+
+obesity_instruments <- extract_instruments(outcomes = "ieu-a-91")
+
+depression_experiment <- ao %>% filter(id == "ukb-d-20544_11")
+depression_data <- extract_outcome_data(snps = obesity_instruments$SNP, outcomes = depression_experiment$id)
+
+obesity_depression_harmonized <- harmonise_data(obesity_instruments, depression_data)# %>% as_tibble()
+```
+
+
+```{r}
+obesity_depression_pop_probs <- tibble(regression = c("outcome", "exposure"),
+                                       p_outcome = c(depression_experiment  %$% { ncase / (ncase + ncontrol) },
+                                                     obesity_experiment %$% { ncase / (ncase + ncontrol) }))
+
+obesity_depression_prep_for_bounds <- obesity_depression_harmonized %>%
+  rowwise() %>% 
+  mutate(samplesize.exposure = obesity_experiment$ncase + obesity_experiment$ncontrol,
+         samplesize.outcome = depression_experiment$ncase + depression_experiment$ncontrol,
+         ave_eaf = weighted.mean(x = c_across(c(eaf.exposure, eaf.outcome)),
+                                 w = c_across(c(samplesize.exposure, samplesize.outcome)))) %>% 
+  select(SNP, contains("beta"), ave_eaf) %>% 
+  pivot_longer(contains("beta")) %>% 
+  separate(name, into = c("variable", "regression"), sep = "\\.") %>% 
+  pivot_wider(names_from = variable, values_from = value) %>% 
+  mutate(`P(Z = 2)` = (1 - ave_eaf)^2,
+         `P(Z = 1)` = 2*ave_eaf*(1 - ave_eaf),
+         `P(Z = 0)` = ave_eaf^2)
+```
+
+We add the values of $P(X = 1)$ and $P(Y = 1)$ to the tibble, and can now use the helper function defined above to find the intercepts that matches with the marginals. 
+
+```{r}
+obesity_depression_w_intercept <- obesity_depression_prep_for_bounds %>% 
+  left_join(obesity_depression_pop_probs) %>% 
+  rowwise() %>% 
+  mutate(find_intercept = list(find_intercept(beta1 = beta,
+                                              p_outcome = p_outcome,
+                                              pz = c(`P(Z = 0)`, `P(Z = 1)`, `P(Z = 2)`),
+                                              interval = c(-7,7))),
+         beta0 = find_intercept$root,
+         `thetas/gammas` = list(1/(1+exp(-beta0 - 0:2*beta))))
+
+obesity_depression_bounds <- obesity_depression_w_intercept %>% 
+  select(-find_intercept, -beta0, -beta, -p_outcome, -ave_eaf) %>% 
+  mutate(regression = if_else(regression == "outcome", "gammas", "thetas")) %>% 
+  pivot_wider(names_from = regression, values_from = `thetas/gammas`) %>% 
+  rowwise() %>% 
+  mutate(bivariate_bounds = list(get_bounds(thetas = thetas, gammas = gammas, 
+                                            stop = FALSE, warning = FALSE)),
+         interval = list(bivariate_bounds$interval),
+         constraints_violated = bivariate_bounds$constraints_violated, 
+         bivariate_bounds_mono = list(get_bounds(thetas = thetas, gammas = gammas, 
+                                                 stop = FALSE, warning = FALSE,
+                                                 x_mono = TRUE)),
+         interval_mono = list(bivariate_bounds_mono$interval),
+         constraints_violated_mono = bivariate_bounds_mono$constraints_violated) %>% 
+  ungroup() %>% 
+  unnest_wider(col = interval_mono) %>% 
+  rename(upper_mono = upper, lower_mono = lower) %>% 
+  unnest_wider(interval)
+```
+
+The bivariate bounds obtained from the `r n_distinct(smoking_depression_bounds$SNP)` SNPs are shown on the following plot. As can be seen, none of the bounds provide much information at all, and all intervals are rather wide. 
+
+```{r}
+obesity_depression_bivariate_bounds <- obesity_depression_bounds %>% 
+  arrange(lower) %>% 
+  ggplot(aes(x = SNP)) +
+    geom_errorbar(aes(ymax = upper, ymin = lower)) +
+    theme_bw() +
+    facet_wrap(~ lower < median(lower),
+               ncol = 1, scales = "free_x") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1),
+          strip.text = element_blank(),
+          strip.background = element_blank()) + 
+    labs(
+      x = "SNP id",
+      y = "ATE"
+    ) +
+    lims(y = c(-1, 1))
+
+obesity_depression_bivariate_bounds +
+      labs(title = "Bivariate bounds",
+         subtitle = paste0("Exposure: Smoking (id: ", obesity_experiment$id, "). ",
+                           "Outcome: Depression (id: ", depression_experiment$id, ")."))
+
+ggsave(
+  plot = obesity_depression_bivariate_bounds,
+  filename = here::here("figures/example_analyses", 
+                        paste0("obesity_depression_bivaraite_bounds_", obesity_experiment$id, "_", depression_experiment$id,".png")),
+  width = 8, height = 6, dpi = 300
+)
+```
+
+```{r}
+obesity_depression_bounds %>% 
+  rowwise() %>% 
+  mutate(strength = max(abs(outer(thetas, thetas, `-`)))) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = strength, y = upper - lower)) + 
+    geom_point() +
+    theme_bw()
+
+obesity_strength_histogram +
+  labs(title = "Strength of IVs on Obesity")
+
+ggsave(
+  plot = strength_histogram,
+  filename = here::here("figures/example_analyses",
+                        "strength_histogram.png"),
+  dpi = 300, width = 8, height = 4
+)
+
+```
+
+
+## Random Sampling of Potential Joint Distributions
+
+```{r}
+obesity_depression_filename <- paste0("samples_of_joints_", obesity_experiment$id, "_", depression_experiment$id, ".Rds")
+
+if(file.exists(here::here("vignettes_data/example_analyses", obesity_depression_filename))){
+  obesity_depression_samples_of_joints <- read_rds(here::here("vignettes_data/example_analyses", obesity_depression_filename))
+} else {
+  set.seed(3843173)
+  
+  obesity_depression_samples_of_joints <- obesity_depression_bounds %>% 
+    rowwise() %>% 
+    mutate(pot_covs = list(potential_covs(thetas = thetas, gammas = gammas)),
+           sample_joint = list(sample_joint_probs(pot_covs, n = 500, return_bounds = TRUE))) %>% 
+    ungroup()
+  
+  write_rds(obesity_depression_samples_of_joints, here::here("vignettes_data/example_analyses", obesity_depression_filename))
+}
+
+obesity_depression_trivariate_bounds <- obesity_depression_samples_of_joints %>% 
+  select(SNP, bivariate_lower = lower, bivariate_upper = upper, sample_joint) %>% 
+  unnest(sample_joint) %>% 
+  unnest(joint) %>% 
+  unnest_wider(bounds) %>% 
+  mutate(contains_zero = lower < 0 & upper > 0)
+```
+
+```{r fig.width = 8}
+obesity_depression_individual_SNPs_plot <- obesity_depression_trivariate_bounds %>% 
+  group_by(SNP) %>% 
+  arrange(lower) %>% 
+  mutate(id = row_number()#,
+         #contains_zero = as.character(as.numeric(contains_zero)) #if_else(contains_zero, "Overlaps Zero", "Does not Overlap Zero")
+         ) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = id, color = contains_zero)) +
+    geom_hline(aes(yintercept = bivariate_lower),
+               linetype = "dashed") +  
+    geom_hline(aes(yintercept = bivariate_upper),
+               linetype = "dashed") +
+    geom_hline(yintercept = 0) +
+    geom_errorbar(aes(ymin = lower,
+                      ymax = upper)) +
+    geom_point(data = data.frame(x = 10, y = 0,
+                                 contains_zero = FALSE),
+               aes(x = x, y = y),
+               alpha = 0) +
+    scale_color_manual("",
+                       values = c("grey50", "red4"),
+                       labels = c("Overlaps Zero", "Does not Overlap Zero"),
+                       breaks = c("TRUE", "FALSE"),
+                       drop = FALSE) +
+    lims(y = c(-1, 1)) +
+    labs(
+        x = "", y = "ATE"
+    ) +
+    coord_fixed(ratio = 350/2) + 
+    facet_wrap(~SNP, ncol = 12) +
+    theme(legend.position = "top")
+
+obesity_depression_individual_SNPs_plot + 
+    labs(title = "Possible Trivariate Bounds from Bivariate Data",
+         subtitle = paste0("Exposure: Obesity (id: ", obesity_experiment$id, "). ",
+                           "Outcome: Depression (id: ", depression_experiment$id, ")."))
+
+ggsave(
+  plot = obesity_depression_individual_SNPs_plot,
+  filename = here::here("figures/example_analyses", 
+                        paste0("obesity_depression_individual_SNPs_plot_", obesity_experiment$id, "_", depression_experiment$id,".png")),
+  width = 11, height = 6.5, dpi = 300
+)
+```
+
+
+
+## LDL-C on CHD
+
+```{r}
+lipo_id <- "finn-a-E4_LIPOPROT"
+chd_id <- "ukb-d-I9_CHD"
+```
+
+
+
+```{r}
+lipo_experiment <- ao %>% filter(id == lip_id)
+
+lipo_instruments <- extract_instruments(outcomes = "ieu-a-91")
+
+depression_experiment <- ao %>% filter(id == "ukb-d-20544_11")
+depression_data <- extract_outcome_data(snps = obesity_instruments$SNP, outcomes = depression_experiment$id)
+
+obesity_depression_harmonized <- harmonise_data(obesity_instruments, depression_data)# %>% as_tibble()
+```
+
+
+```{r}
+obesity_depression_pop_probs <- tibble(regression = c("outcome", "exposure"),
+                                       p_outcome = c(depression_experiment  %$% { ncase / (ncase + ncontrol) },
+                                                     obesity_experiment %$% { ncase / (ncase + ncontrol) }))
+
+obesity_depression_prep_for_bounds <- obesity_depression_harmonized %>%
+  rowwise() %>% 
+  mutate(samplesize.exposure = obesity_experiment$ncase + obesity_experiment$ncontrol,
+         samplesize.outcome = depression_experiment$ncase + depression_experiment$ncontrol,
+         ave_eaf = weighted.mean(x = c_across(c(eaf.exposure, eaf.outcome)),
+                                 w = c_across(c(samplesize.exposure, samplesize.outcome)))) %>% 
+  select(SNP, contains("beta"), ave_eaf) %>% 
+  pivot_longer(contains("beta")) %>% 
+  separate(name, into = c("variable", "regression"), sep = "\\.") %>% 
+  pivot_wider(names_from = variable, values_from = value) %>% 
+  mutate(`P(Z = 2)` = (1 - ave_eaf)^2,
+         `P(Z = 1)` = 2*ave_eaf*(1 - ave_eaf),
+         `P(Z = 0)` = ave_eaf^2)
+```
+
+We add the values of $P(X = 1)$ and $P(Y = 1)$ to the tibble, and can now use the helper function defined above to find the intercepts that matches with the marginals. 
+
+```{r}
+obesity_depression_w_intercept <- obesity_depression_prep_for_bounds %>% 
+  left_join(obesity_depression_pop_probs) %>% 
+  rowwise() %>% 
+  mutate(find_intercept = list(find_intercept(beta1 = beta,
+                                              p_outcome = p_outcome,
+                                              pz = c(`P(Z = 0)`, `P(Z = 1)`, `P(Z = 2)`),
+                                              interval = c(-7,7))),
+         beta0 = find_intercept$root,
+         `thetas/gammas` = list(1/(1+exp(-beta0 - 0:2*beta))))
+
+obesity_depression_bounds <- obesity_depression_w_intercept %>% 
+  select(-find_intercept, -beta0, -beta, -p_outcome, -ave_eaf) %>% 
+  mutate(regression = if_else(regression == "outcome", "gammas", "thetas")) %>% 
+  pivot_wider(names_from = regression, values_from = `thetas/gammas`) %>% 
+  rowwise() %>% 
+  mutate(bivariate_bounds = list(get_bounds(thetas = thetas, gammas = gammas, 
+                                            stop = FALSE, warning = FALSE)),
+         interval = list(bivariate_bounds$interval),
+         constraints_violated = bivariate_bounds$constraints_violated, 
+         bivariate_bounds_mono = list(get_bounds(thetas = thetas, gammas = gammas, 
+                                                 stop = FALSE, warning = FALSE,
+                                                 x_mono = TRUE)),
+         interval_mono = list(bivariate_bounds_mono$interval),
+         constraints_violated_mono = bivariate_bounds_mono$constraints_violated) %>% 
+  ungroup() %>% 
+  unnest_wider(col = interval_mono) %>% 
+  rename(upper_mono = upper, lower_mono = lower) %>% 
+  unnest_wider(interval)
+```
+
+The bivariate bounds obtained from the `r n_distinct(smoking_depression_bounds$SNP)` SNPs are shown on the following plot. As can be seen, none of the bounds provide much information at all, and all intervals are rather wide. 
+
+```{r}
+obesity_depression_bivariate_bounds <- obesity_depression_bounds %>% 
+  arrange(lower) %>% 
+  ggplot(aes(x = SNP)) +
+    geom_errorbar(aes(ymax = upper, ymin = lower)) +
+    theme_bw() +
+    facet_wrap(~ lower < median(lower),
+               ncol = 1, scales = "free_x") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1),
+          strip.text = element_blank(),
+          strip.background = element_blank()) + 
+    labs(
+      x = "SNP id",
+      y = "ATE"
+    ) +
+    lims(y = c(-1, 1))
+
+smoking_depression_bivariate_bounds +
+      labs(title = "Bivariate bounds",
+         subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
+                           "Outcome: Depression (id: ", depression_experiment$id, ")."))
+
+ggsave(
+  plot = smoking_depression_bivariate_bounds,
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_depression_bivaraite_bounds_", smoking_experiment$id, "_", depression_experiment$id,".png")),
+  width = 8, height = 6, dpi = 300
+)
+```
+
+```{r}
+obesity_depression_bounds %>% 
+  rowwise() %>% 
+  mutate(strength = max(abs(outer(thetas, thetas, `-`)))) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = strength, y = upper - lower)) + 
+    geom_point() +
+    theme_bw()
+
+obesity_strength_histogram +
+  labs(title = "Strength of IVs on Obesity")
+
+ggsave(
+  plot = strength_histogram,
+  filename = here::here("figures/example_analyses",
+                        "strength_histogram.png"),
+  dpi = 300, width = 8, height = 4
+)
+
+```
+
+
+## Random Sampling of Potential Joint Distributions
+
+```{r}
+obesity_depression_filename <- paste0("samples_of_joints_", obesity_experiment$id, "_", depression_experiment$id, ".Rds")
+
+if(file.exists(here::here("vignettes_data/example_analyses", obesity_depression_filename))){
+  obesity_depression_samples_of_joints <- read_rds(here::here("vignettes_data/example_analyses", obesity_depression_filename))
+} else {
+  set.seed(3843173)
+  
+  obesity_depression_samples_of_joints <- obesity_depression_bounds %>% 
+    rowwise() %>% 
+    mutate(pot_covs = list(potential_covs(thetas = thetas, gammas = gammas)),
+           sample_joint = list(sample_joint_probs(pot_covs, n = 500, return_bounds = TRUE))) %>% 
+    ungroup()
+  
+  write_rds(obesity_depression_samples_of_joints, here::here("vignettes_data/example_analyses", obesity_depression_filename))
+}
+
+obesity_depression_trivariate_bounds <- obesity_depression_samples_of_joints %>% 
+  select(SNP, bivariate_lower = lower, bivariate_upper = upper, sample_joint) %>% 
+  unnest(sample_joint) %>% 
+  unnest(joint) %>% 
+  unnest_wider(bounds) %>% 
+  mutate(contains_zero = lower < 0 & upper > 0)
+```
+
+```{r fig.width = 8}
+obesity_depression_individual_SNPs_plot <- obesity_depression_trivariate_bounds %>% 
+  group_by(SNP) %>% 
+  arrange(lower) %>% 
+  mutate(id = row_number()#,
+         #contains_zero = as.character(as.numeric(contains_zero)) #if_else(contains_zero, "Overlaps Zero", "Does not Overlap Zero")
+         ) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = id, color = contains_zero)) +
+    geom_hline(aes(yintercept = bivariate_lower),
+               linetype = "dashed") +  
+    geom_hline(aes(yintercept = bivariate_upper),
+               linetype = "dashed") +
+    geom_hline(yintercept = 0) +
+    geom_errorbar(aes(ymin = lower,
+                      ymax = upper)) +
+    geom_point(data = data.frame(x = 10, y = 0,
+                                 contains_zero = FALSE),
+               aes(x = x, y = y),
+               alpha = 0) +
+    scale_color_manual("",
+                       values = c("grey50", "red4"),
+                       labels = c("Overlaps Zero", "Does not Overlap Zero"),
+                       breaks = c("TRUE", "FALSE"),
+                       drop = FALSE) +
+    lims(y = c(-1, 1)) +
+    labs(
+        x = "", y = "ATE"
+    ) +
+    coord_fixed(ratio = 350/2) + 
+    facet_wrap(~SNP, ncol = 12) +
+    theme(legend.position = "top")
+
+obesity_depression_individual_SNPs_plot + 
+    labs(title = "Possible Trivariate Bounds from Bivariate Data",
+         subtitle = paste0("Exposure: Obesity (id: ", obesity_experiment$id, "). ",
+                           "Outcome: Depression (id: ", depression_experiment$id, ")."))
+```

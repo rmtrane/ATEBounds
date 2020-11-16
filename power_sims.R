@@ -16,6 +16,7 @@ many_sims <- expand_grid(i = i,
         sample_size = 10e5,
         IVs_ps = list(c(0.25, 0.5, 0.25)),
         X_intercept = -1,
+        Y_intercept = -0.5,
         indIVs_on_X = .x,
         indIVs_on_Y = 0,
         U = distributions3::Normal(),
@@ -40,13 +41,13 @@ write_rds(many_sims, paste0("sims_for_power_", stringr::str_pad(i, width = 2, si
 #     facet_grid(~X_on_Y)
 
 
-
 all_sims <- tibble(sims_for_power = list.files(pattern = "sims_for_power")) %>%
   rowwise() %>%
   mutate(sims = list(read_rds(sims_for_power))) %>%
   ungroup() %>%
   unnest(sims)
 
+plot_DAG(all_sims$sim_data[[1]])
 
 all_sims_w_bounds <- all_sims %>%
   mutate(simulated_data = map(sim_data, "simulated_data"),
@@ -57,11 +58,16 @@ all_sims_w_bounds <- all_sims %>%
 
 all_sims_w_bounds %>%
   unnest_wider(bounds) %>%
+  filter(i == 1) %>%
   mutate(zero = lower < 0 & upper > 0) %>%
-  ggplot(aes(x = i, color = zero)) +
-    geom_hline(yintercept = 0, color = "red", linetype = "dashed") +
+  ggplot(aes(x = indIVs_on_X, color = zero)) +
+    geom_hline(yintercept = 0, linetype = "dashed") +
     geom_errorbar(aes(ymin = lower, ymax = upper)) +
-    facet_grid(X_on_Y ~ indIVs_on_X)
+    facet_wrap(~ X_on_Y, labeller = label_both,
+               nrow = 3) +
+    scale_color_manual(
+      values = c("TRUE" = "black", "FALSE" = "red")
+    )
 
 
 all_sims_w_bounds %>%

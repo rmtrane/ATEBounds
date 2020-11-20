@@ -64,7 +64,11 @@ probs_from_data <- function(dat, X, Y, Z, data_format){
       select(X = {{X}}, Y = {{Y}}, Z = {{Z}}) %>%
       pivot_longer(cols = c(X, Y),
                    names_to = "variable") %>%
-      count(Z, variable, value) %>%
+      mutate(Z = factor(Z),
+             value = factor(value)) %>%
+      count(Z, variable, value, .drop = FALSE) %>%
+      mutate(Z = as.numeric(as.character(Z)),
+             value = as.numeric(as.character(value))) %>%
       group_by(Z, variable) %>%
       mutate(p = n/sum(n)) %>%
       filter(value == 1) %>%

@@ -2301,14 +2301,16 @@ ggsave(
 ## LDL-C on CHD
 
 ```{r}
-lipo_id <- "finn-a-E4_LIPOPROT"
+lipo_id <- "finn-a-E4_LIPOPROT" 
+stroke_id <- "ebi-a-GCST006908"
 chd_id <- "ukb-d-I9_CHD"
+vitamin_id <- "ukb-a-462"
 ```
 
 
 
 ```{r}
-lipo_experiment <- ao %>% filter(id == lip_id)
+lipo_experiment <- ao %>% filter(id == lipo_id)
 
 lipo_instruments <- extract_instruments(outcomes = "ieu-a-91")
 

@@ -64,7 +64,7 @@ joint_from_marginal <- function(thetas, gammas, cov, stop = TRUE, message = TRUE
   trivariate_bounds <- get_bounds(zetas = tabp, stop = FALSE, warning = FALSE,
                                   x_mono = x_mono, y_mono = y_mono, from_polymake = from_polymake)
 
-  if(bivariate_bounds$constraints_violated | bivariate_bounds$interval$upper < bivariate_bounds$interval$lower){
+  if(bivariate_bounds$constraints_violated | bivariate_bounds$width < 0){
     if (stop)
       stop("thetas and gammas do not satisfy the constraints, or upper bound less than lower bound.")
 
@@ -74,7 +74,7 @@ joint_from_marginal <- function(thetas, gammas, cov, stop = TRUE, message = TRUE
     tabp <- array(data = NA, dim = dim(tabp), dimnames = dimnames(tabp))
   }
 
-  if(trivariate_bounds$constraints_violated | bivariate_bounds$interval$upper < bivariate_bounds$interval$lower){
+  if(trivariate_bounds$constraints_violated | bivariate_bounds$width < 0){
     if (stop)
       stop("The reconstructed P(Y,X|Z) do not satisfy the constraints, or upper bound less than lower bound.")
 
@@ -399,7 +399,6 @@ sample_joint_probs <- function(pot_covs,
       if (n_rejected >= max_rejections){
         out <- tibble(covs = list(NA), joint = list(NA), n_rejected = n_rejected); message("max_rejections hit for!")
       }
-
       return(out)
     })
     )

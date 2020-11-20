@@ -163,7 +163,7 @@ violation_summaries <- read_csv(here::here("data/many_tri_bounds_violations.csv"
 
 
 
-## Bounds from Bivariate Data
+## Bounds from Two Sample Data \label{bounds-from-bivariate-data}
 
 We begin our investigation of bounds in equation \eqref{eq:ate_bound} under two-sample MR studies with summary data when there is a single instrument. We are interested in whether we can gain any insights into the direction and magnitude of the ATE by examining the length of the bounds; wide bounds provide less information about the magnitude of the ATE, and are much less likely to provide any information regarding direction as compared to narrower bounds.
 
@@ -193,7 +193,8 @@ Under assumptions (A1)-(A6), the bounds for the ATE in \eqref{eq:ate_bound} beco
 and the width of the above bounds is bounded from above by $2 - 2\cdot \text{ST}$. \textcolor{red}{is this upper bound sharp when (A1)-(A6) hold? That is, there exists a DGP that satisfy (A1)-(A6) and the width of the bound from it is equal to the upper bound?}\textcolor{blue}{ RMT: Yes. I did construct a DGP artificially that gave width 2, but we also have lots of examples from the simulation of DGPs that hit the 2 - 2 ST line. I just checked, and 31 of those also satisfy the monotonicity assumptions.}
 \end{theorem}
 
-The proof is presented in Appendix \ref{proof-of-theorem}. The bounds under the near-ideal MR setting is \textcolor{blue}{ RMT: up to (?)} twice as large as the Balke-Pearl bounds with a binary IV in single-sample designs where the width is $1-\text{ST}$. An instrument with strength $\text{ST} = 0.6$ would lead to a smaller bound with width $0.4$ under a binary IV, single-sample design setting compared to a length of \textcolor{blue}{ RMT: up to (?)} $0.8$ in the near-ideal MR study. The \textcolor{blue}{ RMT: potential(?)} doubling of the bound length under two-sample MR with summary data is a "cost" of using both non-binary instruments and two-sample designs. In particular, two-sample designs do not provide any information about the joint distribution of $P(Y,X | Z)$, which can tighten the bounds; see Section \ref{quasi-bayesian} where we exploit this phenomena to obtain more informative bounds in MR studies. Also, the width of the bounds in Theorem \ref{thm:upperBoundWidth} is only guaranteed to be less than 1 when the instrument strength ST is greater than 0.5; a bound with length greater than 1 provides no information about the existence of the exposure effect since it will always cover zero. However, this does not imply that instruments with strength less than $0.5$ have length less than $1$ (see Figure \ref{fig:biv_bounds_vs_strength} for examples).
+The proof is presented in Appendix \ref{proof-of-theorem}. The bounds under the near-ideal MR setting is up to twice as large as the Balke-Pearl bounds with a binary IV in single-sample designs where the width is $1-\text{ST}$. An instrument with strength $\text{ST} = 0.6$ would lead to a smaller bound with width $0.4$ under a binary IV, single-sample design setting compared to a length of up to $0.8$ in the near-ideal MR study. The potential doubling of the bound length under two-sample MR with summary data is a "cost" of using both non-binary instruments and two-sample designs. In particular, two-sample designs do not provide any information about the joint distribution of $P(Y,X | Z)$, which can tighten the bounds; see Section \ref{quasi-bayesian} where we exploit this phenomena to obtain more informative bounds in MR studies. Also, the width of the bounds in Theorem \ref{thm:upperBoundWidth} is only guaranteed to be less than 1 when the instrument strength ST is greater than 0.5; a bound with length greater than 1 provides no information about the existence of the exposure effect since it will always cover zero. However, this does not imply that instruments with strength less than $0.5$ have length less than $1$ (see Figure \ref{fig:biv_bounds_vs_strength} for examples).
+
 
 \textcolor{red}{We've been mostly focusing on width, but is it possible to derive sufficient condition about when $0 <$ lower bound OR when $0> UB$? This would help us justify the centering plot in Fig 1a.?} \textcolor{blue}{ RMT: I'll have to think more about this... I think it would require a more rigorous simulation study, since we would need the ability to control the ATE.}
 
@@ -258,14 +259,36 @@ Figure \ref{fig:biv_width_vs_strength} shows the widths of the same `r upper_les
   \end{center}
 \end{table}
 
-Overall, in the context of two-sample MR studies with summary statistics, most genetic instruments are weak, which means that the chances that bivariate bounds from MR analyses are informative with width less than 1 are very slim. In particular, a strength requirement of $\text{ST} > 0.5$ to guarantee a bound with length less than $1$ is a tall order in many MR studies. \textcolor{red}{Perhaps, convert the difference in probability to roughly what it would correspond to in a logistic model, either as an odds ratio or beta coef? Even tying it to the smoking example by saying that one must find a genetic variant that can change the odds of smoking by a factor of BLANK would be helpful to understand for MR/GWAS practitioners looking at odds ratios/z-stats/p-vals all day.} \textcolor{blue}{ RMT: Can try to do this, but since these are randomly generated, they don't necessarily fit the logistic model setting, i.e. monotonicity might be violated. Thoughts on how to express ST as an OR? Could maybe do a $max OR_{z_1,z_2}$. EDIT: discussed on 11/11, and have an idea to how to do this.} Additionally, as our numerical results revealed, a set of bounds with width just below 1 does not provide much more information; a bound of \([-0.1, 0.8]\) for the ATE does not indicate that the average treatment effect is more likely to be positive than a bound of \([-0.7, 0.2]\) for the ATE.
+Overall, in the context of two-sample MR studies with summary statistics, most genetic instruments are weak, which means that the chances that bivariate bounds from MR analyses are informative with width less than 1 are very slim. In particular, a strength requirement of $\text{ST} > 0.5$ to guarantee a bound with length less than $1$ is a tall order in many MR studies. To illustrate this point, we simulate data from a model very similar to the one underlying most GWAS analyses, on which many two-sample MR studies build. Specifically, for each observation we draw a value of our instrument $Z$ such that $P(Z = 0) = P(Z = 2) = 0.25$ and $P(Z = 1) = 0.5$, and a value of an unmeasured confounder $U$ from the standard normal. The exposure $X$ is binary with $P(X = 1 | Z = z, U = u) = \text{logit}(\beta_0 + \beta_Z\cdot z + \beta_U \cdot u)$, and the outcome $Y$ is binary with $P(Y = 1 | X = x, U = u) = \text{logit}(\gamma_0 + \gamma_X \cdot x + \beta_U \cdot u)$. We simulate 10,000,000 observations from this model for each combination of $\beta_Z \in \{1, 1.5, 1.75, 1.9, 2, 2.1, 2.25, 2.5, 3, 3.5, 5\}$, $\beta_U \in \{0.1, 0.5\}$, and $\gamma_X \in \{1, 1.5, 2\}$. In each simulation, we assume a "best case scenario" where the intercepts are such that the conditional probabilities $P(Y = 1 | X = x, U)$ and $P(X = 1 | Z = z, U)$ are as spread out as possible. To this point, we set $\beta_0 = -\beta_Z$ and $\gamma_0 = -\gamma_X/2$. 
+
+Figure \ref{fig:coef_vs_strength} shows the relationship between the values of $\beta_Z$ and the strength of the IV. Extrapolating from the points, we see that to achieve a strength of 0.5, a $\beta_Z$ of more than $1.16$ is required if $\beta_U = 0.5$, while the threshold is $1.1$ if $\beta_U = 0.1$. We can also use this model to suggest the kind of IVs needed to be able to detect direction of the ATE for different sizes of the treatment effects. Figure \ref{fig:power_curves} shows the smallest values of $\beta_Z$ that lead to positive lower bound. This is very well in line with our previous observations -- very large coefficients are need for us to be able to detect direction of the average treatment effect using two-sample nonparametric bounds.
+
+\begin{figure*}
+  \centering
+  \begin{subfigure}[t]{0.5\textwidth}
+    \includegraphics[width = \textwidth]{`r here::here("figures/MR_coefs_vs_strength.png")`}
+    \caption{Relationship between coefficients $\beta_Z$ and strength of the IV.}
+    \label{fig:coef_vs_strength}
+  \end{subfigure}%
+  ~
+  \begin{subfigure}[t]{0.5\textwidth}
+    \includegraphics[width=\textwidth]{`r here::here("figures/power_curves.png")`}
+    \caption{Size of coefficient $\beta_Z$ needed to detect direction for different values of the average treatment effect.}
+    \label{fig:power_curves}
+  \end{subfigure}
+  \caption{For different values of $\beta_Z, \beta_U,$ and $\gamma_X$, 10,000,000 observations were simulated from the model described in Section \ref{bounds-from-bivariate-data}}
+  \label{fig:power_figs}
+\end{figure*}
+
+<!--
+\textcolor{red}{Perhaps, convert the difference in probability to roughly what it would correspond to in a logistic model, either as an odds ratio or beta coef? Even tying it to the smoking example by saying that one must find a genetic variant that can change the odds of smoking by a factor of BLANK would be helpful to understand for MR/GWAS practitioners looking at odds ratios/z-stats/p-vals all day.} \textcolor{blue}{ RMT: Can try to do this, but since these are randomly generated, they don't necessarily fit the logistic model setting, i.e. monotonicity might be violated. Thoughts on how to express ST as an OR? Could maybe do a $max OR_{z_1,z_2}$. EDIT: discussed on 11/11, and have an idea to how to do this.} Additionally, as our numerical results revealed, a set of bounds with width just below 1 does not provide much more information; a bound of \([-0.1, 0.8]\) for the ATE does not indicate that the average treatment effect is more likely to be positive than a bound of \([-0.7, 0.2]\) for the ATE.
 
 \textcolor{red}{Another good thing that we can perhaps include is a power curve of sorts? That is, given that the effect size to detect is equal to $0.2 = E[P(Y | X=1, U) - P(Y | X = 0, U)]$, what kind of instrument do we need to detect this?}
 
 \textcolor{blue}{Would have to restructure a bit to have more of a simulation rather than a "randomly draw values" setup.}
+-->
 
-
-## Bounds With Multiple IVs 
+## Bounds From Two Sample Data With Multiple IVs 
 
 <!-- In Section \ref{properties-of-bounds-from-summary-level-data}, we found that non-parametric bounds derived from bivariate data require rather strong instrumental variables to guarantee useful results. It seems that there simply is not enough information in bivariate data. One natural question is to ask is whether we can aggregate the information from multiple instrumental variables to obtain a set of improved bounds. In this section, we will consider one approach to do just that, and try to characterize what gains can be expected. -->
 
@@ -497,7 +520,7 @@ The approach above can be thought of as using a quasi-empirical bayesian framewo
 
 ## Single Instrument
 
-We illustrate the potential utility of the proposed method from the previous section by considering nine hypothetical MR studies, each using one instrument; see Section \ref{multiple-iv-case} for the case with multiple instruments. Table \ref{tab:subset_plot_summaries_b} presents nine different sets of values of the marginal distributions $P(Y|Z)$ and $P(X | Z)$ from nine hypothetical two-sample MR studies \textcolor{red}{Do you think we can find an empirical example to support some of these nine from MR-Base? I'm thinking about using popular exposures in the MR field (like CRP, cholesterol, or vitamin D?)} \textcolor{blue}{ RMT: I will take a look.}.
+We illustrate the potential utility of the proposed method from the previous section by considering nine hypothetical MR studies, each using one instrument; see Section \ref{multiple-iv-case} for the case with multiple instruments. Table \ref{tab:subset_plot_summaries_b} presents nine different sets of values of the marginal distributions $P(Y | Z)$ and $P(X | Z)$ from nine hypothetical two-sample MR studies \textcolor{red}{Do you think we can find an empirical example to support some of these nine from MR-Base? I'm thinking about using popular exposures in the MR field (like CRP, cholesterol, or vitamin D?)} \textcolor{blue}{ RMT: I will take a look.}.
 
 ```{r include = FALSE}
 subset_plot_summaries <- readr::read_rds(here::here("vignettes_data", "subset_plot_summaries.Rds"))

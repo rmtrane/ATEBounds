@@ -121,11 +121,11 @@ get_bounds <- function(gammas = NULL, thetas = NULL,
                         width = min(combine_bounds$upper_bounds) -
                           max(combine_bounds$lower_bounds))
 
-  if (actual_bounds$interval$upper < actual_bounds$interval$lower & stop){
+  if (actual_bounds$width < 0 & stop){
     stop("Upper bound is smaller than lower bound.")
   }
 
-  if (actual_bounds$interval$upper < actual_bounds$interval$lower & warning & !stop){
+  if (actual_bounds$width < 0 & warning & !stop){
     warning("Upper bound is smaller than lower bound.")
   }
 

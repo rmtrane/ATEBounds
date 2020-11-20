@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.10.29)  16 NOV 2020 14:52
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.10.29)  15 NOV 2020 12:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1029,7 +1029,7 @@ ne 246.
 
 [5]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/all_bivariate_boun
-ds.png, id=303, 1204.5pt x 861.2175pt>
+ds.png, id=302, 1204.5pt x 861.2175pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/all_bivariate
 _bounds.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/all_bivariate_
@@ -1038,7 +1038,7 @@ Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
 gures/all_bivariate_bounds.png  used on input line 284.
 (pdftex.def)             Requested size: 234.86737pt x 167.93016pt.
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bivariate_width_vs
-_strength.png, id=305, 1204.5pt x 861.2175pt>
+_strength.png, id=304, 1204.5pt x 861.2175pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bivariate_wid
 th_vs_strength.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bivariate_widt
@@ -1055,7 +1055,7 @@ Overfull \hbox (4.44441pt too wide) in paragraph at lines 282--294
 te_bounds.png> </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/biv
 ariate_width_vs_strength.png>]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/varying_betas_boun
-ds_vs_strength_no_mono.png, id=325, 2107.875pt x 1204.5pt>
+ds_vs_strength_no_mono.png, id=324, 2107.875pt x 1204.5pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/varying_betas
 _bounds_vs_strength_no_mono.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/varying_betas_
@@ -1070,7 +1070,7 @@ LaTeX Warning: Reference `multiple-iv-case' on page 11 undefined on input line
 434.
 
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_bounds_
-subset_plot.png, id=352, 2409.0pt x 2409.0pt>
+subset_plot.png, id=351, 2409.0pt x 2409.0pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_bo
 unds_subset_plot.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_bou
@@ -1094,7 +1094,7 @@ LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 4
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ) [13]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
-trength_histogram.png, id=384, 2409.0pt x 1204.5pt>
+trength_histogram.png, id=383, 2409.0pt x 1204.5pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/strength_histogram.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
@@ -1105,7 +1105,7 @@ gures/example_analyses/strength_histogram.png  used on input line 498.
 [14 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
 es/strength_histogram.png>]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
-moking_depression_bivaraite_bounds_ukb-d-20116_0_ukb-d-20544_11.png, id=394, 24
+moking_depression_bivaraite_bounds_ukb-d-20116_0_ukb-d-20544_11.png, id=393, 24
 09.0pt x 3011.25pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/smoking_depression_bivaraite_bounds_ukb-d-20116_0_ukb-d-20544_11.png Graphi
@@ -1120,7 +1120,7 @@ gures/example_analyses/smoking_depression_bivaraite_bounds_ukb-d-20116_0_ukb-d-
 nalyses/smoking_depression_bivaraite_bounds_ukb-d-20116_0_ukb-d-20544_11.png>] 
 [17]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
-moking_depression_individual_SNPs_plot_ukb-d-20116_0_ukb-d-20544_11.png, id=410
+moking_depression_individual_SNPs_plot_ukb-d-20116_0_ukb-d-20544_11.png, id=409
 , 3312.375pt x 1957.3125pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/smoking_depression_individual_SNPs_plot_ukb-d-20116_0_ukb-d-20544_11.png Gr
@@ -1139,7 +1139,7 @@ LaTeX Warning: Reference `multiple-iv-case' on page 19 undefined on input line
 
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
 moking_depression_intersection_bounds_plot_ukb-d-20116_0_ukb-d-20544_11.png, id
-=419, 2409.0pt x 2409.0pt>
+=418, 2409.0pt x 2409.0pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/smoking_depression_intersection_bounds_plot_ukb-d-20116_0_ukb-d-20544_11.pn
 g Graphic file (type png)
@@ -1157,7 +1157,7 @@ gures/example_analyses/smoking_depression_intersection_bounds_plot_ukb-d-20116_
 smoking_depression_intersection_bounds_plot_ukb-d-20116_0_ukb-d-20544_11.png>]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
 moking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb-d-40001_C349.png, id=43
-3, 2409.0pt x 3011.25pt>
+2, 2409.0pt x 3011.25pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/smoking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb-d-40001_C349.png G
 raphic file (type png)
@@ -1172,7 +1172,7 @@ nalyses/smoking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb-d-40001_C349.p
 ng>]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
 moking_lung_cancer_3_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.png, i
-d=446, 3312.375pt x 1957.3125pt>
+d=445, 3312.375pt x 1957.3125pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/smoking_lung_cancer_3_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.p
 ng Graphic file (type png)
@@ -1188,7 +1188,7 @@ es/smoking_lung_cancer_3_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.pn
 g>]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
 moking_lung_cancer_3_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C349.pn
-g, id=452, 2409.0pt x 2409.0pt>
+g, id=451, 2409.0pt x 2409.0pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/smoking_lung_cancer_3_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C3
 49.png Graphic file (type png)
@@ -1351,7 +1351,7 @@ LaTeX Warning: Reference `eq:y_monotone' on page 31 undefined on input line 338
 
 ] [34] [35] [36]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
-moking_depression_marginal_Z.png, id=536, 1505.625pt x 602.25pt>
+moking_depression_marginal_Z.png, id=535, 1505.625pt x 602.25pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/smoking_depression_marginal_Z.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
@@ -1370,7 +1370,7 @@ Overfull \hbox (22.2222pt too wide) in paragraph at lines 3658--3787
 [38 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
 es/smoking_depression_marginal_Z.png>]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
-moking_depression_marginal_conditionals.png, id=554, 1505.625pt x 903.375pt>
+moking_depression_marginal_conditionals.png, id=553, 1505.625pt x 903.375pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/smoking_depression_marginal_conditionals.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
@@ -1381,7 +1381,7 @@ put line 3790.
 (pdftex.def)             Requested size: 465.06183pt x 279.0371pt.
 [39]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
-moking_depression_coefficients.png, id=562, 1505.625pt x 903.375pt>
+moking_depression_coefficients.png, id=561, 1505.625pt x 903.375pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/smoking_depression_coefficients.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
@@ -1395,7 +1395,7 @@ es/smoking_depression_marginal_conditionals.png>] [41 </Users/ralphtrane/Docume
 nts/RPackages_dev/ACEBounds/figures/example_analyses/smoking_depression_coeffic
 ients.png>] [42]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
-moking_lung_cancer_3_marginal_Z.png, id=580, 1505.625pt x 602.25pt>
+moking_lung_cancer_3_marginal_Z.png, id=579, 1505.625pt x 602.25pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/smoking_lung_cancer_3_marginal_Z.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
@@ -1412,7 +1412,7 @@ Overfull \hbox (22.2222pt too wide) in paragraph at lines 3929--4058
 [43 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
 es/smoking_lung_cancer_3_marginal_Z.png>]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
-moking_lung_cancer_3_coefficients.png, id=592, 1505.625pt x 903.375pt>
+moking_lung_cancer_3_coefficients.png, id=591, 1505.625pt x 903.375pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/smoking_lung_cancer_3_coefficients.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
@@ -1462,10 +1462,10 @@ ane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></Users/ralphtra
 ne/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></Users/ralphtran
 e/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></Users/ralphtran
 e/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on long_description.pdf (49 pages, 4127358 bytes).
+Output written on long_description.pdf (49 pages, 4127202 bytes).
 PDF statistics:
- 726 PDF objects out of 1000 (max. 8388607)
- 616 compressed objects within 7 object streams
+ 725 PDF objects out of 1000 (max. 8388607)
+ 615 compressed objects within 7 object streams
  163 named destinations out of 1000 (max. 500000)
  237 words of extra memory for PDF output out of 10000 (max. 10000000)
 

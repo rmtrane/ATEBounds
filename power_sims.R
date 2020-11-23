@@ -86,6 +86,31 @@ if(PLOT){
     bounds_and_ATE <- read_rds(here::here("data/power_bounds_and_ATE.Rds"))
   }
 
+  ## Compare indIVs_on_X and resulting strength
+  coefs_vs_strength <- bounds_and_ATE %>%
+    unnest(subset) %>%
+    unnest_wider(sum_stats) %>%
+    unnest_wider(bounds) %>%
+    mutate(strength = map_dbl(thetas, ~.x[3] - .x[1]),
+           U_on_XY = as.character(U_on_XY)) %>%
+    ggplot(aes(x = indIVs_on_X, y = strength,
+               color = U_on_XY)) +
+      geom_point() +
+      scale_color_manual(values = c("black", "red")) +
+      labs(color = bquote(beta[U]),
+           y = "Strength of IV",
+           x = bquote(beta[Z])) +
+      lims(
+        y = c(0, 1)
+      ) +
+      theme_bw() +
+      theme(legend.position = "top")
+
+  ggsave(here::here("figures/MR_coefs_vs_strength.png"),
+         coefs_vs_strength, dpi = 300,
+         width = 4, height = 4)
+
+  ## Bounds Plot
   pretty_plot <- bounds_and_ATE %>%
     unnest(subset) %>%
     unnest_wider(sum_stats) %>%
@@ -127,19 +152,35 @@ if(PLOT){
     filter(lower > 0) %>%
     group_by(U_on_XY, X_on_Y) %>%
     filter(indIVs_on_X == min(indIVs_on_X)) %>%
-    #pivot_longer(cols = c(X_on_Y, ATE)) %>%
     mutate(U_on_XY = as.character(U_on_XY)) %>%
-    ggplot(aes(x = ATE, y = indIVs_on_X)) +
+    ggplot(aes(x = ATE, y = indIVs_on_X, color = U_on_XY)) +
       geom_point() + geom_line() +
-      lims(y = c(1.5, 3)) +
-      facet_grid(~U_on_XY, scales = "free_x",
-                 labeller = label_both) +
-      theme_bw()
+      lims(y = c(1.5, 3),
+           x = c(0.2, 0.5)) +
+      labs(
+        x = "Average Treatment Effect",
+        y = bquote(beta[Z]),
+        color = bquote(beta[U])
+      ) +
+      scale_color_manual(values = c("black", "red")) +
+      theme_bw() +
+      theme(legend.position = "top")
 
   ggsave(here::here("figures/power_curves.png"),
          plot = power_curves, dpi = 300,
-         height = 5, width = 8)
+         height = 4, width = 4)
 
+
+  loess_strength <- bounds_and_ATE %>%
+    unnest(subset) %>%
+    unnest_wider(sum_stats) %>%
+    unnest_wider(bounds) %>%
+    mutate(strength = map_dbl(thetas, ~.x[3] - .x[1])) %>%
+    loess(data = .,
+          strength ~ indIVs_on_X + U_on_XY)
+
+  uniroot(f = function(x) predict(loess_strength, newdata = data.frame(indIVs_on_X = x, U_on_XY = 0.1)) - 0.5,
+          interval = c(1, 1.5))
 
   ## Model lower bounds by ATE
   loess_model <- bounds_and_ATE %>%

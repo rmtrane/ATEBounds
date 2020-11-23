@@ -367,6 +367,56 @@ ggsave(
                         paste0("smoking_depression_individual_SNPs_plot_", smoking_experiment$id, "_", depression_experiment$id,".png")),
   width = 11, height = 6.5, dpi = 300
 )
+
+## Subset of above plot
+smoking_depression_individual_SNPs_plot_subset <- smoking_depression_trivariate_bounds %>% 
+  filter(SNP %in% unique(SNP)[c(2, 5, 17, 25, 34, 52, 65, 78)]) %>% 
+  group_by(SNP) %>% 
+  arrange(lower) %>% 
+  mutate(id = row_number()#,
+         #contains_zero = as.character(as.numeric(contains_zero)) #if_else(contains_zero, "Overlaps Zero", "Does not Overlap Zero")
+         ) %>% 
+  ungroup() %>% 
+  ggplot(aes(y = id, color = contains_zero)) +
+    geom_errorbar(aes(xmin = lower,
+                      xmax = upper)) +
+    geom_point(data = data.frame(x = 0, y = 10,
+                                 contains_zero = FALSE),
+               aes(x = x, y = y),
+               alpha = 0) +
+    geom_vline(aes(xintercept = bivariate_lower),
+               linetype = "dashed") +  
+    geom_vline(aes(xintercept = bivariate_upper),
+               linetype = "dashed") +
+    geom_vline(xintercept = 0) +
+    scale_color_manual("",
+                       values = c("grey50", "red4"),
+                       labels = c("Overlaps Zero", "Does not Overlap Zero"),
+                       breaks = c("TRUE", "FALSE"),
+                       drop = FALSE) +
+    lims(x = c(-1, 1)) +
+    labs(
+        x = "ATE", y = ""
+    ) +
+    coord_fixed(ratio = 2/350) + 
+    facet_wrap(~SNP, nrow = 2) +
+    theme(legend.position = "top",
+          axis.text.y = element_blank(),
+          axis.ticks.y = element_blank(),
+          axis.text.x = element_text(),
+          axis.ticks.x = element_line())
+
+# smoking_depression_individual_SNPs_plot_subset + 
+#     labs(title = "Possible Trivariate Bounds from Bivariate Data",
+#          subtitle = paste0("Exposure: Smoking (id: ", smoking_experiment$id, "). ",
+#                            "Outcome: Depression (id: ", depression_experiment$id, ")."))
+
+ggsave(
+  plot = smoking_depression_individual_SNPs_plot_subset,
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_depression_individual_SNPs_plot_subset_", smoking_experiment$id, "_", depression_experiment$id,".png")),
+  width = 8, height = 6, dpi = 300
+)
 ```
 
 Below is a similar plot where we assume monotonicity of $P(X = 1 | Z = z)$. This is only done in cases where the marginals are such that the bivariate constraints are not violated.
@@ -446,13 +496,13 @@ smoking_depression_pairs_of_snps
 
 The resulting tibble has `r nrow(smoking_depression_pairs_of_snps)` rows, which is exactly ${`r n_distinct(smoking_depression_trivariate_bounds[['SNP']])` \choose 2}$. 
 
-It is not feasible (and probably not even useful...) to go through all pairs, so instead we will simply look at a random sample of 9 pairs.
+It is not feasible (and probably not even useful...) to go through all pairs, so instead we will simply look at a random sample of 8 pairs.
 
 ```{r}
 set.seed(493637)
 
 smoking_depression_chosen_pairs <- smoking_depression_pairs_of_snps %>% 
-  sample_n(9)
+  sample_n(8)
 
 pander::pander(smoking_depression_chosen_pairs)
 ```
@@ -503,16 +553,16 @@ smoking_depression_intersection_bounds_plot <- smoking_depression_intersection_b
   arrange(intersection_lower) %>% 
   mutate(i = row_number()) %>% 
   ungroup() %>% 
-  ggplot(aes(x = i)) + 
-    geom_hline(aes(yintercept = bivariate_intersection_lower),
+  ggplot(aes(y = i)) + 
+    geom_vline(aes(xintercept = bivariate_intersection_lower),
                linetype = "dashed") +
-    geom_hline(aes(yintercept = bivariate_intersection_upper),
+    geom_vline(aes(xintercept = bivariate_intersection_upper),
                linetype = "dashed") +
-    geom_errorbar(aes(ymin = intersection_lower,
-                      ymax = intersection_upper,
+    geom_errorbar(aes(xmin = intersection_lower,
+                      xmax = intersection_upper,
                       color = contains_zero),
                   alpha = 0.7) +
-    geom_point(data = data.frame(x = 10, y = 0,
+    geom_point(data = data.frame(x = 0, y = 10,
                                  contains_zero = FALSE),
                aes(x = x, y = y, color = contains_zero),
                alpha = 0) +
@@ -521,21 +571,26 @@ smoking_depression_intersection_bounds_plot <- smoking_depression_intersection_b
                        labels = c("Overlaps Zero", "Does not Overlap Zero"),
                        breaks = c("TRUE", "FALSE"),
                        drop = FALSE) +
-    lims(y = c(-1, 1)) + 
-    coord_fixed(ratio = 350/2) + 
-    geom_hline(yintercept = 0) +
-    facet_wrap(~SNP1 + SNP2) +
+    lims(x = c(-1, 1)) + 
+    coord_fixed(ratio = 2/350) + 
+    geom_vline(xintercept = 0) +
+    facet_wrap(~SNP1 + SNP2,
+               nrow = 2) +
     labs(
-      x = "", y = "ATE"
+      y = "", x = "ATE"
     ) +
     theme_bw() +
-    theme(legend.position = "top")
+    theme(legend.position = "top",
+          axis.text.x = element_text(),
+          axis.ticks.x = element_line(),
+          axis.text.y = element_blank(),
+          axis.ticks.y = element_blank())
 
 ggsave(
   plot = smoking_depression_intersection_bounds_plot,
   filename = here::here("figures/example_analyses", 
                         paste0("smoking_depression_intersection_bounds_plot_", smoking_experiment$id, "_", depression_experiment$id,".png")),
-  width = 8, height = 8, dpi = 300
+  width = 8, height = 6, dpi = 300
 )
 
 
@@ -1425,7 +1480,7 @@ smoking_lung_cancer_3_individual_SNPs_plot <- smoking_lung_cancer_3_trivariate_b
                        breaks = c("TRUE", "FALSE"),
                        drop = FALSE) +
     facet_wrap(~SNP, nrow = 7) +
-    lims(y = c(-1, 1)) + 
+    lims(x = c(-1, 1)) + 
     labs(
       x = "", y = "ATE"
     ) +
@@ -1438,6 +1493,49 @@ ggsave(
   filename = here::here("figures/example_analyses", 
                         paste0("smoking_lung_cancer_3_individual_SNPs_plot_", smoking_experiment$id, "_", lung_cancer_3_experiment$id,".png")),
   width = 11, height = 6.5, dpi = 300
+)
+
+smoking_lung_cancer_3_individual_SNPs_plot_subset <- smoking_lung_cancer_3_trivariate_bounds %>% 
+  filter(SNP %in% unique(SNP)[c(2, 5, 17, 25, 34, 52, 65, 78)]) %>% 
+  group_by(SNP) %>% 
+  arrange(lower) %>% 
+  mutate(id = row_number()) %>% 
+  ungroup() %>% 
+  ggplot(aes(y = id)) +
+    geom_errorbar(aes(xmin = lower,
+                      xmax = upper,
+                      color = contains_zero)) +
+    geom_point(data = data.frame(x = 0, y = 10,
+                                 contains_zero = FALSE),
+               aes(x = x, y = y, color = contains_zero),
+               alpha = 0) +
+    geom_vline(aes(xintercept = bivariate_lower),
+               linetype = "dashed") +  
+    geom_vline(aes(xintercept = bivariate_upper),
+               linetype = "dashed") +
+    geom_vline(xintercept = 0) +
+    scale_color_manual("",
+                       values = c("grey50", "red4"),
+                       labels = c("Overlaps Zero", "Does not Overlap Zero"),
+                       breaks = c("TRUE", "FALSE"),
+                       drop = FALSE) +
+    facet_wrap(~SNP, nrow = 2) +
+    lims(x = c(-1, 1)) + 
+    labs(
+      x = "ATE", y = ""
+    ) +
+    coord_fixed(ratio = 2/350) + 
+    theme(legend.position = "top",
+          axis.text.x = element_text(),
+          axis.ticks.x = element_line(),
+          axis.text.y = element_text(),
+          axis.ticks.y = element_line())
+
+ggsave(
+  plot = smoking_lung_cancer_3_individual_SNPs_plot_subset,
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_lung_cancer_3_individual_SNPs_plot_subset_", smoking_experiment$id, "_", lung_cancer_3_experiment$id,".png")),
+  width = 8, height = 6, dpi = 300
 )
 
 
@@ -1523,7 +1621,7 @@ smoking_lung_cancer_3_pairs_of_snps <- expand_grid(SNP1 = unique(smoking_lung_ca
 set.seed(493637)
 
 smoking_lung_cancer_3_chosen_pairs <- smoking_lung_cancer_3_pairs_of_snps %>% 
-  sample_n(9)
+  sample_n(8)
 
 pander::pander(smoking_lung_cancer_3_chosen_pairs)
 
@@ -1565,16 +1663,16 @@ smoking_lung_cancer_3_intersection_bounds_plot <- smoking_lung_cancer_3_intersec
   arrange(intersection_lower) %>% 
   mutate(i = row_number()) %>% 
   ungroup() %>% 
-  ggplot(aes(x = i)) + 
-    geom_hline(aes(yintercept = bivariate_intersection_lower),
+  ggplot(aes(y = i)) + 
+    geom_vline(aes(xintercept = bivariate_intersection_lower),
                linetype = "dashed") +
-    geom_hline(aes(yintercept = bivariate_intersection_upper),
+    geom_vline(aes(xintercept = bivariate_intersection_upper),
                linetype = "dashed") +
-    geom_errorbar(aes(ymin = intersection_lower,
-                      ymax = intersection_upper,
+    geom_errorbar(aes(xmin = intersection_lower,
+                      xmax = intersection_upper,
                       color = contains_zero),
                   alpha = 0.7) +
-    geom_point(data = data.frame(x = 10, y = 0,
+    geom_point(data = data.frame(x = 0, y = 10,
                                  contains_zero = FALSE),
                aes(x = x, y = y, color = contains_zero),
                alpha = 0) +
@@ -1583,15 +1681,21 @@ smoking_lung_cancer_3_intersection_bounds_plot <- smoking_lung_cancer_3_intersec
                        labels = c("Overlaps Zero", "Does not Overlap Zero"),
                        breaks = c("TRUE", "FALSE"),
                        drop = FALSE) +
-    lims(y = c(-1, 1)) + 
-    coord_fixed(ratio = 350/2) + 
-    geom_hline(yintercept = 0) +
-    facet_wrap(~SNP1 + SNP2) +
+    lims(x = c(-1, 1)) + 
+    coord_fixed(ratio = 2/350) + 
+    geom_vline(xintercept = 0) +
+    facet_wrap(~SNP1 + SNP2,
+               nrow = 2) +
     labs(
-      x = "", y = "ATE"
+      y = "", x = "ATE"
     ) +
     theme_bw() +
-    theme(legend.position = "top")
+    theme(legend.position = "top",
+          axis.text.x = element_text(),
+          axis.ticks.x = element_line(),
+          axis.text.y = element_blank(),
+          axis.ticks.y = element_blank())
+
 
 smoking_lung_cancer_3_intersection_bounds_plot + 
     labs(title = "Intersections of Possible Trivariate Bounds from Bivariate Data",
@@ -1604,7 +1708,7 @@ ggsave(
   plot = smoking_lung_cancer_3_intersection_bounds_plot,
   filename = here::here("figures/example_analyses", 
                         paste0("smoking_lung_cancer_3_intersection_bounds_plot_", smoking_experiment$id, "_", lung_cancer_3_experiment$id,".png")),
-  width = 8, height = 8, dpi = 300
+  width = 8, height = 6, dpi = 300
 )
 ```
 

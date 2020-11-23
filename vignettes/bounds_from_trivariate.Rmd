@@ -129,7 +129,6 @@ bivariate_bounds <- many_sample_joints %>%
   unnest_wider(interval) %>% 
   rename(bivariate_lower = lower,
          bivariate_upper = upper) %>% 
-  print() %>% 
   select(j, contains("bivariate"), thetas, gammas)
 
 head(bivariate_bounds)
@@ -225,7 +224,7 @@ subset_plot_summaries <- for_subset_plot %>%
   unnest_wider(gammas)
 
 subset_plot <- ggplot(for_subset_plot,
-       aes(x = id/max(id))) + 
+                      aes(x = id/max(id))) + 
   geom_hline(aes(yintercept = bivariate_lower, color = "Bivariate Bounds")) + 
   geom_hline(aes(yintercept = bivariate_upper, color = "Bivariate Bounds")) + 
   geom_errorbar(aes(ymin = trivariate_lower, ymax = trivariate_upper,

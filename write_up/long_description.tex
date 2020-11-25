@@ -113,23 +113,18 @@
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-The gold standard to estimate the causal effect of a treatment or an exposure on an outcome is a randomized trial where the treatment assignment is randomized. However, in many epidemiological studies, randomized experiments are not feasible. For example, a study estimating the negative effects of smoking on depression \citep{wootton_evidence_2019} would not be feasible with a randomized trial due to ethical concerns. In such settings, epidemiologists rely on different types of observational studies, which introduces potential biases from unmeasured confounders. In recent years, there has been an increase in using instrumental variable (IV) in the form of Mendelian randomization (MR) \citep{davey_smith_mendelian_2003, lawlor_mendelian_2008}. Briefly, IV is a variable that is (A1) associated with the exposure, (A2) is independent from unmeasured confounders affecting the exposure and the outcome, and (A3) affects the outcome only through its effect on the exposure; see \ref{sec:iv-assumptions-and-two-sample-mr} for details. MR uses genetic variants, usually single nucleotide polymorphisms, as instruments to estimate the causal effect of an exposure on an outcome. This is based on the idea being that genotypes are randomly assigned when passed on from parents to offspring at meiosis \citep{lawlor_mendelian_2008} and thus, they make excellent candidates for satisfying (A2), especially when the exposure of interest is environmental.
+The gold standard to estimate the causal effect of a treatment or an exposure on an outcome is a randomized experiment. However, in many epidemiological studies, randomized experiments are not feasible. For example, a study estimating the negative effects of smoking on depression \citep{wootton_evidence_2019} with a randomized experiment would not be feasible due to ethical concerns. As an alternative to randomized experiments, recently, there has been an increase in using instrumental variable (IV) in the form of Mendelian randomization (MR) to deduce causal effects \citep{davey_smith_mendelian_2003, lawlor_mendelian_2008}. Briefly, IV is a variable that is (A1) associated with the exposure, (A2) is independent from unmeasured confounders affecting the exposure and the outcome, and (A3) affects the outcome only through its effect on the exposure; see \ref{sec:iv-assumptions-and-two-sample-mr} for details. MR uses genetic variants, usually single nucleotide polymorphisms, as instruments due to an idea that genotypes are randomly assigned when passed on from parents to offspring by meiosis and thus, possibly satisfying (A2). For additional discussions on the plausibility of assumptions (A1)-(A3) in MR, see \citet{lawlor_mendelian_2008}, \citet{didelez_mendelian_2007}, \textcolor{red}{cite \url{https://pubmed.ncbi.nlm.nih.gov/28114746/}}, and references within.
 
-MR analyses often use published summary statistics from two independent genome wide association studies \citep{burgess_mendelian_2013, burgess_using_2015, davies_reading_2018} \textcolor{red}{Not sure about these citations...we can discuss(Erlich and Narayanan 2014; Fuller et al. 1999; Wang et al. 2017)}. Typically, the first study provides information about the exposure and instrument and the second study provides information about the outcome and instrument. Once investigator have summary statistics from two studies, they use methods based on parametric modeling assumptions \citep{burgess_mendelian_2015, burgess_review_2017} to arrive at point estimates and tests for the exposure effect.
+Data from MR studies often consist of published summary statistics from two independent genome wide association studies (GWAS), often referred to as the two-sample setting \citep{burgess_mendelian_2013, burgess_using_2015, davies_reading_2018}. Typically, the first GWAS provides information about the exposure and instrument and the second GWAS provides information about the outcome and instrument. With the summary statistics from two studies, investigators often use parametric methods to arrive at estimates and tests for the exposure effect. Examples of such estimators and test are the IVW estimator \citep{burgess_mendelian_2013}, MR-Egger regression \citep{bowden_assessing_2016}, weighted median \citep{bowden_consistent_2016} and modes \citep{hartwig_robust_2017}, and MRRAPs \citep{zhao_statistical_2020}, to name a few; see  \citet{burgess_mendelian_2015} and \citet{burgess_review_2017} for recent reviews.
 
-An alternative approach to study the casual effect of the exposure without parametric assumptions is through non-parametric IV bounds \citep{balke_bounds_1997, cheng_bounds_2006, manski_nonparametric_1990, richardson_ace_2014, robins_analysis_1989}. Briefly, nonparametric IV bounds only use the bare minimum amount of assumptions, usually (A1)-(A3), to provide a range of plausible values for the exposure effect. They are typically used when the outcome, the exposure, and the instrument are all binary and are simultaneously observed. The most well-known are the Balke-Pearl bounds for the average treatment effect under slight variants of assumptions (A1)-(A3), and a set of instrumental inequalities to falsify the IV assumptions. Since then, \citet{cheng_bounds_2006} and \citet{richardson_ace_2014} extended the Balke-Pearl bounds to allow for a non-binary instrument. \citet{ramsahai_causal_2012} derived bounds for the two-sample setting where the exposure and instrument are observed from one study and the outcome and instrument are observed from another study. \citet{bpbounds-package} provides software to compute IV bounds for two-sample MR studies using only summary statistics. For a recent overview, see Swanson et al.~(2018).
+An alternative approach to study the exposure effect without parametric assumptions is through non-parametric IV bounds \citep{balke_bounds_1997, cheng_bounds_2006, manski_nonparametric_1990, richardson_ace_2014, robins_analysis_1989}. Briefly, nonparametric IV bounds only use a minimum set of amount of assumptions, usually (A1)-(A3), to provide a range of plausible values for the exposure effect. They are typically used when the outcome, the exposure, and the instrument are all binary and are simultaneously observed; we refer to this setting as the one-sample setting to contrast it from the two-sample setting in MR. The most well-known are the Balke-Pearl bounds \citep{balke_bounds_1997} for the average treatment effect under slight variants of assumptions (A1)-(A3). Also, the conditions underlying these bounds lead to a set of instrumental inequalities to falsify the IV assumptions. Since then, \citet{cheng_bounds_2006} and \citet{richardson_ace_2014} extended the Balke-Pearl bounds to allow for a non-binary instrument. \citet{ramsahai_causal_2012} derived bounds for the two-sample setting.  \citet{bpbounds-package} provides software to compute IV bounds for two-sample MR studies using only summary statistics. For a recent overview, see Swanson et al.~(2018). \textcolor{red}{make sure to bibtex Swanson's reference}.
 
-Due to their nonparametric nature, the IV bounds are attractive approaches to analyze exposure effects especially if some modeling assumptions are suspect or difficult to justify. In MR, the minimal set of assumptions needed for non-parametric bounds is a stark contrast to many other MR approaches, such as the IVW estimator \citep{burgess_mendelian_2013}, MR-Egger regression \citep{bowden_assessing_2016}, weighted median \citep{bowden_consistent_2016} and modes \citep{hartwig_robust_2017}, MRRAPs \citep{zhao_statistical_2020}, and others, that make parametric assumptions about the exposure effect. More generally, if IV bounds using fewer assumptions arrive at similar conclusions about the exposure effect as those based on parametric approaches, the case for the causal effect on the exposure becomes stronger.
-
-Despite their attractive properties, there is a poor understanding about the behavior of IV bounds in two-sample MR studies using only summary statistics. The specific questions we will tackle in our work are
-
-\begin{enumerate}
-\item What kind of genetic instruments are needed to provide useful conclusions about the exposure effect, say the bound does not contain the null effect?
-\item Can combining multiple instruments lead to shorter and tighter bounds on the exposure effect? 
-\item How do the bounds change if many instruments are weak, which is typically the case in MR studies based on genetic instruments? 
+Due to their nonparametric nature, IV bounds have been attractive alternatives in non-MR, one-sample settings to analyze treatment effects, especially in settings where some parametric assumptions are suspect or difficult to justify. More generally, if IV bounds using fewer assumptions arrive at similar conclusions about the treatment effect as those based on parametric approaches, the case for the treatment effect becomes stronger. But, there is little work on understanding about the behavior of IV bounds in MR settings where we have summary statistics from two samples. For example, \begin{enumerate}
+\item What kind of genetic instruments are needed in two-sample MR studies to provide useful conclusions about the exposure effect, say the bound does not contain the null effect?
+\item Can combining multiple genetic instruments from GWAS lead to shorter and tighter bounds on the exposure effect? 
+\item How do the bounds change if many instruments have weak association with the exposure, which is typically in MR studies where genetic variants only explain a small amount of variation in the exposure? 
 \end{enumerate}
-
-In traditional setups for IV bounds where individual-level data consisting jointly of the outcome, the exposure, and a single instrument are available, the Balke-Pearl bounds are usually conservative and contain the null effect. However, it is not clear if the same principle holds for two-sample MR studies, especially if multiple candidate IVs are available. The goal of the paper is to address these questions and provide a more in-depth exploration of these bounds, specifically addressing what we can expect to learn and what information can be gained by utilizing multiple IVs under assumptions similar to Balke-Pearl bounds
+In one sample setups where individual-level data are available, the Balke-Pearl bounds are known to be wide, often containing the null effect; \citet{balke_bounds_1997}  \textcolor{red}{check this, I forget which pearl paper mentions this...} showed that the width of the bound decrease linearly with the magnitude of the instrument's association to the exposure. However, it is not clear if the same principle holds for two-sample MR studies. The goal of the paper is to characterize the behavior of these bounds, specifically addressing what can be learned from MR studies that choose to use non-parametric IV bounds to analyze the exposure effect.
 
 The paper is divided as follows. Section \ref{} \textcolor{red}{Fill this after done}.
 
@@ -275,13 +270,13 @@ To illustrate our theorem, we randomly generate 10,000 sets of values of \(P(X =
   \centering
   \begin{subfigure}[t]{0.5\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/all_bivariate_bounds.png}
+    \includegraphics[width=\textwidth]{/Users/hyunseung/git/ACEBounds/figures/all_bivariate_bounds.png}
     \caption{Bounds ordered by the center of the bounds.}
     \label{fig:all_biv_bounds}
   \end{subfigure}%
   ~
   \begin{subfigure}[t]{0.5\textwidth}
-    \includegraphics[width=\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bivariate_width_vs_strength.png}
+    \includegraphics[width=\textwidth]{/Users/hyunseung/git/ACEBounds/figures/bivariate_width_vs_strength.png}
     \caption{Black line has intercept 2 and slope -2.}
     \label{fig:biv_width_vs_strength}
   \end{subfigure}
@@ -323,13 +318,13 @@ From Figure \ref{fig:coef_vs_strength} we see that to achieve a strength of 0.5,
 \begin{figure*}
   \centering
   \begin{subfigure}[t]{0.5\textwidth}
-    \includegraphics[width = \textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/MR_coefs_vs_strength.png}
+    \includegraphics[width = \textwidth]{/Users/hyunseung/git/ACEBounds/figures/MR_coefs_vs_strength.png}
     \caption{Relationship between coefficients $\beta_Z$ and strength of the IV.}
     \label{fig:coef_vs_strength}
   \end{subfigure}%
   ~
   \begin{subfigure}[t]{0.5\textwidth}
-    \includegraphics[width=\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/power_curves.png}
+    \includegraphics[width=\textwidth]{/Users/hyunseung/git/ACEBounds/figures/power_curves.png}
     \caption{Size of coefficient $\beta_Z$ needed to detect direction for different values of the average treatment effect.}
     \label{fig:power_curves}
   \end{subfigure}
@@ -359,7 +354,7 @@ Figure \ref{fig:bounds_vs_strength_many_IVs_varying_betas} shows the resulting b
 
 \begin{figure}[H]
   \center
-  \includegraphics[width = .99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/varying_betas_bounds_vs_strength_no_mono.png}
+  \includegraphics[width = .99\linewidth]{/Users/hyunseung/git/ACEBounds/figures/varying_betas_bounds_vs_strength_no_mono.png}
   \caption{Bounds based on probabilities derived from the logistic model. Here, the coefficients are randomly chosen as $\text{Uniform}(0, 1/n)$ for different values of $n$.}
   \label{fig:bounds_vs_strength_many_IVs_varying_betas}
 \end{figure}
@@ -462,7 +457,7 @@ Row c & \makecell[l]{\{0.175, 0.079, 0.365\}\\\{0.599, 0.358, 0.087\}} & \makece
 
 \begin{figure}[H]
   \center
-  \includegraphics[width=\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_bounds_subset_plot.png}
+  \includegraphics[width=\linewidth]{/Users/hyunseung/git/ACEBounds/figures/trivariate_bounds_subset_plot.png}
   \caption{One-sample and two-sample bounds. Even similar bivariate distributions can result in very different insights.}
   \label{fig:trivariate_bounds}
 \end{figure}
@@ -502,7 +497,7 @@ Previous reports suggested that smoking increases the risk of depression, with t
 
 \begin{figure}[H]
   \center
-  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/strength_histogram.png}
+  \includegraphics[width = 0.99\linewidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/strength_histogram.png}
   \caption{Histogram of strengths of IVs on the exposure. Here, SNPs are IVs, and smoking status (ever/never) is exposure. We see that all IVs are very weak, with the largest value just below 0.01.}
   \label{fig:strength_histogram}
 \end{figure}
@@ -510,7 +505,7 @@ Previous reports suggested that smoking increases the risk of depression, with t
 From the 84 instruments, we obtain 84 sets of two-sample bounds and they are shown in Figure \ref{fig:smoking_on_depression_ind_bounds}.
 
 \begin{figure}[H]
-  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_depression_bivaraite_bounds_ukb-d-20116_0_ukb-d-20544_11.png}
+  \includegraphics[width = 0.99\linewidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_depression_bivaraite_bounds_ukb-d-20116_0_ukb-d-20544_11.png}
   \caption{Non-parametric bounds for the 84 genetic variants identified as potential instruments for the effect of smoking on depression created based on the bivariate probabilities found from GWAS summary statistics.}
   \label{fig:smoking_on_depression_ind_bounds}
 \end{figure}
@@ -518,7 +513,7 @@ From the 84 instruments, we obtain 84 sets of two-sample bounds and they are sho
 Next, we use our approach to generate plausible one-sample IV bounds and Figure \ref{fig:smoking_on_depression_tri_bounds} shows the resulting bounds for six of the 84 SNPs. See \ref{fig:smoking_on_depression_tri_bounds_all} for the results for all SNPs. While the one-sample bounds are much narrower than the corresponding two-sample bounds, in line with our expectations, all the one-sample bounds founds contain \(0\). This means that we will not be able to use non-parametric bounds to determine the direction of the ATE of smoking on the chances of developing depression, even if we were to obtain one-sample data. In other words, the bound-based analysis of the MR study may not yield any useful conclusion about the exposure effect.
 
 \begin{figure}[H]
-  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_depression_individual_SNPs_plot_subset_ukb-d-20116_0_ukb-d-20544_11.png}
+  \includegraphics[width = 0.99\linewidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_depression_individual_SNPs_plot_subset_ukb-d-20116_0_ukb-d-20544_11.png}
     \caption{500 sets of bounds of the average treatment effect of smoking on depression for six of the 84 SNPs. Each bound is based on a set of values for the trivariate distribution randomly sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
     \label{fig:smoking_on_depression_tri_bounds}
 \end{figure}
@@ -527,7 +522,7 @@ Next, we use our approach to generate plausible one-sample IV bounds and Figure 
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_depression_intersection_bounds_plot_ukb-d-20116_0_ukb-d-20544_11.png}
+  \includegraphics[width = 0.99\linewidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_depression_intersection_bounds_plot_ukb-d-20116_0_ukb-d-20544_11.png}
   \caption{Intersection bounds of the average treatment effect of smoking on depression based on randomly sampled trivariate distributions from pairs of SNPs. These 8 pairs were randomly chosen from all possible pairs.}
   \label{fig:smoking_on_depression_intersections}
 \end{figure}
@@ -538,7 +533,7 @@ Next, we use our approach to generate plausible one-sample IV bounds and Figure 
 As a positive control, we consider the effect of smoking on lung cancer. We use the same 84 instruments as in Section \ref{smoking-effect-on-depression} and as expected, the two-sample bounds (Figure \ref{fig:smoking_on_lung_cancer_ind_bounds}) are rather wide; all of them have width greater than 1 and they convey no truly useful information about the ATE. Additionally, even if we were to obtain one-sample data, we will not be able to determine the direction of the ATE (Figure \ref{fig:smoking_on_lung_cancer_tri_bounds}). Aggregating through intersections (Figure \ref{fig:smoking_on_lung_cancer_intersections}) does not lead to real gain in information, even if this is done using bounds based on trivariate distributions.
 
 \begin{figure}[H]
-  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb-d-40001_C349.png}
+  \includegraphics[width = 0.99\linewidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb-d-40001_C349.png}
   \caption{Non-parametric bounds on the average treatment effect of smoking on lung cancer.}
   \label{fig:smoking_on_lung_cancer_ind_bounds}
 \end{figure}
@@ -546,7 +541,7 @@ As a positive control, we consider the effect of smoking on lung cancer. We use 
 \clearpage
 
 \begin{figure}
-  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_individual_SNPs_plot_subset_ukb-d-20116_0_ukb-d-40001_C349.png}
+  \includegraphics[width = 0.99\linewidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_individual_SNPs_plot_subset_ukb-d-20116_0_ukb-d-40001_C349.png}
     \caption{500 sets of bounds of the average treatment effect of smoking on lung cancer for six of the 84 SNPs. Each bound is based on a set of values for the trivariate distribution randomyl sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
     \label{fig:smoking_on_lung_cancer_tri_bounds}
 \end{figure}
@@ -554,7 +549,7 @@ As a positive control, we consider the effect of smoking on lung cancer. We use 
 \clearpage
 
 \begin{figure}[H]
-  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C349.png}
+  \includegraphics[width = 0.99\linewidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C349.png}
   \caption{Intersection bounds of the average treatment effect of smoking on lung cancer based on randomly sampled trivariate distributions from pairs of SNPs. These 8 pairs were randomly chosen from all possible pairs.}
   \label{fig:smoking_on_lung_cancer_intersections}
 \end{figure}
@@ -3683,7 +3678,7 @@ Lower & Upper & Strength & Width\\
 
 \begin{figure}[H]
   \center
-  \includegraphics[width = \textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_depression_marginal_Z.png}
+  \includegraphics[width = \textwidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_depression_marginal_Z.png}
   \caption{Histograms of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing for analysis in Section \ref{smoking-effect-on-depression}}
   \label{fig:marginal-distribution-of-instruments-depression}
 \end{figure}
@@ -3823,14 +3818,14 @@ rs9835772 & 0.5732121 & 0.3677912 & 0.0589967\\
 \end{table}
 
 \begin{figure}[H]
-  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_depression_marginal_conditionals.png}
+  \includegraphics[width = 0.99\linewidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_depression_marginal_conditionals.png}
   \caption{Histograms of the marginal conditional probabilities $P(X = 1 | Z = z), z = 0,1,2$ and $P(Y = 1 | Z = z), z=0,1,2$.}
   \label{fig:smoking_on_depression_marginals}
 \end{figure}
 
 \begin{figure}[H]
   \center
-  \includegraphics[width = \textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_depression_coefficients.png}
+  \includegraphics[width = \textwidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_depression_coefficients.png}
   \caption{Histograms of the coefficients from GWAS results of logistic regression of the SNPs on smoking status and depression status, respectively. Intercepts ($\beta_0$ and $\gamma_0$) are inferred, while slopes ($\beta_1$ and $\gamma_1$) are as reported.}
   \label{fig:marginal-distribution-of-coefficients-depression}
 \end{figure}
@@ -3954,7 +3949,7 @@ rs9835772 & -0.0078024 & 0.1814146 & 0.0006795 & -1.308022\\*
 
 \begin{figure}[H]
   \center
-  \includegraphics[width = \textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_marginal_Z.png}
+  \includegraphics[width = \textwidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_marginal_Z.png}
   \caption{Histograms of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing for analysis in Section \ref{smoking-effect-on-lung-cancer}.}
   \label{fig:marginal-distribution-of-instruments-lung-cancer}
 \end{figure}
@@ -4095,7 +4090,7 @@ rs9835772 & 0.5737177 & 0.3674477 & 0.0588346\\
 
 \begin{figure}[H]
   \center
-  \includegraphics[width = \textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_coefficients.png}
+  \includegraphics[width = \textwidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_coefficients.png}
   \caption{Histograms of the coefficients from GWAS results of logistic regression of the SNPs on smoking status and lung cancer status. Intercepts ($\beta_0$ and $\gamma_0$) are inferred, while slopes ($\beta_1$ and $\gamma_1$) are as reported.}
   \label{fig:marginal-distribution-of-coefficients-lung-cancer}
 \end{figure}
@@ -4219,7 +4214,7 @@ rs9835772 & -0.0078024 & 0.1814198 & -0.0031275 & -1.978401\\*
 
 \clearpage
 \begin{sidewaysfigure}
-  \includegraphics[width = 0.99\textheight]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_depression_individual_SNPs_plot_ukb-d-20116_0_ukb-d-20544_11.png}
+  \includegraphics[width = 0.99\textheight]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_depression_individual_SNPs_plot_ukb-d-20116_0_ukb-d-20544_11.png}
     \caption{500 sets of bounds of the average treatment effect of smoking on depression for each of the 84 SNPs. Each bound is based on a set of values for the trivariate distribution randomly sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
     \label{fig:smoking_on_depression_tri_bounds_all}
 \end{sidewaysfigure}
@@ -4227,7 +4222,7 @@ rs9835772 & -0.0078024 & 0.1814198 & -0.0031275 & -1.978401\\*
 
 \clearpage
 \begin{sidewaysfigure}
-  \includegraphics[width = 0.99\textheight]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.png}
+  \includegraphics[width = 0.99\textheight]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.png}
     \caption{500 sets of bounds of the average treatment effect of smoking on lung cancer for each of the 84 SNPs. Each bound is based on a set of values for the trivariate distribution randomly sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
     \label{fig:smoking_on_lung_cancer_tri_bounds_all}
 \end{sidewaysfigure}

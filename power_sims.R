@@ -4,8 +4,8 @@ library(distributions3)
 library(furrr)
 
 
-SIM_AND_SAVE <- TRUE
-PLOT <- FALSE # TRUE
+SIM_AND_SAVE <- FALSE
+<- <- TRUE
 
 ATE_from_simulated_data <- function(from_simulate_data){
   intercept <- filter(from_simulate_data$coefficients, effect == "Yintercept")$coef
@@ -19,14 +19,18 @@ ATE_from_simulated_data <- function(from_simulate_data){
 }
 
 
+set.seed(9866311)
+
 if(SIM_AND_SAVE){
   plan(multicore, workers = 3)
 
   Z_on_X <- c(1, 1.5, 1.75, 1.9, 2, 2.1, 2.25, 2.5, 3, 3.5, 4)
 
   for (i in seq_along(Z_on_X)){
+    cat(i, "of", length(Z_on_X))
+
     many_sims <- expand_grid(indIVs_on_X = Z_on_X[i],
-                             X_on_Y = c(1, 1.5, 2),
+                             X_on_Y = c(0.25, 0.5, 1, 1.5, 2),
                              U_on_XY = c(0.1, 0.5)) %>%
       mutate(
         sim_data = future_pmap(
@@ -43,8 +47,7 @@ if(SIM_AND_SAVE){
             U_on_Y = z,
             X_on_Y = y
           ),
-          .options = furrr_options(seed = TRUE),
-          .progress = TRUE
+          .options = furrr_options(seed = TRUE)
         )
       )
 
@@ -93,15 +96,16 @@ if(PLOT){
     unnest_wider(bounds) %>%
     mutate(strength = map_dbl(thetas, ~.x[3] - .x[1]),
            U_on_XY = as.character(U_on_XY)) %>%
-    ggplot(aes(x = indIVs_on_X, y = strength,
+    ggplot(aes(y = indIVs_on_X, x = strength,
                color = U_on_XY)) +
       geom_point() +
       scale_color_manual(values = c("black", "red")) +
       labs(color = bquote(beta[U]),
-           y = "Strength of IV",
-           x = bquote(beta[Z])) +
+           x = "Strength of IV",
+           y = bquote(beta[Z])) +
       lims(
-        y = c(0, 1)
+        x = c(0, 1),
+        y = c(0, 4)
       ) +
       theme_bw() +
       theme(legend.position = "top")
@@ -133,7 +137,7 @@ if(PLOT){
         values = c("Overlaps Zero" = "black", "Does Not Overlap Zero" = "red", "ATE" = "blue")
       ) +
       labs(
-        x = "Coefficient for effect of Z on X",
+        x = bquote(beta[j]),
         y = "ATE",
         color = ""
       ) +
@@ -142,7 +146,7 @@ if(PLOT){
 
   ggsave(here::here("figures/power.png"),
          plot = pretty_plot, dpi = 300,
-         height = 6, width = 8, units = "in")
+         height = 6, width = 8.5, units = "in")
 
 
   power_curves <- bounds_and_ATE %>%
@@ -155,8 +159,8 @@ if(PLOT){
     mutate(U_on_XY = as.character(U_on_XY)) %>%
     ggplot(aes(x = ATE, y = indIVs_on_X, color = U_on_XY)) +
       geom_point() + geom_line() +
-      lims(y = c(1.5, 3),
-           x = c(0.2, 0.5)) +
+      lims(y = c(0, 5),
+           x = c(0, 1)) +
       labs(
         x = "Average Treatment Effect",
         y = bquote(beta[Z]),
@@ -215,13 +219,15 @@ if(PLOT){
          height = 6, width = 8, units = "in")
 
   ## Find roots for loess curves
-  roots <- tmp %>%
+  roots <- bounds_and_ATE %>%
+    unnest(subset) %>%
+    unnest_wider(sum_stats) %>%
     select(X_on_Y, U_on_XY, ATE) %>%
     mutate(ATE = round(ATE, digits = 7)) %>%
     unique() %>%
     rowwise() %>%
-    mutate(uniroot_res = list(uniroot(f = function(x) predict(tmp_loess, newdata = data.frame(X_on_Y = X_on_Y, U_on_XY = U_on_XY, indIVs_on_X = x)),
-                                      interval = c(1.6, 2.4))),
+    mutate(uniroot_res = list(uniroot(f = function(x) predict(loess_model, newdata = data.frame(X_on_Y = X_on_Y, U_on_XY = U_on_XY, indIVs_on_X = x)),
+                                      interval = c(1, 4))),
            indIVs_on_X = uniroot_res$root) %>%
     ungroup()
 
@@ -234,13 +240,16 @@ if(PLOT){
     filter(lower > 0) %>%
     group_by(U_on_XY, X_on_Y) %>%
     filter(indIVs_on_X == min(indIVs_on_X)) %>%
-    ggplot(aes(x = ATE, y = indIVs_on_X, group = U_on_XY, color = "From simulated data")) +
+    mutate(source = "simulations") %>%
+    ggplot(aes(x = ATE, y = indIVs_on_X, group = U_on_XY, color = as.character(U_on_XY))) +
       geom_point() + geom_line() +
-      geom_point(data = roots, aes(color = "from loess")) + geom_line(data = roots, aes(color = "from loess")) +
-      lims(y = c(1.5, 3)) +
+      geom_point(data = roots %>% mutate(source = "loess")) +
+      geom_line(data = roots %>% mutate(source = "loess")) +
+      lims(y = c(0, 4),
+           x = c(0, 1)) +
       scale_color_manual("Smallest coefficient of Z on X with lower bound > 0",
                          values = c("black", "red")) +
-      facet_grid(~U_on_XY,
+      facet_grid(~source,
                  labeller = label_both) +
       guides(
         color = guide_legend(title.position = "top")

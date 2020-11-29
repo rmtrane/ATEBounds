@@ -1,0 +1,214 @@
+
+R version 4.0.2 (2020-06-22) -- "Taking Off Again"
+Copyright (C) 2020 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin17.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> library(tidyverse)
+── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
+✔ ggplot2 3.3.2     ✔ purrr   0.3.4
+✔ tibble  3.0.4     ✔ dplyr   1.0.2
+✔ tidyr   1.1.2     ✔ stringr 1.4.0
+✔ readr   1.4.0     ✔ forcats 0.5.0
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+> library(ACEBounds)
+> library(distributions3)
+
+Attaching package: ‘distributions3’
+
+The following objects are masked from ‘package:stats’:
+
+    Gamma, quantile
+
+The following object is masked from ‘package:grDevices’:
+
+    pdf
+
+> library(furrr)
+Loading required package: future
+> 
+> set.seed(8072659)
+> 
+> sample_size <- 1e6
+> SIM_AND_SAVE <- TRUE
+> PLOT <- FALSE
+> 
+> ATE_from_simulated_data <- function(from_simulate_data) {
++   intercept <- filter(from_simulate_data$coefficients, effect == "Yintercept")$coef
++   x_beta <- filter(from_simulate_data$coefficients, effect == "X_on_Y")$coef
++   u_beta <- filter(from_simulate_data$coefficients, effect == "U_on_Y")$coef
++ 
++   pY1X0 <- 1 / (1 + exp(-intercept - u_beta * from_simulate_data$simulated_data$U))
++   pY1X1 <- 1 / (1 + exp(-intercept - x_beta - u_beta * from_simulate_data$simulated_data$U))
++ 
++   return(mean(pY1X1 - pY1X0))
++ }
+> 
+> if (SIM_AND_SAVE) {
++   start <- Sys.time()
++   indIVs_on_X_MR <- map(c(3, 10, 50),
++                         ~runif(.x, 0, 0.1)) %>%
++     setNames(c(3, 10, 50))
++ 
++   indIVs_on_X_power <- map(c(3, 10, 50),
++                            ~runif(.x, 1, 4)) %>%
++     setNames(c(3, 10, 50))
++ 
++   all_combinations <- expand_grid(
++     p = c(3, 10, 50),
++     scenario = c("MR", "power"),
++     X_on_Y = c(1, 1.5, 2),
++     U_on_XY = c(0.1, 0.5)
++   ) %>%
++     mutate(
++       indIVs_on_X = map2(p, scenario,
++         ~if(.y == "MR"){
++           indIVs_on_X_MR[[as.character(.x)]]
++         } else {
++           indIVs_on_X_power[[as.character(.x)]]
++         }
++       )
++     )
++ 
++   for (i in nrow(all_combinations)) {
++ 
++     cat(i, "of", nrow(all_combinations), "\n")
++ 
++     if(all_combinations[i,]$p == 50){
++       plan(multicore, workers = 1)
++     } else {
++       plan(multicore, 3)
++     }
++ 
++ 
++     tmp <- all_combinations[i, ] %>%
++       mutate(
++         sim_data = future_pmap(
++           .l = list(indIVs_on_X, X_on_Y, U_on_XY),
++           function(x, y, z) {
++             simulate_data(
++               sample_size = sample_size,
++               IVs_ps = rep(list(c(0.25, 0.5, 0.25)), times = length(x)),
++               X_intercept = -sum(x),
++               Y_intercept = -y / 2,
++               indIVs_on_X = x,
++               indIVs_on_Y = 0,
++               U = distributions3::Normal(),
++               U_on_X = z,
++               U_on_Y = z,
++               X_on_Y = y
++             )
++           },
++           .options = furrr_options(seed = TRUE)
++         )
++       )
++ 
++     write_rds(
++       tmp,
++       here::here("data/multiple_IV_sims", paste0(str_pad(i, width = 2, side = "left", pad = 0), ".Rds"))
++     )
++   }
++   stop <- Sys.time()
++ }
+36 of 36 
+> 
+> 
+> if (PLOT) {
++   if (!file.exists(here::here("data/multiple_IV_sims/bounds_and_ATE.Rds"))) {
++     plan(multicore, workers = 3)
++ 
++     all_multiple_IV_sims <- list.files(here::here("data/multiple_IV_sims"), full.names = TRUE)
++ 
++     bounds_and_ATE <- tibble(data_file = all_multiple_IV_sims) %>%
++       mutate(
++         subset = map(
++           data_file,
++           function(x) {
++             tmp <- read_rds(x)
++ 
++             out <- tmp %>%
++               summarize(
++                 ATE = map_dbl(sim_data, ATE_from_simulated_data),
++                 sums_and_bounds = map(
++                   sim_data,
++                   function(x) {
++                     sums_and_bounds <- x$simulated_data %>%
++                       pivot_longer(starts_with("Z"), names_to = "IV", values_to = "z") %>%
++                       nest_by(IV) %>%
++                       ungroup() %>%
++                       mutate(
++                         sum_stats = future_map(data, ~probs_from_data(.x, X, Y, z, data_format = "bivariate")),
++                         get_bounds_res = future_map(sum_stats, ~get_bounds(gammas = .x$gammas, thetas = .x$thetas, stop = FALSE)),
++                         bounds = future_map(get_bounds_res, "interval")
++                       ) %>%
++                       select(-data)
++ 
++                     coefs <- x$coefficients %>%
++                       filter(str_sub(effect, end = 1) == "Z") %>%
++                       mutate(effect = str_remove(effect, "_on_X")) %>%
++                       rename(IV = effect, indIVs_on_X = coef)
++ 
++                     left_join(
++                       sums_and_bounds,
++                       coefs,
++                       by = "IV"
++                     )
++                   }
++                 )
++               )
++ 
++             return(out)
++           }
++         )
++       )
++ 
++     write_rds(bounds_and_ATE, here::here("data/multiple_IV_sims/bounds_and_ATE.Rds"))
++   } else {
++     bounds_and_ATE <- read_rds(here::here("data/multiple_IV_sims/bounds_and_ATE.Rds"))
++   }
++ 
++ 
++   # strength_vs_coefs_power <- bounds_and_ATE %>%
++   #   unnest(subset) %>%
++   #   select(-data_file, -indIVs_on_X) %>%
++   #   unnest(sums_and_bounds) %>%
++   #   unnest_wider(bounds) %>%
++   #   filter(scenario == "power") %>%
++   #   mutate(strength = map_dbl(sum_stats, ~.x$thetas[3] - .x$thetas[1])) %>%
++   #   ggplot(aes(x = indIVs_on_X, y = strength)) +
++   #     geom_point() +
++   #     facet_grid(U_on_XY ~ p)
++   #
++   #
++   # bounds_and_ATE %>%
++   #   unnest(subset) %>%
++   #   select(-data_file, -indIVs_on_X) %>%
++   #   unnest(sums_and_bounds) %>%
++   #   unnest_wider(bounds) %>%
++   #   filter(scenario == "MR") %>%
++   #   mutate(strength = map_dbl(sum_stats, ~.x$thetas[3] - .x$thetas[1])) %>%
++   #   ggplot(aes(x = indIVs_on_X, y = strength)) +
++   #     geom_point() +
++   #     facet_grid(U_on_XY ~ p)
++ }
+> 
+> proc.time()
+   user  system elapsed 
+ 55.810   7.038  66.274 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.10.29)  23 NOV 2020 09:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.1)  4 DEC 2020 15:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -369,17 +369,28 @@ Package: grffile 2019/11/11 v2.1 Extended file name support for graphics (legac
 y)
 Package grffile Info: This package is an empty stub for compatibility on input 
 line 40.
+) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/ulem/ulem.sty
+\UL@box=\box54
+\UL@hyphenbox=\box55
+\UL@skip=\skip57
+\UL@hook=\toks26
+\UL@height=\dimen177
+\UL@pe=\count284
+\UL@pixel=\dimen178
+\ULC@box=\box56
+Package: ulem 2019/11/18
+\ULdepth=\dimen179
 ) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/amscls/amsthm.sty
 Package: amsthm 2020/05/29 v2.20.6
-\thm@style=\toks26
-\thm@bodyfont=\toks27
-\thm@headfont=\toks28
-\thm@notefont=\toks29
-\thm@headpunct=\toks30
-\thm@preskip=\skip57
-\thm@postskip=\skip58
-\thm@headsep=\skip59
-\dth@everypar=\toks31
+\thm@style=\toks27
+\thm@bodyfont=\toks28
+\thm@headfont=\toks29
+\thm@notefont=\toks30
+\thm@headpunct=\toks31
+\thm@preskip=\skip58
+\thm@postskip=\skip59
+\thm@headsep=\skip60
+\dth@everypar=\toks32
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/pgf/frontendlayer/tikz.
 sty (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgf.
@@ -388,22 +399,22 @@ sty
 y
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil
 -common.tex
-\pgfutil@everybye=\toks32
-\pgfutil@tempdima=\dimen177
-\pgfutil@tempdimb=\dimen178
+\pgfutil@everybye=\toks33
+\pgfutil@tempdima=\dimen180
+\pgfutil@tempdimb=\dimen181
 
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil
 -common-lists.tex))
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil
 -latex.def
-\pgfutil@abb=\box54
+\pgfutil@abb=\box57
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfrcs.
 code.tex (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/pgf.revi
 sion.tex)
-Package: pgfrcs 2020/10/01 v3.1.6a (3.1.6a)
+Package: pgfrcs 2020/12/01 v3.1.7a (3.1.7a)
 ))
-Package: pgf 2020/10/01 v3.1.6a (3.1.6a)
+Package: pgf 2020/12/01 v3.1.7a (3.1.7a)
 
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.
 sty
@@ -411,65 +422,65 @@ sty
 sty
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsy
 s.code.tex
-Package: pgfsys 2020/10/01 v3.1.6a (3.1.6a)
+Package: pgfsys 2020/12/01 v3.1.7a (3.1.7a)
 
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys
 .code.tex
-\pgfkeys@pathtoks=\toks33
-\pgfkeys@temptoks=\toks34
+\pgfkeys@pathtoks=\toks34
+\pgfkeys@temptoks=\toks35
 
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys
 filtered.code.tex
-\pgfkeys@tmptoks=\toks35
+\pgfkeys@tmptoks=\toks36
 ))
-\pgf@x=\dimen179
-\pgf@y=\dimen180
-\pgf@xa=\dimen181
-\pgf@ya=\dimen182
-\pgf@xb=\dimen183
-\pgf@yb=\dimen184
-\pgf@xc=\dimen185
-\pgf@yc=\dimen186
-\pgf@xd=\dimen187
-\pgf@yd=\dimen188
+\pgf@x=\dimen182
+\pgf@y=\dimen183
+\pgf@xa=\dimen184
+\pgf@ya=\dimen185
+\pgf@xb=\dimen186
+\pgf@yb=\dimen187
+\pgf@xc=\dimen188
+\pgf@yc=\dimen189
+\pgf@xd=\dimen190
+\pgf@yd=\dimen191
 \w@pgf@writea=\write3
 \r@pgf@reada=\read2
-\c@pgf@counta=\count284
-\c@pgf@countb=\count285
-\c@pgf@countc=\count286
-\c@pgf@countd=\count287
-\t@pgf@toka=\toks36
-\t@pgf@tokb=\toks37
-\t@pgf@tokc=\toks38
-\pgf@sys@id@count=\count288
+\c@pgf@counta=\count285
+\c@pgf@countb=\count286
+\c@pgf@countc=\count287
+\c@pgf@countd=\count288
+\t@pgf@toka=\toks37
+\t@pgf@tokb=\toks38
+\t@pgf@tokc=\toks39
+\pgf@sys@id@count=\count289
 
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgf.c
 fg
-File: pgf.cfg 2020/10/01 v3.1.6a (3.1.6a)
+File: pgf.cfg 2020/12/01 v3.1.7a (3.1.7a)
 )
 Driver file for pgf: pgfsys-pdftex.def
 
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsy
 s-pdftex.def
-File: pgfsys-pdftex.def 2020/10/01 v3.1.6a (3.1.6a)
+File: pgfsys-pdftex.def 2020/12/01 v3.1.7a (3.1.7a)
 
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsy
 s-common-pdf.def
-File: pgfsys-common-pdf.def 2020/10/01 v3.1.6a (3.1.6a)
+File: pgfsys-common-pdf.def 2020/12/01 v3.1.7a (3.1.7a)
 )))
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsy
 ssoftpath.code.tex
-File: pgfsyssoftpath.code.tex 2020/10/01 v3.1.6a (3.1.6a)
-\pgfsyssoftpath@smallbuffer@items=\count289
-\pgfsyssoftpath@bigbuffer@items=\count290
+File: pgfsyssoftpath.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgfsyssoftpath@smallbuffer@items=\count290
+\pgfsyssoftpath@bigbuffer@items=\count291
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsy
 sprotocol.code.tex
-File: pgfsysprotocol.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+File: pgfsysprotocol.code.tex 2020/12/01 v3.1.7a (3.1.7a)
 ))
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
 e.code.tex
-Package: pgfcore 2020/10/01 v3.1.6a (3.1.6a)
+Package: pgfcore 2020/12/01 v3.1.7a (3.1.7a)
 
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code
 .tex
@@ -479,12 +490,12 @@ code.tex
 code.tex)
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathparse
 r.code.tex
-\pgfmath@dimen=\dimen189
-\pgfmath@count=\count291
-\pgfmath@box=\box55
-\pgfmath@toks=\toks39
-\pgfmath@stack@operand=\toks40
-\pgfmath@stack@operation=\toks41
+\pgfmath@dimen=\dimen192
+\pgfmath@count=\count292
+\pgfmath@box=\box58
+\pgfmath@toks=\toks40
+\pgfmath@stack@operand=\toks41
+\pgfmath@stack@operation=\toks42
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunct
 ions.code.tex
@@ -506,127 +517,127 @@ ions.misc.code.tex)
 ions.integerarithmetics.code.tex)))
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfloat
 .code.tex
-\c@pgfmathroundto@lastzeros=\count292
+\c@pgfmathroundto@lastzeros=\count293
 ))
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfint.code.
 tex)
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
 epoints.code.tex
-File: pgfcorepoints.code.tex 2020/10/01 v3.1.6a (3.1.6a)
-\pgf@picminx=\dimen190
-\pgf@picmaxx=\dimen191
-\pgf@picminy=\dimen192
-\pgf@picmaxy=\dimen193
-\pgf@pathminx=\dimen194
-\pgf@pathmaxx=\dimen195
-\pgf@pathminy=\dimen196
-\pgf@pathmaxy=\dimen197
-\pgf@xx=\dimen198
-\pgf@xy=\dimen199
-\pgf@yx=\dimen256
-\pgf@yy=\dimen257
-\pgf@zx=\dimen258
-\pgf@zy=\dimen259
+File: pgfcorepoints.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgf@picminx=\dimen193
+\pgf@picmaxx=\dimen194
+\pgf@picminy=\dimen195
+\pgf@picmaxy=\dimen196
+\pgf@pathminx=\dimen197
+\pgf@pathmaxx=\dimen198
+\pgf@pathminy=\dimen199
+\pgf@pathmaxy=\dimen256
+\pgf@xx=\dimen257
+\pgf@xy=\dimen258
+\pgf@yx=\dimen259
+\pgf@yy=\dimen260
+\pgf@zx=\dimen261
+\pgf@zy=\dimen262
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
 epathconstruct.code.tex
-File: pgfcorepathconstruct.code.tex 2020/10/01 v3.1.6a (3.1.6a)
-\pgf@path@lastx=\dimen260
-\pgf@path@lasty=\dimen261
+File: pgfcorepathconstruct.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgf@path@lastx=\dimen263
+\pgf@path@lasty=\dimen264
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
 epathusage.code.tex
-File: pgfcorepathusage.code.tex 2020/10/01 v3.1.6a (3.1.6a)
-\pgf@shorten@end@additional=\dimen262
-\pgf@shorten@start@additional=\dimen263
+File: pgfcorepathusage.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgf@shorten@end@additional=\dimen265
+\pgf@shorten@start@additional=\dimen266
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
 escopes.code.tex
-File: pgfcorescopes.code.tex 2020/10/01 v3.1.6a (3.1.6a)
-\pgfpic=\box56
-\pgf@hbox=\box57
-\pgf@layerbox@main=\box58
-\pgf@picture@serial@count=\count293
+File: pgfcorescopes.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgfpic=\box59
+\pgf@hbox=\box60
+\pgf@layerbox@main=\box61
+\pgf@picture@serial@count=\count294
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
 egraphicstate.code.tex
-File: pgfcoregraphicstate.code.tex 2020/10/01 v3.1.6a (3.1.6a)
-\pgflinewidth=\dimen264
+File: pgfcoregraphicstate.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgflinewidth=\dimen267
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
 etransformations.code.tex
-File: pgfcoretransformations.code.tex 2020/10/01 v3.1.6a (3.1.6a)
-\pgf@pt@x=\dimen265
-\pgf@pt@y=\dimen266
-\pgf@pt@temp=\dimen267
+File: pgfcoretransformations.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgf@pt@x=\dimen268
+\pgf@pt@y=\dimen269
+\pgf@pt@temp=\dimen270
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
 equick.code.tex
-File: pgfcorequick.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+File: pgfcorequick.code.tex 2020/12/01 v3.1.7a (3.1.7a)
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
 eobjects.code.tex
-File: pgfcoreobjects.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+File: pgfcoreobjects.code.tex 2020/12/01 v3.1.7a (3.1.7a)
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
 epathprocessing.code.tex
-File: pgfcorepathprocessing.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+File: pgfcorepathprocessing.code.tex 2020/12/01 v3.1.7a (3.1.7a)
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
 earrows.code.tex
-File: pgfcorearrows.code.tex 2020/10/01 v3.1.6a (3.1.6a)
-\pgfarrowsep=\dimen268
+File: pgfcorearrows.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgfarrowsep=\dimen271
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
 eshade.code.tex
-File: pgfcoreshade.code.tex 2020/10/01 v3.1.6a (3.1.6a)
-\pgf@max=\dimen269
-\pgf@sys@shading@range@num=\count294
-\pgf@shadingcount=\count295
+File: pgfcoreshade.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgf@max=\dimen272
+\pgf@sys@shading@range@num=\count295
+\pgf@shadingcount=\count296
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
 eimage.code.tex
-File: pgfcoreimage.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+File: pgfcoreimage.code.tex 2020/12/01 v3.1.7a (3.1.7a)
 
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
 eexternal.code.tex
-File: pgfcoreexternal.code.tex 2020/10/01 v3.1.6a (3.1.6a)
-\pgfexternal@startupbox=\box59
+File: pgfcoreexternal.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgfexternal@startupbox=\box62
 ))
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
 elayers.code.tex
-File: pgfcorelayers.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+File: pgfcorelayers.code.tex 2020/12/01 v3.1.7a (3.1.7a)
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
 etransparency.code.tex
-File: pgfcoretransparency.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+File: pgfcoretransparency.code.tex 2020/12/01 v3.1.7a (3.1.7a)
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
 epatterns.code.tex
-File: pgfcorepatterns.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+File: pgfcorepatterns.code.tex 2020/12/01 v3.1.7a (3.1.7a)
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcor
 erdf.code.tex
-File: pgfcorerdf.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+File: pgfcorerdf.code.tex 2020/12/01 v3.1.7a (3.1.7a)
 )))
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmodule
 shapes.code.tex
-File: pgfmoduleshapes.code.tex 2020/10/01 v3.1.6a (3.1.6a)
-\pgfnodeparttextbox=\box60
+File: pgfmoduleshapes.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgfnodeparttextbox=\box63
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmodule
 plot.code.tex
-File: pgfmoduleplot.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+File: pgfmoduleplot.code.tex 2020/12/01 v3.1.7a (3.1.7a)
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfco
 mp-version-0-65.sty
-Package: pgfcomp-version-0-65 2020/10/01 v3.1.6a (3.1.6a)
-\pgf@nodesepstart=\dimen270
-\pgf@nodesepend=\dimen271
+Package: pgfcomp-version-0-65 2020/12/01 v3.1.7a (3.1.7a)
+\pgf@nodesepstart=\dimen273
+\pgf@nodesepend=\dimen274
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfco
 mp-version-1-18.sty
-Package: pgfcomp-version-1-18 2020/10/01 v3.1.6a (3.1.6a)
+Package: pgfcomp-version-1-18 2020/12/01 v3.1.7a (3.1.7a)
 ))
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgffor.st
 y
@@ -639,73 +650,73 @@ fmath.sty
 .tex))
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgffor.
 code.tex
-Package: pgffor 2020/10/01 v3.1.6a (3.1.6a)
+Package: pgffor 2020/12/01 v3.1.7a (3.1.7a)
 
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code
 .tex)
-\pgffor@iter=\dimen272
-\pgffor@skip=\dimen273
-\pgffor@stack=\toks42
-\pgffor@toks=\toks43
+\pgffor@iter=\dimen275
+\pgffor@skip=\dimen276
+\pgffor@stack=\toks43
+\pgffor@toks=\toks44
 ))
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tik
 z/tikz.code.tex
-Package: tikz 2020/10/01 v3.1.6a (3.1.6a)
+Package: tikz 2020/12/01 v3.1.7a (3.1.7a)
 
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/libraries/pgflibr
 aryplothandlers.code.tex
-File: pgflibraryplothandlers.code.tex 2020/10/01 v3.1.6a (3.1.6a)
-\pgf@plot@mark@count=\count296
-\pgfplotmarksize=\dimen274
+File: pgflibraryplothandlers.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgf@plot@mark@count=\count297
+\pgfplotmarksize=\dimen277
 )
-\tikz@lastx=\dimen275
-\tikz@lasty=\dimen276
-\tikz@lastxsaved=\dimen277
-\tikz@lastysaved=\dimen278
-\tikz@lastmovetox=\dimen279
-\tikz@lastmovetoy=\dimen280
-\tikzleveldistance=\dimen281
-\tikzsiblingdistance=\dimen282
-\tikz@figbox=\box61
-\tikz@figbox@bg=\box62
-\tikz@tempbox=\box63
-\tikz@tempbox@bg=\box64
-\tikztreelevel=\count297
-\tikznumberofchildren=\count298
-\tikznumberofcurrentchild=\count299
-\tikz@fig@count=\count300
+\tikz@lastx=\dimen278
+\tikz@lasty=\dimen279
+\tikz@lastxsaved=\dimen280
+\tikz@lastysaved=\dimen281
+\tikz@lastmovetox=\dimen282
+\tikz@lastmovetoy=\dimen283
+\tikzleveldistance=\dimen284
+\tikzsiblingdistance=\dimen285
+\tikz@figbox=\box64
+\tikz@figbox@bg=\box65
+\tikz@tempbox=\box66
+\tikz@tempbox@bg=\box67
+\tikztreelevel=\count298
+\tikznumberofchildren=\count299
+\tikznumberofcurrentchild=\count300
+\tikz@fig@count=\count301
 
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmodule
 matrix.code.tex
-File: pgfmodulematrix.code.tex 2020/10/01 v3.1.6a (3.1.6a)
-\pgfmatrixcurrentrow=\count301
-\pgfmatrixcurrentcolumn=\count302
-\pgf@matrix@numberofcolumns=\count303
+File: pgfmodulematrix.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgfmatrixcurrentrow=\count302
+\pgfmatrixcurrentcolumn=\count303
+\pgf@matrix@numberofcolumns=\count304
 )
-\tikz@expandcount=\count304
+\tikz@expandcount=\count305
 
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tik
 z/libraries/tikzlibrarytopaths.code.tex
-File: tikzlibrarytopaths.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+File: tikzlibrarytopaths.code.tex 2020/12/01 v3.1.7a (3.1.7a)
 )))
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tik
 z/libraries/tikzlibrarypositioning.code.tex
-File: tikzlibrarypositioning.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+File: tikzlibrarypositioning.code.tex 2020/12/01 v3.1.7a (3.1.7a)
 ) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/caption/caption.sty
 Package: caption 2020/10/26 v3.5g Customizing captions (AR)
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2020/10/21 v2.2e caption3 kernel (AR)
-\captionmargin=\dimen283
-\captionmargin@=\dimen284
-\captionwidth=\dimen285
-\caption@tempdima=\dimen286
-\caption@indent=\dimen287
-\caption@parindent=\dimen288
-\caption@hangindent=\dimen289
+\captionmargin=\dimen286
+\captionmargin@=\dimen287
+\captionwidth=\dimen288
+\caption@tempdima=\dimen289
+\caption@indent=\dimen290
+\caption@parindent=\dimen291
+\caption@hangindent=\dimen292
 Package caption Info: Standard document class detected.
 )
-\c@caption@flags=\count305
-\c@continuedfloat=\count306
+\c@caption@flags=\count306
+\c@continuedfloat=\count307
 Package caption Info: hyperref package is loaded.
 Package caption Info: longtable package is loaded.
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/caption/ltcaption.sty
@@ -713,53 +724,53 @@ Package: ltcaption 2020/05/30 v1.4b longtable captions (AR)
 )) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/caption/subcaption.s
 ty
 Package: subcaption 2020/10/07 v1.3j Sub-captions (AR)
-\c@subfigure=\count307
-\c@subtable=\count308
+\c@subfigure=\count308
+\c@subtable=\count309
 ) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/graphics/rotating.sty
 Package: rotating 2016/08/11 v2.16d rotated objects in LaTeX
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 )
-\c@r@tfl@t=\count309
-\rotFPtop=\skip60
-\rotFPbot=\skip61
-\rot@float@box=\box65
-\rot@mess@toks=\toks44
+\c@r@tfl@t=\count310
+\rotFPtop=\skip61
+\rotFPbot=\skip62
+\rot@float@box=\box68
+\rot@mess@toks=\toks45
 ) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count310
-\float@exts=\toks45
-\float@box=\box66
-\@float@everytoks=\toks46
-\@floatcapt=\box67
+\c@float@type=\count311
+\float@exts=\toks46
+\float@box=\box69
+\@float@everytoks=\toks47
+\@floatcapt=\box70
 )
-\c@theorem=\count311
+\c@theorem=\count312
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/tools/array.sty
 Package: array 2020/10/01 v2.5c Tabular extension package (FMi)
-\col@sep=\dimen290
-\ar@mcellbox=\box68
-\extrarowheight=\dimen291
-\NC@list=\toks47
-\extratabsurround=\skip62
-\backup@length=\skip63
-\ar@cellbox=\box69
+\col@sep=\dimen293
+\ar@mcellbox=\box71
+\extrarowheight=\dimen294
+\NC@list=\toks48
+\extratabsurround=\skip63
+\backup@length=\skip64
+\ar@cellbox=\box72
 ) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/multirow/multirow.sty
 Package: multirow 2019/05/31 v2.5 Span multiple rows of a table
-\multirow@colwidth=\skip64
-\multirow@cntb=\count312
-\multirow@dima=\skip65
-\bigstrutjot=\dimen292
+\multirow@colwidth=\skip65
+\multirow@cntb=\count313
+\multirow@dima=\skip66
+\bigstrutjot=\dimen295
 ) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/wrapfig/wrapfig.sty
-\wrapoverhang=\dimen293
-\WF@size=\dimen294
-\c@WF@wrappedlines=\count313
-\WF@box=\box70
-\WF@everypar=\toks48
+\wrapoverhang=\dimen296
+\WF@size=\dimen297
+\c@WF@wrappedlines=\count314
+\WF@box=\box73
+\WF@everypar=\toks49
 Package: wrapfig 2003/01/31  v 3.6
 ) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/colortbl/colortbl.sty
 Package: colortbl 2020/01/04 v1.0e Color table columns (DPC)
-\everycr=\toks49
-\minrowclearance=\skip66
+\everycr=\toks50
+\minrowclearance=\skip67
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape.sty
 Package: pdflscape 2019/12/05 v0.12 Display of landscape pages in PDF (HO)
@@ -771,38 +782,38 @@ Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 Package: tabu 2019/01/11 v2.9 - flexible LaTeX tabulars (FC+tabu-fixed)
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/varwidth/varwidth.sty
 Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
-\@vwid@box=\box71
-\sift@deathcycles=\count314
-\@vwid@loff=\dimen295
-\@vwid@roff=\dimen296
+\@vwid@box=\box74
+\sift@deathcycles=\count315
+\@vwid@loff=\dimen298
+\@vwid@roff=\dimen299
 )
-\c@taburow=\count315
-\tabu@nbcols=\count316
-\tabu@cnt=\count317
-\tabu@Xcol=\count318
-\tabu@alloc=\count319
-\tabu@nested=\count320
-\tabu@target=\dimen297
-\tabu@spreadtarget=\dimen298
-\tabu@naturalX=\dimen299
-\tabucolX=\dimen300
-\tabu@Xsum=\dimen301
-\extrarowdepth=\dimen302
-\abovetabulinesep=\dimen303
-\belowtabulinesep=\dimen304
-\tabustrutrule=\dimen305
-\tabu@thebody=\toks50
-\tabu@footnotes=\toks51
-\tabu@box=\box72
-\tabu@arstrutbox=\box73
-\tabu@hleads=\box74
-\tabu@vleads=\box75
-\tabu@cellskip=\skip67
+\c@taburow=\count316
+\tabu@nbcols=\count317
+\tabu@cnt=\count318
+\tabu@Xcol=\count319
+\tabu@alloc=\count320
+\tabu@nested=\count321
+\tabu@target=\dimen300
+\tabu@spreadtarget=\dimen301
+\tabu@naturalX=\dimen302
+\tabucolX=\dimen303
+\tabu@Xsum=\dimen304
+\extrarowdepth=\dimen305
+\abovetabulinesep=\dimen306
+\belowtabulinesep=\dimen307
+\tabustrutrule=\dimen308
+\tabu@thebody=\toks51
+\tabu@footnotes=\toks52
+\tabu@box=\box75
+\tabu@arstrutbox=\box76
+\tabu@hleads=\box77
+\tabu@vleads=\box78
+\tabu@cellskip=\skip68
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/threeparttable/threepar
 ttable.sty
 Package: threeparttable 2003/06/13  v 3.0
-\@tempboxb=\box76
+\@tempboxb=\box79
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/threeparttablex/threepa
 rttablex.sty
@@ -814,34 +825,17 @@ Package: environ 2014/05/04 v0.3 A new way to define environments
 ty
 Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 ))
-\TPTL@width=\skip68
-) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/generic/ulem/ulem.sty
-\UL@box=\box77
-\UL@hyphenbox=\box78
-\UL@skip=\skip69
-\UL@hook=\toks52
-\UL@height=\dimen306
-\UL@pe=\count321
-\UL@pixel=\dimen307
-\ULC@box=\box79
-Package: ulem 2019/11/18
-\ULdepth=\dimen308
+\TPTL@width=\skip69
 ) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/makecell/makecell.sty
 Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
 \rotheadsize=\dimen309
 \c@nlinenum=\count322
 \TeXr@lab=\toks53
-) (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/natbib/natbib.sty
-Package: natbib 2010/09/13 8.31b (PWD, AO)
-\bibhang=\skip70
-\bibsep=\skip71
-LaTeX Info: Redefining \cite on input line 694.
-\c@NAT@ctr=\count323
 )
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdf
 tex.def
 File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
-\l__kernel_color_stack_int=\count324
+\l__kernel_color_stack_int=\count323
 \l__pdf_internal_box=\box80
 ) (./long_description.aux
 
@@ -857,38 +851,39 @@ LaTeX Warning: Label `tab:upper-less-than-lower' multiply defined.
 LaTeX Warning: Label `tab:upper-less-than-lower' multiply defined.
 
 
-LaTeX Warning: Label `tab:coefficients-depression' multiply defined.
-
-
-LaTeX Warning: Label `tab:coefficients-depression' multiply defined.
-
-
 LaTeX Warning: Label `tab:coefficients-lung-cancer' multiply defined.
 
 
 LaTeX Warning: Label `tab:coefficients-lung-cancer' multiply defined.
+
+
+LaTeX Warning: Label `tab:marginal-distribution-of-instruments-lung-cancer' mul
+tiply defined.
+
+
+LaTeX Warning: Label `tab:coefficients-cholesterol' multiply defined.
 
 )
 \openout1 = `long_description.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
 
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-b
 ase.sty
@@ -901,7 +896,7 @@ s.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring OFF on input line 104.
+Package hyperref Info: Link coloring OFF on input line 105.
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty
@@ -911,11 +906,11 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 lestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count325
+\c@section@level=\count324
 )
-LaTeX Info: Redefining \ref on input line 104.
-LaTeX Info: Redefining \pageref on input line 104.
-LaTeX Info: Redefining \nameref on input line 104.
+LaTeX Info: Redefining \ref on input line 105.
+LaTeX Info: Redefining \pageref on input line 105.
+LaTeX Info: Redefining \nameref on input line 105.
 (./long_description.out) (./long_description.out)
 \@outlinefile=\write4
 \openout4 = `long_description.out'.
@@ -961,37 +956,37 @@ Package caption Info: threeparttable package is loaded.
 Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 1
-06.
+07.
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 1
-06.
+07.
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-106.
+107.
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-106.
+107.
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 106.
+(Font)              <12> on input line 107.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 106.
+(Font)              <8> on input line 107.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 106.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 106
+(Font)              <6> on input line 107.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 107
 .
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 106
+LaTeX Font Info:    Trying to load font information for U+msb on input line 107
 .
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -1009,164 +1004,120 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 [1
 
 {/Users/ralphtrane/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map
-}]
-
-LaTeX Warning: Reference `sec:iv-assumptions-and-two-sample-mr' on page 2 undef
-ined on input line 116.
-
-[2]
-
-LaTeX Warning: Reference `' on page 3 undefined on input line 134.
-
-[3]
-Overfull \hbox (30.61281pt too wide) detected at line 216
-[][][]
- []
-
-[4]
-Overfull \hbox (0.17487pt too wide) detected at line 231
+}] [2] [3] [4]
+Overfull \hbox (0.17487pt too wide) detected at line 226
 [] [] [] \OMS/lmsy/m/n/10 ^^U \OT1/lmr/m/n/10 0
  []
 
 [5]
-</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/all_bivariate_boun
-ds.png, id=308, 1204.5pt x 861.2175pt>
-File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/all_bivariate
-_bounds.png Graphic file (type png)
-<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/all_bivariate_
-bounds.png>
-Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/all_bivariate_bounds.png  used on input line 278.
-(pdftex.def)             Requested size: 234.86737pt x 167.93016pt.
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bivariate_width_vs
-_strength.png, id=310, 1204.5pt x 861.2175pt>
+_strength_pip.png, id=196, 1204.5pt x 1415.2875pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bivariate_wid
-th_vs_strength.png Graphic file (type png)
+th_vs_strength_pip.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bivariate_widt
-h_vs_strength.png>
+h_vs_strength_pip.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/bivariate_width_vs_strength.png  used on input line 284.
-(pdftex.def)             Requested size: 234.86737pt x 167.93016pt.
-
-Overfull \hbox (4.44441pt too wide) in paragraph at lines 276--288
- [][]  [] 
- []
-
-[6]
+gures/bivariate_width_vs_strength_pip.png  used on input line 276.
+(pdftex.def)             Requested size: 225.47562pt x 264.93384pt.
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/MR_coefs_vs_streng
-th.png, id=329, 1204.5pt x 1204.5pt>
+th.png, id=200, 1204.5pt x 1415.2875pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/MR_coefs_vs_s
 trength.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/MR_coefs_vs_st
 rength.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/MR_coefs_vs_strength.png  used on input line 326.
-(pdftex.def)             Requested size: 234.86737pt x 234.86737pt.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 327.
-</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/power_curves.png, 
-id=330, 1204.5pt x 1204.5pt>
-File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/power_curves.
-png Graphic file (type png)
-<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/power_curves.p
-ng>
+gures/MR_coefs_vs_strength.png  used on input line 283.
+(pdftex.def)             Requested size: 225.47562pt x 264.93384pt.
+[6] [7 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bivariate_w
+idth_vs_strength_pip.png> </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/
+figures/MR_coefs_vs_strength.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/loess_power.png, i
+d=222, 2409.0pt x 1505.625pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/loess_power.p
+ng Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/loess_power.pn
+g>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/power_curves.png  used on input line 332.
-(pdftex.def)             Requested size: 234.86737pt x 234.86737pt.
+gures/loess_power.png  used on input line 330.
+(pdftex.def)             Requested size: 469.73474pt x 293.58421pt.
+[8] [9 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/loess_power
+.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multip
+le_IV_sims_MR_subset.png, id=248, 1204.5pt x 1505.625pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_m
+ultiple_IV_sims_MR_subset.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
+ltiple_IV_sims_MR_subset.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/bounds_from_multiple_IV_sims_MR_subset.png  used on input line 369.
+(pdftex.def)             Requested size: 234.86737pt x 293.58421pt.
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multip
+le_IV_sims_power_subset.png, id=249, 1204.5pt x 1505.625pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_m
+ultiple_IV_sims_power_subset.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
+ltiple_IV_sims_power_subset.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/bounds_from_multiple_IV_sims_power_subset.png  used on input line 375.
+(pdftex.def)             Requested size: 234.86737pt x 293.58421pt.
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multip
+le_IV_sims_MR_many_weak_subset.png, id=250, 1204.5pt x 1505.625pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_m
+ultiple_IV_sims_MR_many_weak_subset.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
+ltiple_IV_sims_MR_many_weak_subset.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/bounds_from_multiple_IV_sims_MR_many_weak_subset.png  used on input line 
+380.
+(pdftex.def)             Requested size: 234.86737pt x 293.58421pt.
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multip
+le_IV_sims_power_many_weak_subset.png, id=251, 1204.5pt x 1505.625pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_m
+ultiple_IV_sims_power_many_weak_subset.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
+ltiple_IV_sims_power_many_weak_subset.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/bounds_from_multiple_IV_sims_power_many_weak_subset.png  used on input li
+ne 386.
+(pdftex.def)             Requested size: 234.86737pt x 293.58421pt.
 
-Overfull \hbox (4.44441pt too wide) in paragraph at lines 325--336
+Overfull \hbox (4.44441pt too wide) in paragraph at lines 368--390
  [][]  [] 
  []
 
-[7 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/all_bivariate_b
-ounds.png> </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bivaria
-te_width_vs_strength.png>]
-</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/varying_betas_boun
-ds_vs_strength_no_mono.png, id=347, 2107.875pt x 1204.5pt>
-File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/varying_betas
-_bounds_vs_strength_no_mono.png Graphic file (type png)
-<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/varying_betas_
-bounds_vs_strength_no_mono.png>
-Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/varying_betas_bounds_vs_strength_no_mono.png  used on input line 362.
-(pdftex.def)             Requested size: 465.05264pt x 265.74437pt.
-[8 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/MR_coefs_vs_str
-ength.png> </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/power_c
-urves.png>] [9 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/var
-ying_betas_bounds_vs_strength_no_mono.png>] [10]
+
+Overfull \hbox (4.44441pt too wide) in paragraph at lines 368--390
+ []  [] 
+ []
+
+
+LaTeX Warning: Float too large for page by 16.73842pt on input line 392.
+
+[10] [11 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_fr
+om_multiple_IV_sims_MR_subset.png> </Users/ralphtrane/Documents/RPackages_dev/A
+CEBounds/figures/bounds_from_multiple_IV_sims_power_subset.png> </Users/ralphtr
+ane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multiple_IV_sims_MR_m
+any_weak_subset.png> </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figur
+es/bounds_from_multiple_IV_sims_power_many_weak_subset.png>] [12] [13]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_bounds_
-subset_plot.png, id=379, 2409.0pt x 2409.0pt>
+subset_plot.png, id=292, 2409.0pt x 2409.0pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_bo
 unds_subset_plot.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_bou
 nds_subset_plot.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/trivariate_bounds_subset_plot.png  used on input line 465.
+gures/trivariate_bounds_subset_plot.png  used on input line 520.
 (pdftex.def)             Requested size: 469.73474pt x 469.73474pt.
-[11] [12 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariat
+[14] [15 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariat
 e_bounds_subset_plot.png>]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 4
-94.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 5
+38.
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [13]
+)
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
-trength_histogram.png, id=416, 2409.0pt x 1204.5pt>
-File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
-ses/strength_histogram.png Graphic file (type png)
-<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
-es/strength_histogram.png>
-Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/example_analyses/strength_histogram.png  used on input line 505.
-(pdftex.def)             Requested size: 465.02968pt x 232.51483pt.
-</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
-moking_depression_bivaraite_bounds_ukb-d-20116_0_ukb-d-20544_11.png, id=418, 24
-09.0pt x 3011.25pt>
-File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
-ses/smoking_depression_bivaraite_bounds_ukb-d-20116_0_ukb-d-20544_11.png Graphi
-c file (type png)
-<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
-es/smoking_depression_bivaraite_bounds_ukb-d-20116_0_ukb-d-20544_11.png>
-Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/example_analyses/smoking_depression_bivaraite_bounds_ukb-d-20116_0_ukb-d-
-20544_11.png  used on input line 513.
-(pdftex.def)             Requested size: 465.02968pt x 581.2871pt.
-[14 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
-es/strength_histogram.png>] [15 </Users/ralphtrane/Documents/RPackages_dev/ACEB
-ounds/figures/example_analyses/smoking_depression_bivaraite_bounds_ukb-d-20116_
-0_ukb-d-20544_11.png>]
-</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
-moking_depression_individual_SNPs_plot_subset_ukb-d-20116_0_ukb-d-20544_11.png,
- id=436, 2409.0pt x 1806.75pt>
-File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
-ses/smoking_depression_individual_SNPs_plot_subset_ukb-d-20116_0_ukb-d-20544_11
-.png Graphic file (type png)
-<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
-es/smoking_depression_individual_SNPs_plot_subset_ukb-d-20116_0_ukb-d-20544_11.
-png>
-Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/example_analyses/smoking_depression_individual_SNPs_plot_subset_ukb-d-201
-16_0_ukb-d-20544_11.png  used on input line 521.
-(pdftex.def)             Requested size: 465.02968pt x 348.77225pt.
-</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
-moking_depression_intersection_bounds_plot_ukb-d-20116_0_ukb-d-20544_11.png, id
-=441, 2409.0pt x 1806.75pt>
-File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
-ses/smoking_depression_intersection_bounds_plot_ukb-d-20116_0_ukb-d-20544_11.pn
-g Graphic file (type png)
-<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
-es/smoking_depression_intersection_bounds_plot_ukb-d-20116_0_ukb-d-20544_11.png
->
-Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/example_analyses/smoking_depression_intersection_bounds_plot_ukb-d-20116_
-0_ukb-d-20544_11.png  used on input line 530.
-(pdftex.def)             Requested size: 465.02968pt x 348.77225pt.
-[16 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
-es/smoking_depression_individual_SNPs_plot_subset_ukb-d-20116_0_ukb-d-20544_11.
-png>]
-</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
-moking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb-d-40001_C349.png, id=45
-3, 2409.0pt x 3011.25pt>
+moking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb-d-40001_C349.png, id=31
+1, 2409.0pt x 3011.25pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/smoking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb-d-40001_C349.png G
 raphic file (type png)
@@ -1174,16 +1125,12 @@ raphic file (type png)
 es/smoking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb-d-40001_C349.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
 gures/example_analyses/smoking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb
--d-40001_C349.png  used on input line 541.
+-d-40001_C349.png  used on input line 546.
 (pdftex.def)             Requested size: 465.02968pt x 581.2871pt.
-[17 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
-es/smoking_depression_intersection_bounds_plot_ukb-d-20116_0_ukb-d-20544_11.png
->] [18 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_ana
-lyses/smoking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb-d-40001_C349.png
->]
+[16]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
 moking_lung_cancer_3_individual_SNPs_plot_subset_ukb-d-20116_0_ukb-d-40001_C349
-.png, id=468, 2409.0pt x 1806.75pt>
+.png, id=322, 2409.0pt x 2032.59375pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/smoking_lung_cancer_3_individual_SNPs_plot_subset_ukb-d-20116_0_ukb-d-40001
 _C349.png Graphic file (type png)
@@ -1192,272 +1139,318 @@ es/smoking_lung_cancer_3_individual_SNPs_plot_subset_ukb-d-20116_0_ukb-d-40001_
 C349.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
 gures/example_analyses/smoking_lung_cancer_3_individual_SNPs_plot_subset_ukb-d-
-20116_0_ukb-d-40001_C349.png  used on input line 549.
-(pdftex.def)             Requested size: 465.02968pt x 348.77225pt.
-[19
-
- </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/
-smoking_lung_cancer_3_individual_SNPs_plot_subset_ukb-d-20116_0_ukb-d-40001_C34
-9.png>]
-</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
-moking_lung_cancer_3_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C349.pn
-g, id=475, 2409.0pt x 1806.75pt>
+20116_0_ukb-d-40001_C349.png  used on input line 552.
+(pdftex.def)             Requested size: 465.02968pt x 392.36877pt.
+[17 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb-d-40001_C349.png>] 
+[18 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_lung_cancer_3_individual_SNPs_plot_subset_ukb-d-20116_0_ukb-d-40001_
+C349.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
+holesterol_heart_attack_bivaraite_bounds_ukb-a-108_ukb-a-434.png, id=338, 2409.
+0pt x 3011.25pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
-ses/smoking_lung_cancer_3_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C3
-49.png Graphic file (type png)
+ses/cholesterol_heart_attack_bivaraite_bounds_ukb-a-108_ukb-a-434.png Graphic f
+ile (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
-es/smoking_lung_cancer_3_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C34
-9.png>
+es/cholesterol_heart_attack_bivaraite_bounds_ukb-a-108_ukb-a-434.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/example_analyses/smoking_lung_cancer_3_intersection_bounds_plot_ukb-d-201
-16_0_ukb-d-40001_C349.png  used on input line 557.
-(pdftex.def)             Requested size: 465.02968pt x 348.77225pt.
-[20
-
- </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/
-smoking_lung_cancer_3_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C349.p
-ng>] [21]
-Overfull \hbox (13.94629pt too wide) detected at line 651
+gures/example_analyses/cholesterol_heart_attack_bivaraite_bounds_ukb-a-108_ukb-
+a-434.png  used on input line 567.
+(pdftex.def)             Requested size: 465.02968pt x 581.2871pt.
+[19]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
+holesterol_heart_attack_individual_SNPs_plot_subset_ukb-a-108_ukb-a-434.png, id
+=347, 2409.0pt x 2032.59375pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/cholesterol_heart_attack_individual_SNPs_plot_subset_ukb-a-108_ukb-a-434.pn
+g Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_individual_SNPs_plot_subset_ukb-a-108_ukb-a-434.png
+>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/cholesterol_heart_attack_individual_SNPs_plot_subset_ukb
+-a-108_ukb-a-434.png  used on input line 573.
+(pdftex.def)             Requested size: 465.02968pt x 392.36877pt.
+[20 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_bivaraite_bounds_ukb-a-108_ukb-a-434.png>] [21 </Us
+ers/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/chole
+sterol_heart_attack_individual_SNPs_plot_subset_ukb-a-108_ukb-a-434.png>] [22]
+Overfull \hbox (13.94629pt too wide) detected at line 664
 [][]
  []
 
-[22]
-Overfull \hbox (13.94629pt too wide) detected at line 672
+[23]
+Overfull \hbox (13.94629pt too wide) detected at line 685
 [][]
  []
 
-[23] [24] [25]
-LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 
-1162.
-(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/lm/ts1lmtt.fd
-File: ts1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-Overfull \hbox (6.9273pt too wide) in paragraph at lines 1168--1169
+[24] [25]
+Overfull \hbox (6.9273pt too wide) in paragraph at lines 1161--1162
  []\T1/lmr/m/n/10 PY0Z0| 
  []
 
 
-Overfull \hbox (6.9273pt too wide) in paragraph at lines 1170--1171
+Overfull \hbox (6.9273pt too wide) in paragraph at lines 1163--1164
  []\T1/lmr/m/n/10 PY0Z1| 
  []
 
 
-Overfull \hbox (6.9273pt too wide) in paragraph at lines 1172--1173
+Overfull \hbox (6.9273pt too wide) in paragraph at lines 1165--1166
  []\T1/lmr/m/n/10 PY0Z2| 
  []
 
 
-Overfull \hbox (6.9273pt too wide) in paragraph at lines 1174--1175
+Overfull \hbox (6.9273pt too wide) in paragraph at lines 1167--1168
  []\T1/lmr/m/n/10 PY1Z0| 
  []
 
 
-Overfull \hbox (6.9273pt too wide) in paragraph at lines 1176--1177
+Overfull \hbox (6.9273pt too wide) in paragraph at lines 1169--1170
  []\T1/lmr/m/n/10 PY1Z1| 
  []
 
 
-Overfull \hbox (6.9273pt too wide) in paragraph at lines 1178--1179
+Overfull \hbox (6.9273pt too wide) in paragraph at lines 1171--1172
  []\T1/lmr/m/n/10 PY1Z2| 
  []
 
 
-Overfull \hbox (6.9273pt too wide) in paragraph at lines 1180--1181
+Overfull \hbox (6.9273pt too wide) in paragraph at lines 1173--1174
  []\T1/lmr/m/n/10 PX0Z0| 
  []
 
 
-Overfull \hbox (6.9273pt too wide) in paragraph at lines 1182--1183
+Overfull \hbox (6.9273pt too wide) in paragraph at lines 1175--1176
  []\T1/lmr/m/n/10 PX0Z1| 
  []
 
 
-Overfull \hbox (6.9273pt too wide) in paragraph at lines 1184--1185
+Overfull \hbox (6.9273pt too wide) in paragraph at lines 1177--1178
  []\T1/lmr/m/n/10 PX0Z2| 
  []
 
 
-Overfull \hbox (6.9273pt too wide) in paragraph at lines 1186--1187
+Overfull \hbox (6.9273pt too wide) in paragraph at lines 1179--1180
  []\T1/lmr/m/n/10 PX1Z0| 
  []
 
 
-Overfull \hbox (6.9273pt too wide) in paragraph at lines 1188--1189
+Overfull \hbox (6.9273pt too wide) in paragraph at lines 1181--1182
  []\T1/lmr/m/n/10 PX1Z1| 
  []
 
 
-Overfull \hbox (6.9273pt too wide) in paragraph at lines 1190--1191
+Overfull \hbox (6.9273pt too wide) in paragraph at lines 1183--1184
  []\T1/lmr/m/n/10 PX1Z2| 
  []
 
 
-Overfull \hbox (6.9273pt too wide) in paragraph at lines 1198--1199
+Overfull \hbox (6.9273pt too wide) in paragraph at lines 1191--1192
  []\T1/lmr/m/n/10 PY0Z0| 
  []
 
 
-Overfull \hbox (6.9273pt too wide) in paragraph at lines 1200--1201
+Overfull \hbox (6.9273pt too wide) in paragraph at lines 1193--1194
  []\T1/lmr/m/n/10 PY0Z1| 
  []
 
 
-Overfull \hbox (6.9273pt too wide) in paragraph at lines 1202--1203
+Overfull \hbox (6.9273pt too wide) in paragraph at lines 1195--1196
  []\T1/lmr/m/n/10 PY0Z2| 
  []
 
 
-Overfull \hbox (6.9273pt too wide) in paragraph at lines 1204--1205
+Overfull \hbox (6.9273pt too wide) in paragraph at lines 1197--1198
  []\T1/lmr/m/n/10 PY1Z0| 
  []
 
 
-Overfull \hbox (6.9273pt too wide) in paragraph at lines 1206--1207
+Overfull \hbox (6.9273pt too wide) in paragraph at lines 1199--1200
  []\T1/lmr/m/n/10 PY1Z1| 
  []
 
 
-Overfull \hbox (6.9273pt too wide) in paragraph at lines 1208--1209
+Overfull \hbox (6.9273pt too wide) in paragraph at lines 1201--1202
  []\T1/lmr/m/n/10 PY1Z2| 
  []
 
 
-Overfull \hbox (6.9273pt too wide) in paragraph at lines 1210--1211
+Overfull \hbox (6.9273pt too wide) in paragraph at lines 1203--1204
  []\T1/lmr/m/n/10 PX0Z0| 
  []
 
 
-Overfull \hbox (6.9273pt too wide) in paragraph at lines 1212--1213
+Overfull \hbox (6.9273pt too wide) in paragraph at lines 1205--1206
  []\T1/lmr/m/n/10 PX0Z1| 
  []
 
 
-Overfull \hbox (6.9273pt too wide) in paragraph at lines 1214--1215
+Overfull \hbox (6.9273pt too wide) in paragraph at lines 1207--1208
  []\T1/lmr/m/n/10 PX0Z2| 
  []
 
 
-Overfull \hbox (6.9273pt too wide) in paragraph at lines 1216--1217
+Overfull \hbox (6.9273pt too wide) in paragraph at lines 1209--1210
  []\T1/lmr/m/n/10 PX1Z0| 
  []
 
 
-Overfull \hbox (6.9273pt too wide) in paragraph at lines 1218--1219
+Overfull \hbox (6.9273pt too wide) in paragraph at lines 1211--1212
  []\T1/lmr/m/n/10 PX1Z1| 
  []
 
 
-Overfull \hbox (6.9273pt too wide) in paragraph at lines 1220--1221
+Overfull \hbox (6.9273pt too wide) in paragraph at lines 1213--1214
  []\T1/lmr/m/n/10 PX1Z2| 
  []
 
-[26] [27]
-Overfull \hbox (1.43364pt too wide) detected at line 3403
+[26] [27] [28]
+Overfull \hbox (1.43364pt too wide) detected at line 3381
 [][]
  []
 
-[28]
 
-LaTeX Warning: Reference `eq:x_monotone' on page 29 undefined on input line 342
-2.
+LaTeX Warning: Reference `eq:x_monotone' on page 29 undefined on input line 340
+0.
 
 
-LaTeX Warning: Reference `eq:y_monotone' on page 29 undefined on input line 342
-2.
+LaTeX Warning: Reference `eq:y_monotone' on page 29 undefined on input line 340
+0.
 
-[29] [30
+[29] [30] [31
 
-] [31] [32] [33]
-</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
-moking_depression_marginal_Z.png, id=561, 1505.625pt x 602.25pt>
-File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
-ses/smoking_depression_marginal_Z.png Graphic file (type png)
-<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
-es/smoking_depression_marginal_Z.png>
+] [32] [33] [34]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/power.png, id=431,
+ 2409.0pt x 1204.5pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/power.png Gra
+phic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/power.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/example_analyses/smoking_depression_marginal_Z.png  used on input line 36
-86.
-(pdftex.def)             Requested size: 469.74852pt x 187.8994pt.
-[34
+gures/power.png  used on input line 3664.
+(pdftex.def)             Requested size: 465.02968pt x 232.51483pt.
+[35
 
 ]
-Overfull \hbox (22.2222pt too wide) in paragraph at lines 3694--3823
-[]$[]$  $[]$ 
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_vs_coef_m
+ultiple_IVs_MR.png, id=441, 1204.5pt x 1204.5pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_vs_c
+oef_multiple_IVs_MR.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_vs_co
+ef_multiple_IVs_MR.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/strength_vs_coef_multiple_IVs_MR.png  used on input line 3672.
+(pdftex.def)             Requested size: 234.86737pt x 234.86737pt.
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_vs_coef_m
+ultiple_IVs_power.png, id=442, 1204.5pt x 1204.5pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_vs_c
+oef_multiple_IVs_power.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_vs_co
+ef_multiple_IVs_power.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/strength_vs_coef_multiple_IVs_power.png  used on input line 3678.
+(pdftex.def)             Requested size: 234.86737pt x 234.86737pt.
+
+Overfull \hbox (4.44441pt too wide) in paragraph at lines 3671--3682
+ []$[]$  $[]$ 
  []
 
-[35 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
-es/smoking_depression_marginal_Z.png>]
-</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
-moking_depression_marginal_conditionals.png, id=577, 1505.625pt x 903.375pt>
-File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
-ses/smoking_depression_marginal_conditionals.png Graphic file (type png)
-<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
-es/smoking_depression_marginal_conditionals.png>
+[36 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/power.png>] [3
+7 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_vs_coef
+_multiple_IVs_MR.png> </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figu
+res/strength_vs_coef_multiple_IVs_power.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multip
+le_IV_sims_MR.png, id=458, 3011.25pt x 2258.4375pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_m
+ultiple_IV_sims_MR.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
+ltiple_IV_sims_MR.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/example_analyses/smoking_depression_marginal_conditionals.png  used on in
-put line 3826.
-(pdftex.def)             Requested size: 465.06183pt x 279.0371pt.
-[36]
-</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
-moking_depression_coefficients.png, id=585, 1505.625pt x 903.375pt>
-File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
-ses/smoking_depression_coefficients.png Graphic file (type png)
-<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
-es/smoking_depression_coefficients.png>
+gures/bounds_from_multiple_IV_sims_MR.png  used on input line 3690.
+(pdftex.def)             Requested size: 650.4387pt x 487.82903pt.
+[38 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
+ltiple_IV_sims_MR.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multip
+le_IV_sims_MR_many_weak.png, id=465, 3011.25pt x 2258.4375pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_m
+ultiple_IV_sims_MR_many_weak.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
+ltiple_IV_sims_MR_many_weak.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/example_analyses/smoking_depression_coefficients.png  used on input line 
-3833.
-(pdftex.def)             Requested size: 469.74852pt x 281.8491pt.
-[37 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
-es/smoking_depression_marginal_conditionals.png>] [38 </Users/ralphtrane/Docume
-nts/RPackages_dev/ACEBounds/figures/example_analyses/smoking_depression_coeffic
-ients.png>] [39]
+gures/bounds_from_multiple_IV_sims_MR_many_weak.png  used on input line 3699.
+(pdftex.def)             Requested size: 650.4387pt x 487.82903pt.
+[39 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
+ltiple_IV_sims_MR_many_weak.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multip
+le_IV_sims_power.png, id=472, 3011.25pt x 2258.4375pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_m
+ultiple_IV_sims_power.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
+ltiple_IV_sims_power.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/bounds_from_multiple_IV_sims_power.png  used on input line 3708.
+(pdftex.def)             Requested size: 650.4387pt x 487.82903pt.
+[40 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
+ltiple_IV_sims_power.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multip
+le_IV_sims_power_many_weak.png, id=479, 3011.25pt x 2258.4375pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_m
+ultiple_IV_sims_power_many_weak.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
+ltiple_IV_sims_power_many_weak.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/bounds_from_multiple_IV_sims_power_many_weak.png  used on input line 3717
+.
+(pdftex.def)             Requested size: 650.4387pt x 487.82903pt.
+[41 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
+ltiple_IV_sims_power_many_weak.png>]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
-moking_lung_cancer_3_marginal_Z.png, id=604, 1505.625pt x 602.25pt>
+moking_lung_cancer_3_marginal_Z.png, id=487, 1505.625pt x 602.25pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/smoking_lung_cancer_3_marginal_Z.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
 es/smoking_lung_cancer_3_marginal_Z.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
 gures/example_analyses/smoking_lung_cancer_3_marginal_Z.png  used on input line
- 3957.
+ 3739.
 (pdftex.def)             Requested size: 469.74852pt x 187.8994pt.
 
-Overfull \hbox (22.2222pt too wide) in paragraph at lines 3965--4094
+Overfull \hbox (22.2222pt too wide) in paragraph at lines 3747--3876
 []$[]$  $[]$ 
  []
 
-[40 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
-es/smoking_lung_cancer_3_marginal_Z.png>]
+[42
+
+
+
+
+
+ </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/
+smoking_lung_cancer_3_marginal_Z.png>]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
-moking_lung_cancer_3_coefficients.png, id=615, 1505.625pt x 903.375pt>
+moking_lung_cancer_3_coefficients.png, id=501, 1505.625pt x 903.375pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/smoking_lung_cancer_3_coefficients.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
 es/smoking_lung_cancer_3_coefficients.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
 gures/example_analyses/smoking_lung_cancer_3_coefficients.png  used on input li
-ne 4098.
+ne 3880.
 (pdftex.def)             Requested size: 469.74852pt x 281.8491pt.
-[41] [42 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_a
-nalyses/smoking_lung_cancer_3_coefficients.png>] [43] [44]
+[43] [44 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_a
+nalyses/smoking_lung_cancer_3_coefficients.png>] [45]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
-moking_depression_individual_SNPs_plot_ukb-d-20116_0_ukb-d-20544_11.png, id=639
-, 3312.375pt x 1957.3125pt>
+trength_histogram.png, id=521, 2409.0pt x 1204.5pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
-ses/smoking_depression_individual_SNPs_plot_ukb-d-20116_0_ukb-d-20544_11.png Gr
-aphic file (type png)
+ses/strength_histogram.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
-es/smoking_depression_individual_SNPs_plot_ukb-d-20116_0_ukb-d-20544_11.png>
+es/strength_histogram.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/example_analyses/smoking_depression_individual_SNPs_plot_ukb-d-20116_0_uk
-b-d-20544_11.png  used on input line 4222.
-(pdftex.def)             Requested size: 643.91411pt x 380.49469pt.
-[45 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
-es/smoking_depression_individual_SNPs_plot_ukb-d-20116_0_ukb-d-20544_11.png>]
+gures/example_analyses/strength_histogram.png  used on input line 4004.
+(pdftex.def)             Requested size: 465.02968pt x 232.51483pt.
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
 moking_lung_cancer_3_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.png, i
-d=645, 3312.375pt x 1957.3125pt>
+d=522, 2409.0pt x 3011.25pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/smoking_lung_cancer_3_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.p
 ng Graphic file (type png)
@@ -1466,18 +1459,115 @@ es/smoking_lung_cancer_3_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.pn
 g>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
 gures/example_analyses/smoking_lung_cancer_3_individual_SNPs_plot_ukb-d-20116_0
-_ukb-d-40001_C349.png  used on input line 4230.
-(pdftex.def)             Requested size: 643.91411pt x 380.49469pt.
+_ukb-d-40001_C349.png  used on input line 4011.
+(pdftex.def)             Requested size: 465.02968pt x 581.2871pt.
 [46 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/strength_histogram.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
+moking_lung_cancer_3_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C349.pn
+g, id=529, 2409.0pt x 1204.5pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/smoking_lung_cancer_3_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C3
+49.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_lung_cancer_3_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C34
+9.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/smoking_lung_cancer_3_intersection_bounds_plot_ukb-d-201
+16_0_ukb-d-40001_C349.png  used on input line 4018.
+(pdftex.def)             Requested size: 465.02968pt x 232.51483pt.
+[47 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
 es/smoking_lung_cancer_3_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.pn
-g>] (./long_description.bbl [47
+g>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
+holesterol_heart_attack_marginal_Z.png, id=536, 1505.625pt x 602.25pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/cholesterol_heart_attack_marginal_Z.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_marginal_Z.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/cholesterol_heart_attack_marginal_Z.png  used on input l
+ine 4028.
+(pdftex.def)             Requested size: 469.74852pt x 187.8994pt.
 
+Overfull \hbox (22.2222pt too wide) in paragraph at lines 4036--4129
+[]$[]$  $[]$ 
+ []
 
-
-
-] [48] [49]) [50] (./long_description.aux)
+[48 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_lung_cancer_3_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C34
+9.png> </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_ana
+lyses/cholesterol_heart_attack_marginal_Z.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
+holesterol_heart_attack_marginal_conditionals.png, id=549, 1505.625pt x 903.375
+pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/cholesterol_heart_attack_marginal_conditionals.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_marginal_conditionals.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/cholesterol_heart_attack_marginal_conditionals.png  used
+ on input line 4133.
+(pdftex.def)             Requested size: 465.06183pt x 279.0371pt.
+[49]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
+holesterol_heart_attack_coefficients.png, id=558, 1505.625pt x 903.375pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/cholesterol_heart_attack_coefficients.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_coefficients.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/cholesterol_heart_attack_coefficients.png  used on input
+ line 4140.
+(pdftex.def)             Requested size: 469.74852pt x 281.8491pt.
+[50 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_marginal_conditionals.png>] [51 </Users/ralphtrane/
+Documents/RPackages_dev/ACEBounds/figures/example_analyses/cholesterol_heart_at
+tack_coefficients.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
+holesterol_heart_attack_strength_histogram.png, id=572, 2409.0pt x 1204.5pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/cholesterol_heart_attack_strength_histogram.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_strength_histogram.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/cholesterol_heart_attack_strength_histogram.png  used on
+ input line 4228.
+(pdftex.def)             Requested size: 465.02968pt x 232.51483pt.
+[52]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
+holesterol_heart_attack_individual_SNPs_plot_ukb-a-108_ukb-a-434.png, id=577, 2
+409.0pt x 2710.125pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/cholesterol_heart_attack_individual_SNPs_plot_ukb-a-108_ukb-a-434.png Graph
+ic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_individual_SNPs_plot_ukb-a-108_ukb-a-434.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/cholesterol_heart_attack_individual_SNPs_plot_ukb-a-108_
+ukb-a-434.png  used on input line 4235.
+(pdftex.def)             Requested size: 465.02968pt x 523.15839pt.
+[53 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_strength_histogram.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
+holesterol_heart_attack_intersection_bounds_plot_ukb-a-108_ukb-a-434.png, id=58
+5, 2409.0pt x 1204.5pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/cholesterol_heart_attack_intersection_bounds_plot_ukb-a-108_ukb-a-434.png G
+raphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_intersection_bounds_plot_ukb-a-108_ukb-a-434.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/cholesterol_heart_attack_intersection_bounds_plot_ukb-a-
+108_ukb-a-434.png  used on input line 4242.
+(pdftex.def)             Requested size: 465.02968pt x 232.51483pt.
+[54 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_individual_SNPs_plot_ukb-a-108_ukb-a-434.png>] [55 
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
+holesterol_heart_attack_intersection_bounds_plot_ukb-a-108_ukb-a-434.png>] [56]
+[57] [58] (./long_description.aux)
 Package rerunfilecheck Info: File `long_description.out' has not changed.
-(rerunfilecheck)             Checksum: F7111F1D0EB6E98AD0E2071723A27F11;4250.
+(rerunfilecheck)             Checksum: 56A08B29763801D3774F344B88167B56;5623.
 
 LaTeX Warning: There were undefined references.
 
@@ -1486,41 +1576,38 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 24557 strings out of 481466
- 451492 string characters out of 5920591
- 803721 words of memory out of 5000000
- 40590 multiletter control sequences out of 15000+600000
- 606886 words of font info for 81 fonts, out of 8000000 for 9000
+ 24101 strings out of 481466
+ 447673 string characters out of 5920592
+ 818799 words of memory out of 5000000
+ 40099 multiletter control sequences out of 15000+600000
+ 602567 words of font info for 75 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 85i,17n,96p,1786b,523s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/Users/ralphtrane/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{
-/Users/ralphtrane/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/Use
-rs/ralphtrane/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/Use
-rs/ralphtrane/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/Users/r
-alphtrane/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/Users/r
-alphtrane/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}</Users/r
-alphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Users/r
-alphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></Users/r
-alphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb></Users/r
-alphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></Users/r
-alphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></Users/ra
-lphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></Users/ral
-phtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi9.pfb></Users/ralp
-htrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/ralph
-trane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></Users/ralpht
-rane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr5.pfb></Users/ralphtra
-ne/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></Users/ralphtrane
-/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.pfb></Users/ralphtrane/L
-ibrary/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/ralphtrane/L
-ibrary/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></Users/ralphtrane/L
-ibrary/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></Users/ralphtrane/Li
-brary/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></Users/ralphtrane/Lib
-rary/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></Users/ralphtrane/Lib
-rary/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on long_description.pdf (50 pages, 4496049 bytes).
+ 80i,17n,85p,1842b,536s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/Users/ralphtrane/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/
+Users/ralphtrane/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/User
+s/ralphtrane/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/User
+s/ralphtrane/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/User
+s/ralphtrane/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}</User
+s/ralphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></User
+s/ralphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></User
+s/ralphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb></User
+s/ralphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></User
+s/ralphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></Users
+/ralphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/
+ralphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></Users/r
+alphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr5.pfb></Users/ral
+phtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></Users/ralph
+trane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.pfb></Users/ralphtr
+ane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/ralphtr
+ane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></Users/ralphtr
+ane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></Users/ralphtra
+ne/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></Users/ralphtran
+e/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></Users/ralphtran
+e/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on long_description.pdf (58 pages, 5744533 bytes).
 PDF statistics:
- 790 PDF objects out of 1000 (max. 8388607)
- 668 compressed objects within 7 object streams
- 173 named destinations out of 1000 (max. 500000)
- 257 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 825 PDF objects out of 1000 (max. 8388607)
+ 670 compressed objects within 7 object streams
+ 212 named destinations out of 1000 (max. 500000)
+ 339 words of extra memory for PDF output out of 10000 (max. 10000000)
 

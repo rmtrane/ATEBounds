@@ -4,8 +4,9 @@ library(distributions3)
 library(furrr)
 
 
-SIM_AND_SAVE <- FALSE
-<- <- TRUE
+SIM_AND_SAVE <- TRUE
+PLOT <- TRUE
+OVERWRITE <- TRUE
 
 ATE_from_simulated_data <- function(from_simulate_data){
   intercept <- filter(from_simulate_data$coefficients, effect == "Yintercept")$coef
@@ -24,7 +25,7 @@ set.seed(9866311)
 if(SIM_AND_SAVE){
   plan(multicore, workers = 3)
 
-  Z_on_X <- c(1, 1.5, 1.75, 1.9, 2, 2.1, 2.25, 2.5, 3, 3.5, 4)
+  Z_on_X <- c(0.25, 0.5, 1, 1.75, seq(2, 4, by = 0.1))
 
   for (i in seq_along(Z_on_X)){
     cat(i, "of", length(Z_on_X))
@@ -59,7 +60,7 @@ if(SIM_AND_SAVE){
 }
 
 if(PLOT){
-  if(!file.exists(here::here("data/power_bounds_and_ATE.Rds"))){
+  if(!file.exists(here::here("data/power_bounds_and_ATE.Rds")) | OVERWRITE){
 
   all_power_sims <- list.files(here::here("data"), pattern = "power_sims", full.names = TRUE)
 
@@ -98,21 +99,22 @@ if(PLOT){
            U_on_XY = as.character(U_on_XY)) %>%
     ggplot(aes(y = indIVs_on_X, x = strength,
                color = U_on_XY)) +
-      geom_point() +
+      geom_line() +
+      scale_x_continuous(limits = c(0, 1)) +
+      scale_y_continuous(limits = c(0, 2.075)*2,
+                         expand = expansion(mult = 0, add = c(0.05, 0.01)*2)) +
       scale_color_manual(values = c("black", "red")) +
-      labs(color = bquote(beta[U]),
+      labs(color = bquote(gamma[U]),
            x = "Strength of IV",
-           y = bquote(beta[Z])) +
-      lims(
-        x = c(0, 1),
-        y = c(0, 4)
-      ) +
+           y = bquote(gamma[Z])) +
+      guides(color = guide_legend(nrow = 2)) +
+      coord_fixed(ratio = 1/4) +
       theme_bw() +
       theme(legend.position = "top")
 
   ggsave(here::here("figures/MR_coefs_vs_strength.png"),
          coefs_vs_strength, dpi = 300,
-         width = 4, height = 4)
+         width = 4, height = 4.7)
 
   ## Bounds Plot
   pretty_plot <- bounds_and_ATE %>%
@@ -120,25 +122,30 @@ if(PLOT){
     unnest_wider(sum_stats) %>%
     unnest_wider(bounds) %>%
     mutate(zero = if_else(lower < 0 & upper > 0,
-                          "Overlaps Zero", "Does Not Overlap Zero")) %>%
+                          "Overlaps Zero", "Does Not Overlap Zero"),
+           X_on_Y = paste0("beta[X] ==", X_on_Y),
+           U_on_XY = paste0("gamma[U] ==", U_on_XY)) %>%
     arrange(desc(lower)) %>%
-    rename(
-      "Coefficient of X on Y" = X_on_Y,
-      "Coefficient of U on both X and Y" = U_on_XY,
-    ) %>%
-    ggplot(aes(x = indIVs_on_X, color = zero)) +
-      geom_hline(yintercept = 0, linetype = "dashed") +
-      geom_hline(aes(yintercept = ATE, color = "ATE")) +
-      geom_errorbar(aes(ymin = lower, ymax = upper)) +
-      facet_grid(`Coefficient of U on both X and Y` ~ `Coefficient of X on Y`,
-                 labeller = label_both) +
-      lims(y = c(-1, 1)) +
+    ggplot(aes(y = indIVs_on_X, color = zero)) +
+      geom_smooth(se = FALSE, aes(x = upper, group = "loess"), color = "black",
+                  #formula = "x ~ y",
+                  size = 0.2, linetype = "dashed") +
+      geom_smooth(se = FALSE, aes(x = lower, group = "loess"), color = "black",
+                  #formula = "x ~ y",
+                  size = 0.2, linetype = "dashed") +
+      geom_vline(xintercept = 0) +
+      geom_vline(aes(xintercept = ATE, color = "ATE")) +
+      geom_errorbar(aes(xmin = lower, xmax = upper)) +
+      facet_grid(U_on_XY ~ X_on_Y,
+                 labeller = label_parsed) +
+      lims(y = c(0, 4),
+           x = c(-1, 1)) +
       scale_color_manual(
         values = c("Overlaps Zero" = "black", "Does Not Overlap Zero" = "red", "ATE" = "blue")
       ) +
       labs(
-        x = bquote(beta[j]),
-        y = "ATE",
+        y = bquote(gamma[j]),
+        x = "ATE",
         color = ""
       ) +
       theme_bw() +
@@ -146,7 +153,7 @@ if(PLOT){
 
   ggsave(here::here("figures/power.png"),
          plot = pretty_plot, dpi = 300,
-         height = 6, width = 8.5, units = "in")
+         height = 4, width = 8, units = "in")
 
 
   power_curves <- bounds_and_ATE %>%
@@ -163,8 +170,8 @@ if(PLOT){
            x = c(0, 1)) +
       labs(
         x = "Average Treatment Effect",
-        y = bquote(beta[Z]),
-        color = bquote(beta[U])
+        y = bquote(gamma[Z]),
+        color = bquote(gamma[U])
       ) +
       scale_color_manual(values = c("black", "red")) +
       theme_bw() +
@@ -184,7 +191,7 @@ if(PLOT){
           strength ~ indIVs_on_X + U_on_XY)
 
   uniroot(f = function(x) predict(loess_strength, newdata = data.frame(indIVs_on_X = x, U_on_XY = 0.1)) - 0.5,
-          interval = c(1, 1.5))
+          interval = c(1, 4))
 
   ## Model lower bounds by ATE
   loess_model <- bounds_and_ATE %>%
@@ -233,7 +240,7 @@ if(PLOT){
 
 
   ## Power curves including for loess model
-  power_with_loess_ests <- bounds_and_ATE %>%
+  (power_with_loess_ests <- bounds_and_ATE %>%
     unnest(subset) %>%
     unnest_wider(sum_stats) %>%
     unnest_wider(bounds) %>%
@@ -241,24 +248,51 @@ if(PLOT){
     group_by(U_on_XY, X_on_Y) %>%
     filter(indIVs_on_X == min(indIVs_on_X)) %>%
     mutate(source = "simulations") %>%
-    ggplot(aes(x = ATE, y = indIVs_on_X, group = U_on_XY, color = as.character(U_on_XY))) +
-      geom_point() + geom_line() +
-      geom_point(data = roots %>% mutate(source = "loess")) +
+    ggplot(aes(x = ATE, y = indIVs_on_X, group = U_on_XY, alpha = source, color = as.character(U_on_XY))) +
+      geom_point() +
+      #geom_line() +
+      #geom_point(data = roots %>% mutate(source = "loess")) +
       geom_line(data = roots %>% mutate(source = "loess")) +
-      lims(y = c(0, 4),
-           x = c(0, 1)) +
-      scale_color_manual("Smallest coefficient of Z on X with lower bound > 0",
-                         values = c("black", "red")) +
-      facet_grid(~source,
-                 labeller = label_both) +
+      lims(
+        y = c(0, 4),
+        x = c(0, 1)
+      ) +
+      labs(
+        color = bquote(gamma[U]),
+        y = bquote(gamma[Z])
+      ) +
+      scale_color_manual(values = c("black", "red")) +
+      scale_alpha_manual(values = c(1, 0.2)) +
       guides(
-        color = guide_legend(title.position = "top")
+        color = guide_legend(title.position = "top"),
+        alpha = "none"
       ) +
       theme_bw() +
-      theme(legend.position = "top")
+      theme(legend.position = "top"))
 
-  ggsave(here::here("figures/power_with_loess_ests.png"),
-         power_with_loess_ests, dpi = 300,
+  (loess_power <- roots %>%
+      ggplot(aes(x = ATE, y = indIVs_on_X, group = U_on_XY, color = as.character(U_on_XY))) +
+        geom_point() +
+        geom_line() +
+        #geom_point(data = roots %>% mutate(source = "loess")) +
+        lims(
+          y = c(0, 4),
+          x = c(0, 0.5)
+        ) +
+        labs(
+          color = bquote(gamma[U]),
+          y = bquote(gamma[Z])
+        ) +
+        scale_color_manual(values = c("black", "red")) +
+        #scale_alpha_manual(values = c(1, 0.2)) +
+        guides(
+          color = guide_legend(title.position = "top")
+        ) +
+        theme_bw() +
+        theme(legend.position = "top"))
+
+  ggsave(here::here("figures/loess_power.png"),
+         loess_power, dpi = 300,
          height = 5, width = 8)
 }
 

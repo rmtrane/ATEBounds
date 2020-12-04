@@ -55,7 +55,7 @@ vitamin_D <- "ukb-b-4991" #
 
 ########
 exposure_id <- cholesterol
-outcome_id <- cholesterol_3
+outcome_id <- heart_attack
 
 {
   exposure_experiment <- ao %>% filter(id == exposure_id)
@@ -144,10 +144,10 @@ bivariate_bounds %>%
   mutate(strength = max(abs(outer(thetas, thetas, `-`)))) %>%
   ungroup() %>%
     ggplot(aes(x = strength, y = upper - lower)) +
-    geom_point() +
-    theme_bw() +
-    geom_abline(slope = -2, intercept = 2) +
-    lims(y = c(0, 2), x= c(0, 1))
+      geom_point() +
+      theme_bw() +
+      geom_abline(slope = -2, intercept = 2) +
+      lims(y = c(0, 2), x= c(0, 1))
 
 # obesity_strength_histogram +
 #   labs(title = "Strength of IVs on Obesity")

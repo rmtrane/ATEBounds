@@ -114,7 +114,7 @@ if(PLOT){
 
   ggsave(here::here("figures/MR_coefs_vs_strength.png"),
          coefs_vs_strength, dpi = 300,
-         width = 4, height = 4.7)
+         width = 4, height = 4)
 
   ## Bounds Plot
   pretty_plot <- bounds_and_ATE %>%

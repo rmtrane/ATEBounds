@@ -46,7 +46,8 @@ Loading required package: future
 > 
 > 
 > SIM_AND_SAVE <- TRUE
-> PLOT <- FALSE # TRUE
+> PLOT <- TRUE
+> OVERWRITE <- TRUE
 > 
 > ATE_from_simulated_data <- function(from_simulate_data){
 +   intercept <- filter(from_simulate_data$coefficients, effect == "Yintercept")$coef
@@ -65,7 +66,7 @@ Loading required package: future
 > if(SIM_AND_SAVE){
 +   plan(multicore, workers = 3)
 + 
-+   Z_on_X <- c(1, 1.5, 1.75, 1.9, 2, 2.1, 2.25, 2.5, 3, 3.5, 4)
++   Z_on_X <- c(0.25, 0.5, 1, 1.75, seq(2, 4, by = 0.1))
 + 
 +   for (i in seq_along(Z_on_X)){
 +     cat(i, "of", length(Z_on_X))
@@ -98,9 +99,9 @@ Loading required package: future
 +     )
 +   }
 + }
-1 of 112 of 113 of 114 of 115 of 116 of 117 of 118 of 119 of 1110 of 1111 of 11> 
+1 of 252 of 253 of 254 of 255 of 256 of 257 of 258 of 259 of 2510 of 2511 of 2512 of 2513 of 2514 of 2515 of 2516 of 2517 of 2518 of 2519 of 2520 of 2521 of 2522 of 2523 of 2524 of 2525 of 25> 
 > if(PLOT){
-+   if(!file.exists(here::here("data/power_bounds_and_ATE.Rds"))){
++   if(!file.exists(here::here("data/power_bounds_and_ATE.Rds")) | OVERWRITE){
 + 
 +   all_power_sims <- list.files(here::here("data"), pattern = "power_sims", full.names = TRUE)
 + 
@@ -137,15 +138,17 @@ Loading required package: future
 +     unnest_wider(bounds) %>%
 +     mutate(strength = map_dbl(thetas, ~.x[3] - .x[1]),
 +            U_on_XY = as.character(U_on_XY)) %>%
-+     ggplot(aes(x = indIVs_on_X, y = strength,
++     ggplot(aes(y = indIVs_on_X, x = strength,
 +                color = U_on_XY)) +
-+       geom_point() +
++       geom_line() +
++       geom_point(size = 0.5) +
 +       scale_color_manual(values = c("black", "red")) +
-+       labs(color = bquote(beta[U]),
-+            y = "Strength of IV",
-+            x = bquote(beta[Z])) +
++       labs(color = bquote(gamma[U]),
++            x = "Strength of IV",
++            y = bquote(gamma[Z])) +
 +       lims(
-+         y = c(0, 1)
++         x = c(0, 1),
++         y = c(0, 4)
 +       ) +
 +       theme_bw() +
 +       theme(legend.position = "top")
@@ -160,25 +163,30 @@ Loading required package: future
 +     unnest_wider(sum_stats) %>%
 +     unnest_wider(bounds) %>%
 +     mutate(zero = if_else(lower < 0 & upper > 0,
-+                           "Overlaps Zero", "Does Not Overlap Zero")) %>%
++                           "Overlaps Zero", "Does Not Overlap Zero"),
++            X_on_Y = paste0("beta[X] ==", X_on_Y),
++            U_on_XY = paste0("gamma[U] ==", U_on_XY)) %>%
 +     arrange(desc(lower)) %>%
-+     rename(
-+       "Coefficient of X on Y" = X_on_Y,
-+       "Coefficient of U on both X and Y" = U_on_XY,
-+     ) %>%
-+     ggplot(aes(x = indIVs_on_X, color = zero)) +
-+       geom_hline(yintercept = 0, linetype = "dashed") +
-+       geom_hline(aes(yintercept = ATE, color = "ATE")) +
-+       geom_errorbar(aes(ymin = lower, ymax = upper)) +
-+       facet_grid(`Coefficient of U on both X and Y` ~ `Coefficient of X on Y`,
-+                  labeller = label_both) +
-+       lims(y = c(-1, 1)) +
++     ggplot(aes(y = indIVs_on_X, color = zero)) +
++       geom_smooth(se = FALSE, aes(x = upper, group = "loess"), color = "black",
++                   #formula = "x ~ y",
++                   size = 0.2, linetype = "dashed") +
++       geom_smooth(se = FALSE, aes(x = lower, group = "loess"), color = "black",
++                   #formula = "x ~ y",
++                   size = 0.2, linetype = "dashed") +
++       geom_vline(xintercept = 0) +
++       geom_vline(aes(xintercept = ATE, color = "ATE")) +
++       geom_errorbar(aes(xmin = lower, xmax = upper)) +
++       facet_grid(U_on_XY ~ X_on_Y,
++                  labeller = label_parsed) +
++       lims(y = c(0, 4),
++            x = c(-1, 1)) +
 +       scale_color_manual(
 +         values = c("Overlaps Zero" = "black", "Does Not Overlap Zero" = "red", "ATE" = "blue")
 +       ) +
 +       labs(
-+         x = "Coefficient for effect of Z on X",
-+         y = "ATE",
++         y = bquote(gamma[j]),
++         x = "ATE",
 +         color = ""
 +       ) +
 +       theme_bw() +
@@ -186,7 +194,7 @@ Loading required package: future
 + 
 +   ggsave(here::here("figures/power.png"),
 +          plot = pretty_plot, dpi = 300,
-+          height = 6, width = 8, units = "in")
++          height = 4, width = 8, units = "in")
 + 
 + 
 +   power_curves <- bounds_and_ATE %>%
@@ -199,12 +207,12 @@ Loading required package: future
 +     mutate(U_on_XY = as.character(U_on_XY)) %>%
 +     ggplot(aes(x = ATE, y = indIVs_on_X, color = U_on_XY)) +
 +       geom_point() + geom_line() +
-+       lims(y = c(1.5, 3),
-+            x = c(0.2, 0.5)) +
++       lims(y = c(0, 5),
++            x = c(0, 1)) +
 +       labs(
 +         x = "Average Treatment Effect",
-+         y = bquote(beta[Z]),
-+         color = bquote(beta[U])
++         y = bquote(gamma[Z]),
++         color = bquote(gamma[U])
 +       ) +
 +       scale_color_manual(values = c("black", "red")) +
 +       theme_bw() +
@@ -224,7 +232,7 @@ Loading required package: future
 +           strength ~ indIVs_on_X + U_on_XY)
 + 
 +   uniroot(f = function(x) predict(loess_strength, newdata = data.frame(indIVs_on_X = x, U_on_XY = 0.1)) - 0.5,
-+           interval = c(1, 1.5))
++           interval = c(1, 4))
 + 
 +   ## Model lower bounds by ATE
 +   loess_model <- bounds_and_ATE %>%
@@ -259,13 +267,15 @@ Loading required package: future
 +          height = 6, width = 8, units = "in")
 + 
 +   ## Find roots for loess curves
-+   roots <- tmp %>%
++   roots <- bounds_and_ATE %>%
++     unnest(subset) %>%
++     unnest_wider(sum_stats) %>%
 +     select(X_on_Y, U_on_XY, ATE) %>%
 +     mutate(ATE = round(ATE, digits = 7)) %>%
 +     unique() %>%
 +     rowwise() %>%
-+     mutate(uniroot_res = list(uniroot(f = function(x) predict(tmp_loess, newdata = data.frame(X_on_Y = X_on_Y, U_on_XY = U_on_XY, indIVs_on_X = x)),
-+                                       interval = c(1.6, 2.4))),
++     mutate(uniroot_res = list(uniroot(f = function(x) predict(loess_model, newdata = data.frame(X_on_Y = X_on_Y, U_on_XY = U_on_XY, indIVs_on_X = x)),
++                                       interval = c(1, 4))),
 +            indIVs_on_X = uniroot_res$root) %>%
 +     ungroup()
 + 
@@ -278,13 +288,16 @@ Loading required package: future
 +     filter(lower > 0) %>%
 +     group_by(U_on_XY, X_on_Y) %>%
 +     filter(indIVs_on_X == min(indIVs_on_X)) %>%
-+     ggplot(aes(x = ATE, y = indIVs_on_X, group = U_on_XY, color = "From simulated data")) +
++     mutate(source = "simulations") %>%
++     ggplot(aes(x = ATE, y = indIVs_on_X, group = U_on_XY, color = as.character(U_on_XY))) +
 +       geom_point() + geom_line() +
-+       geom_point(data = roots, aes(color = "from loess")) + geom_line(data = roots, aes(color = "from loess")) +
-+       lims(y = c(1.5, 3)) +
++       geom_point(data = roots %>% mutate(source = "loess")) +
++       geom_line(data = roots %>% mutate(source = "loess")) +
++       lims(y = c(0, 4),
++            x = c(0, 1)) +
 +       scale_color_manual("Smallest coefficient of Z on X with lower bound > 0",
 +                          values = c("black", "red")) +
-+       facet_grid(~U_on_XY,
++       facet_grid(~source,
 +                  labeller = label_both) +
 +       guides(
 +         color = guide_legend(title.position = "top")
@@ -296,6 +309,26 @@ Loading required package: future
 +          power_with_loess_ests, dpi = 300,
 +          height = 5, width = 8)
 + }
+`geom_smooth()` using method = 'loess' and formula 'y ~ x'
+`geom_smooth()` using method = 'loess' and formula 'y ~ x'
+`geom_smooth()` using method = 'loess' and formula 'y ~ x'
+Warning messages:
+1: In simpleLoess(y, x, w, span, degree = degree, parametric = parametric,  :
+  pseudoinverse used at 0.36252 0.48877
+2: In simpleLoess(y, x, w, span, degree = degree, parametric = parametric,  :
+  neighborhood radius 5.2119
+3: In simpleLoess(y, x, w, span, degree = degree, parametric = parametric,  :
+  reciprocal condition number  6.2562e-16
+4: In simpleLoess(y, x, w, span, degree = degree, parametric = parametric,  :
+  There are other near singularities as well. 10.46
+5: In simpleLoess(y, x, w, span, degree = degree, parametric = parametric,  :
+  pseudoinverse used at 0.36252 0.42585 0.48877
+6: In simpleLoess(y, x, w, span, degree = degree, parametric = parametric,  :
+  neighborhood radius 5.5215
+7: In simpleLoess(y, x, w, span, degree = degree, parametric = parametric,  :
+  reciprocal condition number  5.5901e-17
+8: In simpleLoess(y, x, w, span, degree = degree, parametric = parametric,  :
+  There are other near singularities as well. 14.927
 > 
 > 
 > 
@@ -339,5 +372,5 @@ Loading required package: future
 > #   )
 > 
 > proc.time()
-     user    system   elapsed 
-21833.044  9007.661 15048.967 
+    user   system  elapsed 
+59389.50 21665.65 40328.88 

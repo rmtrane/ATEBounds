@@ -579,7 +579,6 @@ subset_plot_summaries_for_print_A <- subset_plot_summaries_for_print %>%
   pivot_wider(names_from = Column, values_from = cells) %>% 
   kable(format = "latex", escape = FALSE, booktabs = TRUE) 
 
-
 subset_plot_summaries_for_print_B <- subset_plot_summaries_for_print %>% 
   select(Row, Column, starts_with("P(")) %>% 
   mutate(across(starts_with("P("), ~sprintf("%.3f", .x))) %>% 

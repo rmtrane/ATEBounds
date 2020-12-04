@@ -1,0 +1,5 @@
+docs
+.Rproj.user
+ieugwasr_oauth
+data/power_sims*.Rds
+data/multiple_IV_sims/[0-9]+.Rds

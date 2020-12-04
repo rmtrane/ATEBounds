@@ -63,6 +63,9 @@
 \makeatletter
 \def\fps@figure{htbp}
 \makeatother
+\usepackage[normalem]{ulem}
+% Avoid problems with \sout in headers with hyperref
+\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
@@ -94,8 +97,6 @@
 \usepackage[normalem]{ulem}
 \usepackage{makecell}
 \usepackage{xcolor}
-\usepackage[]{natbib}
-\bibliographystyle{plainnat}
 
 \title{Bounds in Two-Sample Mendelian Randomization With Summary Statistics}
 \author{}
@@ -113,20 +114,23 @@
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-The gold standard to estimate the causal effect of a treatment or an exposure on an outcome is a randomized experiment. However, in many epidemiological studies, randomized experiments are not feasible. For example, a study estimating the negative effects of smoking on depression \citep{wootton_evidence_2019} with a randomized experiment would not be feasible due to ethical concerns. As an alternative to randomized experiments, recently, there has been an increase in using instrumental variable (IV) in the form of Mendelian randomization (MR) to deduce causal effects \citep{davey_smith_mendelian_2003, lawlor_mendelian_2008}. Briefly, IV is a variable that is (A1) associated with the exposure, (A2) is independent from unmeasured confounders affecting the exposure and the outcome, and (A3) affects the outcome only through its effect on the exposure; see \ref{sec:iv-assumptions-and-two-sample-mr} for details. MR uses genetic variants, usually single nucleotide polymorphisms and encoded as 0, 1, or 2, as instruments due to an idea that genotypes are randomly assigned when passed on from parents to offspring by meiosis and thus, possibly satisfying (A2). For additional discussions on the plausibility of assumptions (A1)-(A3) in MR, see \citet{lawlor_mendelian_2008}, \citet{didelez_mendelian_2007}, \textcolor{red}{cite \url{https://pubmed.ncbi.nlm.nih.gov/28114746/}}, and references within.
+The gold standard to estimate the causal effect of a treatment or an exposure on an outcome is a randomized trial where the treatment assignment is randomized. However, in many epidemiological studies, randomized experiments are not feasible. For example, a study estimating the negative effects of smoking on depression (Wootton et al. 2019) would not be feasible with a randomized trial due to ethical concerns. In such settings, epidemiologists rely on different types of observational studies, which introduces potential biases from unmeasured confounders. In recent years, there has been an increase in using instrumental variable (IV) in the form of Mendelian randomization (MR) (Davey Smith and Ebrahim 2003; Lawlor et al. 2008). Briefly, IV is a variable that is (A1) associated with the exposure, (A2) is independent from unmeasured confounders affecting the exposure and the outcome, and (A3) affects the outcome only through its effect on the exposure; see \ref{notation-and-definitions} for details. MR uses genetic variants, usually single nucleotide polymorphisms and encoded as 0, 1, or 2, as instruments due to an idea that genotypes are randomly assigned when passed on from parents to offspring by meiosis and thus, possibly satisfying (A2). For additional discussions on the plausibility of assumptions (A1)-(A3) in MR, see Lawlor et al. (2008), Didelez and Sheehan (2007), Bowden et al. (2017), \textcolor{red}{cite references from last paper}.
 
-Data from MR studies often consist of published summary statistics from two independent genome wide association studies (GWAS), often referred to as the two-sample setting \citep{burgess_mendelian_2013, burgess_using_2015, davies_reading_2018}. Typically, the first GWAS provides information about the exposure and instrument and the second GWAS provides information about the outcome and instrument. With the summary statistics from two studies, investigators often use parametric methods to arrive at estimates and tests for the exposure effect. Examples of such estimators and test are the IVW estimator \citep{burgess_mendelian_2013}, MR-Egger regression \citep{bowden_assessing_2016}, weighted median \citep{bowden_consistent_2016} and modes \citep{hartwig_robust_2017}, and MRRAPs \citep{zhao_statistical_2020}, to name a few; see  \citet{burgess_mendelian_2015} and \citet{burgess_review_2017} for recent reviews.
+Data from MR studies often consist of published summary statistics from two independent genome wide association studies (GWAS), often referred to as the two-sample setting (Burgess et al. 2013, 2015; Davies et al. 2018). Typically, the first GWAS provides information about the exposure and instrument and the second GWAS provides information about the outcome and instrument. With the summary statistics from two studies, investigators often use parametric methods to arrive at estimates and tests for the exposure effect. Examples of such estimators and test are the IVW estimator (Burgess et al. 2013), MR-Egger regression (Bowden et al. 2016b), weighted median (Bowden et al. 2016a) and modes (Hartwig et al. 2017), and MRRAPs (Zhao et al. 2020), to name a few; see Burgess and Thompson (2015) and Burgess et al. (2017) for recent reviews.
 
-An alternative approach to study the exposure effect without parametric assumptions is through non-parametric IV bounds \citep{balke_bounds_1997, cheng_bounds_2006, manski_nonparametric_1990, richardson_ace_2014, robins_analysis_1989}. Briefly, nonparametric IV bounds only use a minimum set of amount of assumptions, usually (A1)-(A3), to provide a range of plausible values for the exposure effect. They are typically used when the outcome, the exposure, and the instrument are all binary and are simultaneously observed; we refer to this setting as the one-sample setting to contrast it from the two-sample setting in MR. The most well-known are the Balke-Pearl bounds \citep{balke_bounds_1997} for the average treatment effect under slight variants of assumptions (A1)-(A3). Also, the conditions underlying these bounds lead to a set of instrumental inequalities to falsify the IV assumptions. Since then, \citet{cheng_bounds_2006} and \citet{richardson_ace_2014} extended the Balke-Pearl bounds to allow for a non-binary instrument. \citet{ramsahai_causal_2012} derived bounds for the two-sample setting.  \citet{bpbounds-package} provides software to compute IV bounds for two-sample MR studies using only summary statistics. For a recent overview, see Swanson et al.~(2018). \textcolor{red}{make sure to bibtex Swanson's reference}.
+An alternative approach to study the exposure effect without parametric assumptions is through nonparametric IV bounds (Balke and Pearl 1997; Cheng and Small 2006; Manski 1990; Richardson and Robins 2014; Robins 1989). Briefly, nonparametric IV bounds only use a minimum set of amount of assumptions, usually (A1)-(A3), to provide a range of plausible values for the exposure effect. They are typically used when the outcome, the exposure, and the instrument are all binary and are simultaneously observed; we refer to this setting as the one-sample setting to contrast it from the two-sample setting in MR. The most well-known are the Balke-Pearl bounds (Balke and Pearl 1997) for the average treatment effect under slight variants of assumptions (A1)-(A3). Also, the conditions underlying these bounds lead to a set of instrumental inequalities to falsify the IV assumptions. Since then, Cheng and Small (2006) and Richardson and Robins (2014) extended the Balke-Pearl bounds to allow for a non-binary instrument. Ramsahai (2012) derived bounds for the two-sample setting. Palmer et al. (2018) provides software to compute IV bounds for two-sample MR studies using only summary statistics. For a recent overview, see Swanson et al. (2018).
 
-Due to their nonparametric nature, IV bounds have been attractive alternatives in non-MR, one-sample settings to analyze treatment effects, especially in settings where some parametric assumptions are suspect or difficult to justify. More generally, if IV bounds using fewer assumptions arrive at similar conclusions about the treatment effect as those based on parametric approaches, the case for the treatment effect becomes stronger. But, there is little work on understanding about the behavior of IV bounds in MR settings where we have summary statistics from two samples. For example, \begin{enumerate}
+Due to their nonparametric nature, IV bounds have been attractive alternatives in non-MR, one-sample settings to analyze treatment effects, especially in settings where some parametric assumptions are suspect or difficult to justify. More generally, if IV bounds using fewer assumptions arrive at similar conclusions about the treatment effect as those based on parametric approaches, the case for the treatment effect becomes stronger. But, there is little work on understanding about the behavior of IV bounds in MR settings where we have summary statistics from two samples. For example,
+
+\begin{enumerate}
 \item What kind of genetic instruments are needed in two-sample MR studies to provide useful conclusions about the exposure effect, say the bound does not contain the null effect?
 \item Can combining multiple genetic instruments from GWAS lead to shorter and tighter bounds on the exposure effect? 
 \item How do the bounds change if many instruments have weak association with the exposure, which is typically in MR studies where genetic variants only explain a small amount of variation in the exposure? 
 \end{enumerate}
-In one sample setups where individual-level data are available, the Balke-Pearl bounds are known to be wide, often containing the null effect; \citet{balke_bounds_1997}  \textcolor{red}{check this, I forget which pearl paper mentions this...} showed that the width of the bound decrease linearly with the magnitude of the instrument's association to the exposure. However, it is not clear if the same principle holds for two-sample MR studies. The goal of the paper is to characterize the behavior of these bounds, specifically addressing what can be learned from MR studies that choose to use non-parametric IV bounds to analyze the exposure effect.
 
-The paper is divided as follows. Section \ref{} \textcolor{red}{Fill this after done}.
+In one sample setups where individual-level data are available, the Balke-Pearl bounds are known to be wide, often containing the null effect; Balke and Pearl (1997) showed that the width of the bound decrease linearly with the magnitude of the instrument's association to the exposure. However, it is not clear if the same principle holds for two-sample MR studies. The goal of the paper is to characterize the behavior of these bounds, specifically addressing what can be learned from MR studies that choose to use nonparametric IV bounds to analyze the exposure effect.
+
+The paper is divided as follows. Section \ref{setup} introduces the counter factual framework and definitions used throughout the paper along with the expressions for the two-sample bounds. Section \ref{properties-of-bounds-from-summary-level-data} investigates the behavior of the two-sample bounds in settings that mimic that or most MR analyses. In Section \ref{quasi-bayesian}, we introduce a method that allows us to illustrate the cost of going from one- to two-sample data and get a sense of the potential of non-parametric bounds in any given setting. Section \ref{data-analysis} presents two examples of using these two-sample bounds in MR analyses. Finally, we present our conclusions and a few practical considerations in Section \ref{conclusion-and-practical-considerations}.
 
 \hypertarget{setup}{%
 \section{Setup}\label{setup}}
@@ -136,9 +140,10 @@ The paper is divided as follows. Section \ref{} \textcolor{red}{Fill this after 
 
 \label{notation-and-definitions}
 
-Let \(X\) and \(Y\) be a binary exposure and outcome, respectively, \(Z\) be a categorical instrumental variable taking values in \{0, 1, and 2\}, and \(U\) an unmeasured confounder for the effect of \(X\) on \(Y\). No assumptions about the structure of \(U\) are made. Let \(Y^{z,x}\) be the potential outcome \citep{rubin_estimating_1974, splawa-neyman_application_1990} had the subject received exposure value \(X = x\) and instrument value \(Z = z\). Throughout the paper, we assume the stable unit treatment value assumption (SUTVA) \citep{cox_planning_1958, rubin_randomization_1980}, formalized as \(Y = \sum_{x,z} I[Z = z, X = x] Y^{x,z}\) and \(I[\cdot]\) is the indicator function.
+In the following, let \(X\) and \(Y\) be binary exposure and outcome, respectively, \(Z\) be a categorical instrumental variable taking values in \{0, 1, and 2\}, and \(U\) an unmeasured confounder for the effect of \(X\) on \(Y\). No assumptions about the structure of \(U\) are made. Let \(Y^{z,x}\) be the potential outcome (Rubin 1974; Splawa-Neyman et al. 1990) had the subject received exposure value \(X = x\) and instrument value \(Z = z\). Throughout the paper, we assume the stable unit treatment value assumption (SUTVA) (Cox 1958; Rubin 1980), formalized as \(Y = \sum_{x,z} I[Z = z, X = x] Y^{x,z}\) and \(I[\cdot]\) is the indicator function.
 
-We make the following set of assumptions about the instrument, the exposure, the outcome, and the unmeasured confounder that are typical in MR studies; see \citet{didelez_mendelian_2007},  \citet{lawlor_mendelian_2008}, and \citet{wang_bounded_2018} for details
+We make the following set of assumptions about the instrument, the exposure, the outcome, and the unmeasured confounder that are typical in MR studies; see Didelez and Sheehan (2007) and Wang and Tchetgen (2018) for details.
+
 \begin{itemize}
 \tightlist
 \item[(A1)] \emph{(Relevance)}: $Z \not\perp X$ 
@@ -146,41 +151,45 @@ We make the following set of assumptions about the instrument, the exposure, the
 \item[(A3)] \emph{(Exclusion restriction)}: $Y^{z,x} = Y^{z',x} = Y^{x}$ for all $x,z,z'$
 \item[(A4)] \emph{(Conditional ignorability of $X,Z$ given $U$)}: $Y^{z,x} \perp Z, X | U$
 \end{itemize}
-Briefly, assumption (A1) states that the SNP must be associated with the exposure and can be assessed by finding a SNP that has been consistently associated with the exposure through multiple GWAS \textcolor{red}{convert to bibtex} (Marigorta et al.~2018). Assumption (A2) states that the SNP is randomly assigned and is usually checked based on scientific theory surrounding how the genetic variant was inherited to the offspring. Assumption (A3) states that there is no direct effect of the instrument \(Z\) on the outcome \(Y\) other than that through the exposure \(X\) and like assumption (A2), is assessed by scientific theory. Both assumptions (A2) and (A3) can be violated if the SNP is (i) in linkage disequilibrium with an unmeasured SNP that affects the exposure and outcome, (ii) pleiotropic and has multiple functions beyond affecting the exposure, or (iii) under population stratification, to name a few. Finally (A4) states that the unmeasured confounder \(U\), if observed, is sufficient to unconfound the relationship between \(X\) and \(Y\).
 
-We make a few additional remarks about assumptions (A1)-(A4). First, most MR studies only make assumptions (A1)-(A3) and some parametric modeling assumptions \citep{burgess_mendelian_2015}. Second, the role of assumption (A4) is to show the role that an unmeasured confounder \(U\) plays in identification of causal effects; \citet{richardson_ace_2014} showed that one can remove (A4) and strengthen (A2) with \(Z \perp U, Y^{z,x}\) without consequence on the IV bounds. Third, under SUTVA and assumptions (A3)-(A4), we have \(Y \perp Z | X, U\), which is another common way to express the exclusion restriction assumption in MR studies \citep{didelez_mendelian_2007}. Fourth, for simplicity, we do not assume the the existence of a potential treatment \(X^{z}\); the existence of \(X^z\) does not change the IV bounds \citep{swanson_partial_2018, richardson_ace_2014}, and its primarily purpose is to define a ``causal'' instrument \citep{hernn_instruments_2006}. \textcolor{red}{fix Hernan's name}
+Briefly, assumption (A1) can be assessed by finding SNPs that have been consistently associated with the exposure through multiple GWAS (Marigorta et al. 2018). Assumption (A2) is usually checked based on scientific theory surrounding how the genetic instrument was inherited from the parents to the offspring. Assumption (A3) states that there is no direct effect of the instrument \(Z\) on the outcome \(Y\) other than that through the exposure \(X\) and like assumption (A2), is assessed by scientific theory. Both assumptions (A2) and (A3) can be violated if the SNP is (i) in linkage disequilibrium with an unmeasured SNP that affects the exposure and outcome, (ii) pleiotropic and has multiple functions beyond affecting the exposure, or (iii) under population stratification, to name a few. For a more in-depth discussion of (A1)-(A3) in MR studies, see Lawlor et al. (2008). Finally (A4) states that if \(U\) is observed, then it is sufficient to unconfound the relationship between \(X\) and \(Y\).
 
-We conclude by introducing two assumptions and defining instrument strength; the assumptions are not necessarily to construct bounds, but will help us explain the behavior of the IV bounds. First, we present assumptions restricting the direction of the instrument's effect on the exposure and the outcome.
+We make a few additional remarks about assumptions (A1)-(A4). First, most MR studies only make assumptions (A1)-(A3) along with some modeling assumptions (Burgess and Thompson 2015). Second, the role of assumption (A4) is to show the role that an unmeasured confounder \(U\) plays in identification of causal effects; Richardson and Robins (2014) showed that one can remove (A4) and strengthen (A2) with \(Z \perp U, Y^{z,x}\) without consequence on the IV bounds. Third, under SUTVA and assumptions (A3)-(A4), we have \(Y \perp Z | X, U\), which is another common way to express the exclusion restriction assumption in MR studies (Didelez and Sheehan 2007). Fourth, for simplicity, we do not assume the existence of a potential treatment \(X^{z}\); the existence of \(X^z\) does not change the IV bounds (Richardson and Robins 2014; Swanson et al. 2018), and its primary purpose is to define a ``causal'' instrument (Hernán and Robins 2006).
+
+We conclude by introducing two assumptions and defining instrument strength; the assumptions are not necessarily to construct bounds, but will help us explain the behavior of the IV bounds. First, we state the assumptions restricting the direction of the instrument's effect on the exposure and the outcome.
 
 \begin{itemize}
 \item[(A5)] \emph{(Monotonicity between $Z$ and $X$)} $P(X = 1 | Z = z, U) \le P(X = 1 | Z = z+1, U)$ for $z=0,1$
 \item[(A6)] \emph{(Monotonicity between $Z$ and $Y$)} $P(Y = 1 | Z = z, U) \le P(Y = 1 | Z = z+1, U)$ for $z=0,1$
 \end{itemize}
 
-A variant of assumption (A5) is common in the IV literature to study noncompliance \citep{angrist_identification_1996, baiocchi_instrumental_2014}. Assumption (A6) is an extension of assumption (A5) to the outcome variable. Assumptions (A5) or (A6) is plausible in MR if the direction of the effects of the genetic instrument on the exposure or the outcome are well-established from scientific theory.
+A variant of assumption (A5) is common in the IV literature to study noncompliance (Angrist et al. 1996; Baiocchi et al. 2014). Assumption (A6) is an extension of assumption (A5) to the outcome variable. Assumption (A5) or (A6) is plausible in MR if the direction of the effects of the genetic instrument on the exposure or the outcome are well-established from scientific theory and replication of findings from many observational studies.
 
-Second, we define instrument strength as the maximum possible contrast of the exposure 
+Second, we define instrument strength as the maximum possible contrast between the exposure when instruments take on different values
+
 \begin{equation}
 \text{ST} = \max_{z_1 \neq z_2} | P(X = 1 | Z = z_1) - P(X = 1 | Z = z_2) | \label{eq:strength}
 \end{equation}
-The formula for ST reduces to the definition of instrument strength used in \citet{balke_bounds_1997} when the instrument is binary. More importantly, in a binary IV setting, ST was used to characterize the width of the IV bounds. However, we remark that \eqref{eq:strength} differs from other definitions of instrument strength based on a parametric model between the exposure and the outcome, say the concentration parameter; see \citet{stock_survey_2002} for an overview.
+
+The formula for ST reduces to the definition of instrument strength used in Balke and Pearl (1997) when the instrument is binary. More importantly, in a binary IV setting, ST was used to characterize the width of the IV bounds. However, we remark that \eqref{eq:strength} differs from other definitions of instrument strength based on a parametric model between the exposure and the outcome, say the concentration parameter; see Stock et al. (2002) for an overview.
 
 \hypertarget{review-study-designs-and-target-estimand}{%
-\subsection{Review: MR/IV Study Designs and Target Estimand}\label{review-study-designs-and-target-estimand}}
+\subsection{Review: Study Designs and Target Estimand}\label{review-study-designs-and-target-estimand}}
 
-For the purposes of studying IV bounds, we can divide IV studies into two designs, the two-sample design and the one-sample design. The two-sample design has two separate data sources, one providing information of \((X,Z)\) and one providing information of \((Y,Z)\), and is the most popular design in MR studies. The one-sample design has a single data source providing information on all observed variables \((X,Y,Z)\) and is more common in traditional IV studies involving non-genetic instruments. As mentioned in Section \ref{introduction}, the behavior of bounds under a one-sample design has been well-studied  \citep{balke_bounds_1997, richardson_ace_2014, swanson_partial_2018}; we remark that these bounds can also be used when individual-level data are not available, but population summary statistics in the form of \(P(Y = y, X = x | Z = z)\) for \(y,x,z\) are known. 
+For the purposes of studying IV bounds, we can divide IV studies into two designs, the two-sample design and the one-sample design. The two-sample design has two separate data sources, one providing information of \((X,Z)\) and one providing information of \((Y,Z)\), and is the most popular design in MR studies. The one-sample design has a single data source providing information on all observed variables \((X,Y,Z)\) and is more common in traditional IV studies involving non-genetic instruments. As mentioned in Section \ref{introduction}, the behavior of bounds under a one-sample design has been well-studied (Balke and Pearl 1997; Richardson and Robins 2014; Swanson et al. 2018); we remark that these bounds can also be used when individual-level data are not available, but population summary statistics in the form of \(P(Y = y, X = x | Z = z)\) for \(y,x,z\) are known.
 
-However, not much is known about the behavior of bounds under a two-sample design. Specifically, an MR study often uses a two-sample design only with summary statistics from GWAS. If both the outcome and the exposure are binary, these summary statistics are computed by running a logistic regression between each genetic instrument and the exposure \(X\) or the outcome \(Y\) and extracting the estimated slope coefficients associated with the instrument; it's also common to adjust for age, sex, and principal components in the logistic regression. To focus our paper on studying behavior of bounds not due to sampling errors, we will assume that we have population-level quantities \(P(Y = 1 | Z = z)\) from one data source and \(P(X = 1 | Z = z)\) from another data source for different values of \(z\).
+However, not much is known about the behavior of bounds under a two-sample design. Specifically, an MR study often uses a two-sample design only with summary statistics from GWAS. If both the outcome and the exposure are binary as is the case for case-control study, these summary statistics are computed by running a logistic regression between the exposure \(X\) and the outcome \(Y\) for each genetic instrument \(Z\) and extracting the estimated slope coefficients associated with \(Z\); it's also common for the logistic regression to adjust for age, sex, and principal components. To focus our paper on studying behavior of bounds not due to sampling errors, we will assume that we have population-level quantities \(P(Y = 1 | Z = z)\) from one data source and \(P(X = 1 | Z = z)\) from another data source for different values of \(z\).
 
-Given the quantities \(P(Y = 1 | Z = z)\) and \(P(X = 1 | Z = z)\) for each $z=0,1,2$ from a two-sample design, the goal is to study the average treatment effect (ATE)
+Given the quantities \(P(Y = 1 | Z = z)\) and \(P(X = 1 | Z = z)\) for each \(z=0,1,2\) from a two-sample design, the goal is to study the average treatment effect (ATE)
+
 \[
-\text{ATE} = E[Y^1 - Y^0] = \int P(Y=1 \mid X = 1, U=u) P(U=u) du - \int P(Y=1 \mid X = 0, U=u) P(U=u) du, 
+\text{ATE} = E[Y^1 - Y^0] = \int P(Y=1 \mid X = 1, U=u) P(U=u) du - \int P(Y=1 \mid X = 0, U=u) P(U=u) du.
 \]
-Here, the second equality follows from SUTVA and assumptions (A3) and (A4). Since \(U\) is not observed, additional assumptions are needed to point-identify the ATE. In particular, even with the remaining assumptions (A1), (A2), and (A5), the ATE cannot be point-identified; see \citet{robins_analysis_1989}, \citet{manski_nonparametric_1990}, and \citet{balke_counterfactuals_1995}. In two-sample designs, \citet{ramsahai_causal_2012} showed that under assumptions (A1)-(A4), the bounds for the ATE are
 
-\[
-\begin{aligned}
-\max &\left \{
+Here, the second equality follows from SUTVA and assumptions (A3) and (A4). Since \(U\) is not observed, additional assumptions are needed to point-identify the ATE. In particular, even with the remaining assumptions (A1), (A2), and (A5), the ATE cannot be point-identified; see Robins (1989), Manski (1990), and Balke and Pearl (1995). In two-sample designs, Ramsahai (2012) showed that under assumptions (A1)-(A4), the bounds for the ATE are
+
+\begin{gather}
+\max \left \{
 \begin{array}{ll}
   \max_{z_1 \neq z_2} & P(Y = 1 | Z = z_1) - 2\cdot P(Y = 1 | Z = z_2) - 2\cdot P(X = 1 | Z = z_2) \\
   \max_{z_1 \neq z_2} & P(Y = 1 | Z = z_1) + P(X = 1 | Z = z_1) - P(Y = 1 | Z = z_2) - P(X = 1 | Z = z_2) - 1 \\
@@ -188,9 +197,9 @@ Here, the second equality follows from SUTVA and assumptions (A3) and (A4). Sinc
   \max_z & -P(Y = 1 | Z = z) - P(X = 1 | Z = z) \\
   \max_z & P(Y = 1 | Z = z) +  P(X = 1 | Z = z) - 2
 \end{array}
-\right \} \\ \\
-& \qquad \qquad \qquad \qquad \le ATE \le \\ \\
-& \qquad \quad \min \left \{
+\right \} \nonumber \\ \nonumber \\
+\le ATE \le \label{eq:ate_bound} \\ \nonumber \\
+\min \left \{
 \begin{array}{ll}
   \min_{z_1 \neq z_2} & P(Y = 1 | Z = z_1) - 2\cdot P(Y = 1 | Z = z_2) +  2\cdot P(X = 1 | Z = z_2) + 1 \\
   \min_{z_1 \neq z_2} & P(Y = 1 | Z = z_1) + 2\cdot P(Y = 1 | Z = z_2) -  2\cdot P(X = 1 | Z = z_2) + 1 \\
@@ -198,9 +207,8 @@ Here, the second equality follows from SUTVA and assumptions (A3) and (A4). Sinc
   \min_z & P(X = 1 | Z = z) - P(Y = 1 | Z = z) + 1 \\
   \min_z & P(Y = 1 | Z = z) - P(X = 1 | Z = z) + 1 
 \end{array} 
-\right \} \label{eq:ate_bound}
-\end{aligned}
-\]
+\right \} \nonumber
+\end{gather}
 
 Additionally, the data from two-sample designs can be used to check the validity of the IV assumptions
 
@@ -217,14 +225,15 @@ Additionally, the data from two-sample designs can be used to check the validity
 \right \} \ge 0 \label{eq:constraints}
 \end{equation}
 
-The inequalities in equation \eqref{eq:constraints} are extensions of the ``IV inequalities'' of \citet{balke_bounds_1997} used to check the validity of the IV assumptions. Versions of these inequalities have been used in MR studies \citep{diemer_application_2020} to check whether the genetic instruments satisfy the IV assumptions. In the Appendix, we provide some details on deriving equations \eqref{eq:ate_bound} and \eqref{eq:constraints} as well as numerically computing the bound using Polymake \citep{assarf_computing_2017}. We also discuss a minor, but important issue concerning ordering of the bounds in order to obtain ``proper bounds'', i.e.~bounds where the lower bound is less than or equal to the upper bound. We believe this issue is pertinent among investigators who are using a linear-program based software to compute these bounds \citep{palmer_nonparametric_2011}, or investigators who are computing lower and upper bounds separately \citep{richardson_ace_2014}.
+The inequalities in equation \eqref{eq:constraints} are extensions of the ``IV inequalities'' of Balke and Pearl (1997) used to check the validity of the IV assumptions. Versions of these inequalities have been used in MR studies (Diemer et al. 2020) to check whether the genetic variants satisfy the IV assumptions. In the Appendix, we provide some details on deriving equations \eqref{eq:ate_bound} and \eqref{eq:constraints} as well as numerically computing the bound using Polymake (Assarf et al. 2017). We also discuss a minor, but important issue concerning ordering of the bounds in order to obtain ``proper bounds'', i.e.~bounds where the lower bound is less than or equal to the upper bound. We believe this issue is pertinent among investigators who are using a linear-program based software to compute these bounds (Palmer et al. 2011), or who are computing lower and upper bounds separately (Richardson and Robins 2014).
 
 The rest of the sections are devoted to studying the behavior of the bound in \eqref{eq:ate_bound} under a variety of settings.
+
 \hypertarget{properties-of-bounds-from-summary-level-data}{%
-\section{Properties of Bounds in Two-Sample Data}\label{properties-of-bounds-from-summary-level-data}}
+\section{Properties of Bounds from Summary-Level Data}\label{properties-of-bounds-from-summary-level-data}}
 
 \hypertarget{bounds-from-two-sample-data}{%
-\subsection{\texorpdfstring{Bounds With One Instrument \label{bounds-from-bivariate-data}}{Bounds With One Instrument }}\label{bounds-from-two-sample-data}}
+\subsection{\texorpdfstring{Bounds from Two Sample Data \label{bounds-from-bivariate-data}}{Bounds from Two Sample Data }}\label{bounds-from-two-sample-data}}
 
 We begin our investigation into the behavior of bounds in equation \eqref{eq:ate_bound} when there is a single instrument. We are interested in whether we can gain any insights into the direction and magnitude of the ATE by examining the length of the bounds; wide bounds typically provide less information about the magnitude or the sign of the ATE compared to narrower bounds.
 
@@ -255,33 +264,31 @@ and a sharp upper bound on the width of the bounds is $2 - 2\cdot \text{ST}$, i.
 
 \end{theorem}
 
-The proof is presented in Appendix \ref{proof-of-theorem}. The bounds under the near-ideal MR setting is up to twice as large as the Balke-Pearl bounds with a binary IV in one-sample designs where the width is \(1-\text{ST}\). An instrument with strength \(\text{ST} = 0.6\) would lead to a smaller bound with width \(0.4\) under a binary IV, single-sample design setting compared to a length of up to \(0.8\) in the near-ideal MR study. The doubling of the bound is a ``cost'' of using two-samples instead of one-sample. In particular, two-sample designs do not provide any information about the joint distribution of \(P(Y,X | Z)\), which can tighten the bounds; see Section \ref{quasi-bayesian} where we exploit this phenomena to obtain more informative bounds in MR studies. 
+The proof is presented in Appendix \ref{proof-of-theorem}. The bounds under the near-ideal MR setting is up to twice as large as the Balke-Pearl bounds with a binary IV in single-sample designs where the width is \(1-\text{ST}\). An instrument with strength \(\text{ST} = 0.6\) would lead to a smaller bound with width \(0.4\) under a binary IV, single-sample design setting compared to a length of up to \(0.8\) in the near-ideal MR study. The potential doubling of the bound is a ``cost'' of using two-samples instead of one-sample. In particular, two-sample designs do not provide any information about the joint distribution of \(P(Y, X | Z)\), which can tighten the bounds; see Section \ref{quasi-bayesian} where we exploit this phenomena to obtain more informative bounds in MR studies.
 
 Based on Theorem \ref{thm:upperBoundWidth}, the width of the IV bounds in two-sample settings is only guaranteed to be less than 1 when the instrument strength ST is greater than 0.5; we remark that a bound with length greater than 1 provides no information about the existence of the exposure effect since the bound will always cover zero. However, instruments with strength less than \(0.5\) could still generate a bound with width less than \(1\) (see Figure \ref{fig:biv_bounds_vs_strength} for examples).
 
-To illustrate our theorem, we randomly generate 10,000 sets of values of \(P(X = 1 | Z = z)\) and \(P(Y = 1 | Z = z)\) that satisfy the IV inequalities, and calculate the corresponding bounds from equation \eqref{eq:ate_bound}. This simulation mimics a scenario where there is a uniform/flat prior over the possible summary statistics that can arise from two-sample MR studies satisfying assumptions (A1)-(A4) and illustrates the large variety of bounds that can arise from MR studies. Figure \ref{fig:biv_bounds_vs_strength} shows the bounds for 9,877; the remaining 123 were not proper bounds, meaning the lower bounds were greater than the upper bounds (see Appendix \ref{improper-bounds}). \textcolor{red}{can we push this to simply 10,000 bounds by sampling a bit more?}
+To illustrate our theorem, we randomly generate 10,000 sets of values of \(P(X = 1 | Z = z)\) and \(P(Y = 1 | Z = z)\) that satisfy the IV inequalities, and calculate the corresponding bounds from equation \eqref{eq:ate_bound}. This simulation mimics a scenario where there is a uniform/flat prior over the possible summary statistics that can arise from two-sample MR studies satisfying assumptions (A1)-(A4) and illustrates the large variety of bounds two-sample MR can result in.
 
 \begin{figure*}
   \centering
-  \begin{subfigure}[t]{0.5\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{/Users/hyunseung/git/ACEBounds/figures/all_bivariate_bounds.png}
-    \caption{Bounds ordered by the center of the bounds.}
-    \label{fig:all_biv_bounds}
-  \end{subfigure}%
-  ~
-  \begin{subfigure}[t]{0.5\textwidth}
-    \includegraphics[width=\textwidth]{/Users/hyunseung/git/ACEBounds/figures/bivariate_width_vs_strength.png}
-    \caption{Black line has intercept 2 and slope -2.}
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bivariate_width_vs_strength_pip.png}
+    \caption{Black line has intercept 2 and slope -2. Color indicates real data exposure (see Section \ref{data-analysis} for details.)}
     \label{fig:biv_width_vs_strength}
+  \end{subfigure}%
+  \hspace{0.15in}
+  \begin{subfigure}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/MR_coefs_vs_strength.png}
+    \caption{Coefficients from logistic regression related to the strength of the instrument.}
+    \label{fig:coef_vs_strength}
   \end{subfigure}
-  \caption{10,000 values for bivariate distributions were randomly generated such that no constraints were violated. Of these, 123 resulted in bounds where the lower bound was greater than the upper bounds. These have been removed from these plots.}
+  \caption{Illustration of the relationship between instrument strength, and width of bounds obtained from two-sample design and coefficients from logistic regression model.}
   \label{fig:biv_bounds_vs_strength}
 \end{figure*}
 
-\textcolor{red}{I think Fig1a may not be as useful as I originally thought...I think Fig a could be perhaps replaced by a version of Fig 1b, but where we actually plot the smoking data example here? Or even find a GWAS in MR-Base where $X$ and $Y$ have strong causal link and there's a very strong genetic determinant (e.g. cholesterol/obesity to heart attack?)} \textcolor{blue}{ RMT: I have looked at a large number of pairs of studies from MR-Base. If we were to create a figure like Fig 1b, but based on real data, it would simply be a small cluster of points with width around 1.1 and strength around 0.01.} \textcolor{red}{Can we draw a box around this region? I actually think if we can extract some sample MR-Base results that relate to cholesterol-heart attack or other common MR relationships onto this plot, we can make a convincing case that most IV bounds in practice will live near this region and thus, we will rarely get any informative bounds. Perhaps use this paper to explore different exposure-outcome combinations \url{https://www.biorxiv.org/content/10.1101/2020.05.06.077982v1.full.pdf} (Section 2.3)}.
-
-Figure \ref{fig:biv_width_vs_strength} shows the widths of the same 9,877 bounds plotted against the strength of the instruments. The black line is the upper bound for the width of the bounds in Theorem \ref{thm:upperBoundWidth}. We see that the width of the bounds often exceed \(1\) as the instrument strength decreases. Table \ref{tab:prop_of_biv_widths_large} makes this more precise by showing the proportion of bounds presented in Figure \ref{fig:biv_bounds_vs_strength} with widths greater than 1, 0.75, and 0.5, stratified by instrument strength. The table reveals that while is possible to observe bounds with width less than 1, for IVs with strength less than 0.05, \(47.0 \%\) of the bounds lead to widths greater than 1 and about \(46.1\%\) of bounds from IVs with strength between \(0.05\) and \(0.1\) have width greater than 1. Also, only \(62.9\%\) of bounds with strength greater than \(0.5\) have widths less than \(0.5\).
+Figure \ref{fig:biv_width_vs_strength} shows the widths of the same 10,000 bounds plotted against the strength of the instruments. The black line is the upper bound for the width of the bounds in Theorem \ref{thm:upperBoundWidth}. We see that the width of the bounds often exceed \(1\) as the instrument strength decreases. Table \ref{tab:prop_of_biv_widths_large} makes this more precise by showing the proportion of bounds presented in Figure \ref{fig:biv_bounds_vs_strength} with widths greater than 1, 0.75, and 0.5, stratified by instrument strength. The table reveals that while it is possible to observe bounds with width less than 1 for IVs with strength less than 0.05, \(47\%\) of the bounds lead to widths greater than 1 and about \(46.4\%\) of bounds from IVs with strength between \(0.05\) and \(0.1\) have width greater than 1. Also, only \(62\%\) of bounds with strength greater than \(0.5\) have widths less than \(0.5\).
 
 \begin{table}[H]
   \begin{center}
@@ -295,87 +302,131 @@ Figure \ref{fig:biv_width_vs_strength} shows the widths of the same 9,877 bounds
 Strength & 1 & 0.75 & 0.5\\
 \midrule
 $[0,0.05]$ & $0.4698795$ & $0.7831325$ & $0.8915663$\\
-$(0.05,0.1]$ & $0.4611111$ & $0.7222222$ & $0.8944444$\\
-$(0.1,0.25]$ & $0.3227061$ & $0.7029549$ & $0.9222395$\\
-$(0.25,0.5]$ & $0.1359280$ & $0.4954981$ & $0.8356085$\\
-$(0.5,1]$ & $0.0000000$ & $0.0738818$ & $0.3708067$\\
+$(0.05,0.1]$ & $0.4640884$ & $0.7237569$ & $0.8950276$\\
+$(0.1,0.25]$ & $0.3261704$ & $0.7045280$ & $0.9232540$\\
+$(0.25,0.5]$ & $0.1360505$ & $0.4974168$ & $0.8384041$\\
+$(0.5,1]$ & $0.0000000$ & $0.0755708$ & $0.3796727$\\
 \bottomrule
 \end{tabular}
 
 
   \end{center}
 \end{table}
-To better understand the implications of instrument strength on the width of bounds, Figure \ref{fig:coef_vs_strength} characterizes the relationship between instrument strength ST and a popular summary statistic measuring instrument strength reported in MR methods \citep{lawlor_mendelian_2008, king_mendelian_2020, millard_mr-phewas_2019, burgess_sample_2014, verma_simulation_2018}. \textcolor{red}{make sure years show up to rest of citations}. Specifically, suppose we assume that \(P(Z = 0) = P(Z = 2) = 0.25\) and \(P(Z = 1) = 0.5\), and a value of an unmeasured confounder \(U\) from the standard normal. We assume the exposure $X$ follows \(P(X = 1 | Z = z, U = u) = \text{logit}(\gamma_0 + \gamma_Z\cdot z + \gamma_U \cdot u)\) where $\gamma_Z$ corresponds to the regression estimate one would obtain from GWAS studying the relationship between the genetic variant and the exposure.  For simplicity, we set \(\gamma_0 = -\gamma_Z\); this corresponds to the scenario where difference in the probability \(P(X = 1 | Z = z, U)\) between $z$s is large. We then vary $\gamma_z$ from $0$ to $5$ and set $\beta_U$ to be either $0.1$ or $0.5$. For each combination of $\gamma_z$ and $\beta_U$, we compute the corresponding ST through monte carlo integration involving $10,000,000$ samples.
-\textcolor{red}{update x-axis with $\gamma_Z$. Also, can we draw a curve without the dots and extend this graph to 0 to 1? Also, rearrange x-y axis to be consistent with figure above? I'm also wondering if we should replace Fig1a with this one?}. From Figure \ref{fig:coef_vs_strength}, we see that instrument strength ST of $0.5$ corresponds to a regression coefficient  \(\beta_Z\) of \(1.16\) if \(\beta_U = 0.5\) and \(1.1\) if \(\beta_U = 0.1\). Such coefficients are rarely encountered in GWAS summary statistics meaning that we have little hope of guaranteeing narrow bounds from MR analyses. 
 
-Next, among bounds that have width less than $1$, we study whether they can tell investigators about the direction of the exposure effect. More specifically, for an anticipated effect size, we ask what kind of genetic instrument in terms of instrument strength are needed in order for the IV bounds to not only contain this effect size, but also exclude $0$. We remark that this question is akin to computing the power of bounds where instrument strength roughly stands for sample size; a major difference, though, is that we are using population-level estimates of the probability distributions.
+To better understand the implications of instrument strength on the width of bounds, Figure \ref{fig:coef_vs_strength} characterizes the relationship between instrument strength ST and a popular summary statistic measuring instrument strength reported in MR methods (Burgess 2014; King et al. 2020; Lawlor et al. 2008; Millard et al. 2019; Verma et al. 2018). Specifically, suppose we assume that \(P(Z = 0) = P(Z = 2) = 0.25\) and \(P(Z = 1) = 0.5\), and a value of an unmeasured confounder \(U\) from the standard normal. We assume the exposure \(X\) follows \(P(X = 1 | Z = z, U = u) = \text{logit}(\gamma_0 + \gamma_Z\cdot z + \gamma_U \cdot u)\) where \(\gamma_Z\) corresponds to the regression estimate one would obtain from GWAS studying the relationship between the genetic variant and the exposure. For simplicity, we set \(\gamma_0 = -\gamma_Z\); this corresponds to the scenario where difference in the probability \(P(X = 1 | Z = z, U)\) between \(z\)s is large. We then vary \(\gamma_Z\) from \(0\) to \(4\) and set \(\gamma_U\) to be either \(0.1\) or \(0.5\). For each combination of \(\gamma_Z\) and \(\gamma_U\), we compute the corresponding ST through monte carlo integration involving \(10,000,000\) samples.
 
-Formally, we again use the exposure model from the previous paragraph and suppose an outcome model \(P(Y = 1 | X = x, U = u) = \text{logit}(\beta_0 + \beta_X \cdot x + \beta_U \cdot u)\). For simplicity, we set $\beta_U = \gamma_U$ from the exposure model and  \(\beta_0 = -\beta_X/2\). We then vary $\beta_X$ to be between $1$ and $2$ and for each $\beta_X$, we find the smallest $\gamma_Z$ needed to produce an IV bound that contains the exposure effect, but does not contain $0$. Figure \ref{fig:power_curves} show the results. Similar to the story about instrument strength and width of bounds, we see that to detect even moderate  effect sizes of 0.4, the corresponding $\gamma_Z$ must be around $1.75$, a tall order for most GWAS summary statistics.
+\textcolor{red}{update x-axis with $\gamma_Z$. Also, can we draw a curve without the dots and extend this graph to 0 to 1? Also, rearrange x-y axis to be consistent with figure above? I'm also wondering if we should replace Fig1a with this one?} \textcolor{blue}{RMT: we can do all of this, but I feel like drawing the curve without the dots would be a bit misleading, no? Also, curve = connect the dots, or curve = smooth curve (loess)?}
 
-Overall, in the context of two-sample MR studies where most genetic instruments are weak, the chances that the IV bounds are informative is unlikely. The bounds will often have width greater than $1$ for most genetic instruments and detecting even moderate effect sizes require uncharacteristically strong genetic variants.
+From Figure \ref{fig:coef_vs_strength}, we see that instrument strength ST of \(0.5\) corresponds to a regression coefficient \(\gamma_Z\) of \(1.16\) if \(\gamma_U = 0.5\) and \(1.1\) if \(\gamma_U = 0.1\). Such coefficients are rarely encountered in GWAS summary statistics meaning that we have little hope of guaranteeing narrow bounds from MR analyses.
 
+Next, among bounds that have width less than \(1\), we study whether they can tell investigators about the direction of the exposure effect. More specifically, for an anticipated effect size, we ask what kind of genetic instrument in terms of instrument strength are needed in order for the IV bounds to \sout{not only contain this effect size, but also} be able to detect the direction of the effect, that is for the bounds to exclude \(0\) \textcolor{blue}{RMT: bounds always contain the effect size, no?}. We remark that this question is akin to computing the power of bounds where instrument strength roughly stands for sample size; a major difference, though, is that we are using population-level estimates of the probability distributions.
 
+Formally, we again use the exposure model from the previous paragraph and suppose an outcome model \(P(Y = 1 | X = x, U = u) = \text{logit}(\beta_0 + \beta_X \cdot x + \beta_U \cdot u)\). For simplicity, we set \(\beta_U = \gamma_U\) from the exposure model and \(\beta_0 = -\beta_X/2\). We then vary \(\beta_X\) to be between \(0.25\) and \(2\) and for each \(\beta_X\), we find the smallest \(\gamma_Z\) needed to produce an IV bound that contains the exposure effect, but does not contain \(0\). Figure \ref{fig:power_curves} show the results. Similar to the story about instrument strength and width of bounds, we see that to detect even moderate effect sizes of 0.4, the corresponding \(\gamma_Z\) must be around \(1.75\), a tall order for most GWAS summary statistics.
 
-%We simulate 10,000,000 observations from this model for each combination of \(\beta_Z \in \{1, 1.5, 1.75, 1.9, 2, 2.1, 2.25, 2.5, 3, 3.5, 5\}\), \(\beta_U \in \{0.1, 0.5\}\), and \(\gamma_X \in \{1, 1.5, 2\}\). 
+Overall, in the context of two-sample MR studies where most genetic instruments are weak, the chances that the IV bounds are informative is unlikely. The bounds will often have width greater than \(1\) for most genetic instruments and detecting even moderate effect sizes require uncharacteristically strong genetic variants.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/loess_power.png}
+  \caption{For different values of $\beta_Z, \beta_U,$ and $\gamma_X$, 10,000,000 observations were simulated from the model described in Section \ref{bounds-from-bivariate-data}. This graph shows the estimated size of $\beta_Z$ needed to detect direction for different values of the average treatment effect based on a loess extrapolation. See Figure \ref{fig:power} in Appendix \ref{appendix-sim-results}.}
+  \label{fig:power_curves}
+\end{figure}
+
+\hypertarget{bounds-from-two-sample-data-with-multiple-ivs}{%
+\subsection{Bounds From Two Sample Data With Multiple IVs}\label{bounds-from-two-sample-data-with-multiple-ivs}}
+
+Prior section revealed that bounds from two-sample MR studies require a strong instrument to obtain informative bounds. However, it did not address whether the bound can become more informative if multiple valid instruments are available. In this section, we the simplest and most naive approach to aggregate bounds across multiple instruments by taking intersections of separate IV bounds. This may be superior to another alternative where we expand the levels of \(Z\) from \(0,1,2\) to accommodate multiple instruments (Swanson 2017), but has the benefit of being applicable to the data that can be easily obtained from two-sample MR. We show that with this simple aggregation strategy, bounds generally do not become more informative as the number of instruments increase.
+
+Formally, consider the following outcome model when there are multiple instruments; this model has been used in MR studies by Burgess (2014) and Burgess and Thompson (2012) so that every instrument estimates the same exposure effect.
+
+\[
+\begin{aligned}
+\text{logit}(P(X = 1 | Z_1 = z_1, ..., Z_p = z_p, U = u)) &= \gamma_0 + \sum_i \gamma_i z_i + \gamma_U u \\
+\text{logit}(P(Y = 1 | X = x, U = u)) &= \beta_0 + \beta_X x + \beta_U u,
+\end{aligned}
+\]
+
+where \(\text{logit}(a) = \frac{1}{1 + \exp(-a)}\), \(y \in \{0,1\}, x \in \{0,1\}\), \(z_i \in \{0, 1, 2\}\), \(\beta_i, \gamma_j \in \mathbb{R}\), and \(U\) is an unmeasured confounder.
+
+We allow either \(p = 10\) or \(p = 50\) instruments. For each of the \(p\) instruments, we set \(P(Z_j = 0) = P(Z_j = 2) = 0.25\) and \(P(Z_j = 1) = 0.5\), and draw \(U\) from a standard normal distribution. We also set \(\beta_U = \gamma_U\), which is equal to either \(0.1\) or \(0.5\), and set \(\beta_X\) to be either \(0.25\), \(0.5\), \(1\), \(1.5\), or \(2\). We then consider four scenarios for setting \(\gamma_j\):
+
+\begin{enumerate}
+\item \emph{Many weak instruments}: \(\gamma_j\) are spread out evenly on the interval \(0\) to \(0.2\).
+\item \emph{Many strong instruments}: \(\gamma_j\) are spread out evenly on the interval \(1\) to \(4\). This is the magnitude of $\gamma$s that detected the direction of the ATE using bounds in the previous section
+\item \emph{Many very weak instruments, one medium strength instrument}: $\gamma_j$, $j=1,2,...,p-1$, are evenly spread out on the interval $0$ to $0.01$, and $\gamma_p = 0.2$. 
+\item \emph{Many medium strong instruments, one strong instrument}: $\gamma_j$, $j=1,2,...,p-1$, are evenly spread out on the interval $1$ to $1.2$, and $\gamma_p = 4$.
+\end{enumerate}
+
+The first scenario mimics typical magnitudes of coefficients we see in MR studies, where most genetic variants have a weak effect on the exposure. The scenario is also an example of a genetic architecture where many genetic traits contribute to complex traits (Loh et al. 2015; Nj et al. 2017; Shi et al. 2016). The second scenario is an extension of the first where we increase the magnitude of the genetic variants' effects on the exposure. We don't expect to observe this practice, but these are the magnitudes that our results in Section \ref{bounds-from-bivariate-data} suggests for an investigator to obtain informative bounds from a single instrument. The third scenario represents a genetic architecture where only few genetic variants have strong effects on the exposure while others have weak effects (Yang et al. 2010), while the fourth scenario extends the third in the same way that the second extends the first.
+
+For each scenario, we use Monte Carlo integration with 1 million re-samples to obtain \(P(X = 1 | Z_j = z_j)\) and \(P(Y = 1 | Z_j = z_j)\) and obtain IV bounds for each instrument. Figure \ref{fig:multiple_IVs} summarizes the results. We see that in scenarios 1 and 2, every bound is non-informative, with widths close to or exceeding \(1\). Also, the bounds are nested within each other. Thus, if we were to aggregate the bounds by taking intersections, the width of the intersection bounds will still be close to or exceed \(1\). In addition, the increase in magnitude of the \(\gamma_j\) coefficient did not improve the bounds. The perhaps more plausible Scenario 3 (many genetic instruments with small effects on the exposure, while one instrument has a somewhat strong effect) show similar results. From Figure \ref{fig:multiple_IVs_scenario_3} it is clear that on the scale that is often observed in MR studies, two-sample nonparametric bounds are generally non-informative. Furthermore, the bounds are again nested leaving us with the conclusion that the intersection of bounds from multiple instruments will give no more information than the strongest of the instruments itself.
+
+Where we saw previously that a single instrument with coefficient \(\gamma_Z = 4\) was sufficient to detect the direction of the average treatment effect even for small effect sizes (see Figure \ref{fig:power_curves}), when such an instrument is observed in a setting where many instruments are present, the resulting bounds are non-informative. This is due to a dilution effect from including multiple instruments; see Table \ref{tab:dilution_effect}. In practice, this means that for similar coefficients, the strength of the instrument as measured by ST is much smaller when more instruments are included. This effect is more dominant when the coefficients are larger. The simulation results from Scenario 4 illustrates this point. Figure \ref{fig:multiple_IVs_scenario_4} shows that in a setting where we would be able to detect the direction of the ATE from an instrument with \(\gamma_j = 4\) if only 10 instruments are contributing to the exposure, that same coefficient would not be enough if 50 instruments were included. In other words, this dilution effect indicates that nonparametric bounds based on two-sample MR data are very unlikely to be informative if it is suspected that there are many valid genetic instruments.
+
 \begin{figure*}
   \centering
   \begin{subfigure}[t]{0.5\textwidth}
-    \includegraphics[width = \textwidth]{/Users/hyunseung/git/ACEBounds/figures/MR_coefs_vs_strength.png}
-    \caption{Relationship between coefficients $\beta_Z$ and strength of the IV. \textcolor{red}{fix $\beta_z$ to $\gamma_z$. change dots to smoothed curve.}}
-    \label{fig:coef_vs_strength}
+    \includegraphics[width = \textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multiple_IV_sims_MR_subset.png}
+    \caption{Scenario 1: Many weak instruments.}
+    \label{fig:multiple_IVs_scenario_1}
   \end{subfigure}%
   ~
   \begin{subfigure}[t]{0.5\textwidth}
-    \includegraphics[width=\textwidth]{/Users/hyunseung/git/ACEBounds/figures/power_curves.png}
-    \caption{Size of coefficient $\beta_Z$ needed to detect direction for different values of the average treatment effect. \textcolor{red}{fix $\beta_z$ to $\gamma_z$}. \textcolor{red}{Can we extend this range from $0$ to $1$? Also, what are your thoughts about reporting ST instead of $\gamma_z$?} \textcolor{red}{change segment to smoothed lines}}
-    \label{fig:power_curves}
+    \includegraphics[width = \textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multiple_IV_sims_power_subset.png}
+    \caption{Scenario 2: Many strong instruments.}
+    \label{fig:multiple_IVs_scenario_2}
   \end{subfigure}
-  \caption{For different values of $\beta_Z, \beta_U,$ and $\gamma_X$.}
-  \label{fig:power_figs}
+  \begin{subfigure}[t]{0.5\textwidth}
+    \includegraphics[width=\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multiple_IV_sims_MR_many_weak_subset.png}
+    \caption{Scenario 3: Many weak instruments with one instrument of medium strength.}
+    \label{fig:multiple_IVs_scenario_3}
+  \end{subfigure}%
+  ~
+  \begin{subfigure}[t]{0.5\textwidth}
+    \includegraphics[width=\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multiple_IV_sims_power_many_weak_subset.png}
+    \caption{Scenario 4: Many instruments of medium strength with one strong instrument.}
+    \label{fig:multiple_IVs_scenario_4}
+  \end{subfigure}
+  \caption{Two-sample bounds for the 10 or 50 instruments from each of the four scenarios. Similar patterns were observed for other values of $\beta_X$; see Appendix \ref{appendix-sim-results} for details.}
+  \label{fig:multiple_IVs}
 \end{figure*}
 
-\hypertarget{bounds-from-two-sample-data-with-multiple-ivs}{%
-\subsection{Bounds With Multiple Instruments}\label{bounds-from-two-sample-data-with-multiple-ivs}}
-
-Prior section revealed that bounds from two-sample MR studies require a strong instrument to obtain informative bounds. However, it did not address whether the bound can become more informative if multiple valid instruments are available. In this section, we consider an optimistic approach to aggregate bounds across multiple instruments by taking intersections of separate IV bounds. We say that this is optimistic compared to another alternative where we expand the levels of $Z$ from $0,1,2$ to accommodate multiple instruments; this approach will require data that cannot be easily obtained from two-sample MR and more importantly, will result in much wider bounds \textcolor{red}{I forget if one of the Swanson papers actually mentioned this or not...can you look into citation?}. We show that even with this optimistic aggregation strategy, bounds generally do not become more informative as the number of instruments increase.
-
-Formally, consider the following outcome model when there are multiple instruments; this model has been used in MR studies by \textcolor{red}{https://academic.oup.com/ije/article/43/3/922/761826} and \textcolor{red}{https://onlinelibrary.wiley.com/doi/epdf/10.1002/sim.4498}  so that every instrument estimates the same exposure effect.
-\[
-\begin{aligned}
-\text{logit}(P(X = 1 | Z_1 = z_1, ..., Z_p = z_p, U = u)) &= \gamma_0 + \sum_{j=1}^{p} \sum_j \gamma_j z_j + \gamma_U u \\
-\text{logit}(P(Y = 1 | X = x, U = u)) &= \beta_0 + \beta_1 x + \beta_U u,
-\end{aligned}
-\]
-We allow either $p = 10$ or $p = 50$ instruments. For each of the $p$ instruments, we set \(P(Z_j = 0) = P(Z_j = 2) = 0.25\) and \(P(Z_j = 1) = 0.5\), and draw \(U\) from a standard normal distribution. We also set $\beta_U = \gamma_U$, which is equal to either $0.1$ or $0.5$, and set $\beta_1$ to be either $1$, $1.5$, or $2$. We then consider three scenarios for setting $\gamma_j$. \textcolor{red}{Are these $\gamma_j$ values fixed after you generate them? Or do they vary every time you draw one of the 1Mil sample? Just wanted to make sure we have this correct.}
-\begin{enumerate}
-\item \emph{Many weak instruments}: We draw \(\gamma_j\) i.i.d. from a uniform distribution with support \(0\) to \(0.1\). 
-\item \emph{Many strong instruments}: We draw \(\gamma_j\) i.i.d. from a uniform distribution with support \(1\) to \(4\). This is the magnitude of $\gamma$s that detected the ATE using bounds in the previous section
-\item \emph{One strong, many weak instruments}: \textcolor{red}{fill}
-\end{enumerate}
-The first scenario mimics typical magnitudes of coefficients we see in MR studies, where most genetic variants have a weak effect on the exposure. The scenario is also an example of a genetic architecture where many genetic traits contribute to complex traits \textcolor{red}{ cite ``Contrasting genetic architectures of schizophrenia and other complex diseases using fast variance-components analysis`` and ``Contrasting the genetic architecture of 30 complex traits from summary association data`` and ``Genetic architecture: the shape of the genetic contribution to human traits and disease``}, The second scenario is an extension of the first where we increase the magnitude of the genetic variants' effects on the exposure. We don't expect to observe this practice, but these are the magnitudes that our results in Section \ref{sec:} \textcolor{red}{fill} suggests for an investigator to obtain informative bounds from a single instrument. Finally, the third scenario represents a genetic architecture where only few genetic variants have strong effects on the exposure while others have weak effects \textcolor{red}{cite ``Common SNPs explain a large proportion of the heritability for human height`` Yang, Benyamin, McEvoy, ...Nature Genetics}. 
-
-For each scenario, we use monte carlo integration with 1 million re-samples to obtain $P(X = 1 | Z_j= z_j)$ and $P(Y=1 | Z_j=z_j)$ and obtain IV bounds for each instrument. Table \textcolor{red}{add Table} summarizes the results. We see that in scenarios 1 and 2, every bound is non-informative, with widths exceeding $1$. Also, the bounds are nested within each other. Thus, if we were to aggregate the bounds by taking intersections, the width of the intersection bounds will still be greater than $1$. In addition, the increase in magnitude of the $\gamma_j$ coefficient did not improve the bounds and there was a dilution in the quality of the instruments when they are combined together. That is, where a single instrument with a $\gamma_j$ of \textcolor{red}{fill and explain}. 
-
-Finally, for scenario 3, we see that the the intersection bounds \textcolor{red}{explain and fill}. Figure \ref{fig:bounds_vs_strength_many_IVs_varying_betas} examines this more closely \textcolor{red}{explain and fill}. In short, under scenario 3, aggregating information from multiple instruments through intersections will not result in more information than simply using a single, strongest individual bound.
-
-\begin{figure}[H]
+\begin{table}[H]
   \center
-  \includegraphics[width = .99\linewidth]{/Users/hyunseung/git/ACEBounds/figures/varying_betas_bounds_vs_strength_no_mono.png}
-  \caption{Bounds based on probabilities derived from the logistic model. Here, the coefficients are randomly chosen as $\text{Uniform}(0, 1/p)$ for different values of $p$. \textcolor{red}{fix $n$ to $p$}}
-  \label{fig:bounds_vs_strength_many_IVs_varying_betas}
-\end{figure}
+  \caption{The largest coefficient allowed in each of the four scenarios results in instruments with very different values of ST when more instruments are included. The effect is more prominent when the support of the coefficients is on the larger end.}
+  \label{tab:dilution_effect}
+  
+\begin{tabular}{lrrrr}
+\toprule
+\multicolumn{3}{c}{ } & \multicolumn{2}{c}{Strength} \\
+\cmidrule(l{3pt}r{3pt}){4-5}
+Scenario & $\beta_U$ & $\gamma_j$ & p = 10 & p = 50\\
+\midrule
+1 & 0.1 & 0.2 & 0.098 & 0.092\\
+1 & 0.5 & 0.2 & 0.094 & 0.087\\
+2 & 0.1 & 4.0 & 0.547 & 0.242\\
+2 & 0.5 & 4.0 & 0.546 & 0.241\\
+3 & 0.1 & 0.2 & 0.102 & 0.094\\
+\addlinespace
+3 & 0.5 & 0.2 & 0.096 & 0.094\\
+4 & 0.1 & 4.0 & 0.826 & 0.514\\
+4 & 0.5 & 4.0 & 0.821 & 0.512\\
+\bottomrule
+\end{tabular}
 
-Our results above have dire implications when some instruments turn out to be invalid. If, as suggested by \textcolor{red}{cite Swanson commentary paper that I shared awhile back on doing this approach}, we take the union of IV bounds so that the union bound is guaranteed to cover the true ATE so long as there is at least one valid instrument, the union bound will likely be non-informative because there was at least one IV bound in our scenario that was non-informative. More broadly, without making some assumptions about the nature of the invalid IVs, it would generally be infeasible to obtain useful information from using bound-based analysis.
 
-Overall, combining our investigation into the behavior of bounds from Section \ref{bounds-from-bivariate-data}, our conclusion about using nonparametric IV bounds in two-sample MR studies is grim. They generally require very strong instruments and/or effect sizes, which are are in MR studies, and multiple instruments are no better than having a single, strong instrument. Without having strong instruments in nature, this is generally difficult, if not impossible, to address with any statistical methodology. Also, as illustrated in our theory in Section \ref{bounds-from-bivariate-data}, another primarily reason for the non-informative nature of the IV bounds is because of the two-sample setup. While this is also generally difficult to resolve in many studies,  in the next section, we discuss how to obtain a plausible range of the joint distribution of the outcome and the exposure given the instrument \(P(Y, X | Z)\) given two sample MR data \(P(Y|Z)\) and \(P(X | Z)\) in order to create more informative bounds from two-sample MR studies.
+\end{table}
 
+Our results above also have dire implications when some instruments turn out to be invalid. If, as suggested by Swanson (2017), we take the union of IV bounds so that the union bound is guaranteed to cover the true ATE so long as there is at least one valid instrument, the union bound will likely be non-informative because there was at least one IV bound in our scenario that was non-informative. More broadly, without making some assumptions about the nature of the invalid IVs, it would generally be infeasible to obtain useful information from using bound-based analysis.
+
+Overall, combining our investigation into the behavior of bounds from Section \ref{bounds-from-bivariate-data}, our conclusion about using nonparametric IV bounds in two-sample MR studies is grim. They generally require very strong instruments and/or effect sizes, which are rare in MR studies, and multiple instruments are no better than having a single, strong instrument. Without having strong instruments in nature, this is generally difficult, if not impossible, to address with any statistical methodology. Also, as illustrated in our theory in Section \ref{bounds-from-bivariate-data}, another primarily reason for the non-informative nature of the IV bounds is because of the two-sample setup. While this is also generally difficult to resolve in many studies, in the next section, we discuss how to obtain a plausible range of the joint distribution of the outcome and the exposure given the instrument \(P(Y, X | Z)\) given two sample MR data \(P(Y|Z)\) and \(P(X | Z)\) in order to create more informative bounds from two-sample MR studies.
 
 \hypertarget{what-can-you-do-with-summary-level-data-for-bounds-a-quasi-bayesian-path-to-more-information}{%
-\section{Towards a More Informative Bound by Bayesian Reconstruction of One-Sample Data From Two-Sample Data }\label{what-can-you-do-with-summary-level-data-for-bounds-a-quasi-bayesian-path-to-more-information}}
+\section{What can you do with summary-level data for bounds? A Quasi-Bayesian Path to More Information}\label{what-can-you-do-with-summary-level-data-for-bounds-a-quasi-bayesian-path-to-more-information}}
 
 \label{quasi-bayesian}
 
-Our method to creating more informative bounds from two-sample MR rests on creating a plausible range of the joint distribution of the outcome and the exposure given the instrument \(Z\), \(P(X = x, Y = y | Z = z)\). The plausible range of the joint distribution is informed by quantities available from two-sample MR studies, specifically \(P(X = x | Z = z)\) and \(P(Y = y | Z = z)\), and a uniform prior on unknown quantities subject to IV assumptions. We then compute an IV bound for each of the plausible sets of \(P(X = x, Y = y | Z = z)\) by \citet{balke_bounds_1997} and \citet{richardson_ace_2014}.  In short, the approach addresses the question ``had we observed one-sample data that satisfies the constraints of the two-sample data we currently have, could we have detected the presence of an exposure effect?''
+Our method to creating more informative bounds from two-sample MR rests on creating a plausible range of the joint distribution of the outcome and the exposure given the instrument \(Z\), \(P(X = x, Y = y | Z = z)\). The plausible range of the joint distribution is informed by quantities available from two-sample MR studies, specifically \(P(X = x | Z = z)\) and \(P(Y = y | Z = z)\), and a uniform prior on unknown quantities subject to IV assumptions. We then compute an IV bound for each of the plausible sets of \(P(X = x, Y = y | Z = z)\) by Balke and Pearl (1997) and Richardson and Robins (2014). In short, the approach addresses the question ``had we observed one-sample data that satisfies the constraints of the two-sample data we currently have, could we have detected the presence of an exposure effect?''
 
 To formalize our method, we start by writing the joint conditional distribution \(P(X = x, Y = y | Z = z)\) as a function of the marginal conditional distributions \(P(X = x | Z = z)\) and \(P(Y = y | Z = z)\) and the conditional covariance of the exposure \(X\) and \(Y\) given \(Z=z\) \(\text{Cov}(X, Y | Z = z)\) for each \(z\)
 
@@ -431,23 +482,24 @@ Additionally, by the IV inequality constraints, for any pair of \((z_1, z_2) \in
 \end{aligned}
 \]
 
-Then, we sequentially sample values of \(\text{Cov}(X, Y | Z = 0), \text{Cov}(X, Y | Z = 1), \text{Cov}(X, Y | Z = 2)\), such that the above inequalities plus the existing constraints in \eqref{eq:constraints} are satisfied. Then, among samples of \(\text{Cov}(X, Y | Z = 0), \text{Cov}(X, Y | Z = 1), \text{Cov}(X, Y | Z = 2)\) that satisfy the constraints, we calculate the joint distribution of \(P(X = x, Y = y | Z = z)\) using \eqref{eq:cov-expression}, leading us to a  plausible set of the joint distribution \(P(X = x, Y = y | Z = z)\). 
+Then, we sequentially sample values of \(\text{Cov}(X, Y | Z = 0), \text{Cov}(X, Y | Z = 1), \text{Cov}(X, Y | Z = 2)\), such that the above inequalities plus the existing constraints in \eqref{eq:constraints} are satisfied. Then, among samples of \(\text{Cov}(X, Y | Z = 0), \text{Cov}(X, Y | Z = 1), \text{Cov}(X, Y | Z = 2)\) that satisfy the constraints, we calculate the joint distribution of \(P(X = x, Y = y | Z = z)\) using \eqref{eq:cov-expression}, leading us to a plausible set of the joint distribution \(P(X = x, Y = y | Z = z)\).
 
-For each plausible set of the joint distribution of \(P(X = x, Y = y | Z = z)\), we use theIV bounds by \citet{balke_bounds_1997} and \citet{richardson_ace_2014} from one-sample studies to obtain a one-sample IV bound for the ATE. If a large number of the IV bounds do not cover zero, then there is some evidence for a non-zero exposure effect and the only reason we are not able to detect this effect is due to the limitations of the two-sample design. However, if a large number of these bounds do cover zero, there is less evidence for a non-zero causal effect or that utilizing bound-based approaches to obtain some information about the ATE may be a hopeless exercise. 
+For each plausible set of the joint distribution of \(P(X = x, Y = y | Z = z)\), we use the IV bounds by Balke and Pearl (1997) and Richardson and Robins (2014) from one-sample IV studies to obtain a bound for the ATE. If a large number of the IV bounds do not cover zero, then there is some evidence for a non-zero exposure effect and the only reason we are not able to detect this effect is due to the limitations of the two-sample design. However, if a large number of these bounds do cover zero, there is less evidence for a non-zero causal effect or that utilizing bound-based approaches to obtain some information about the ATE may be a hopeless exercise.
 
-We can also extend our method to handle multiple IVs by simply repeating the above method for each proposed instrument and taking intersections of the one-sample IV bounds. This builds on one assumption that the above sampling are done independently for each instrument; in other words, the assumption implicitly assumes that the covariances of \(X\) and \(Y\) given \(Z_1\) are independent of the covariances of \(X\) and \(Y\) given \(Z_2\). For additional details, see Section \ref{} \textcolor{red}{fill} of the Appendix.
-\textcolor{red}{Move this to Appendix: Specifically, say we get bounds \((LB_{1i},UB_{1i}),i = 1,2,...,m\) by sampling m trivariate distributions based on the information we have on \((X,Z_1)\) and \((Y,Z_1)\), and bounds \((LB_{2i}, UB_{2i}),i = 1,2,...,m\) by sampling \(m\) trivariate distributions based on the information we have on \((X,Z_2)\) and \((Y,Z_2)\). We then create the intersection bounds as \(\left(\max_{z \in {1,2}} LB_{zi}, \min_{z \in {1,2}} UB_{zi}\right), i = 1, 2, ..., m\). This, under the assumption that \(\text{Cov}(X, Y | Z_1 = z)\) and \(\text{Cov}(X, Y | Z_2 = z)\) are independent of each other, gives us a sample from the posterior distribution of intersection bounds. We can use this to assess the potential usefulness of aggregating information from two sets of trivariate data, \((X, Y, Z_1)\) and \((X, Y, Z_2)\), using intersection bounds.}
-
+We can also extend our method to handle multiple IVs by simply repeating the above method for each proposed instrument and taking intersections of the one-sample IV bounds. This builds on one assumption that the above sampling are done independently for each instrument; in other words, the assumption implicitly assumes that the covariances of \(X\) and \(Y\) given \(Z_1\) are independent of the covariances of \(X\) and \(Y\) given \(Z_2\). For additional details, see Appendix \ref{sample-intersection-bounds}.
 
 Finally, we remark that the proposed method above can be thought of as using an empirically bayesian framework for partially identified sets. Specifically, our procedure generates a posterior distribution of IV bounds given the marginalized probabilities from two-sample data (i.e.~the likelihood) and a uniform, flat prior on the unknown quantities \(\text{Cov}(X, Y | Z = z)\). The constraints that we impose on \(\text{Cov}(X, Y | Z = z)\) are almost empirically Bayesian in that they are informed by data from two-sample MR.
 
 \hypertarget{single-instrument}{%
-\subsection{Illustration}\label{single-instrument}}
+\subsection{Single Instrument}\label{single-instrument}}
 
-We illustrate our proposed method from the previous section by considering nine hypothetical MR studies, each using one instrument; see Section \ref{multiple-iv-case} for the case with multiple instruments. Table \ref{tab:subset_plot_summaries_b} presents nine different sets of values of the marginal distributions \(P(Y | Z)\) and \(P(X | Z)\) and Figure \ref{fig:trivariate_bounds} shows the resulting one-sample IV bounds from our method.
+We illustrate our proposed method from the previous section by considering nine hypothetical MR studies, each using one instrument. An illustration of the sampling of intersection bounds is presented in Appendix \ref{more-details-data-application-appendix}.
+
+Table \ref{tab:subset_plot_summaries_b} presents nine different sets of values of the marginal distributions \(P(Y | Z)\) and \(P(X | Z)\) and Figure \ref{fig:trivariate_bounds} shows the resulting one-sample IV bounds from our method.
+
 \begin{table}[H]
   \center
-  \caption{Values of $P(X = 1 | Z = z)$ and $P(Y = 1 | Z = z)$ used in our illustration for one instrument. Each cell in the table presents $\{P(X = 1 | Z = 0), P(X = 1 | Z = 1), P(X = 1 | Z = 2)\}$ on the first row, and $\{P(Y = 1 | Z = 0), P(Y = 1 | Z = 1), P(Y = 1 | Z = 2)\}$ on the second row.}
+  \caption{Values of $P(X = 1 | Z = z)$ and $P(Y = 1 | Z = z)$ used to illustrate our quasi-bayesian approach. These are presented with $\{P(X = 1 | Z = 0), P(X = 1 | Z = 1), P(X = 1 | Z = 2)\}$ on the first row, and $\{P(Y = 1 | Z = 0), P(Y = 1 | Z = 1), P(Y = 1 | Z = 2)\}$ on the second row.}
   \label{tab:subset_plot_summaries_b}
   
 \begin{tabular}{llll}
@@ -459,121 +511,84 @@ Row B & \makecell[l]{\{0.886, 0.968, 0.874\}\\\{0.805, 0.822, 0.951\}} & \makece
 Row C & \makecell[l]{\{0.175, 0.079, 0.365\}\\\{0.599, 0.358, 0.087\}} & \makecell[c]{\{0.493, 0.911, 0.085\}\\\{0.360, 0.480, 0.441\}} & \makecell[r]{\{0.434, 0.045, 0.733\}\\\{0.747, 0.370, 0.169\}}\\
 \bottomrule
 \end{tabular}
+
+
 \end{table}
 
 \begin{figure}[H]
   \center
-  \includegraphics[width=\linewidth]{/Users/hyunseung/git/ACEBounds/figures/trivariate_bounds_subset_plot.png}
-  \caption{Plausible Range of One-sample Bounds From Our Method Base on Data from Table \ref{tab:subset_plot_summaries_b} \textcolor{red}{Change a,b,c to A, B, and C}}
+  \includegraphics[width=\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_bounds_subset_plot.png}
+  \caption{One-sample and two-sample bounds. Even similar bivariate distributions can result in very different insights.}
   \label{fig:trivariate_bounds}
 \end{figure}
-Row A of Figure \ref{fig:trivariate_bounds} shows three scenarios where the two-sample bounds are all more or less centered around zero with similar widths. However, the conclusions are rather different. Column 1 shows no that one-sample bound would allow us to determine the presence of a non-zero causal effect. Column 2 indicates that about 24\% of the one-sample IV bounds does not contain \(0\) while for column 3 that number is approximately 36.8\%. However, while the direction of the effect is always the same for column 2 (positive), it varies for column 3. 
+
+Row A of Figure \ref{fig:trivariate_bounds} shows three scenarios where the two-sample bounds are all more or less centered around zero with similar widths. However, the conclusions are rather different. Column 1 shows no one-sample bounds would allow us to determine the presence of a non-zero causal effect. Column 2 indicates that about \% of the one-sample IV bounds does not contain \(0\) while for column 3 that number is approximately \%. However, while the direction of the effect is always the same for column 2 (positive), it varies for column 3.
 
 Row B illustrates three scenarios where the two-sample bounds are centered well above zero and have large widths. Here, we see one case where we have no hope of determining direction from the one-sample bounds (column 1), one case where we are most likely to be able to determine the direction of the ATE to be positive from the one-sample bounds (column 2), and one case where we are rather unlikely to be able to determine the direction of the ATE from the one-sample bounds (column 3).
 
-Row C is similar to row A in that all the two-sample bounds are centered around 0, but the width of the two-sample bounds are narrow. The three columns indicate similar conclusions as seen in row A. This shows that even with rather narrow two-sample bounds centered around 0, the one-sample bounds may still be have to reveal some information about presence as well as the direction of the exposure effect.
+Row C is similar to row A in that all the two-sample bounds are centered around 0, but the width of the two-sample bounds are narrow. The three columns indicate similar conclusions as seen in row a. This shows that even with rather narrow two-sample bounds centered around 0, the one-sample bounds may still be have to reveal some information about presence as well as the direction of the exposure effect.
 
-Despite showing promise about studying the ATE, some caution should be exercised when interpreting the proportion of one-sample bounds not containing \(0\) from our method. In particular, a scenario like the one resulting in the bounds presented in row B, column 2 only provides information about the one-sample bounds if our prior on \(\text{Cov}(X,Y|Z)\) is correctly specified. Under this prior, it tells us that it is much more likely that the ATE is positive. If the prior is mis-specified whereby most one-sample bounds cover negative values of the ATE, a negative value of the ATE is possible. But, even in this case, if the ATE is in fact negative, our method does rule out the possibility of one-sample bounds being able to ascertain this because all one-sample bounds covering a negative ATE also covers $0$. %More generally, the conclusion we can reach from our approach hinges on the instrument satisfying the IV assumptions presented in Section \ref{notation-and-definitions}.
-
+Despite showing promise about studying the ATE, some caution should be exercised when interpreting the proportion of one-sample bounds not containing \(0\) from our method. In particular, a scenario like the one resulting in the bounds presented in row B, column 2 only provides information about the one-sample bounds if our prior on \(\text{Cov}(X,Y|Z)\) is correctly specified. Under this prior, it tells us that it is much more likely that the ATE is positive. If the prior is mis-specified whereby most one-sample bounds cover negative values of the ATE, a negative value of the ATE is possible. But, even in this case, if the ATE is in fact negative, our method does rule out the possibility of one-sample bounds being able to ascertain this because all one-sample bounds covering a negative ATE also covers \(0\).
 
 \hypertarget{data-analysis}{%
 \section{Data Analysis}\label{data-analysis}}
 
-We present two example analyses to demonstrate our findings about the behavior of bounds and our proposed method to obtain more informative bounds. Our first analysis studies the effect of smoking on lung cancer and our second analysis studies the effect of self-reported high cholesterol on incidence of heart attack. The causal effects underlying both analyses are well-established and serve as positive controls. The effect of smoking on lung cancer is known to be strong and positive. \textcolor{red}{add description on high cholesterol} In both cases, we explore the non-parametric bounds obtained from two-sample designs and assess what conclusions are attainable based on bound-based approaches.
+We present two example analyses to demonstrate our findings about the behavior of bounds and our proposed method to obtain more informative bounds. Our first analysis studies the effect of smoking on lung cancer and our second analysis studies the effect of self-reported high cholesterol on incidence of heart attack. The causal effects underlying both analyses are well-established and serve as positive controls. The effect of smoking on lung cancer is known to be strong and positive. The exact nature of the causal connection between high cholesterol and coronary heart disease is still being discussed (Holmes et al. 2015; Richardson et al. 2020), but some meta-analyses of randomized clinical trials of the effect of cholesterol-lowering medication suggest a causal relationship (Cholesterol Treatment Trialists' (CTT) Collaborators 2012; ``Efficacy and safety of cholesterol-lowering treatment'' 2005). In both cases, we explore the nonparametric bounds obtained from two-sample designs and assess what conclusions are attainable based on bound-based approaches.
 
-%The effect of smoking on depression has also been studied in other works \citep{taylor_investigating_2014, wootton_evidence_2019, wium-andersen_tobacco_2015}. 
+The data to study both effects was obtained from the UK Biobank data curated at the IEU GWAS database, which is available in R through the \texttt{TwoSampleMR} package (Hemani et al. 2018). Specifically, data on smoking was obtained from data entry with ID ukb-d-20116\_0, data on lung cancer from entry with ID ukb-d-40001\_C349, data on cholesterol from entry with ID ukb-a-108, and data on heart attack from entry with ID ukb-a-434. We followed the defaults of the R package where linkage disequilibrium based clumping (\(r^2 \ge 0.001\) within a \(10,000\) kb window using \(p < 5 \times 10^{-8}\) as the level of significance) were performed such that only independent instruments with significant associations are returned. The data was harmonized to make sure that the effects of the SNPs on exposure and outcome were measured with the same allele as reference. Afterwards, we obtain the estimated coefficients from previous GWAS experiments corresponding to the effects of the SNPs on the exposure, and the outcome from a logistic model. Since estimates of the intercept are included in these reported results, but marginal proportions of the outcome, exposure, and allele frequencies are known, we find the intercepts by solving \(P(X = 1) = \sum_{z = 0}^2\text{logit}(\beta_0 + \hat{\beta_1}\cdot z)\cdot P(Z_j = z)\) and \(P(Y = 1) = \sum_{z = 0}^2\text{logit}(\gamma_0 + \hat{\gamma_1}\cdot z)\cdot P(Z_j = z)\) for \(\beta_0\) and \(\gamma_0\), respectively. Overall, the \texttt{TwoSampleMR} package along with our estimates of the intercept allowed us to calculate \(P(Y = 1 | Z_j = z)\) and \(P(X = 1 | Z_j = z)\) for every \(j\) and \(z=0,1,2\); see {[}link to vignette showing analysis on pkgdown page{]} for the code.
 
-The data to study both effects was obtained from a curated  the UK Biobank data available in the IEU GWAS database and we use the \texttt{TwoSampleMR} package \citep{mrbase} to pre-process the data. Specifically, data on smoking was obtained from data entry with ID ukb-d-20116\_0, data on depression from entry with ID ukb-d-20544\_11, and data on lung cancer from entry with ID ukb-d-40001\_C349. We followed the defaults of the package where linkage disequilibrium based clumping (\(r^2 \ge 0.001\) within a \(10,000\) kb window using \(p < 5 \times 10^{-8}\) as the level of significance) were performed such that only independent instruments with significant associations are returned. The data was harmonized to make sure that the effects of the SNPs on exposure and outcome were measured with the same allele as reference. Afterwards, we obtain the estimated coefficients that correspond to the effects of the SNPs on the exposure, and the outcome from a simple logistic model. Since estimates of the intercept are not included in these reported results, but marginal proportions of the outcome, exposure, and allele frequencies are known, we estimate the intercepts by solving \(P(X = 1) = \sum_{z = 0}^2\text{logit}(\gamma_0 + \hat{\gamma_1}\cdot z)\cdot P(Z = z)\) and \(P(Y = 1) = \sum_{z = 0}^2\text{logit}(\beta_0 + \hat{\beta_1}\cdot z)\cdot P(Z_j = z)\) for \(\beta_0\) and \(\gamma_0\), respectively. The estimates of the intercept and slope coefficients allowed us to calculate \(P(Y = 1 | Z_j = z)\) and \(P(X = 1 | Z_j = z)\) for every \(j\) and \(z=0,1,2\); see {[}link to vignette showing analysis on pkgdown page{]} for the code.
+\hypertarget{effect-of-smoking-on-chance-of-lung-cancer}{%
+\subsection{\texorpdfstring{Effect of Smoking on Chance of Lung Cancer \label{smoking-effect-on-lung-cancer}}{Effect of Smoking on Chance of Lung Cancer }}\label{effect-of-smoking-on-chance-of-lung-cancer}}
 
-\textcolor{red}{We should stress test this intercept finding (and ultimately, recovering $P(Y|Z)$ and $P(X|Z)$) procedure? For example, I know the FTO-genetic marker is very strongly associated with obesity and hopefully,  $P(X|Z=z) - P(X | Z= z')$ is large? Or, we can also simulate to verify this procedure...}
-
-\hypertarget{smoking-effect-on-lung-cancer}{%
-\subsection{Smoking effect on lung cancer}\label{smoking-effect-on-lung-cancer}}
-Our MR analysis of smoking's effect on lung cancer based on bounds uses 84 genetic variants as instruments; detailed information on the 84 instruments can be found in the Appendix \ref{more-details-data-application-appendix}. On average, the instrument strength is around \textcolor{red}{fill}, with the strongest instrument having ST $= 0.01$; this is much smaller than the ST $= 0.5$ needed to guarantee narrow bounds. As such, the two-sample bounds in Figure \ref{fig:smoking_on_lung_cancer_ind_bounds} are rather wide; all of them have width greater than 1 and they convey no truly useful information about smoking's effect on lung cancer. Additionally, even after applying our method to get more informative bounds, we find that we are unable to determine the direction of the ATE; see Figure \ref{fig:smoking_on_lung_cancer_tri_bounds}. In the Appendix, we also show that aggregating bounds through intersections (Figure \ref{fig:smoking_on_lung_cancer_intersections} \textcolor{red}{move this to Appendix}) show similar results.
-
-%
-%\begin{figure}[H]
-%  \center
-%  \includegraphics[width = 0.99\linewidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/strength_histogram.png}
-%  \caption{Histogram of strengths of IVs on the exposure. Here, SNPs are IVs, and smoking status (ever/never) is exposure. We see that all IVs are very weak, with the largest value just below 0.01.}
-%  \label{fig:strength_histogram}
-%\end{figure}
-%
+Our MR analysis of smoking's effect on lung cancer is based on bounds uses 84 genetic variants as instruments; detailed information on the 84 instruments can be found in the Appendix \ref{more-details-data-application-appendix}. On average, the instrument strength is around 0.0042, with the strongest instrument having ST \(= 0.0091\); this is much smaller than the ST \(= 0.5\) needed to guarantee narrow bounds. As such, the two-sample bounds in Figure \ref{fig:smoking_on_lung_cancer_ind_bounds} are rather wide; all of them have width greater than 1 and they convey no truly useful information about smoking's effect on lung cancer. Additionally, even after applying our method to get more informative bounds, we find that we are unable to determine the direction of the ATE; see Figure \ref{fig:smoking_on_lung_cancer_tri_bounds}. In the Appendix, we also show that aggregating bounds through intersections (Figure \ref{fig:smoking_on_lung_cancer_intersections}) show similar results.
 
 \begin{figure}[H]
-  \includegraphics[width = 0.99\linewidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb-d-40001_C349.png}
-  \caption{Non-parametric bounds on the average treatment effect of smoking on lung cancer.}
+  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb-d-40001_C349.png}
+  \caption{Nonparametric bounds on the average treatment effect of smoking on lung cancer.}
   \label{fig:smoking_on_lung_cancer_ind_bounds}
 \end{figure}
 
-
-\begin{figure}
-  \includegraphics[width = 0.99\linewidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_individual_SNPs_plot_subset_ukb-d-20116_0_ukb-d-40001_C349.png}
+\begin{figure}[H]
+  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_individual_SNPs_plot_subset_ukb-d-20116_0_ukb-d-40001_C349.png}
     \caption{500 sets of bounds of the average treatment effect of smoking on lung cancer for six of the 84 SNPs. Each bound is based on a set of values for the trivariate distribution randomly sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
     \label{fig:smoking_on_lung_cancer_tri_bounds}
 \end{figure}
 
-%\begin{figure}[H]
-%  \includegraphics[width = 0.99\linewidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C349.png}
-%  \caption{\textcolor{red}{move this to appendix} Intersection bounds of the average treatment effect of smoking on lung cancer based on randomly sampled trivariate distributions from pairs of SNPs. These 8 pairs were randomly chosen from all possible pairs.}
-%  \label{fig:smoking_on_lung_cancer_intersections}
-%\end{figure}
+The result is a cause for concern since is well established that smoking has a strong causal effect on the chances of developing lung cancer Cornfield et al. (1959). The fact that we are unable to say anything about the ATE in this case does not leave much hope in terms of future discoveries based on nonparametric IV bounds from two-sample MR studies. Even more concerning is the fact that our methodology reveals that had we obtained one-sample MR data, we would still be unsuccessful in determining the direction of the effect based on a bound-based analysis of the ATE. In short, while nonparametric bounds allow us to make little assumptions about the data and as such, is robust to some common modeling assumptions in MR, they are often too conservative and are not suited for MR studies with many weak instruments.
 
-The result is a cause for concern since is well established that smoking has a strong causal effect on the chances of developing lung cancer \citep{cornfield_smoking_1959}. The fact that we are unable to say anything about the ATE in this case does not leave much hope in terms of future discoveries based on non-parametric IV bounds from two-sample MR studies. Even more concerning is the fact that our methodology reveals that had we obtained one-sample MR data, we would still be unsuccessful in determining the direction of the effect based on a bound-based analysis of the ATE. In short, while non-parametric bounds allow us to make little assumptions about the data and as such, is robust to some common modeling assumptions in MR, they are often too conservative and are not suited for MR studies with many weak instruments.
+\hypertarget{effect-of-high-cholesterol-on-chance-of-heart-attack}{%
+\subsection{\texorpdfstring{Effect of High Cholesterol on Chance of Heart Attack \label{cholesterol-on-heart-attack}}{Effect of High Cholesterol on Chance of Heart Attack }}\label{effect-of-high-cholesterol-on-chance-of-heart-attack}}
 
-\subsection{Cholesterol }
-\textcolor{red}{fill: follow above example}
+Our MR analysis of cholesterol's effect on heart attack is based on 54 genetic variants as instruments; detailed information on the 54 instruments can be found in the Appendix \ref{more-details-data-application-appendix}. On average, the instrument strength is around 0.0005, with the strongest instrument having ST \(= 0.0022\); again, much smaller than the ST \(= 0.5\) needed to guarantee narrow bounds. As was the case in the previous section, all of the two-sample bounds in Figure \ref{fig:cholesterol_on_heart_attack_ind_bounds} have width close to \(1\), and provide no useful information about the causal effect of interest. However, the two-sample bounds here are all centered close to 0.35, which does give us a very large lower bound of the effect. That is, if high cholesterol has a negative effect on heart attack (i.e.~lowers the risk as opposed to increases the risk), that effect is not very large.
 
-%\hypertarget{smoking-effect-on-depression}{%
-%\subsection{Smoking effect on depression}\label{smoking-effect-on-depression}}
-%
-%Previous reports suggested that smoking increases the risk of depression, with the most recent estimate suggesting the odds ratio to be 1.99 with a 95\% confidence interval of {[}1.71, 2.32{]} \citep{wootton_evidence_2019} based on a non-IV approach. Our MR analysis uses 84 genetic variants as instruments and Figure \ref{fig:strength_histogram} shows a histogram of their strength. We see here that the strength of the strongest instrument is less than 0.01, which is much smaller than the 0.5 needed to guarantee narrow bounds. More information on the instruments and summary statistics can be found in Appendix \ref{more-details-data-application-appendix}.
-%
-%\begin{figure}[H]
-%  \center
-%  \includegraphics[width = 0.99\linewidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/strength_histogram.png}
-%  \caption{Histogram of strengths of IVs on the exposure. Here, SNPs are IVs, and smoking status (ever/never) is exposure. We see that all IVs are very weak, with the largest value just below 0.01.}
-%  \label{fig:strength_histogram}
-%\end{figure}
-%
-%From the 84 instruments, we obtain 84 sets of two-sample bounds and they are shown in Figure \ref{fig:smoking_on_depression_ind_bounds}.
-%
-%\begin{figure}[H]
-%  \includegraphics[width = 0.99\linewidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_depression_bivaraite_bounds_ukb-d-20116_0_ukb-d-20544_11.png}
-%  \caption{Non-parametric bounds for the 84 genetic variants identified as potential instruments for the effect of smoking on depression created based on the bivariate probabilities found from GWAS summary statistics.}
-%  \label{fig:smoking_on_depression_ind_bounds}
-%\end{figure}
-%
-%Next, we use our approach to generate plausible one-sample IV bounds and Figure \ref{fig:smoking_on_depression_tri_bounds} shows the resulting bounds for six of the 84 SNPs. See \ref{fig:smoking_on_depression_tri_bounds_all} for the results for all SNPs. While the one-sample bounds are much narrower than the corresponding two-sample bounds, in line with our expectations, all the one-sample bounds founds contain \(0\). This means that we will not be able to use non-parametric bounds to determine the direction of the ATE of smoking on the chances of developing depression, even if we were to obtain one-sample data. In other words, the bound-based analysis of the MR study may not yield any useful conclusion about the exposure effect.
-%
-%\begin{figure}[H]
-%  \includegraphics[width = 0.99\linewidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_depression_individual_SNPs_plot_subset_ukb-d-20116_0_ukb-d-20544_11.png}
-%    \caption{500 sets of bounds of the average treatment effect of smoking on depression for six of the 84 SNPs. Each bound is based on a set of values for the trivariate distribution randomly sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
-%    \label{fig:smoking_on_depression_tri_bounds}
-%\end{figure}
-%
-%\textcolor{red}{fix after discussing what to do with multiple IV section} Aggregating the information from multiple IVs through intersections is a simple idea, but everything we have seen so far points to this not being useful in practice. Figure \ref{fig:smoking_on_depression_intersections} shows the results from doing exactlt this for 8 pairs of SNPs, both when simply creating intersection of the bivariate bounds, and when using our quasi-bayesian approach to estimate the distribution of intersections of bounds from trivariate distributions as described in Section \ref{multiple-iv-case}. Comparing Figure \ref{fig:smoking_on_depression_intersections} to Figure \ref{fig:smoking_on_depression_tri_bounds}, we notice that the intersection bounds are essentially the same width. As for intersections of trivariate bounds, these are narrower than the corresponding intersections of bivariate bounds, but we do not see any scenario where intersections of trivariate bounds would help us determine direction of the ATE. Again, the conclusion is that no sets of trivariate distributions allows us to determine direction of the average treatment effect through the use of non-parametric bounds.
-%
-%\begin{figure}[H]
-%  \centering
-%  \includegraphics[width = 0.99\linewidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_depression_intersection_bounds_plot_ukb-d-20116_0_ukb-d-20544_11.png}
-%  \caption{Intersection bounds of the average treatment effect of smoking on depression based on randomly sampled trivariate distributions from pairs of SNPs. These 8 pairs were randomly chosen from all possible pairs.}
-%  \label{fig:smoking_on_depression_intersections}
-%\end{figure}
+Maybe a bit surprising, our proposed method suggests that one-sample bounds would be only minimally more informative. Figure \ref{fig:cholesterol_on_heart_attack_tri_bounds} shows such potential bounds for eight of the SNPs; see Appendix for the full figure, where we also see that aggregating bounds through intersections once again provides no further information (Figure \ref{fig:cholesterol_on_heart_attack_intersections}). Given the lopsided nature of the bivariate bounds, it seems reasonable to have thought that
+
+\begin{figure}[H]
+  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/cholesterol_heart_attack_bivaraite_bounds_ukb-a-108_ukb-a-434.png}
+  \caption{Nonparametric bounds on the average treatment effect of high cholesterol on heart attack.}
+  \label{fig:cholesterol_on_heart_attack_ind_bounds}
+\end{figure}
+
+\begin{figure}[H]
+  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/cholesterol_heart_attack_individual_SNPs_plot_subset_ukb-a-108_ukb-a-434.png}
+    \caption{500 sets of bounds of the average treatment effect of high cholesterol on heart attack for eight of the 54 SNPs. Each bound is based on a set of values for the trivariate distribution randomly sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
+    \label{fig:cholesterol_on_heart_attack_tri_bounds}
+\end{figure}
 
 \hypertarget{conclusion-and-practical-considerations}{%
 \section{Conclusion and Practical Considerations}\label{conclusion-and-practical-considerations}}
 
-Non-parametric bounds are without a doubt an attractive concept. With a minimal set of assumptions they let us obtain bounds on the average treatment effect. However, as we have seen here, in typical MR studies with two-sample summary data and many weak instruments, bounds may be too uninformative to make meaningful conclusions about the ATE. Specifically, non-parametric bounds in usual one-sample settings data come with very nice guarantees, such as the width always being less than 1. But, in Mendelian randomization analyses with two-sample data, we lose the strong guarantees on the maximum width of the bounds and strong assumptions about the strength of the IV are often required to make sure that the width is less than \(1\). Even aggregating information from many instruments through simple intersections will only be as good as using a single strong instrument.
+Nonparametric bounds are without a doubt an attractive concept. With a minimal set of assumptions they let us obtain bounds on the average treatment effect. However, as we have seen here, in typical MR studies with two-sample summary data and many weak instruments, bounds may be too uninformative to make meaningful conclusions about the ATE. Specifically, nonparametric bounds in usual one-sample settings data come with very nice guarantees, such as the width always being less than 1. But, in Mendelian randomization analyses with two-sample data, we lose the strong guarantees on the maximum width of the bounds and strong assumptions about the strength of the IV are often required to make sure that the width is less than \(1\). Even aggregating information from many instruments through simple intersections will only be as good as using a single strong instrument.
 
-To address the limitations that the two-sample design has in terms of producing informative bounds, we outline a method to generate a plausible range of one-sample IV bounds that are in agreement with the two-sample data at hand. This gives us the opportunity to assess the range of conclusions that can be drawn from bound-based approaches had we had one-sample data. We applied our method to a few different settings of two-sample data and showed the range conclusions about the ATE that can be drawn from it. This exercise also highlighted a significant loss of information in two-sample designs compared to one-sample designs.
+To address the limitations that the two-sample design has in terms of producing informative bounds, we outline an approach to generate a plausible range of one-sample bounds that are in agreement with the two-sample data at hand. This gives us the opportunity to assess the range of conclusions that can be drawn from bound-based approaches had we had one-sample data. We applied our method to a few different settings of two-sample data and showed the range conclusions about the ATE that can be drawn from it. This exercise also highlighted a significant loss of information in two-sample designs compared to one-sample designs.
 
 \textcolor{red}{need a better way to tie these two paragraphs to rest}
-To demonstrate the use of non-parametric bounds in Mendelian randomization analyses, we considered two examples. In the first example, we aimed at finding bounds on the effect of smoking on the chances of developing depression. Unfortunately, all instruments available were very weak with the strongest instrument having a strength of less than \(0.01\). This result in bounds that provide very little information. Our approach suggests that even one-sample bounds would not be able to provide much extra information.
 
-In our second example, we explored the effect of smoking on the chances of developing lung cancer. It has been well established that there is a rather strong causal effect of smoking on the chances of developing lung cancer. Unfortunately, our non-parametric bounds were not able to determine the direction of this effect, and the one-sample bounds once again brought marginal improvement.
+To assess the usefulness of two-sample nonparametric bounds in Mendelian randomization analyses, we considered two examples. In the first example, we aimed at finding bounds on the effect of smoking on the chances of developing lung cancer. It has been well established that there is a rather strong causal effect of smoking on the chances of developing lung cancer. Unfortunately, all instruments available were very weak with the strongest instrument having a strength of less than \(0.01\). This result in bounds that provide very little information. Our approach suggests that even one-sample bounds would not provide much extra information, and in particular would also fail to recover the direction of the effect.
 
-Using non-parametric bounds in two-sample MR studies seem a promising idea since many MR analysis rely on a host of potentially unjustifiable modeling assumptions. But, as we seen above, the non-parametric nature of these bounds as well as the two-sample design can make these bounds often meaningless in practice. Nevertheless, one potential use case of non-parametric bounds in two-sample MR studies could be when one has prior knowledge about the direction of the effect, but wish to get a better sense of the magnitude. By knowing the sign of the effect a priori, non-parametric bounds can provide an upper limit on this magnitude. This is especially useful in cases where the exposure is known to cause harm or benefit, for example in our smoking lung cancer example where the direction of the effect of smoking on lung cancer is well known and an upper bound on this effect would tell investigators about the maximum possible effect that smoking could have on increasing the propensity of lung cancer.
+In our second example, we explored the effect of high cholesterol on the chances of heart attack. Unfortunately, the instruments were here even weaker than in our first example, and once again the nonparametric bounds were unable to determine the direction of the effect. Our approach indicates that one-sample bounds would bring only marginal improvement. This example illustrates a scenario where the loss in information by going to two-sample rather than one-sample data is minimal, in that the difference between the two-sample bounds and the possible one-sample bounds is almost non-existing.
+
+Using nonparametric bounds in two-sample MR studies seem a promising idea since many MR analysis rely on a host of potentially unjustifiable modeling assumptions. But, as we have seen above, the nonparametric nature and the two-sample design can make these bounds often meaningless in practice. Nevertheless, one potential use case of nonparametric bounds in two-sample MR studies could be when one has prior knowledge about the direction of the effect, but wish to get a better sense of the magnitude. By knowing the sign of the effect a priori, nonparametric bounds can provide an upper limit on this magnitude. This is especially useful in cases where the exposure is known to cause harm or benefit, for example in our smoking lung cancer example where the direction of the effect of smoking on lung cancer is well known and an upper bound on this effect would tell investigators about the maximum possible effect that smoking could have on increasing the propensity of lung cancer.
 
 \newpage
 
@@ -704,7 +719,7 @@ U3 - L3 &= 1 + P(X = 0 | Z = 2) + 2\cdot P(Y = 1 | Z = 0) - P(X = 0 | Z = 0) \\
 \hypertarget{bounds-on-average-treatment-effect}{%
 \section{Bounds on Average Treatment Effect}\label{bounds-on-average-treatment-effect}}
 
-We briefly review the method presented by \citet{ramsahai_causal_2012} to bound the average treatment effect using two-sample summary data. Let \(\vec{\tau}^* = \Big(P(Y = 1 | X = 0, U), P(Y = 1 | X = 1, U), P(X = 1 | Z = 0, U), ..., P(X = 1 | Z = k-1, U)\Big) \in [0,1]^{2+k}\) and \(\vec{v}^* = \Big(P(Y = 0 | Z = 0, U), ..., P(Y = 1 | Z = k-1, U), P(X = 0 | Z = 0, U), ..., P(X = 1 | Z = k-1, U), \alpha^*\Big)\) where
+We briefly review the method presented by Ramsahai (2012) to bound the average treatment effect using two-sample summary data. Let \(\vec{\tau}^* = \Big(P(Y = 1 | X = 0, U), P(Y = 1 | X = 1, U), P(X = 1 | Z = 0, U), ..., P(X = 1 | Z = k-1, U)\Big) \in [0,1]^{2+k}\) and \(\vec{v}^* = \Big(P(Y = 0 | Z = 0, U), ..., P(Y = 1 | Z = k-1, U), P(X = 0 | Z = 0, U), ..., P(X = 1 | Z = k-1, U), \alpha^*\Big)\) where
 
 \[
 \begin{aligned}
@@ -738,7 +753,7 @@ f(y_0, y_1, x_0, x_1, ..., x_{k-1}) =
     y_0\cdot (1-x_0) + y_1\cdot x_0 \\
     \vdots \\
     (1-y_0)\cdot(1-x_{k-1}) + (1 - y_1)\cdot x_{k-1} \\
-    y_0\cdot (1-x_{k-1}) + y_1\cdot x_{k-1} \\
+    y_0\cdot (1-x_{k-1}) + y_1\cdot x_{k-1}
   \end{pmatrix} \label{eq:f}
 \]
 
@@ -746,11 +761,11 @@ We define \(\mathcal{V} = f([0,1]^{2+k})\).
 
 Since \(\vec{v} = E_U[\vec{v}^*]\), \(\vec{v}\) must be a convex combination of \(\vec{v}^*\). Let \(\mathcal{H}\) be the convex hull of \(\mathcal{V}\). Then \(\vec{v}\) will be in \(\mathcal{H}\).
 
-Now, let \(\hat{\mathcal{T}}\) be the set of extreme vertices of \([0,1]^{2+k}\), \(\hat{\mathcal{V}} = f(\hat{\mathcal{T}})\), and \(\hat{\mathcal{H}}\) be the convex hull of \(\hat{\mathcal{V}}\). By Theorem 1 in Appendix B of \citet{ramsahai_causal_2012}, \(\mathcal{H} = \mathcal{\hat{H}}\). This means that \(\vec{v} \in \mathcal{\hat{H}}\). Utilizing a program such as Polymake, we can describe \(\mathcal{H}\) with a set of inequalities, which give us constraints that \(\vec{v}\) must satisfy.
+Now, let \(\hat{\mathcal{T}}\) be the set of extreme vertices of \([0,1]^{2+k}\), \(\hat{\mathcal{V}} = f(\hat{\mathcal{T}})\), and \(\hat{\mathcal{H}}\) be the convex hull of \(\hat{\mathcal{V}}\). By Theorem 1 in Appendix B of Ramsahai (2012), \(\mathcal{H} = \mathcal{\hat{H}}\). This means that \(\vec{v} \in \mathcal{\hat{H}}\). Utilizing a program such as Polymake, we can describe \(\mathcal{H}\) with a set of inequalities, which give us constraints that \(\vec{v}\) must satisfy.
 
 This means that we can obtain inequalities that the components of \(\vec{v}\) must satisfy by describing the extreme vertices of \([0,1]^{2+k}\), map them to \(\mathcal{V}\) using the relatively simple function \(f\), and then use polymake to find inequalities that characterize the convex hull of \(f([0,1])^{2+k}\). This gives us a set of inequalities involving the components of \(\vec{v}\). Some of these will be verifiable, as they will not include the only unobservable quantity \(\alpha\). Others will not be verifiable, but will allow us to obtain bounds on the unobservable quantity \(\alpha\) using the observable entries of \(\vec{v}\).
 
-Following the approach from Ramsahai (2012) as outlined in Section \ref{bounds-on-average-treatment-effect}, we obtain bounds on the average treatment effect from the quantities \(P(X = 1 | Z = z)\) and \(P(Y = 1 | Z = z)\), \(z = 0,1,2\). To do so, we first write down the most extreme values of each of \(P(Y = 1 | X = x, U)\) and \(P(X = x | Z = z, U)\) for all \(x=0,1\), \(z=0,1,2\). Since these are probabilities, the extreme values are \(0\) and \(1\).
+Following the approach from Ramsahai (2012) as outlined above, we obtain bounds on the average treatment effect from the quantities \(P(X = 1 | Z = z)\) and \(P(Y = 1 | Z = z)\), \(z = 0,1,2\). To do so, we first write down the most extreme values of each of \(P(Y = 1 | X = x, U)\) and \(P(X = x | Z = z, U)\) for all \(x=0,1\), \(z=0,1,2\). Since these are probabilities, the extreme values are \(0\) and \(1\).
 
 \begin{longtable}[]{@{}ccccc@{}}
 \caption{Most extreme values of \(P(Y = 1 | X = x, U)\) and \(P(X = 1 | Z = z, U)\). Here, PY1XxU = \(P(Y = 1 | X = x, U)\) and PX1ZzU = \(P(X = 1 | Z = z, U)\).}\tabularnewline
@@ -1139,28 +1154,8 @@ PX1Z2U\strut
 
 By applying the function \(f\), as presented in \eqref{eq:f}, to each row, we get the most extreme vertices of \(P(X = x | Z = z, U)\) and \(P(Y = y | Z = z, U)\) for all \(x=0,1,\ y=0,1\) and \(z=0,1,2\).
 
-\begin{verbatim}
-## 
-## -- Column specification --------------------------------------------------------
-## cols(
-##   PY0Z0 = col_double(),
-##   PY0Z1 = col_double(),
-##   PY0Z2 = col_double(),
-##   PY1Z0 = col_double(),
-##   PY1Z1 = col_double(),
-##   PY1Z2 = col_double(),
-##   PX0Z0 = col_double(),
-##   PX0Z1 = col_double(),
-##   PX0Z2 = col_double(),
-##   PX1Z0 = col_double(),
-##   PX1Z1 = col_double(),
-##   PX1Z2 = col_double(),
-##   `$\alpha$` = col_double()
-## )
-\end{verbatim}
-
 \begin{longtable}[]{@{}ccccccccccccc@{}}
-\caption{Most extreme values of \(P(Y = y | Z = z)\) and \(P(X = x | Z = z)\). Here, PYyZz = \(P(Y = y | Z = z)\), PXxZz = \(P(X = x | Z = z)\), and \(\alpha = P(Y = 1 | X = 1,U) - P(Y = 1 | X = 0,U)\).}\tabularnewline
+\caption{Most extreme values of \(P(Y = y | Z = z)\) and \(P(X = x | Z = z)\). Here, PYyZz = \(P(Y = y | Z = z)\), PXxZz = \(P(X = x | Z = z)\), and \(\alpha = P(Y = 1 | X = 1,U) - P(Y = 1 | X = 0,U)\).\label{tab:vertices}}\tabularnewline
 \toprule
 \begin{minipage}[b]{0.05\columnwidth}\centering
 PY0Z0\strut
@@ -2088,22 +2083,7 @@ PX1Z2\strut
 \bottomrule
 \end{longtable}
 
-Theorem 1 of Ramsahai (2012) tells us that the values of \(P(X = 1 | Z = z), P(Y = 1 | Z = z),\ z = 0,1,2\) must lie in the convex hull. This means that the vector of these values must be a convex combination of the rows in the matrix above. Using this with the fact that they must sum to 1 is what enables us to use polymake to find inequalities that the values of \(P(X = 1 | Z = z)\), \(P(Y = 1 | Z = z)\), and \(\alpha\) must satisfy. In this particular case, these are as presented below. This table should be read as rows of coefficients \(PYyZz, PXxZz\) such that \(\sum_{z = 0}^2 PX1Zz \cdot P(X = 1 | Z = z) + \sum_{z = 0}^2 PY0Zz\cdot P(Y = 0 | Z = z) + PY1Z0\cdot P(Y = 1 | Z = 0) + c_\alpha \alpha \ge 0\).
-
-\begin{verbatim}
-## 
-## -- Column specification --------------------------------------------------------
-## cols(
-##   PY0Z0 = col_double(),
-##   PY0Z1 = col_double(),
-##   PY0Z2 = col_double(),
-##   PY1Z0 = col_double(),
-##   PX1Z0 = col_double(),
-##   PX1Z1 = col_double(),
-##   PX1Z2 = col_double(),
-##   `$c_{\alpha}$` = col_double()
-## )
-\end{verbatim}
+Theorem 1 of Ramsahai (2012) tells us that the values of \(P(X = 1 | Z = z), P(Y = 1 | Z = z),\ z = 0,1,2\) must lie in the convex hull of the vertices given by the rows in Table \ref{tab:vertices}. This means that the vector of these values must be a convex combination of the rows in said table. Using this with the fact that they must sum to 1 is what enables us to use polymake to find inequalities that the values of \(P(X = 1 | Z = z)\), \(P(Y = 1 | Z = z)\), and \(\alpha\) must satisfy. In this particular case, these are as presented below. This table should be read as rows of coefficients for which it holds that \(\sum_{z = 0}^2 c_{X1Zz} \cdot P(X = 1 | Z = z) + \sum_{z = 0}^2 c_{Y0Zz}\cdot P(Y = 0 | Z = z) + c_{Y1Z0}\cdot P(Y = 1 | Z = 0) + c_\alpha \alpha \ge 0\).
 
 \begin{longtable}[]{@{}cccccccc@{}}
 \caption{Results from polymake. Columns with all zeroes have been removed.}\tabularnewline
@@ -3412,12 +3392,12 @@ Furthermore, we obtain the following checkable constraints from the rows where \
     \min_{i} & 1 - P(X = 1 | Z = i) \\
     \min_{i} & 1 - P(Y = 1 | Z = i)
   \end{array}
-\right \} \ge 0 \label{eq:constraints_new}
+\right \} \ge 0 \label{eq:constraints}
 \end{equation}
 
 We notice that the constraints from the law of probability are recovered (the last four expressions above) along with 12 non-trivial constraints.
 
-These bounds involve 24 different expressions on both the lower and upper end, making an algebraic exploration of the width very challenging. However, by imposing the two monotonicity assumptions \eqref{eq:x_monotone} and \eqref{eq:y_monotone}, the bounds reduce to just three on the lower end and three on the upper end:
+These bounds involve 24 different expressions on both the lower and upper end, making an algebraic exploration of the width very challenging. However, by imposing the two monotonicity assumptions \eqref{eq:x_monotone} and \eqref{eq:y_monotone}, the bounds reduce to just three on the lower end and three on the upper end. This is done by removing rows in the matrix of extreme vertices where the monotonicity assumptions are violated before using Polymake to get the inequalities. The resulting bounds are presented below.
 
 \[
 \begin{aligned}
@@ -3440,7 +3420,7 @@ These bounds involve 24 different expressions on both the lower and upper end, m
 \hypertarget{exploration-of-scenarios-where-bounds-are-flipped}{%
 \section{\texorpdfstring{Exploration of Scenarios Where Bounds are Flipped \label{improper-bounds}}{Exploration of Scenarios Where Bounds are Flipped }}\label{exploration-of-scenarios-where-bounds-are-flipped}}
 
-Of 10,000 randomly generated sets of values for \(P(X = 1 | Z = z), P(Y = 1 | Z = z),\ z = 0,1,2\), 123 resulted in bounds where the upper limit is smaller than the lower limit without violating any of the verifiable constraints presented in \eqref{eq:constraints}. Table \ref{tab:upper-less-than-lower} gives the values of the marginal conditional distributions with the strength of the IV, the corresponding bounds, and the width. It is notable that the IVs are rather strong in all cases where we see the bounds flip, but the bounds themselves and the widths vary quite a bit.
+Of 10,123 randomly generated sets of values for \(P(X = 1 | Z = z), P(Y = 1 | Z = z),\ z = 0,1,2\), 123 resulted in bounds where the upper limit is smaller than the lower limit without violating any of the verifiable constraints presented in \eqref{eq:constraints}. Table \ref{tab:upper-less-than-lower} gives the values of the marginal conditional distributions with the strength of the IV, the corresponding bounds, and the width. It is notable that the IVs are rather strong in all cases where we see the bounds flip, but the bounds themselves and the widths vary quite a bit.
 
 We first attributed this to the transition from trivariate to bivariate bounds, but later realized similar scenarios arise when dealing with trivariate bounds from four category IVs. Of 100,000 randomly generated sets of values for \(P(X = x, Y = y | Z = z),\ x=0,1,\ y=0,1,\ z=0,1,2,3\), 37 result in bounds where the upper limit is smaller than the lower limit without any violation of the verifiable constraints. It is also worth noting that in a similar number of trivariate distributions randomly generated with a trichotomous instrument, we did not see any cases of flipped bounds without a violation of one or more of the verifiable constraints. Table \ref{tab:flipped-trivariates} show the bounds from these trivariate distributions with the strengths of the IVs, and the width. Again, it is interesting to see the large span of widths and strengths present.
 
@@ -3676,283 +3656,87 @@ Lower & Upper & Strength & Width\\
 -0.0563955 & -0.0583218 & 0.4092683 & -0.0019263\\*
 \end{longtable}
 
+\hypertarget{complete-results-from-simulations-described-in-sections-and}{%
+\section{\texorpdfstring{Complete Results from Simulations Described in Sections \ref{bounds-from-two-sample-data} and \ref{bounds-from-two-sample-data-with-multiple-ivs} \label{appendix-sim-results}}{Complete Results from Simulations Described in Sections  and  }}\label{complete-results-from-simulations-described-in-sections-and}}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.99\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/power.png}
+  \caption{Bounds based on simulations as described in Section \ref{bounds-from-two-sample-data}. Upper and lower bounds are connected a curve based on a loess extrapolation. This curve is used to find the smallest coefficients needed to detect direction as plotted on Figure \ref{fig:power_curves}.}
+  \label{fig:power}
+\end{figure}
+
+\begin{figure*}
+  \centering
+  \begin{subfigure}{0.5\linewidth}
+  \includegraphics[width=\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_vs_coef_multiple_IVs_MR.png}
+  \caption{Scenarios 1 and 3}
+  \label{fig:strength_vs_coef_multiple_IVs_MR}
+  \end{subfigure}%
+  ~
+  \begin{subfigure}{0.5\linewidth}
+  \includegraphics[width=\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_vs_coef_multiple_IVs_power.png}
+  \caption{Scenarios 2 and 4}
+  \label{fig:strength_vs_coef_multiple_IVs_power}
+  \end{subfigure}
+  \caption{Figure showing the dilution effect described in Section \ref{bounds-from-two-sample-data-with-multiple-ivs} in each of the four scenarios. When $p$ is larger, similar sized coefficients lead to lower strength. The effect is smaller when we are in a scenario where one coefficient is relatively much larger than the rest, rather than when the coefficients are evenly spread out.}
+  \label{fig:strength_vs_coef_multiple_IVs}
+\end{figure*}
+
+\clearpage
+
+\begin{sidewaysfigure}
+  \centering
+  \includegraphics[width=\textheight]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multiple_IV_sims_MR.png}
+  \caption{Bounds based on Monte Carlo integration with 1,000,000 resamples in scenario 1.}
+  \label{fig:bounds_from_multiple_IV_sims_MR}
+\end{sidewaysfigure}
+
+\clearpage
+
+\begin{sidewaysfigure}
+  \centering
+  \includegraphics[width=\textheight]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multiple_IV_sims_MR_many_weak.png}
+  \caption{Bounds based on Monte Carlo integration with 1,000,000 resamples in scenario 3.}
+  \label{fig:bounds_from_multiple_IV_sims_MR_many_weak}
+\end{sidewaysfigure}
+
+\clearpage
+
+\begin{sidewaysfigure}
+  \centering
+  \includegraphics[width=\textheight]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multiple_IV_sims_power.png}
+  \caption{Bounds based on Monte Carlo integration with 1,000,000 resamples in scenario 2.}
+  \label{fig:bounds_from_multiple_IV_sims_power}
+\end{sidewaysfigure}
+
+\clearpage
+
+\begin{sidewaysfigure}
+  \centering
+  \includegraphics[width=\textheight]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multiple_IV_sims_power_many_weak.png}
+  \caption{Bounds based on Monte Carlo integration with 1,000,000 resamples in scenario 4.}
+  \label{fig:bounds_from_multiple_IV_sims_power_many_weak}
+\end{sidewaysfigure}
+
+\clearpage
+
+\hypertarget{sampling-of-intersection-bounds-from-two-instruments}{%
+\section{\texorpdfstring{Sampling of Intersection Bounds From Two Instruments \label{sample-intersection-bounds}}{Sampling of Intersection Bounds From Two Instruments }}\label{sampling-of-intersection-bounds-from-two-instruments}}
+
+To extend our method for sampling plausible joint distributions of \(P(X = x, Y = y | Z = z)\) to the scenario where we have multiple instruments available, we simply repeat the one instrument sampling for each instrument. This is equivalent to assuming that the covariances of \(X\) and \(Y\) given \(Z_1\) are independent of the covariances of \(X\) and \(Y\) given \(Z_2\). Once we have obtained bounds for each instrument, we take the intersection to get the intersection bounds.
+
+Specifically, say we get bounds \((LB_{1i},UB_{1i}),i = 1,2,...,m\) by sampling \(m\) trivariate distributions based on the information we have on \((X,Z_1)\) and \((Y,Z_1)\), and bounds \((LB_{2i}, UB_{2i}),i = 1,2,...,m\) by sampling \(m\) trivariate distributions based on the information we have on \((X,Z_2)\) and \((Y,Z_2)\). We then create the intersection bounds as \(\left(\max_{z \in {1,2}} LB_{zi}, \min_{z \in {1,2}} UB_{zi}\right), i = 1, 2, ..., m\). This, under the assumption that \(\text{Cov}(X, Y | Z_1 = z)\) and \(\text{Cov}(X, Y | Z_2 = z)\) are independent of each other, gives us a sample from the posterior distribution of intersection bounds. We can use this to assess the potential usefulness of aggregating information from two sets of trivariate data, \((X, Y, Z_1)\) and \((X, Y, Z_2)\), using intersection bounds.
+
 \hypertarget{additional-summary-statistics-and-figures-for-analyses-presented-in-section}{%
 \section{\texorpdfstring{Additional Summary Statistics and Figures for Analyses Presented in Section \ref{data-analysis} \label{more-details-data-application-appendix}}{Additional Summary Statistics and Figures for Analyses Presented in Section  }}\label{additional-summary-statistics-and-figures-for-analyses-presented-in-section}}
 
-\begin{figure}[H]
-  \center
-  \includegraphics[width = \textwidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_depression_marginal_Z.png}
-  \caption{Histograms of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing for analysis in Section \ref{smoking-effect-on-depression}}
-  \label{fig:marginal-distribution-of-instruments-depression}
-\end{figure}
-
-\begin{table}[H]
-  \caption{Table of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing for analysis in Section \ref{smoking-effect-on-depression}}
-  \label{tab:marginal-distribution-of-instruments-depression}
-  \begin{minipage}{0.5\linewidth}
-    \center
-    \begin{table}[H]
-\centering
-\begin{tabular}{lrrr}
-\toprule
-SNP & P(Z = 2) & P(Z = 1) & P(Z = 0)\\
-\midrule
-rs10173733 & 0.3567595 & 0.4810680 & 0.1621726\\
-rs10193706 & 0.2250921 & 0.4986932 & 0.2762147\\
-rs10233018 & 0.2456177 & 0.4999613 & 0.2544211\\
-rs10274594 & 0.2534258 & 0.4999767 & 0.2465975\\
-rs1029986 & 0.1723555 & 0.4856034 & 0.3420411\\
-\addlinespace
-rs10774625 & 0.2452793 & 0.4999550 & 0.2547657\\
-rs10813628 & 0.2353130 & 0.4995554 & 0.2651316\\
-rs10897561 & 0.4145906 & 0.4585930 & 0.1268164\\
-rs10905461 & 0.0653045 & 0.3804860 & 0.5542095\\
-rs10914684 & 0.4568603 & 0.4381082 & 0.1050314\\
-\addlinespace
-rs10956808 & 0.3341139 & 0.4878239 & 0.1780622\\
-rs11103667 & 0.6529965 & 0.3101710 & 0.0368325\\
-rs11127913 & 0.3714083 & 0.4760490 & 0.1525428\\
-rs11429972 & 0.1121109 & 0.4454375 & 0.4424516\\
-rs11611651 & 0.8320219 & 0.1602609 & 0.0077172\\
-\addlinespace
-rs11631530 & 0.7776549 & 0.2083850 & 0.0139600\\
-rs11646575 & 0.3152078 & 0.4924518 & 0.1923404\\
-rs11693702 & 0.2857164 & 0.4976161 & 0.2166675\\
-rs117435980 & 0.6997059 & 0.2735567 & 0.0267374\\
-rs12042107 & 0.2018720 & 0.4948594 & 0.3032687\\
-\addlinespace
-rs12244388 & 0.4406271 & 0.4463408 & 0.1130321\\
-rs12450028 & 0.4295142 & 0.4517182 & 0.1187675\\
-rs12479064 & 0.6269478 & 0.3297051 & 0.0433471\\
-rs12487411 & 0.2787537 & 0.4984352 & 0.2228111\\
-rs12608052 & 0.2309196 & 0.4992427 & 0.2698378\\
-\addlinespace
-rs12725407 & 0.6539829 & 0.3094184 & 0.0365987\\
-rs12886628 & 0.1122813 & 0.4456055 & 0.4421132\\
-rs12910916 & 0.6211224 & 0.3339816 & 0.0448960\\
-rs13100688 & 0.3932586 & 0.4676895 & 0.1390519\\
-rs1492546 & 0.2020165 & 0.4948919 & 0.3030915\\
-\addlinespace
-rs1499982 & 0.0222374 & 0.2537694 & 0.7239932\\
-rs1549213 & 0.1277548 & 0.4593465 & 0.4128986\\
-rs1561195 & 0.2282248 & 0.4990080 & 0.2727672\\
-rs1565735 & 0.6370613 & 0.3221998 & 0.0407389\\
-rs16951001 & 0.3381946 & 0.4867008 & 0.1751046\\
-\addlinespace
-rs17003752 & 0.7422782 & 0.2385549 & 0.0191668\\
-rs17151637 & 0.5169616 & 0.4040776 & 0.0789607\\
-rs1899896 & 0.4936293 & 0.4179166 & 0.0884542\\
-rs2240294 & 0.3090443 & 0.4937465 & 0.1972092\\
-rs2416770 & 0.2198025 & 0.4980570 & 0.2821405\\
-\addlinespace
-rs264974 & 0.2632013 & 0.4996604 & 0.2371383\\
-rs2675609 & 0.1388997 & 0.4675856 & 0.3935147\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-
-  \end{minipage}
-  \qquad
-  \begin{minipage}{0.5\linewidth}
-    \center
-    \begin{table}[H]
-\centering
-\begin{tabular}{lrrr}
-\toprule
-SNP & P(Z = 2) & P(Z = 1) & P(Z = 0)\\
-\midrule
-rs2797116 & 0.5378179 & 0.3910856 & 0.0710965\\
-rs2867749 & 0.4635738 & 0.4345775 & 0.1018487\\
-rs299688 & 0.0809490 & 0.4071328 & 0.5119182\\
-rs326341 & 0.2744742 & 0.4988573 & 0.2266685\\
-rs35891966 & 0.8606480 & 0.1341263 & 0.0052257\\
-\addlinespace
-rs379525 & 0.2693148 & 0.4992814 & 0.2314038\\
-rs42417 & 0.0958938 & 0.4275468 & 0.4765594\\
-rs4566215 & 0.2180425 & 0.4978154 & 0.2841421\\
-rs4910656 & 0.4335363 & 0.4497969 & 0.1166669\\
-rs4957528 & 0.0432628 & 0.3294687 & 0.6272685\\
-\addlinespace
-rs523528 & 0.1717489 & 0.4853542 & 0.3428969\\
-rs528301 & 0.2008634 & 0.4946289 & 0.3045076\\
-rs55921136 & 0.6345353 & 0.3240838 & 0.0413808\\
-rs568599 & 0.2093354 & 0.4963929 & 0.2942717\\
-rs5850689 & 0.1341769 & 0.4642495 & 0.4015736\\
-\addlinespace
-rs60745548 & 0.0747215 & 0.3972616 & 0.5280169\\
-rs6141314 & 0.5745378 & 0.3668899 & 0.0585724\\
-rs6265 & 0.6582044 & 0.3061871 & 0.0356085\\
-rs6433897 & 0.0693904 & 0.3880603 & 0.5425494\\
-rs6676022 & 0.7719180 & 0.2133413 & 0.0147407\\
-\addlinespace
-rs6690680 & 0.7092842 & 0.2658119 & 0.0249040\\
-rs6828849 & 0.3390095 & 0.4864715 & 0.1745191\\
-rs71550128 & 0.2006117 & 0.4945706 & 0.3048177\\
-rs72505558 & 0.3617365 & 0.4794177 & 0.1588458\\
-rs72678864 & 0.6820022 & 0.2876641 & 0.0303337\\
-\addlinespace
-rs7333559 & 0.0438714 & 0.3311672 & 0.6249614\\
-rs7451586 & 0.3546216 & 0.4817591 & 0.1636193\\
-rs748828 & 0.5136337 & 0.4060975 & 0.0802688\\
-rs7528604 & 0.3204723 & 0.4912608 & 0.1882668\\
-rs7567570 & 0.0300586 & 0.2866312 & 0.6833102\\
-\addlinespace
-rs763053 & 0.6007027 & 0.3486949 & 0.0506025\\
-rs76608582 & 0.9065935 & 0.0911171 & 0.0022894\\
-rs772921 & 0.4307261 & 0.4511423 & 0.1181316\\
-rs77878475 & 0.8356274 & 0.1569984 & 0.0073742\\
-rs7870475 & 0.2766026 & 0.4986552 & 0.2247422\\
-\addlinespace
-rs7948789 & 0.3779911 & 0.4736374 & 0.1483715\\
-rs883403 & 0.7155911 & 0.2606702 & 0.0237388\\
-rs9375371 & 0.5339661 & 0.3935275 & 0.0725064\\
-rs9381917 & 0.8061282 & 0.1834365 & 0.0104354\\
-rs9423279 & 0.1176593 & 0.4507114 & 0.4316293\\
-\addlinespace
-rs9487626 & 0.0333177 & 0.2984272 & 0.6682551\\
-rs9835772 & 0.5732121 & 0.3677912 & 0.0589967\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-
-  \end{minipage}
-\end{table}
-
-\begin{figure}[H]
-  \includegraphics[width = 0.99\linewidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_depression_marginal_conditionals.png}
-  \caption{Histograms of the marginal conditional probabilities $P(X = 1 | Z = z), z = 0,1,2$ and $P(Y = 1 | Z = z), z=0,1,2$.}
-  \label{fig:smoking_on_depression_marginals}
-\end{figure}
+\hypertarget{effect-of-smoking-on-lung-cancer}{%
+\subsection{Effect of Smoking on Lung Cancer}\label{effect-of-smoking-on-lung-cancer}}
 
 \begin{figure}[H]
   \center
-  \includegraphics[width = \textwidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_depression_coefficients.png}
-  \caption{Histograms of the coefficients from GWAS results of logistic regression of the SNPs on smoking status and depression status, respectively. Intercepts ($\beta_0$ and $\gamma_0$) are inferred, while slopes ($\beta_1$ and $\gamma_1$) are as reported.}
-  \label{fig:marginal-distribution-of-coefficients-depression}
-\end{figure}
-
-\begin{longtable}[t]{lrrrr}
-\caption{\label{tab:coefficients-depression}Coefficients from GWAS results of logistic regression of the SNPs on smoking status and depression status. Intercepts ($\beta_0$ and $\gamma_0$) are inferred, while slopes ($\beta_1$ and $\gamma_1$) are as reported.}\\
-\toprule
-SNP & $\beta_1$ & $\beta_0$ & $\gamma_1$ & $\gamma_0$\\
-\midrule
-\endfirsthead
-\caption[]{\label{tab:coefficients-depression}Coefficients from GWAS results of logistic regression of the SNPs on smoking status and depression status. Intercepts ($\beta_0$ and $\gamma_0$) are inferred, while slopes ($\beta_1$ and $\gamma_1$) are as reported. \textit{(continued)}}\\
-\toprule
-SNP & $\beta_1$ & $\beta_0$ & $\gamma_1$ & $\gamma_0$\\
-\midrule
-\endhead
-
-\endfoot
-\bottomrule
-\endlastfoot
-rs10173733 & -0.0065148 & 0.1773825 & -0.0005704 & -1.306311\\
-rs10193706 & -0.0117667 & 0.1807672 & 0.0013967 & -1.308318\\
-rs10233018 & -0.0076551 & 0.1771881 & 0.0067789 & -1.313719\\
-rs10274594 & 0.0078326 & 0.1617143 & 0.0012819 & -1.308284\\
-rs1029986 & -0.0070208 & 0.1754296 & 0.0045713 & -1.310792\\
-\addlinespace
-rs10774625 & 0.0074868 & 0.1621846 & -0.0006839 & -1.306315\\
-rs10813628 & -0.0068761 & 0.1762712 & 0.0027284 & -1.309641\\
-rs10897561 & -0.0066917 & 0.1782175 & 0.0016886 & -1.309168\\
-rs10905461 & 0.0072731 & 0.1658828 & -0.0032370 & -1.305339\\
-rs10914684 & 0.0077356 & 0.1591430 & -0.0011037 & -1.305501\\
-\addlinespace
-rs10956808 & 0.0076247 & 0.1607859 & 0.0000764 & -1.307081\\
-rs11103667 & -0.0086047 & 0.1835067 & 0.0046866 & -1.314570\\
-rs11127913 & 0.0081801 & 0.1596300 & 0.0021709 & -1.309640\\
-rs11429972 & 0.0083148 & 0.1640324 & -0.0016042 & -1.305919\\
-rs11611651 & -0.0119868 & 0.1914677 & 0.0004842 & -1.307876\\
-\addlinespace
-rs11631530 & -0.0099863 & 0.1872129 & -0.0044324 & -1.299176\\
-rs11646575 & -0.0082446 & 0.1788582 & 0.0009492 & -1.308059\\
-rs11693702 & -0.0080254 & 0.1781801 & 0.0020852 & -1.309223\\
-rs117435980 & -0.0092037 & 0.1849976 & -0.0005583 & -1.306059\\
-rs12042107 & 0.0071759 & 0.1631519 & 0.0017794 & -1.308592\\
-\addlinespace
-rs12244388 & -0.0104344 & 0.1834539 & -0.0006776 & -1.306093\\
-rs12450028 & -0.0070626 & 0.1788573 & -0.0010781 & -1.305580\\
-rs12479064 & -0.0080362 & 0.1823262 & 0.0003346 & -1.307523\\
-rs12487411 & 0.0075048 & 0.1616757 & -0.0035878 & -1.303206\\
-rs12608052 & 0.0067542 & 0.1631088 & -0.0003997 & -1.306609\\
-\addlinespace
-rs12725407 & 0.0081386 & 0.1564368 & -0.0012532 & -1.304966\\
-rs12886628 & -0.0071010 & 0.1743590 & 0.0007171 & -1.307473\\
-rs12910916 & -0.0090138 & 0.1838081 & 0.0029727 & -1.311680\\
-rs13100688 & 0.0072663 & 0.1604867 & -0.0026558 & -1.303662\\
-rs1492546 & -0.0068801 & 0.1757849 & -0.0005566 & -1.306493\\
-\addlinespace
-rs1499982 & -0.0114648 & 0.1730198 & 0.0012934 & -1.307379\\
-rs1549213 & 0.0085270 & 0.1635050 & -0.0050107 & -1.303414\\
-rs1561195 & -0.0078947 & 0.1771435 & 0.0015938 & -1.308516\\
-rs1565735 & 0.0115901 & 0.1510995 & 0.0017941 & -1.309857\\
-rs16951001 & -0.0066035 & 0.1772805 & 0.0019827 & -1.309300\\
-\addlinespace
-rs17003752 & 0.0098606 & 0.1526093 & 0.0003979 & -1.307678\\
-rs17151637 & 0.0075112 & 0.1587990 & 0.0038108 & -1.312475\\
-rs1899896 & -0.0079928 & 0.1808315 & 0.0040686 & -1.312712\\
-rs2240294 & 0.0069566 & 0.1618656 & -0.0015763 & -1.305240\\
-rs2416770 & -0.0064888 & 0.1756844 & 0.0016061 & -1.308499\\
-\addlinespace
-rs264974 & 0.0093111 & 0.1600472 & -0.0048647 & -1.302004\\
-rs2675609 & 0.0081586 & 0.1635192 & -0.0005645 & -1.306572\\
-rs2797116 & 0.0079136 & 0.1579931 & -0.0039810 & -1.301155\\
-rs2867749 & 0.0069446 & 0.1601434 & 0.0030286 & -1.311119\\
-rs299688 & -0.0072721 & 0.1737381 & 0.0008008 & -1.307449\\
-\addlinespace
-rs326341 & 0.0065809 & 0.1627046 & -0.0024786 & -1.304396\\
-rs35891966 & 0.0147752 & 0.1421862 & -0.0050131 & -1.297691\\
-rs379525 & -0.0064906 & 0.1763367 & 0.0020069 & -1.309077\\
-rs42417 & -0.0070331 & 0.1739558 & 0.0013904 & -1.307854\\
-rs4566215 & 0.0066219 & 0.1634159 & -0.0011016 & -1.305964\\
-\addlinespace
-rs4910656 & 0.0068438 & 0.1605877 & -0.0003634 & -1.306514\\
-rs4957528 & -0.0084750 & 0.1731257 & 0.0023700 & -1.307979\\
-rs523528 & 0.0080708 & 0.1629110 & -0.0015950 & -1.305671\\
-rs528301 & -0.0086008 & 0.1773101 & -0.0017745 & -1.305403\\
-rs55921136 & 0.0085950 & 0.1559070 & -0.0002822 & -1.306543\\
-\addlinespace
-rs568599 & -0.0067027 & 0.1757335 & 0.0008926 & -1.307810\\
-rs5850689 & 0.0119733 & 0.1608303 & -0.0020322 & -1.305504\\
-rs60745548 & 0.0071946 & 0.1656667 & -0.0050431 & -1.304238\\
-rs6141314 & -0.0080616 & 0.1818212 & 0.0017309 & -1.309617\\
-rs6265 & 0.0101598 & 0.1531153 & 0.0034332 & -1.312565\\
-\addlinespace
-rs6433897 & -0.0072353 & 0.1734119 & 0.0030499 & -1.308601\\
-rs6676022 & 0.0115926 & 0.1492301 & 0.0011867 & -1.309078\\
-rs6690680 & 0.0088409 & 0.1547086 & -0.0012510 & -1.304886\\
-rs6828849 & 0.0067122 & 0.1617838 & -0.0017619 & -1.304941\\
-rs71550128 & -0.0073950 & 0.1762247 & 0.0013614 & -1.308213\\
-\addlinespace
-rs72505558 & 0.0067437 & 0.1614881 & 0.0004530 & -1.307538\\
-rs72678864 & 0.0097538 & 0.1534904 & -0.0012454 & -1.304936\\
-rs7333559 & 0.0080523 & 0.1662269 & 0.0023047 & -1.307959\\
-rs7451586 & -0.0066732 & 0.1775479 & -0.0000777 & -1.306900\\
-rs748828 & 0.0086213 & 0.1572430 & -0.0006899 & -1.306004\\
-\addlinespace
-rs7528604 & 0.0068658 & 0.1618266 & -0.0045708 & -1.301820\\
-rs7567570 & -0.0091324 & 0.1727668 & 0.0007640 & -1.307258\\
-rs763053 & 0.0080618 & 0.1571035 & -0.0026821 & -1.302836\\
-rs76608582 & 0.0182891 & 0.1347725 & 0.0020679 & -1.310931\\
-rs772921 & 0.0072725 & 0.1600543 & 0.0018384 & -1.309406\\
-\addlinespace
-rs77878475 & 0.0125950 & 0.1465734 & -0.0021281 & -1.303102\\
-rs7870475 & -0.0071900 & 0.1771631 & 0.0004378 & -1.307453\\
-rs7948789 & -0.0161713 & 0.1894889 & 0.0032357 & -1.310973\\
-rs883403 & 0.0094240 & 0.1536561 & -0.0018273 & -1.303901\\
-rs9375371 & -0.0073963 & 0.1804094 & -0.0032165 & -1.302293\\
-\addlinespace
-rs9381917 & 0.0112569 & 0.1493862 & -0.0019346 & -1.303519\\
-rs9423279 & 0.0076695 & 0.1643388 & -0.0015234 & -1.305948\\
-rs9487626 & 0.0131029 & 0.1648180 & -0.0015171 & -1.306439\\
-rs9835772 & -0.0078024 & 0.1814146 & 0.0006795 & -1.308022\\*
-\end{longtable}
-
-\begin{figure}[H]
-  \center
-  \includegraphics[width = \textwidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_marginal_Z.png}
+  \includegraphics[width = \textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_marginal_Z.png}
   \caption{Histograms of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing for analysis in Section \ref{smoking-effect-on-lung-cancer}.}
   \label{fig:marginal-distribution-of-instruments-lung-cancer}
 \end{figure}
@@ -4093,7 +3877,7 @@ rs9835772 & 0.5737177 & 0.3674477 & 0.0588346\\
 
 \begin{figure}[H]
   \center
-  \includegraphics[width = \textwidth]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_coefficients.png}
+  \includegraphics[width = \textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_coefficients.png}
   \caption{Histograms of the coefficients from GWAS results of logistic regression of the SNPs on smoking status and lung cancer status. Intercepts ($\beta_0$ and $\gamma_0$) are inferred, while slopes ($\beta_1$ and $\gamma_1$) are as reported.}
   \label{fig:marginal-distribution-of-coefficients-lung-cancer}
 \end{figure}
@@ -4215,23 +3999,410 @@ rs9487626 & 0.0131029 & 0.1648247 & -0.0136868 & -1.978168\\
 rs9835772 & -0.0078024 & 0.1814198 & -0.0031275 & -1.978401\\*
 \end{longtable}
 
-\clearpage
-\begin{sidewaysfigure}
-  \includegraphics[width = 0.99\textheight]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_depression_individual_SNPs_plot_ukb-d-20116_0_ukb-d-20544_11.png}
-    \caption{500 sets of bounds of the average treatment effect of smoking on depression for each of the 84 SNPs. Each bound is based on a set of values for the trivariate distribution randomly sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
-    \label{fig:smoking_on_depression_tri_bounds_all}
-\end{sidewaysfigure}
-\clearpage
+\begin{figure}[H]
+ \center
+ \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/strength_histogram.png}
+ \caption{Histogram of strengths of IVs on the exposure. Here, SNPs are IVs, and smoking status (ever/never) is exposure. We see that all IVs are very weak, with the largest value just below 0.01.}
+ \label{fig:strength_histogram}
+\end{figure}
 
-\clearpage
-\begin{sidewaysfigure}
-  \includegraphics[width = 0.99\textheight]{/Users/hyunseung/git/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.png}
+\begin{figure}[H]
+  \center
+  \includegraphics[width = 0.99\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.png}
     \caption{500 sets of bounds of the average treatment effect of smoking on lung cancer for each of the 84 SNPs. Each bound is based on a set of values for the trivariate distribution randomly sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
     \label{fig:smoking_on_lung_cancer_tri_bounds_all}
-\end{sidewaysfigure}
-\clearpage
+\end{figure}
 
-\renewcommand\refname{References}
-  \bibliography{../references.bib}
+\begin{figure}[H]
+  \center
+  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C349.png}
+  \caption{Intersection bounds of the average treatment effect of smoking on lung cancer based on randomly sampled trivariate distributions from pairs of SNPs. These 8 pairs were randomly chosen from all possible pairs.}
+  \label{fig:smoking_on_lung_cancer_intersections}
+\end{figure}
+
+\hypertarget{effect-of-high-cholesterol-on-heart-attack}{%
+\subsection{Effect of High Cholesterol on Heart Attack}\label{effect-of-high-cholesterol-on-heart-attack}}
+
+\begin{figure}[H]
+  \center
+  \includegraphics[width = \textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/cholesterol_heart_attack_marginal_Z.png}
+  \caption{Histograms of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing for analysis in Section \ref{cholesterol-on-heart-attack}}
+  \label{fig:marginal-distribution-of-instruments-cholesterol-heart-attack}
+\end{figure}
+
+\begin{table}[H]
+  \caption{Table of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing for analysis in Section \ref{cholesterol-on-heart-attack}}
+  \label{tab:marginal-distribution-of-instruments-lung-cancer}
+  \begin{minipage}{0.5\linewidth}
+    \center
+    \begin{table}[H]
+\centering
+\begin{tabular}{lrrr}
+\toprule
+SNP & P(Z = 2) & P(Z = 1) & P(Z = 0)\\
+\midrule
+rs10096633 & 0.7682873 & 0.2164654 & 0.0152473\\
+rs10260606 & 0.6689457 & 0.2978906 & 0.0331637\\
+rs10410835 & 0.2261041 & 0.4987999 & 0.2750961\\
+rs10504255 & 0.1141345 & 0.4474070 & 0.4384585\\
+rs10804330 & 0.3246447 & 0.4902626 & 0.1850927\\
+\addlinespace
+rs112019714 & 0.9445278 & 0.0546808 & 0.0007914\\
+rs11580878 & 0.2532012 & 0.4999796 & 0.2468192\\
+rs11591147 & 0.9653935 & 0.0343018 & 0.0003047\\
+rs117733303 & 0.9629825 & 0.0366685 & 0.0003491\\
+rs12471811 & 0.7974669 & 0.1910863 & 0.0114469\\
+\addlinespace
+rs1260326 & 0.1542518 & 0.4769944 & 0.3687538\\
+rs12740374 & 0.6060342 & 0.3448956 & 0.0490702\\
+rs12916 & 0.3593703 & 0.4802094 & 0.1604203\\
+rs1367117 & 0.4370916 & 0.4480749 & 0.1148336\\
+rs1601935 & 0.1186871 & 0.4516457 & 0.4296671\\
+\addlinespace
+rs1883025 & 0.5579089 & 0.3780482 & 0.0640429\\
+rs1883711 & 0.9385769 & 0.0604497 & 0.0009733\\
+rs2125345 & 0.4990744 & 0.4147551 & 0.0861704\\
+rs2237107 & 0.6333104 & 0.3249953 & 0.0416944\\
+rs2244608 & 0.4686429 & 0.4318641 & 0.0994929\\
+\addlinespace
+rs2618567 & 0.1161249 & 0.4492923 & 0.4345829\\
+rs2738447 & 0.1661712 & 0.4829396 & 0.3508892\\
+rs28601761 & 0.3342690 & 0.4877820 & 0.1779490\\
+rs28807203 & 0.9046336 & 0.0929773 & 0.0023890\\
+rs3127580 & 0.7081492 & 0.2667336 & 0.0251172\\
+\addlinespace
+rs34042070 & 0.6625016 & 0.3028808 & 0.0346176\\
+rs34707604 & 0.5518930 & 0.3820040 & 0.0661030\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+  \end{minipage}
+  \qquad
+  \begin{minipage}{0.5\linewidth}
+    \center
+    \begin{table}[H]
+\centering
+\begin{tabular}{lrrr}
+\toprule
+SNP & P(Z = 2) & P(Z = 1) & P(Z = 0)\\
+\midrule
+rs3918226 & 0.8434773 & 0.1498658 & 0.0066569\\
+rs4299376 & 0.1044835 & 0.4375111 & 0.4580055\\
+rs4470903 & 0.6122421 & 0.3404338 & 0.0473241\\
+rs456598 & 0.7353800 & 0.2443260 & 0.0202940\\
+rs4704727 & 0.1153479 & 0.4485623 & 0.4360899\\
+\addlinespace
+rs472495 & 0.1219232 & 0.4545036 & 0.4235732\\
+rs56299331 & 0.6368870 & 0.3223300 & 0.0407830\\
+rs57180587 & 0.7289642 & 0.2496596 & 0.0213762\\
+rs58542926 & 0.8541959 & 0.1400626 & 0.0057415\\
+rs58691354 & 0.7129641 & 0.2628159 & 0.0242201\\
+\addlinespace
+rs59950280 & 0.4469685 & 0.4431771 & 0.1098545\\
+rs6090040 & 0.2300488 & 0.4991705 & 0.2707808\\
+rs622871 & 0.0988228 & 0.4310763 & 0.4701008\\
+rs635634 & 0.6627002 & 0.3027276 & 0.0345722\\
+rs6458349 & 0.0768498 & 0.4007364 & 0.5224138\\
+\addlinespace
+rs6511720 & 0.7764852 & 0.2093975 & 0.0141172\\
+rs7012637 & 0.2755284 & 0.4987592 & 0.2257124\\
+rs7213086 & 0.2001050 & 0.4944520 & 0.3054430\\
+rs73534263 & 0.7971401 & 0.1913739 & 0.0114861\\
+rs7412 & 0.8445834 & 0.1488576 & 0.0065590\\
+\addlinespace
+rs74617384 & 0.8447171 & 0.1487357 & 0.0065473\\
+rs7534572 & 0.1255675 & 0.4575751 & 0.4168575\\
+rs7707394 & 0.4169078 & 0.4575523 & 0.1255398\\
+rs77542162 & 0.9546715 & 0.0448029 & 0.0005257\\
+rs799157 & 0.0018869 & 0.0831041 & 0.9150089\\
+\addlinespace
+rs9376091 & 0.5451282 & 0.3863995 & 0.0684722\\
+rs964184 & 0.0174433 & 0.2292594 & 0.7532973\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+  \end{minipage}
+\end{table}
+
+\begin{figure}[H]
+  \center
+  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/cholesterol_heart_attack_marginal_conditionals.png}
+  \caption{Histograms of the marginal conditional probabilities $P(X = 1 | Z = z), z = 0,1,2$ and $P(Y = 1 | Z = z), z=0,1,2$.}
+  \label{fig:smoking_on_depression_marginals}
+\end{figure}
+
+\begin{figure}[H]
+  \center
+  \includegraphics[width = \textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/cholesterol_heart_attack_coefficients.png}
+  \caption{Histograms of the coefficients from GWAS results of logistic regression of the SNPs on high cholesterol and heart attack, respectively. Intercepts ($\beta_0$ and $\gamma_0$) are inferred, while slopes ($\beta_1$ and $\gamma_1$) are as reported.}
+  \label{fig:marginal-distribution-of-coefficients-depression}
+\end{figure}
+
+\begin{longtable}[t]{lrrrr}
+\caption{\label{tab:coefficients-cholesterol}Coefficients from GWAS results of logistic regression of the SNPs on high cholesterol and heart attack status. Intercepts ($\beta_0$ and $\gamma_0$) are inferred, while slopes ($\beta_1$ and $\gamma_1$) are as reported.}\\
+\toprule
+SNP & $\beta_1$ & $\beta_0$ & $\gamma_1$ & $\gamma_0$\\
+\midrule
+\endfirsthead
+\caption[]{\label{tab:coefficients-cholesterol}Coefficients from GWAS results of logistic regression of the SNPs on high cholesterol and heart attack status. Intercepts ($\beta_0$ and $\gamma_0$) are inferred, while slopes ($\beta_1$ and $\gamma_1$) are as reported. \textit{(continued)}}\\
+\toprule
+SNP & $\beta_1$ & $\beta_0$ & $\gamma_1$ & $\gamma_0$\\
+\midrule
+\endhead
+
+\endfoot
+\bottomrule
+\endlastfoot
+rs10096633 & -0.0089830 & -3.727152 & -0.0012995 & -1.966860\\
+rs10260606 & 0.0076950 & -3.755485 & 0.0007029 & -1.970288\\
+rs10410835 & 0.0071078 & -3.749661 & 0.0007948 & -1.969894\\
+rs10504255 & -0.0056764 & -3.739063 & -0.0000742 & -1.969088\\
+rs10804330 & -0.0050169 & -3.737181 & -0.0012539 & -1.967709\\
+\addlinespace
+rs112019714 & 0.0251675 & -3.791824 & 0.0025525 & -1.974100\\
+rs11580878 & -0.0051399 & -3.737725 & -0.0006621 & -1.968472\\
+rs11591147 & -0.0476105 & -3.649365 & -0.0054389 & -1.958449\\
+rs117733303 & 0.0311528 & -3.804047 & 0.0116909 & -1.992088\\
+rs12471811 & 0.0084776 & -3.758037 & 0.0000048 & -1.969147\\
+\addlinespace
+rs1260326 & -0.0102312 & -3.734879 & -0.0003941 & -1.968828\\
+rs12740374 & -0.0183231 & -3.714419 & -0.0025251 & -1.965207\\
+rs12916 & 0.0104793 & -3.755479 & 0.0006700 & -1.969941\\
+rs1367117 & 0.0155585 & -3.763513 & 0.0011495 & -1.970658\\
+rs1601935 & -0.0061378 & -3.738671 & -0.0007014 & -1.968655\\
+\addlinespace
+rs1883025 & -0.0069826 & -3.732469 & -0.0013153 & -1.967173\\
+rs1883711 & 0.0241076 & -3.789616 & 0.0026734 & -1.974319\\
+rs2125345 & -0.0056374 & -3.734933 & -0.0009408 & -1.967809\\
+rs2237107 & -0.0070166 & -3.731732 & -0.0007194 & -1.967993\\
+rs2244608 & 0.0070205 & -3.752512 & 0.0010406 & -1.970563\\
+\addlinespace
+rs2618567 & -0.0047485 & -3.739660 & -0.0007455 & -1.968630\\
+rs2738447 & 0.0081671 & -3.749563 & 0.0016947 & -1.970520\\
+rs28601761 & -0.0140739 & -3.726664 & -0.0011169 & -1.967847\\
+rs28807203 & -0.0106943 & -3.722554 & -0.0002164 & -1.968726\\
+rs3127580 & 0.0076693 & -3.755804 & 0.0022978 & -1.973006\\
+\addlinespace
+rs34042070 & 0.0094413 & -3.758272 & 0.0002698 & -1.969577\\
+rs34707604 & 0.0058521 & -3.751591 & 0.0002016 & -1.969438\\
+rs3918226 & 0.0081783 & -3.757916 & 0.0028105 & -1.974301\\
+rs4299376 & -0.0111342 & -3.735719 & -0.0012431 & -1.968335\\
+rs4470903 & 0.0067035 & -3.753387 & 0.0014579 & -1.971420\\
+\addlinespace
+rs456598 & 0.0065720 & -3.754166 & 0.0005768 & -1.970127\\
+rs4704727 & 0.0074887 & -3.747988 & 0.0007432 & -1.969643\\
+rs472495 & 0.0064154 & -3.747379 & 0.0004743 & -1.969469\\
+rs56299331 & 0.0057258 & -3.752033 & 0.0001068 & -1.969308\\
+rs57180587 & 0.0081592 & -3.756830 & 0.0013685 & -1.971475\\
+\addlinespace
+rs58542926 & -0.0146353 & -3.715853 & -0.0013536 & -1.966636\\
+rs58691354 & 0.0074756 & -3.755521 & 0.0000196 & -1.969171\\
+rs59950280 & 0.0058286 & -3.750690 & 0.0004805 & -1.969780\\
+rs6090040 & -0.0055812 & -3.737545 & -0.0007168 & -1.968450\\
+rs622871 & 0.0065093 & -3.746991 & 0.0013161 & -1.969966\\
+\addlinespace
+rs635634 & 0.0098788 & -3.758987 & 0.0014151 & -1.971442\\
+rs6458349 & 0.0056558 & -3.746031 & 0.0007529 & -1.969556\\
+rs6511720 & -0.0261322 & -3.696906 & -0.0030216 & -1.963813\\
+rs7012637 & 0.0047984 & -3.747932 & 0.0002456 & -1.969396\\
+rs7213086 & 0.0047773 & -3.747169 & 0.0007846 & -1.969840\\
+\addlinespace
+rs73534263 & 0.0071810 & -3.755717 & 0.0000767 & -1.969275\\
+rs7412 & -0.0374088 & -3.674234 & -0.0038000 & -1.962153\\
+rs74617384 & 0.0190473 & -3.777927 & 0.0069894 & -1.981990\\
+rs7534572 & 0.0081187 & -3.748658 & 0.0005830 & -1.969551\\
+rs7707394 & 0.0061511 & -3.750841 & 0.0000817 & -1.969243\\
+\addlinespace
+rs77542162 & 0.0253674 & -3.792474 & 0.0020548 & -1.973154\\
+rs799157 & -0.0108031 & -3.741956 & -0.0003979 & -1.969103\\
+rs9376091 & -0.0053004 & -3.735070 & -0.0005561 & -1.968317\\
+rs964184 & -0.0215630 & -3.737246 & -0.0013629 & -1.968778\\*
+\end{longtable}
+
+\begin{figure}[H]
+ \center
+ \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/cholesterol_heart_attack_strength_histogram.png}
+ \caption{Histogram of strengths of IVs on the exposure. Here, SNPs are IVs, and high cholesterol is the exposure. We see that all IVs are very weak, with the largest value below 0.00225.}
+ \label{fig:cholesterol_heart_attack_strength_histogram}
+\end{figure}
+
+\begin{figure}[H]
+  \center
+  \includegraphics[width = 0.99\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/cholesterol_heart_attack_individual_SNPs_plot_ukb-a-108_ukb-a-434.png}
+    \caption{500 sets of bounds of the average treatment effect of high cholesterol on heart attack for each of the 54 SNPs. Each bound is based on a set of values for the trivariate distribution randomly sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
+    \label{fig:cholesterol_heart_attack_tri_bounds_all}
+\end{figure}
+
+\begin{figure}[H]
+  \center
+  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/cholesterol_heart_attack_intersection_bounds_plot_ukb-a-108_ukb-a-434.png}
+  \caption{Intersection bounds of the average treatment effect of high cholesterol on heart attack based on randomly sampled trivariate distributions from pairs of SNPs. These 8 pairs were randomly chosen from all possible pairs.}
+  \label{fig:cholesterol_on_heart_attack_intersections}
+\end{figure}
+
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\leavevmode\hypertarget{ref-angrist_identification_1996}{}%
+Angrist, J. D., Imbens, G. W., and Rubin, D. B. (1996), ``Identification of Causal Effects Using Instrumental Variables,'' \emph{Journal of the American Statistical Association}, {[}American Statistical Association, Taylor \& Francis, Ltd.{]}, 91, 444--455. \url{https://doi.org/10.2307/2291629}.
+
+\leavevmode\hypertarget{ref-assarf_computing_2017}{}%
+Assarf, B., Gawrilow, E., Herr, K., Joswig, M., Lorenz, B., Paffenholz, A., and Rehn, T. (2017), ``Computing convex hulls and counting integer points with polymake,'' \emph{Mathematical Programming Computation}, 9, 1--38. \url{https://doi.org/10.1007/s12532-016-0104-z}.
+
+\leavevmode\hypertarget{ref-baiocchi_instrumental_2014}{}%
+Baiocchi, M., Cheng, J., and Small, D. S. (2014), ``Instrumental variable methods for causal inference: Instrumental variable methods for causal inference,'' \emph{Statistics in Medicine}, 33, 2297--2340. \url{https://doi.org/10.1002/sim.6128}.
+
+\leavevmode\hypertarget{ref-balke_counterfactuals_1995}{}%
+Balke, A., and Pearl, J. (1995), ``Counterfactuals and policy analysis in structural models,'' in \emph{Proceedings of the Eleventh conference on Uncertainty in artificial intelligence}, UAI'95, Montréal, Qué, Canada: Morgan Kaufmann Publishers Inc., pp. 11--18.
+
+\leavevmode\hypertarget{ref-balke_bounds_1997}{}%
+Balke, A., and Pearl, J. (1997), ``Bounds on Treatment Effects from Studies with Imperfect Compliance,'' \emph{Journal of the American Statistical Association}, Taylor \& Francis, 92, 1171--1176. \url{https://doi.org/10.1080/01621459.1997.10474074}.
+
+\leavevmode\hypertarget{ref-bowden_consistent_2016}{}%
+Bowden, J., Davey Smith, G., Haycock, P. C., and Burgess, S. (2016a), ``Consistent Estimation in Mendelian Randomization with Some Invalid Instruments Using a Weighted Median Estimator,'' \emph{Genetic Epidemiology}, 40, 304--314. \url{https://doi.org/10.1002/gepi.21965}.
+
+\leavevmode\hypertarget{ref-bowden_assessing_2016}{}%
+Bowden, J., Del Greco M, F., Minelli, C., Davey Smith, G., Sheehan, N. A., and Thompson, J. R. (2016b), ``Assessing the suitability of summary data for two-sample Mendelian randomization analyses using MR-Egger regression: The role of the I2 statistic,'' \emph{International Journal of Epidemiology}, Oxford Academic, 45, 1961--1974. \url{https://doi.org/10.1093/ije/dyw220}.
+
+\leavevmode\hypertarget{ref-bowden_framework_2017}{}%
+Bowden, J., Del Greco M, F., Minelli, C., Davey Smith, G., Sheehan, N., and Thompson, J. (2017), ``A framework for the investigation of pleiotropy in two-sample summary data Mendelian randomization,'' \emph{Statistics in Medicine}, 36, 1783--1802. \url{https://doi.org/10.1002/sim.7221}.
+
+\leavevmode\hypertarget{ref-burgess_sample_2014}{}%
+Burgess, S. (2014), ``Sample size and power calculations in Mendelian randomization with a single instrumental variable and a binary outcome,'' \emph{International Journal of Epidemiology}, Oxford Academic, 43, 922--929. \url{https://doi.org/10.1093/ije/dyu005}.
+
+\leavevmode\hypertarget{ref-burgess_mendelian_2013}{}%
+Burgess, S., Butterworth, A., and Thompson, S. G. (2013), ``Mendelian randomization analysis with multiple genetic variants using summarized data,'' \emph{Genetic Epidemiology}, 37, 658--665. \url{https://doi.org/10.1002/gepi.21758}.
+
+\leavevmode\hypertarget{ref-burgess_using_2015}{}%
+Burgess, S., Scott, R. A., Timpson, N. J., Davey Smith, G., Thompson, S. G., and EPIC- InterAct Consortium (2015), ``Using published data in Mendelian randomization: A blueprint for efficient identification of causal risk factors,'' \emph{European Journal of Epidemiology}, 30, 543--552. \url{https://doi.org/10.1007/s10654-015-0011-z}.
+
+\leavevmode\hypertarget{ref-burgess_review_2017}{}%
+Burgess, S., Small, D. S., and Thompson, S. G. (2017), ``A review of instrumental variable estimators for Mendelian randomization,'' \emph{Statistical Methods in Medical Research}, SAGE Publications Ltd STM, 26, 2333--2355. \url{https://doi.org/10.1177/0962280215597579}.
+
+\leavevmode\hypertarget{ref-burgess_improving_2012}{}%
+Burgess, S., and Thompson, S. G. (2012), ``Improving bias and coverage in instrumental variable analysis with weak instruments for continuous and binary outcomes,'' \emph{Statistics in Medicine}, 31, 1582--1600. \url{https://doi.org/10.1002/sim.4498}.
+
+\leavevmode\hypertarget{ref-burgess_mendelian_2015}{}%
+Burgess, S., and Thompson, S. G. (2015), \emph{Mendelian Randomization: Methods for Using Genetic Variants in Causal Estimation}, Boca Raton: Chapman and Hall/CRC.
+
+\leavevmode\hypertarget{ref-cheng_bounds_2006}{}%
+Cheng, J., and Small, D. S. (2006), ``Bounds on Causal Effects in Three-Arm Trials with Non-Compliance,'' \emph{Journal of the Royal Statistical Society. Series B (Statistical Methodology)}, {[}Royal Statistical Society, Wiley{]}, 68, 815--836.
+
+\leavevmode\hypertarget{ref-cholesterol_treatment_trialists_ctt_collaborators_effects_2012}{}%
+Cholesterol Treatment Trialists' (CTT) Collaborators (2012), ``The effects of lowering LDL cholesterol with statin therapy in people at low risk of vascular disease: Meta-analysis of individual data from 27 randomised trials,'' \emph{The Lancet}, 380, 581--590. \url{https://doi.org/10.1016/S0140-6736(12)60367-5}.
+
+\leavevmode\hypertarget{ref-cornfield_smoking_1959}{}%
+Cornfield, J., Haenszel, W., Hammond, E. C., Lilienfeld, A. M., Shimkin, M. B., and Wynder, E. L. (1959), ``Smoking and Lung Cancer: Recent Evidence and a Discussion of Some Questions,'' \emph{JNCI: Journal of the National Cancer Institute}, 22, 173--203. \url{https://doi.org/10.1093/jnci/22.1.173}.
+
+\leavevmode\hypertarget{ref-cox_planning_1958}{}%
+Cox, D. R. (1958), \emph{Planning of experiments}, Planning of experiments, Oxford, England: Wiley, p. 308.
+
+\leavevmode\hypertarget{ref-davey_smith_mendelian_2003}{}%
+Davey Smith, G., and Ebrahim, S. (2003), ```Mendelian randomization': Can genetic epidemiology contribute to understanding environmental determinants of disease?'' \emph{International Journal of Epidemiology}, Oxford Academic, 32, 1--22. \url{https://doi.org/10.1093/ije/dyg070}.
+
+\leavevmode\hypertarget{ref-davies_reading_2018}{}%
+Davies, N. M., Holmes, M. V., and Smith, G. D. (2018), ``Reading Mendelian randomisation studies: A guide, glossary, and checklist for clinicians,'' \emph{BMJ}, British Medical Journal Publishing Group, 362. \url{https://doi.org/10.1136/bmj.k601}.
+
+\leavevmode\hypertarget{ref-didelez_mendelian_2007}{}%
+Didelez, V., and Sheehan, N. (2007), ``Mendelian randomization as an instrumental variable approach to causal inference,'' \emph{Statistical Methods in Medical Research}, 16, 309--330. \url{https://doi.org/10.1177/0962280206077743}.
+
+\leavevmode\hypertarget{ref-diemer_application_2020}{}%
+Diemer, E. W., Labrecque, J., Tiemeier, H., and Swanson, S. A. (2020), ``Application of the Instrumental Inequalities to a Mendelian Randomization Study With Multiple Proposed Instruments,'' \emph{Epidemiology}, 31, 65. \url{https://doi.org/10.1097/EDE.0000000000001126}.
+
+\leavevmode\hypertarget{ref-20051267}{}%
+``Efficacy and safety of cholesterol-lowering treatment: Prospective meta-analysis of data from 90 056 participants in 14 randomised trials of statins'' (2005), \emph{The Lancet}, 366, 1267--1278. \url{https://doi.org/10.1016/S0140-6736(05)67394-1}.
+
+\leavevmode\hypertarget{ref-hartwig_robust_2017}{}%
+Hartwig, F. P., Davey Smith, G., and Bowden, J. (2017), ``Robust inference in summary data Mendelian randomization via the zero modal pleiotropy assumption,'' \emph{International Journal of Epidemiology}, Oxford Academic, 46, 1985--1998. \url{https://doi.org/10.1093/ije/dyx102}.
+
+\leavevmode\hypertarget{ref-mrbase}{}%
+Hemani, G., Zheng, J., Elsworth, B., Wade, K. H., Haberland, V., Baird, D., Laurin, C., Burgess, S., Bowden, J., Langdon, R., Tan, V. Y., Yarmolinsky, J., Shihab, H. A., Timpson, N. J., Evans, D. M., Relton, C., Martin, R. M., Davey Smith, G., Gaunt, T. R., and Haycock, P. C. (2018), ``The mr-base platform supports systematic causal inference across the human phenome,'' \emph{eLife}, (R. Loos, ed.), eLife Sciences Publications, Ltd, 7, e34408. \url{https://doi.org/10.7554/eLife.34408}.
+
+\leavevmode\hypertarget{ref-hernan_instruments_2006}{}%
+Hernán, M. A., and Robins, J. M. (2006), ``Instruments for Causal Inference: An Epidemiologist??S Dream?'' \emph{Epidemiology}, 17, 360--372. \url{https://doi.org/10.1097/01.ede.0000222409.00878.37}.
+
+\leavevmode\hypertarget{ref-holmes_mendelian_2015}{}%
+Holmes, M. V., Asselbergs, F. W., Palmer, T. M., Drenos, F., Lanktree, M. B., Nelson, C. P., Dale, C. E., Padmanabhan, S., Finan, C., Swerdlow, D. I., Tragante, V., van Iperen, E. P. A., Sivapalaratnam, S., Shah, S., Elbers, C. C., Shah, T., Engmann, J., Giambartolomei, C., White, J., Zabaneh, D., Sofat, R., McLachlan, S., on behalf of the UCLEB consortium, Doevendans, P. A., Balmforth, A. J., Hall, A. S., North, K. E., Almoguera, B., Hoogeveen, R. C., Cushman, M., Fornage, M., Patel, S. R., Redline, S., Siscovick, D. S., Tsai, M. Y., Karczewski, K. J., Hofker, M. H., Verschuren, W. M., Bots, M. L., van der Schouw, Y. T., Melander, O., Dominiczak, A. F., Morris, R., Ben-Shlomo, Y., Price, J., Kumari, M., Baumert, J., Peters, A., Thorand, B., Koenig, W., Gaunt, T. R., Humphries, S. E., Clarke, R., Watkins, H., Farrall, M., Wilson, J. G., Rich, S. S., de Bakker, P. I. W., Lange, L. A., Davey Smith, G., Reiner, A. P., Talmud, P. J., Kivimäki, M., Lawlor, D. A., Dudbridge, F., Samani, N. J., Keating, B. J., Hingorani, A. D., and Casas, J. P. (2015), ``Mendelian randomization of blood lipids for coronary heart disease,'' \emph{European Heart Journal}, 36, 539--550. \url{https://doi.org/10.1093/eurheartj/eht571}.
+
+\leavevmode\hypertarget{ref-king_mendelian_2020}{}%
+King, C., Mulugeta, A., Nabi, F., Walton, R., Zhou, A., and Hyppönen, E. (2020), ``Mendelian randomization case-control PheWAS in UK Biobank shows evidence of causality for smoking intensity in 28 distinct clinical conditions,'' \emph{EClinicalMedicine}, Elsevier, 26. \url{https://doi.org/10.1016/j.eclinm.2020.100488}.
+
+\leavevmode\hypertarget{ref-lawlor_mendelian_2008}{}%
+Lawlor, D. A., Harbord, R. M., Sterne, J. A. C., Timpson, N., and Davey Smith, G. (2008), ``Mendelian randomization: Using genes as instruments for making causal inferences in epidemiology,'' \emph{Statistics in Medicine}, 27, 1133--1163. \url{https://doi.org/10.1002/sim.3034}.
+
+\leavevmode\hypertarget{ref-loh_contrasting_2015}{}%
+Loh, P.-R., Bhatia, G., Gusev, A., Finucane, H. K., Bulik-Sullivan, B. K., Pollack, S. J., Schizophrenia Working Group of Psychiatric Genomics Consortium, de Candia, T. R., Lee, S. H., Wray, N. R., Kendler, K. S., O'Donovan, M. C., Neale, B. M., Patterson, N., and Price, A. L. (2015), ``Contrasting genetic architectures of schizophrenia and other complex diseases using fast variance-components analysis,'' \emph{Nature Genetics}, 47, 1385--1392. \url{https://doi.org/10.1038/ng.3431}.
+
+\leavevmode\hypertarget{ref-manski_nonparametric_1990}{}%
+Manski, C. F. (1990), ``Nonparametric Bounds on Treatment Effects,'' \emph{The American Economic Review}, 80, 319--323.
+
+\leavevmode\hypertarget{ref-marigorta_replicability_2018}{}%
+Marigorta, U. M., Rodrìguez, J. A., Gibson, G., and Navarro, A. (2018), ``Replicability and Prediction: Lessons and challenges from GWAS,'' \emph{Trends in genetics : TIG}, 34, 504--517. \url{https://doi.org/10.1016/j.tig.2018.03.005}.
+
+\leavevmode\hypertarget{ref-millard_mr-phewas_2019}{}%
+Millard, L. A. C., Munaf\a`o, M. R., Tilling, K., Wootton, R. E., and Smith, G. D. (2019), ``MR-pheWAS with stratification and interaction: Searching for the causal effects of smoking heaviness identified an effect on facial aging,'' \emph{PLOS Genetics}, Public Library of Science, 15, e1008353. \url{https://doi.org/10.1371/journal.pgen.1008353}.
+
+\leavevmode\hypertarget{ref-nj_genetic_2017}{}%
+Nj, T., Cmt, G., N, S., Dj, L., and Jb, R. (2017), ``Genetic architecture: The shape of the genetic contribution to human traits and disease.'' \emph{Nature reviews. Genetics}, 19, 110--124. \url{https://doi.org/10.1038/nrg.2017.101}.
+
+\leavevmode\hypertarget{ref-bpbounds-package}{}%
+Palmer, T. M., Ramsahai, R., Didelez, V., and Sheehan, N. A. (2018), \emph{Bpbounds: R package implementing balke-pearl bounds for the average causal effect}.
+
+\leavevmode\hypertarget{ref-palmer_nonparametric_2011}{}%
+Palmer, T. M., Ramsahai, R. R., Didelez, V., and Sheehan, N. A. (2011), ``Nonparametric Bounds for the Causal Effect in a Binary Instrumental-Variable Model,'' \emph{The Stata Journal: Promoting communications on statistics and Stata}, 11, 345--367. \url{https://doi.org/10.1177/1536867X1101100302}.
+
+\leavevmode\hypertarget{ref-ramsahai_causal_2012}{}%
+Ramsahai, R. R. (2012), ``Causal Bounds and Observable Constraints for Non-deterministic Models,'' \emph{J. Mach. Learn. Res.}, 13, 829--848.
+
+\leavevmode\hypertarget{ref-richardson_evaluating_2020}{}%
+Richardson, T. G., Sanderson, E., Palmer, T. M., Ala-Korpela, M., Ference, B. A., Davey Smith, G., and Holmes, M. V. (2020), ``Evaluating the relationship between circulating lipoprotein lipids and apolipoproteins with risk of coronary heart disease: A multivariable Mendelian randomisation analysis,'' \emph{PLOS Medicine}, (D. J. Rader, ed.), 17, e1003062. \url{https://doi.org/10.1371/journal.pmed.1003062}.
+
+\leavevmode\hypertarget{ref-richardson_ace_2014}{}%
+Richardson, T. S., and Robins, J. M. (2014), ``ACE Bounds; SEMs with Equilibrium Conditions,'' \emph{Statistical Science}, 29, 363--366. \url{https://doi.org/10.1214/14-STS485}.
+
+\leavevmode\hypertarget{ref-robins_analysis_1989}{}%
+Robins, J. M. (1989), ``The Analysis of Randomized and Nonrandomized AIDS Treatment Trials Using A New Approach to Causal Inference in Longitudinal Studies,'' \emph{Health Service Research Methodology: A Focus On AIDS}, 113--159.
+
+\leavevmode\hypertarget{ref-rubin_estimating_1974}{}%
+Rubin, D. B. (1974), ``Estimating causal effects of treatments in randomized and nonrandomized studies.'' \emph{Journal of Educational Psychology}, 66, 688--701. \url{https://doi.org/10.1037/h0037350}.
+
+\leavevmode\hypertarget{ref-rubin_randomization_1980}{}%
+Rubin, D. B. (1980), ``Randomization Analysis of Experimental Data: The Fisher Randomization Test Comment,'' \emph{Journal of the American Statistical Association}, {[}American Statistical Association, Taylor \& Francis, Ltd.{]}, 75, 591--593. \url{https://doi.org/10.2307/2287653}.
+
+\leavevmode\hypertarget{ref-shi_contrasting_2016}{}%
+Shi, H., Kichaev, G., and Pasaniuc, B. (2016), ``Contrasting the Genetic Architecture of 30 Complex Traits from Summary Association Data,'' \emph{The American Journal of Human Genetics}, 99, 139--153. \url{https://doi.org/10.1016/j.ajhg.2016.05.013}.
+
+\leavevmode\hypertarget{ref-splawa-neyman_application_1990}{}%
+Splawa-Neyman, J., Dabrowska, D. M., and Speed, T. P. (1990), ``On the Application of Probability Theory to Agricultural Experiments. Essay on Principles. Section 9.'' \emph{Statistical Science}, Institute of Mathematical Statistics, 5, 465--472.
+
+\leavevmode\hypertarget{ref-stock_survey_2002}{}%
+Stock, J. H., Wright, J. H., and Yogo, M. (2002), ``A Survey of Weak Instruments and Weak Identification in Generalized Method of Moments,'' \emph{Journal of Business \& Economic Statistics}, Taylor \& Francis, 20, 518--529. \url{https://doi.org/10.1198/073500102288618658}.
+
+\leavevmode\hypertarget{ref-swanson_commentary_2017}{}%
+Swanson, S. A. (2017), ``Commentary: Can We See the Forest for the IVs? Mendelian Randomization Studies with Multiple Genetic Variants,'' \emph{Epidemiology}, 28, 43--46. \url{https://doi.org/10.1097/EDE.0000000000000558}.
+
+\leavevmode\hypertarget{ref-swanson_partial_2018}{}%
+Swanson, S. A., Hern\a'an, M. A., Miller, M., Robins, J. M., and Richardson, T. S. (2018), ``Partial Identification of the Average Treatment Effect Using Instrumental Variables: Review of Methods for Binary Instruments, Treatments, and Outcomes,'' \emph{Journal of the American Statistical Association}, 113, 933--947. \url{https://doi.org/10.1080/01621459.2018.1434530}.
+
+\leavevmode\hypertarget{ref-verma_simulation_2018}{}%
+Verma, A., Bradford, Y., Dudek, S., Lucas, A. M., Verma, S. S., Pendergrass, S. A., and Ritchie, M. D. (2018), ``A simulation study investigating power estimates in phenome-wide association studies,'' \emph{BMC Bioinformatics}, 19, 120. \url{https://doi.org/10.1186/s12859-018-2135-0}.
+
+\leavevmode\hypertarget{ref-wang_bounded_2018}{}%
+Wang, L., and Tchetgen, E. T. (2018), ``Bounded, efficient and multiply robust estimation of average treatment effects using instrumental variables,'' \emph{arXiv:1611.09925 {[}stat{]}}.
+
+\leavevmode\hypertarget{ref-wootton_evidence_2019}{}%
+Wootton, R. E., Richmond, R. C., Stuijfzand, B. G., Lawn, R. B., Sallis, H. M., Taylor, G. M. J., Hemani, G., Jones, H. J., Zammit, S., Smith, G. D., and Munaf\a`o, M. R. (2019), ``Evidence for causal effects of lifetime smoking on risk for depression and schizophrenia: A Mendelian randomisation study,'' \emph{Psychological Medicine}, Cambridge University Press, 1--9. \url{https://doi.org/10.1017/S0033291719002678}.
+
+\leavevmode\hypertarget{ref-yang_common_2010}{}%
+Yang, J., Benyamin, B., McEvoy, B. P., Gordon, S., Henders, A. K., Nyholt, D. R., Madden, P. A., Heath, A. C., Martin, N. G., Montgomery, G. W., Goddard, M. E., and Visscher, P. M. (2010), ``Common SNPs explain a large proportion of the heritability for human height,'' \emph{Nature Genetics}, 42, 565--569. \url{https://doi.org/10.1038/ng.608}.
+
+\leavevmode\hypertarget{ref-zhao_statistical_2020}{}%
+Zhao, Q., Wang, J., Hemani, G., Bowden, J., and Small, D. S. (2020), ``Statistical inference in two-sample summary-data Mendelian randomization using robust adjusted profile score,'' \emph{Annals of Statistics}, Institute of Mathematical Statistics, 48, 1742--1769. \url{https://doi.org/10.1214/19-AOS1866}.
 
 \end{document}

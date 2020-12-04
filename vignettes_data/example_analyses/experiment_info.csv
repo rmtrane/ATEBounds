@@ -1,7 +1,5 @@
-id,trait,coverage,imputation_panel,ncase,group_name,year,mr,author,sex,pmid,population,unit,sample_size,nsnp,build,study_design,ncontrol,subcategory,category,doi,consortium,covariates,priority,note,ontology,sd
-ukb-d-20116_0,Smoking status: Never,NA,NA,195068,public,2018,1,Neale lab,Males and Females,NA,European,"NA",359706,13586591,HG19/GRCh37,NA,164638,"NA",Binary,NA,"NA",NA,0,"NA","NA",NA
-ukb-d-20544_11,Mental health problems ever diagnosed by a professional: Depression,NA,NA,25087,public,2018,1,Neale lab,Males and Females,NA,European,"NA",117782,13571547,HG19/GRCh37,NA,92695,"NA",Binary,NA,"NA",NA,0,"NA","NA",NA
-bbj-a-133,Lung cancer,NA,NA,4050,public,2019,1,Ishigaki K,Males and Females,NA,East Asian,"NA",212453,8885805,HG19/GRCh37,NA,208403,"NA",Binary,NA,"NA",NA,0,"NA","NA",NA
-ieu-a-966,Lung cancer,NA,NA,11348,public,2014,1,Wang Y,Males and Females,24880342,European,"NA",27209,8945893,HG19/GRCh37,NA,15861,Cancer,Disease,NA,"NA",NA,1,NA,"NA",NA
-ukb-d-40001_C349,"Underlying (primary) cause of death: ICD10: C34.9 Bronchus or lung, unspecified",NA,NA,1100,public,2018,1,Neale lab,Males and Females,NA,European,"NA",9092,9452278,HG19/GRCh37,NA,7992,"NA",Binary,NA,"NA",NA,0,"NA","NA",NA
-ukb-a-54,Cancer code  self-reported: lung cancer,NA,NA,190,public,2017,1,Neale,Males and Females,NA,European,SD,337159,10894596,HG19/GRCh37,NA,336969,"NA","NA",NA,Neale Lab,NA,1,"NA","NA",NA
+id,trait,coverage,imputation_panel,group_name,year,mr,author,consortium,sex,qc_prior_to_upload,pmid,population,sample_size,nsnp,build,study_design,covariates,category,subcategory,doi,note,priority,unit,ontology,sd,ncase,ncontrol
+ukb-d-20116_0,Smoking status: Never,NA,NA,public,2018,1,Neale lab,"NA",Males and Females,NA,NA,European,359706,13586591,HG19/GRCh37,NA,NA,Binary,"NA",NA,"NA",0,"NA","NA",NA,195068,164638
+ukb-d-40001_C349,"Underlying (primary) cause of death: ICD10: C34.9 Bronchus or lung, unspecified",NA,NA,public,2018,1,Neale lab,"NA",Males and Females,NA,NA,European,9092,9452278,HG19/GRCh37,NA,NA,Binary,"NA",NA,"NA",0,"NA","NA",NA,1100,7992
+ukb-a-108,Non-cancer illness code  self-reported: high cholesterol,NA,NA,public,2017,1,Neale,Neale Lab,Males and Females,NA,NA,European,337159,10894596,HG19/GRCh37,NA,NA,"NA","NA",NA,"NA",1,SD,"NA",NA,41296,295863
+ukb-a-434,Vascular/heart problems diagnosed by doctor: Heart attack,NA,NA,public,2017,1,Neale,Neale Lab,Males and Females,NA,NA,European,336683,10894596,HG19/GRCh37,NA,NA,"NA","NA",NA,"NA",1,SD,"NA",NA,7790,328893

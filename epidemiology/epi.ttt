@@ -1,0 +1,144 @@
+\begin{table}[H]
+  \begin{center}
+  \caption{Proportion of bounds where the width is greater than $1$, $0.75$, and $0.5$, stratified by strength of the instrument (ST).}
+  \label{tab:prop_of_biv_widths_large}
+
+\begin{tabular}{lccc}
+\toprule
+\multicolumn{1}{c}{ } & \multicolumn{3}{c}{\makecell[c]{Proportion of bounds with\\ width greater than...}} \\
+\cmidrule(l{3pt}r{3pt}){2-4}
+Strength & 1 & 0.75 & 0.5\\
+\midrule
+$[0,0.05]$ & $0.470$ & $0.783$ & $0.892$\\
+$(0.05,0.1]$ & $0.464$ & $0.724$ & $0.895$\\
+$(0.1,0.25]$ & $0.326$ & $0.705$ & $0.923$\\
+$(0.25,0.5]$ & $0.136$ & $0.497$ & $0.838$\\
+$(0.5,1]$ & $0.000$ & $0.076$ & $0.380$\\
+\bottomrule
+\end{tabular}
+
+
+  \end{center}
+\end{table}
+\efloatseparator
+ 
+\begin{table}[H]
+  \center
+  \caption{Values of $P(X = 1 | Z = z)$ and $P(Y = 1 | Z = z)$ used to illustrate our approach. For each cell (e.g. row A, column 1), we have $\{P(X = 1 | Z = 0), P(X = 1 | Z = 1), P(X = 1 | Z = 2)\}$ on the first row and $\{P(Y = 1 | Z = 0), P(Y = 1 | Z = 1), P(Y = 1 | Z = 2)\}$ on the second row.}
+  \label{tab:subset_plot_summaries_b}
+
+\begin{tabular}{llll}
+\toprule
+  & Column 1 & Column 2 & Column 3\\
+\midrule
+Row A & \makecell[l]{\{0.125, 0.399, 0.080\}\\\{0.699, 0.840, 0.742\}} & \makecell[c]{\{0.244, 0.275, 0.185\}\\\{0.238, 0.089, 0.146\}} & \makecell[r]{\{0.603, 0.469, 0.310\}\\\{0.638, 0.346, 0.719\}}\\
+Row B & \makecell[l]{\{0.886, 0.968, 0.874\}\\\{0.805, 0.822, 0.951\}} & \makecell[c]{\{0.139, 0.441, 0.334\}\\\{0.179, 0.359, 0.559\}} & \makecell[r]{\{0.901, 0.909, 0.935\}\\\{0.821, 0.810, 0.905\}}\\
+Row C & \makecell[l]{\{0.175, 0.079, 0.365\}\\\{0.599, 0.358, 0.087\}} & \makecell[c]{\{0.493, 0.911, 0.085\}\\\{0.360, 0.480, 0.441\}} & \makecell[r]{\{0.434, 0.045, 0.733\}\\\{0.747, 0.370, 0.169\}}\\
+\bottomrule
+\end{tabular}
+
+
+\end{table}
+\efloatseparator
+ 
+\begin{table}[H]
+  \centering
+  \caption{The monte carlo integration was performed for all combinations of values of the coefficients $\gamma_1, \gamma_U$, and $\beta_1$ presented below.}
+  \label{tab:sim_coefficients}
+  \input{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/tables/sim_coefficients_table.tex}
+\end{table}
+\efloatseparator
+ 
+\begin{table}[H]
+  \caption{Table of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing for analysis in Section \ref{cholesterol-on-heart-attack}}
+  \label{tab:marginal-distribution-of-instruments-lung-cancer}
+  \begin{minipage}{0.5\linewidth}
+    \center
+
+\begin{tabular}{lrrr}
+\toprule
+SNP & P(Z = 2) & P(Z = 1) & P(Z = 0)\\
+\midrule
+rs10096633 & 0.7682873 & 0.2164654 & 0.0152473\\
+rs10260606 & 0.6689457 & 0.2978906 & 0.0331637\\
+rs10410835 & 0.2261041 & 0.4987999 & 0.2750961\\
+rs10504255 & 0.1141345 & 0.4474070 & 0.4384585\\
+rs10804330 & 0.3246447 & 0.4902626 & 0.1850927\\
+\addlinespace
+rs112019714 & 0.9445278 & 0.0546808 & 0.0007914\\
+rs11580878 & 0.2532012 & 0.4999796 & 0.2468192\\
+rs11591147 & 0.9653935 & 0.0343018 & 0.0003047\\
+rs117733303 & 0.9629825 & 0.0366685 & 0.0003491\\
+rs12471811 & 0.7974669 & 0.1910863 & 0.0114469\\
+\addlinespace
+rs1260326 & 0.1542518 & 0.4769944 & 0.3687538\\
+rs12740374 & 0.6060342 & 0.3448956 & 0.0490702\\
+rs12916 & 0.3593703 & 0.4802094 & 0.1604203\\
+rs1367117 & 0.4370916 & 0.4480749 & 0.1148336\\
+rs1601935 & 0.1186871 & 0.4516457 & 0.4296671\\
+\addlinespace
+rs1883025 & 0.5579089 & 0.3780482 & 0.0640429\\
+rs1883711 & 0.9385769 & 0.0604497 & 0.0009733\\
+rs2125345 & 0.4990744 & 0.4147551 & 0.0861704\\
+rs2237107 & 0.6333104 & 0.3249953 & 0.0416944\\
+rs2244608 & 0.4686429 & 0.4318641 & 0.0994929\\
+\addlinespace
+rs2618567 & 0.1161249 & 0.4492923 & 0.4345829\\
+rs2738447 & 0.1661712 & 0.4829396 & 0.3508892\\
+rs28601761 & 0.3342690 & 0.4877820 & 0.1779490\\
+rs28807203 & 0.9046336 & 0.0929773 & 0.0023890\\
+rs3127580 & 0.7081492 & 0.2667336 & 0.0251172\\
+\addlinespace
+rs34042070 & 0.6625016 & 0.3028808 & 0.0346176\\
+rs34707604 & 0.5518930 & 0.3820040 & 0.0661030\\
+\bottomrule
+\end{tabular}
+
+
+  \end{minipage}
+  \qquad
+  \begin{minipage}{0.5\linewidth}
+    \center
+
+\begin{tabular}{lrrr}
+\toprule
+SNP & P(Z = 2) & P(Z = 1) & P(Z = 0)\\
+\midrule
+rs3918226 & 0.8434773 & 0.1498658 & 0.0066569\\
+rs4299376 & 0.1044835 & 0.4375111 & 0.4580055\\
+rs4470903 & 0.6122421 & 0.3404338 & 0.0473241\\
+rs456598 & 0.7353800 & 0.2443260 & 0.0202940\\
+rs4704727 & 0.1153479 & 0.4485623 & 0.4360899\\
+\addlinespace
+rs472495 & 0.1219232 & 0.4545036 & 0.4235732\\
+rs56299331 & 0.6368870 & 0.3223300 & 0.0407830\\
+rs57180587 & 0.7289642 & 0.2496596 & 0.0213762\\
+rs58542926 & 0.8541959 & 0.1400626 & 0.0057415\\
+rs58691354 & 0.7129641 & 0.2628159 & 0.0242201\\
+\addlinespace
+rs59950280 & 0.4469685 & 0.4431771 & 0.1098545\\
+rs6090040 & 0.2300488 & 0.4991705 & 0.2707808\\
+rs622871 & 0.0988228 & 0.4310763 & 0.4701008\\
+rs635634 & 0.6627002 & 0.3027276 & 0.0345722\\
+rs6458349 & 0.0768498 & 0.4007364 & 0.5224138\\
+\addlinespace
+rs6511720 & 0.7764852 & 0.2093975 & 0.0141172\\
+rs7012637 & 0.2755284 & 0.4987592 & 0.2257124\\
+rs7213086 & 0.2001050 & 0.4944520 & 0.3054430\\
+rs73534263 & 0.7971401 & 0.1913739 & 0.0114861\\
+rs7412 & 0.8445834 & 0.1488576 & 0.0065590\\
+\addlinespace
+rs74617384 & 0.8447171 & 0.1487357 & 0.0065473\\
+rs7534572 & 0.1255675 & 0.4575751 & 0.4168575\\
+rs7707394 & 0.4169078 & 0.4575523 & 0.1255398\\
+rs77542162 & 0.9546715 & 0.0448029 & 0.0005257\\
+rs799157 & 0.0018869 & 0.0831041 & 0.9150089\\
+\addlinespace
+rs9376091 & 0.5451282 & 0.3863995 & 0.0684722\\
+rs964184 & 0.0174433 & 0.2292594 & 0.7532973\\
+\bottomrule
+\end{tabular}
+
+
+  \end{minipage}
+\end{table}

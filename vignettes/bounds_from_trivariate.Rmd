@@ -228,6 +228,18 @@ subset_plot_summaries <- for_subset_plot %>%
 
 subset_plot <- ggplot(for_subset_plot,
                       aes(y = id/max(id))) + 
+  geom_rect(data = data.frame(x_min = rep(0.2, 3),
+                              x_max = rep(0.3, 3),
+                              y_min = rep(0.1, 3),
+                              y_max = rep(0.2, 3),
+                              contains_zero = c("Bivariate Bounds", "Overlaps Zero", "Does not Overlap Zero")),
+            inherit.aes = FALSE,
+            aes(xmin = x_min,
+                xmax = x_max,
+                ymin = y_min,
+                ymax = y_max,
+                fill = contains_zero),
+            alpha = 0) +
   geom_vline(aes(xintercept = bivariate_lower, color = "Bivariate Bounds"),
              linetype = "dashed") + 
   geom_vline(aes(xintercept = bivariate_upper, color = "Bivariate Bounds"),
@@ -235,20 +247,24 @@ subset_plot <- ggplot(for_subset_plot,
   geom_errorbar(aes(xmin = trivariate_lower, 
                     xmax = trivariate_upper,
                     color = contains_zero)) + 
-  geom_vline(xintercept = 0, 
-             alpha = 0.5) +
+  geom_vline(xintercept = 0) +
   xlim(c(-1,1)) +
-  # facet_wrap(~J, 
-  #            nrow = 3) + 
   facet_grid(row_i ~ col_j) +
   coord_fixed(ratio = 2) +
-  scale_color_manual(values = c("black", "grey50", "red4"),
-                     #labels = c("Bivariate Bounds", "Overlaps Zero", "Does not Overlap Zero"),
-                     breaks = c("Bivariate Bounds", "Overlaps Zero", "Does not Overlap Zero")) + 
-  labs(x = "", y = "ATE",
+  scale_color_manual(values = c("black", "grey50", "red"),
+                     breaks = c("Bivariate Bounds", "Overlaps Zero", "Does not Overlap Zero")) +
+  scale_fill_manual(values = c("black", "grey50", "red"),
+                    breaks = c("Bivariate Bounds", "Overlaps Zero", "Does not Overlap Zero")) + 
+  labs(x = "ATE", 
+       y = "",
        color = "",
+       fill = "", 
        linetype = ""
   ) + 
+  guides(
+    color = "none",
+    fill = guide_legend(override.aes = list(alpha = 1))
+  ) +
   theme_bw() +
   theme(axis.ticks.y = element_blank(),
         axis.text.y = element_blank(),

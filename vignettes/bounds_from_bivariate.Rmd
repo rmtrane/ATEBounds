@@ -390,7 +390,7 @@ zoomed_in_y2 <- 2.075
 
 ggsave(filename = here::here("figures/bivariate_width_vs_strength_pip.png"),
        plot = pip_figure, 
-       dpi = 300, width = 4, height = 4)
+       dpi = 300, width = 4, height = 4.7)
 ```
 
 

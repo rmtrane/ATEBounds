@@ -3,3 +3,6 @@ docs
 ieugwasr_oauth
 data/power_sims*.Rds
 data/multiple_IV_sims/[0-9]+.Rds
+*.icloud
+data/power_bounds_and_ATE_[0-9]+.Rds
+*sync-conflict*

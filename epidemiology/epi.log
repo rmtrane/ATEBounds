@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.1.11)  12 JAN 2021 11:51
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.1.15)  15 JAN 2021 17:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1273,407 +1273,384 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 {/Users/ralphtrane/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map
 }]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 145.
+(Font)              <10> on input line 143.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 145.
+(Font)              <7> on input line 143.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 145.
+(Font)              <5> on input line 143.
 [2] [3] [4] [5]
-Overfull \hbox (0.17487pt too wide) detected at line 232
-[] [] [] \OMS/lmsy/m/n/10 ^^U \OT1/lmr/m/n/10 0
- []
 
-[6] [7]
+LaTeX Warning: Reference `thm:uppderBoundWidth' on page 6 undefined on input li
+ne 231.
+
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bivariate_width_vs
-_strength_pip.png, id=261, 1204.5pt x 1415.2875pt>
+_strength_pip.png, id=234, 1204.5pt x 1415.2875pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bivariate_wid
 th_vs_strength_pip.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bivariate_widt
 h_vs_strength_pip.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/bivariate_width_vs_strength_pip.png  used on input line 281.
+gures/bivariate_width_vs_strength_pip.png  used on input line 236.
 (pdftex.def)             Requested size: 225.47562pt x 264.93384pt.
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/MR_coefs_vs_streng
-th.png, id=265, 1204.5pt x 1415.2875pt>
+th.png, id=238, 1204.5pt x 1415.2875pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/MR_coefs_vs_s
 trength.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/MR_coefs_vs_st
 rength.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/MR_coefs_vs_strength.png  used on input line 288.
+gures/MR_coefs_vs_strength.png  used on input line 243.
 (pdftex.def)             Requested size: 225.47562pt x 264.93384pt.
-[8 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bivariate_width
-_vs_strength_pip.png> </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figu
-res/MR_coefs_vs_strength.png>]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/loess_power.png, i
-d=284, 1204.5pt x 1204.5pt>
+d=241, 2409.0pt x 1505.625pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/loess_power.p
 ng Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/loess_power.pn
 g>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/loess_power.png  used on input line 331.
-(pdftex.def)             Requested size: 234.86737pt x 234.86737pt.
-[9] [10 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/loess_powe
-r.png>]
-</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multip
-le_IV_sims_MR_subset.png, id=303, 1204.5pt x 1505.625pt>
-File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_m
-ultiple_IV_sims_MR_subset.png Graphic file (type png)
-<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
-ltiple_IV_sims_MR_subset.png>
-Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/bounds_from_multiple_IV_sims_MR_subset.png  used on input line 346.
-(pdftex.def)             Requested size: 234.86737pt x 293.58421pt.
-</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multip
-le_IV_sims_power_subset.png, id=304, 1204.5pt x 1505.625pt>
-File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_m
-ultiple_IV_sims_power_subset.png Graphic file (type png)
-<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
-ltiple_IV_sims_power_subset.png>
-Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/bounds_from_multiple_IV_sims_power_subset.png  used on input line 352.
-(pdftex.def)             Requested size: 234.86737pt x 293.58421pt.
-</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multip
-le_IV_sims_MR_many_weak_subset.png, id=305, 1204.5pt x 1505.625pt>
-File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_m
-ultiple_IV_sims_MR_many_weak_subset.png Graphic file (type png)
-<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
-ltiple_IV_sims_MR_many_weak_subset.png>
-Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/bounds_from_multiple_IV_sims_MR_many_weak_subset.png  used on input line 
-357.
-(pdftex.def)             Requested size: 234.86737pt x 293.58421pt.
-</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multip
-le_IV_sims_power_many_weak_subset.png, id=306, 1204.5pt x 1505.625pt>
-File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_m
-ultiple_IV_sims_power_many_weak_subset.png Graphic file (type png)
-<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
-ltiple_IV_sims_power_many_weak_subset.png>
-Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/bounds_from_multiple_IV_sims_power_many_weak_subset.png  used on input li
-ne 363.
-(pdftex.def)             Requested size: 234.86737pt x 293.58421pt.
-
-Overfull \hbox (4.44441pt too wide) in paragraph at lines 345--367
- [][]  [] 
- []
-
-
-Overfull \hbox (4.44441pt too wide) in paragraph at lines 345--367
- []  [] 
- []
-
-
-LaTeX Warning: Float too large for page by 16.73842pt on input line 369.
-
-[11] [12 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_fr
-om_multiple_IV_sims_MR_subset.png> </Users/ralphtrane/Documents/RPackages_dev/A
-CEBounds/figures/bounds_from_multiple_IV_sims_power_subset.png> </Users/ralphtr
-ane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multiple_IV_sims_MR_m
-any_weak_subset.png> </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figur
-es/bounds_from_multiple_IV_sims_power_many_weak_subset.png>]
+gures/loess_power.png  used on input line 255.
+(pdftex.def)             Requested size: 465.02968pt x 290.64354pt.
+[6] [7 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bivariate_w
+idth_vs_strength_pip.png> </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/
+figures/MR_coefs_vs_strength.png>] [8 </Users/ralphtrane/Documents/RPackages_de
+v/ACEBounds/figures/loess_power.png>]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_bounds_
-subset_plot.png, id=335, 2409.0pt x 2409.0pt>
+subset_plot.png, id=271, 2409.0pt x 2409.0pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_bo
 unds_subset_plot.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_bou
 nds_subset_plot.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/trivariate_bounds_subset_plot.png  used on input line 414.
+gures/trivariate_bounds_subset_plot.png  used on input line 296.
 (pdftex.def)             Requested size: 469.73474pt x 469.73474pt.
-[13] [14 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariat
-e_bounds_subset_plot.png>]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 4
-32.
+[9] [10 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate
+_bounds_subset_plot.png>]
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 3
+14.
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [15]
+) [11]
 
-LaTeX Warning: Reference `fig:ind_bounds' on page 16 undefined on input line 43
-4.
+LaTeX Warning: Reference `fig:ind_bounds' on page 12 undefined on input line 31
+8.
 
 
-LaTeX Warning: Reference `fig:tri_bounds' on page 16 undefined on input line 43
-4.
+LaTeX Warning: Reference `fig:tri_bounds' on page 12 undefined on input line 31
+8.
 
-[16] [17] [18] [19] [20]
-Overfull \hbox (7.61125pt too wide) in paragraph at lines 579--579
+[12] [13] [14] [15] [16]
+Overfull \hbox (7.61125pt too wide) in paragraph at lines 463--463
  []|\T1/lmr/m/n/10 PY0Z0| 
  []
 
 
-Overfull \hbox (7.61125pt too wide) in paragraph at lines 579--579
+Overfull \hbox (7.61125pt too wide) in paragraph at lines 463--463
  []|\T1/lmr/m/n/10 PY0Z1| 
  []
 
 
-Overfull \hbox (7.61125pt too wide) in paragraph at lines 579--579
+Overfull \hbox (7.61125pt too wide) in paragraph at lines 463--463
  []|\T1/lmr/m/n/10 PY0Z2| 
  []
 
 
-Overfull \hbox (7.61125pt too wide) in paragraph at lines 579--579
+Overfull \hbox (7.61125pt too wide) in paragraph at lines 463--463
  []|\T1/lmr/m/n/10 PY1Z0| 
  []
 
 
-Overfull \hbox (7.61125pt too wide) in paragraph at lines 579--579
+Overfull \hbox (7.61125pt too wide) in paragraph at lines 463--463
  []|\T1/lmr/m/n/10 PY1Z1| 
  []
 
 
-Overfull \hbox (7.61125pt too wide) in paragraph at lines 579--579
+Overfull \hbox (7.61125pt too wide) in paragraph at lines 463--463
  []|\T1/lmr/m/n/10 PY1Z2| 
  []
 
 
-Overfull \hbox (7.61125pt too wide) in paragraph at lines 579--579
+Overfull \hbox (7.61125pt too wide) in paragraph at lines 463--463
  []|\T1/lmr/m/n/10 PX0Z0| 
  []
 
 
-Overfull \hbox (7.61125pt too wide) in paragraph at lines 579--579
+Overfull \hbox (7.61125pt too wide) in paragraph at lines 463--463
  []|\T1/lmr/m/n/10 PX0Z1| 
  []
 
 
-Overfull \hbox (7.61125pt too wide) in paragraph at lines 579--579
+Overfull \hbox (7.61125pt too wide) in paragraph at lines 463--463
  []|\T1/lmr/m/n/10 PX0Z2| 
  []
 
 
-Overfull \hbox (7.61125pt too wide) in paragraph at lines 579--579
+Overfull \hbox (7.61125pt too wide) in paragraph at lines 463--463
  []|\T1/lmr/m/n/10 PX1Z0| 
  []
 
 
-Overfull \hbox (7.61125pt too wide) in paragraph at lines 579--579
+Overfull \hbox (7.61125pt too wide) in paragraph at lines 463--463
  []|\T1/lmr/m/n/10 PX1Z1| 
  []
 
 
-Overfull \hbox (7.61125pt too wide) in paragraph at lines 579--579
+Overfull \hbox (7.61125pt too wide) in paragraph at lines 463--463
  []|\T1/lmr/m/n/10 PX1Z2| 
  []
 
 
-Overfull \hbox (7.61125pt too wide) in paragraph at lines 583--583
+Overfull \hbox (7.61125pt too wide) in paragraph at lines 467--467
  []|\T1/lmr/m/n/10 PY0Z0| 
  []
 
 
-Overfull \hbox (7.61125pt too wide) in paragraph at lines 583--583
+Overfull \hbox (7.61125pt too wide) in paragraph at lines 467--467
  []|\T1/lmr/m/n/10 PY0Z1| 
  []
 
 
-Overfull \hbox (7.61125pt too wide) in paragraph at lines 583--583
+Overfull \hbox (7.61125pt too wide) in paragraph at lines 467--467
  []|\T1/lmr/m/n/10 PY0Z2| 
  []
 
 
-Overfull \hbox (7.61125pt too wide) in paragraph at lines 583--583
+Overfull \hbox (7.61125pt too wide) in paragraph at lines 467--467
  []|\T1/lmr/m/n/10 PY1Z0| 
  []
 
 
-Overfull \hbox (7.61125pt too wide) in paragraph at lines 583--583
+Overfull \hbox (7.61125pt too wide) in paragraph at lines 467--467
  []|\T1/lmr/m/n/10 PY1Z1| 
  []
 
 
-Overfull \hbox (7.61125pt too wide) in paragraph at lines 583--583
+Overfull \hbox (7.61125pt too wide) in paragraph at lines 467--467
  []|\T1/lmr/m/n/10 PY1Z2| 
  []
 
 
-Overfull \hbox (7.61125pt too wide) in paragraph at lines 583--583
+Overfull \hbox (7.61125pt too wide) in paragraph at lines 467--467
  []|\T1/lmr/m/n/10 PX0Z0| 
  []
 
 
-Overfull \hbox (7.61125pt too wide) in paragraph at lines 583--583
+Overfull \hbox (7.61125pt too wide) in paragraph at lines 467--467
  []|\T1/lmr/m/n/10 PX0Z1| 
  []
 
 
-Overfull \hbox (7.61125pt too wide) in paragraph at lines 583--583
+Overfull \hbox (7.61125pt too wide) in paragraph at lines 467--467
  []|\T1/lmr/m/n/10 PX0Z2| 
  []
 
 
-Overfull \hbox (7.61125pt too wide) in paragraph at lines 583--583
+Overfull \hbox (7.61125pt too wide) in paragraph at lines 467--467
  []|\T1/lmr/m/n/10 PX1Z0| 
  []
 
 
-Overfull \hbox (7.61125pt too wide) in paragraph at lines 583--583
+Overfull \hbox (7.61125pt too wide) in paragraph at lines 467--467
  []|\T1/lmr/m/n/10 PX1Z1| 
  []
 
 
-Overfull \hbox (7.61125pt too wide) in paragraph at lines 583--583
+Overfull \hbox (7.61125pt too wide) in paragraph at lines 467--467
  []|\T1/lmr/m/n/10 PX1Z2| 
  []
 
-[21] [22] [23] [24] [25]
-Overfull \hbox (1.43364pt too wide) detected at line 740
+[17] [18] [19] [20] [21]
+Overfull \hbox (1.43364pt too wide) detected at line 624
 [][]
  []
 
-[26] [27] [28] [29
+[22]
 
-] [30] [31] [32] [33] [34] [35
+LaTeX Warning: Reference `eq:constraints' on page 23 undefined on input line 66
+6.
 
-] [36]
-Overfull \hbox (13.94629pt too wide) detected at line 1083
+[23] [24] [25
+
+] [26] [27] [28] [29] [30] [31
+
+] [32]
+Overfull \hbox (13.94629pt too wide) detected at line 967
 [][]
  []
 
-[37]
-Overfull \hbox (13.94629pt too wide) detected at line 1104
+[33]
+Overfull \hbox (13.94629pt too wide) detected at line 988
 [][]
  []
 
-[38] [39]
+[34] [35]
+
+LaTeX Warning: Reference `properties-of-bounds-from-summary-level-data' on page
+ 36 undefined on input line 1023.
+
+
 (/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/tables/sim_coefficients_ta
 ble.tex)
-</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/power.png, id=498,
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/power.png, id=429,
  2409.0pt x 1806.75pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/power.png Gra
 phic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/power.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/power.png  used on input line 1156.
+gures/power.png  used on input line 1040.
 (pdftex.def)             Requested size: 465.02968pt x 348.77225pt.
-[40] [41 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/power.png
->] [42]
+
+LaTeX Warning: Reference `properties-of-bounds-from-summary-level-data' on page
+ 36 undefined on input line 1041.
+
+
+LaTeX Warning: Reference `properties-of-bounds-from-summary-level-data' on page
+ 36 undefined on input line 1041.
+
+[36] [37 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/power.png
+>]
+
+LaTeX Warning: Reference `fig:multiple_IVs_scenario_3' on page 38 undefined on 
+input line 1061.
+
+
+LaTeX Warning: Reference `fig:multiple_IVs_scenario_4' on page 38 undefined on 
+input line 1063.
+
+[38]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_vs_coef_m
-ultiple_IVs_MR.png, id=551, 1204.5pt x 1204.5pt>
+ultiple_IVs_MR.png, id=480, 1204.5pt x 1204.5pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_vs_c
 oef_multiple_IVs_MR.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_vs_co
 ef_multiple_IVs_MR.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/strength_vs_coef_multiple_IVs_MR.png  used on input line 1188.
+gures/strength_vs_coef_multiple_IVs_MR.png  used on input line 1072.
 (pdftex.def)             Requested size: 234.86737pt x 234.86737pt.
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_vs_coef_m
-ultiple_IVs_power.png, id=552, 1204.5pt x 1204.5pt>
+ultiple_IVs_power.png, id=481, 1204.5pt x 1204.5pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_vs_c
 oef_multiple_IVs_power.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_vs_co
 ef_multiple_IVs_power.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/strength_vs_coef_multiple_IVs_power.png  used on input line 1194.
+gures/strength_vs_coef_multiple_IVs_power.png  used on input line 1078.
 (pdftex.def)             Requested size: 234.86737pt x 234.86737pt.
 
-Overfull \hbox (4.44441pt too wide) in paragraph at lines 1187--1198
+Overfull \hbox (4.44441pt too wide) in paragraph at lines 1071--1082
  []$[]$  $[]$ 
  []
 
-[43] [44 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_
+[39] [40 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_
 vs_coef_multiple_IVs_MR.png> </Users/ralphtrane/Documents/RPackages_dev/ACEBoun
 ds/figures/strength_vs_coef_multiple_IVs_power.png>]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multip
-le_IV_sims_MR.png, id=567, 3011.25pt x 2258.4375pt>
+le_IV_sims_MR.png, id=495, 3011.25pt x 2258.4375pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_m
 ultiple_IV_sims_MR.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
 ltiple_IV_sims_MR.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/bounds_from_multiple_IV_sims_MR.png  used on input line 1206.
+gures/bounds_from_multiple_IV_sims_MR.png  used on input line 1090.
 (pdftex.def)             Requested size: 650.4387pt x 487.82903pt.
-[45 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
+[41 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
 ltiple_IV_sims_MR.png>]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multip
-le_IV_sims_MR_many_weak.png, id=573, 3011.25pt x 2258.4375pt>
+le_IV_sims_MR_many_weak.png, id=501, 3011.25pt x 2258.4375pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_m
 ultiple_IV_sims_MR_many_weak.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
 ltiple_IV_sims_MR_many_weak.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/bounds_from_multiple_IV_sims_MR_many_weak.png  used on input line 1215.
+gures/bounds_from_multiple_IV_sims_MR_many_weak.png  used on input line 1099.
 (pdftex.def)             Requested size: 650.4387pt x 487.82903pt.
-[46 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
+[42 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
 ltiple_IV_sims_MR_many_weak.png>]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multip
-le_IV_sims_power.png, id=579, 3011.25pt x 2258.4375pt>
+le_IV_sims_power.png, id=507, 3011.25pt x 2258.4375pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_m
 ultiple_IV_sims_power.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
 ltiple_IV_sims_power.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/bounds_from_multiple_IV_sims_power.png  used on input line 1224.
+gures/bounds_from_multiple_IV_sims_power.png  used on input line 1108.
 (pdftex.def)             Requested size: 650.4387pt x 487.82903pt.
-[47 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
+[43 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
 ltiple_IV_sims_power.png>]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multip
-le_IV_sims_power_many_weak.png, id=585, 3011.25pt x 2258.4375pt>
+le_IV_sims_power_many_weak.png, id=514, 3011.25pt x 2258.4375pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_m
 ultiple_IV_sims_power_many_weak.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
 ltiple_IV_sims_power_many_weak.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/bounds_from_multiple_IV_sims_power_many_weak.png  used on input line 1233
+gures/bounds_from_multiple_IV_sims_power_many_weak.png  used on input line 1117
 .
 (pdftex.def)             Requested size: 650.4387pt x 487.82903pt.
-[48 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
+[44 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
 ltiple_IV_sims_power_many_weak.png>]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 1241.
-[49
+(Font)              <14.4> on input line 1125.
+
+LaTeX Warning: Reference `eq:constraints' on page 45 undefined on input line 11
+33.
+
+[45
 
 
 
 
 
-] [50]
+]
+
+LaTeX Warning: Reference `eq:constraints' on page 46 undefined on input line 11
+81.
+
+[46]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
-moking_lung_cancer_3_marginal_Z.png, id=611, 1505.625pt x 602.25pt>
+moking_lung_cancer_3_marginal_Z.png, id=538, 1505.625pt x 602.25pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/smoking_lung_cancer_3_marginal_Z.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
 es/smoking_lung_cancer_3_marginal_Z.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
 gures/example_analyses/smoking_lung_cancer_3_marginal_Z.png  used on input line
- 1318.
+ 1202.
 (pdftex.def)             Requested size: 469.74852pt x 187.8994pt.
 
-LaTeX Warning: Reference `smoking-effect-on-lung-cancer' on page 51 undefined o
-n input line 1319.
+LaTeX Warning: Reference `smoking-effect-on-lung-cancer' on page 47 undefined o
+n input line 1203.
 
 
-LaTeX Warning: Reference `smoking-effect-on-lung-cancer' on page 51 undefined o
-n input line 1319.
+LaTeX Warning: Reference `smoking-effect-on-lung-cancer' on page 47 undefined o
+n input line 1203.
 
-[51]
+[47]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
-moking_lung_cancer_3_coefficients.png, id=618, 1505.625pt x 903.375pt>
+moking_lung_cancer_3_coefficients.png, id=545, 1505.625pt x 903.375pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/smoking_lung_cancer_3_coefficients.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
 es/smoking_lung_cancer_3_coefficients.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
 gures/example_analyses/smoking_lung_cancer_3_coefficients.png  used on input li
-ne 1325.
+ne 1209.
 (pdftex.def)             Requested size: 469.74852pt x 281.8491pt.
-[52 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+[48 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
 es/smoking_lung_cancer_3_marginal_Z.png> </Users/ralphtrane/Documents/RPackages
 _dev/ACEBounds/figures/example_analyses/smoking_lung_cancer_3_coefficients.png>
-] [53] [54] [55]
+] [49] [50] [51]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
-trength_histogram.png, id=641, 2409.0pt x 1204.5pt>
+trength_histogram.png, id=568, 2409.0pt x 1204.5pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/strength_histogram.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
 es/strength_histogram.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
-gures/example_analyses/strength_histogram.png  used on input line 1449.
+gures/example_analyses/strength_histogram.png  used on input line 1333.
 (pdftex.def)             Requested size: 465.02968pt x 232.51483pt.
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
-moking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb-d-40001_C349.png, id=64
-2, 2409.0pt x 3011.25pt>
+moking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb-d-40001_C349.png, id=56
+9, 2409.0pt x 3011.25pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/smoking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb-d-40001_C349.png G
 raphic file (type png)
@@ -1681,13 +1658,13 @@ raphic file (type png)
 es/smoking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb-d-40001_C349.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
 gures/example_analyses/smoking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb
--d-40001_C349.png  used on input line 1455.
+-d-40001_C349.png  used on input line 1339.
 (pdftex.def)             Requested size: 465.02968pt x 581.2871pt.
-[56 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+[52 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
 es/strength_histogram.png>]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
 moking_lung_cancer_3_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.png, i
-d=649, 2409.0pt x 3011.25pt>
+d=576, 2409.0pt x 3011.25pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/smoking_lung_cancer_3_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.p
 ng Graphic file (type png)
@@ -1696,13 +1673,13 @@ es/smoking_lung_cancer_3_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.pn
 g>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
 gures/example_analyses/smoking_lung_cancer_3_individual_SNPs_plot_ukb-d-20116_0
-_ukb-d-40001_C349.png  used on input line 1462.
+_ukb-d-40001_C349.png  used on input line 1346.
 (pdftex.def)             Requested size: 465.02968pt x 581.2871pt.
-[57 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+[53 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
 es/smoking_lung_cancer_3_bivaraite_bounds_ukb-d-20116_0_ukb-d-40001_C349.png>]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
 moking_lung_cancer_3_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C349.pn
-g, id=656, 2409.0pt x 1204.5pt>
+g, id=583, 2409.0pt x 1204.5pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/smoking_lung_cancer_3_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C3
 49.png Graphic file (type png)
@@ -1711,48 +1688,48 @@ es/smoking_lung_cancer_3_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C34
 9.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
 gures/example_analyses/smoking_lung_cancer_3_intersection_bounds_plot_ukb-d-201
-16_0_ukb-d-40001_C349.png  used on input line 1469.
+16_0_ukb-d-40001_C349.png  used on input line 1353.
 (pdftex.def)             Requested size: 465.02968pt x 232.51483pt.
-[58 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+[54 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
 es/smoking_lung_cancer_3_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.pn
 g>]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
-holesterol_heart_attack_marginal_Z.png, id=663, 1505.625pt x 602.25pt>
+holesterol_heart_attack_marginal_Z.png, id=590, 1505.625pt x 602.25pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/cholesterol_heart_attack_marginal_Z.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
 es/cholesterol_heart_attack_marginal_Z.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
 gures/example_analyses/cholesterol_heart_attack_marginal_Z.png  used on input l
-ine 1479.
+ine 1363.
 (pdftex.def)             Requested size: 469.74852pt x 187.8994pt.
 
-LaTeX Warning: Reference `cholesterol-on-heart-attack' on page 59 undefined on 
-input line 1480.
+LaTeX Warning: Reference `cholesterol-on-heart-attack' on page 55 undefined on 
+input line 1364.
 
 
-LaTeX Warning: Reference `cholesterol-on-heart-attack' on page 59 undefined on 
-input line 1480.
+LaTeX Warning: Reference `cholesterol-on-heart-attack' on page 55 undefined on 
+input line 1364.
 
 
-LaTeX Warning: Reference `cholesterol-on-heart-attack' on page 59 undefined on 
-input line 1485.
+LaTeX Warning: Reference `cholesterol-on-heart-attack' on page 55 undefined on 
+input line 1369.
 
 
-LaTeX Warning: Reference `cholesterol-on-heart-attack' on page 59 undefined on 
-input line 1485.
+LaTeX Warning: Reference `cholesterol-on-heart-attack' on page 55 undefined on 
+input line 1369.
 
 
-Overfull \hbox (22.2222pt too wide) in paragraph at lines 1487--1576
+Overfull \hbox (22.2222pt too wide) in paragraph at lines 1371--1460
 []$[]$  $[]$ 
  []
 
-[59 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+[55 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
 es/smoking_lung_cancer_3_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C34
 9.png> </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_ana
 lyses/cholesterol_heart_attack_marginal_Z.png>]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
-holesterol_heart_attack_marginal_conditionals.png, id=673, 1505.625pt x 903.375
+holesterol_heart_attack_marginal_conditionals.png, id=602, 1505.625pt x 903.375
 pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/cholesterol_heart_attack_marginal_conditionals.png Graphic file (type png)
@@ -1760,36 +1737,36 @@ ses/cholesterol_heart_attack_marginal_conditionals.png Graphic file (type png)
 es/cholesterol_heart_attack_marginal_conditionals.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
 gures/example_analyses/cholesterol_heart_attack_marginal_conditionals.png  used
- on input line 1580.
+ on input line 1464.
 (pdftex.def)             Requested size: 465.06183pt x 279.0371pt.
-[60]
+[56]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
-holesterol_heart_attack_coefficients.png, id=679, 1505.625pt x 903.375pt>
+holesterol_heart_attack_coefficients.png, id=608, 1505.625pt x 903.375pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/cholesterol_heart_attack_coefficients.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
 es/cholesterol_heart_attack_coefficients.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
 gures/example_analyses/cholesterol_heart_attack_coefficients.png  used on input
- line 1587.
+ line 1471.
 (pdftex.def)             Requested size: 469.74852pt x 281.8491pt.
-[61 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
-es/cholesterol_heart_attack_marginal_conditionals.png>] [62 </Users/ralphtrane/
+[57 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_marginal_conditionals.png>] [58 </Users/ralphtrane/
 Documents/RPackages_dev/ACEBounds/figures/example_analyses/cholesterol_heart_at
-tack_coefficients.png>] [63]
+tack_coefficients.png>] [59]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
-holesterol_heart_attack_strength_histogram.png, id=698, 2409.0pt x 1204.5pt>
+holesterol_heart_attack_strength_histogram.png, id=626, 2409.0pt x 1204.5pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/cholesterol_heart_attack_strength_histogram.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
 es/cholesterol_heart_attack_strength_histogram.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
 gures/example_analyses/cholesterol_heart_attack_strength_histogram.png  used on
- input line 1675.
+ input line 1559.
 (pdftex.def)             Requested size: 465.02968pt x 232.51483pt.
-[64]
+[60]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
-holesterol_heart_attack_bivaraite_bounds_ukb-a-108_ukb-a-434.png, id=703, 2409.
+holesterol_heart_attack_bivaraite_bounds_ukb-a-108_ukb-a-434.png, id=631, 2409.
 0pt x 3011.25pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/cholesterol_heart_attack_bivaraite_bounds_ukb-a-108_ukb-a-434.png Graphic f
@@ -1798,12 +1775,12 @@ ile (type png)
 es/cholesterol_heart_attack_bivaraite_bounds_ukb-a-108_ukb-a-434.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
 gures/example_analyses/cholesterol_heart_attack_bivaraite_bounds_ukb-a-108_ukb-
-a-434.png  used on input line 1681.
+a-434.png  used on input line 1565.
 (pdftex.def)             Requested size: 465.02968pt x 581.2871pt.
-[65 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+[61 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
 es/cholesterol_heart_attack_strength_histogram.png>]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
-holesterol_heart_attack_individual_SNPs_plot_ukb-a-108_ukb-a-434.png, id=710, 2
+holesterol_heart_attack_individual_SNPs_plot_ukb-a-108_ukb-a-434.png, id=639, 2
 409.0pt x 2710.125pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/cholesterol_heart_attack_individual_SNPs_plot_ukb-a-108_ukb-a-434.png Graph
@@ -1812,13 +1789,13 @@ ic file (type png)
 es/cholesterol_heart_attack_individual_SNPs_plot_ukb-a-108_ukb-a-434.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
 gures/example_analyses/cholesterol_heart_attack_individual_SNPs_plot_ukb-a-108_
-ukb-a-434.png  used on input line 1688.
+ukb-a-434.png  used on input line 1572.
 (pdftex.def)             Requested size: 465.02968pt x 523.15839pt.
-[66 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+[62 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
 es/cholesterol_heart_attack_bivaraite_bounds_ukb-a-108_ukb-a-434.png>]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
-holesterol_heart_attack_intersection_bounds_plot_ukb-a-108_ukb-a-434.png, id=71
-7, 2409.0pt x 1204.5pt>
+holesterol_heart_attack_intersection_bounds_plot_ukb-a-108_ukb-a-434.png, id=64
+6, 2409.0pt x 1204.5pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
 ses/cholesterol_heart_attack_intersection_bounds_plot_ukb-a-108_ukb-a-434.png G
 raphic file (type png)
@@ -1826,13 +1803,13 @@ raphic file (type png)
 es/cholesterol_heart_attack_intersection_bounds_plot_ukb-a-108_ukb-a-434.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
 gures/example_analyses/cholesterol_heart_attack_intersection_bounds_plot_ukb-a-
-108_ukb-a-434.png  used on input line 1695.
+108_ukb-a-434.png  used on input line 1579.
 (pdftex.def)             Requested size: 465.02968pt x 232.51483pt.
-[67 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
-es/cholesterol_heart_attack_individual_SNPs_plot_ukb-a-108_ukb-a-434.png>] [68 
+[63 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_individual_SNPs_plot_ukb-a-108_ukb-a-434.png>] [64 
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
-holesterol_heart_attack_intersection_bounds_plot_ukb-a-108_ukb-a-434.png>] [69]
-[70] [71] [72] [73] (./epi.aux)
+holesterol_heart_attack_intersection_bounds_plot_ukb-a-108_ukb-a-434.png>] [65]
+[66] [67] [68] [69] (./epi.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -1840,19 +1817,16 @@ LaTeX Warning: There were undefined references.
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `epi.out' has not changed.
-(rerunfilecheck)             Checksum: 1F788254F652635A56314794D00823E0;5071.
-
-Package biblatex Warning: Please rerun LaTeX.
-
+(rerunfilecheck)             Checksum: 8EB0FCEE91100509A916F13CA82A98BC;5113.
 Package logreq Info: Writing requests to 'epi.run.xml'.
 \openout1 = `epi.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 31494 strings out of 481290
- 597878 string characters out of 5916074
- 1336527 words of memory out of 5000000
- 47602 multiletter control sequences out of 15000+600000
+ 31443 strings out of 481252
+ 594794 string characters out of 5914732
+ 1337055 words of memory out of 5000000
+ 47600 multiletter control sequences out of 15000+600000
  480717 words of font info for 80 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  87i,17n,88p,3051b,1701s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1880,10 +1854,10 @@ ne/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></Users/ralphtra
 ne/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></Users/ralphtran
 e/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></Users/ralphtrane
 /Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on epi.pdf (73 pages, 5454974 bytes).
+Output written on epi.pdf (69 pages, 5234462 bytes).
 PDF statistics:
- 946 PDF objects out of 1000 (max. 8388607)
- 784 compressed objects within 8 object streams
- 212 named destinations out of 1000 (max. 500000)
- 329 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 865 PDF objects out of 1000 (max. 8388607)
+ 716 compressed objects within 8 object streams
+ 198 named destinations out of 1000 (max. 500000)
+ 301 words of extra memory for PDF output out of 10000 (max. 10000000)
 

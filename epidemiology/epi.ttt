@@ -1,31 +1,7 @@
 \begin{table}[H]
-  \begin{center}
-  \caption{Proportion of bounds where the width is greater than $1$, $0.75$, and $0.5$, stratified by strength of the instrument (ST).}
-  \label{tab:prop_of_biv_widths_large}
-
-\begin{tabular}{lccc}
-\toprule
-\multicolumn{1}{c}{ } & \multicolumn{3}{c}{\makecell[c]{Proportion of bounds with\\ width greater than...}} \\
-\cmidrule(l{3pt}r{3pt}){2-4}
-Strength & 1 & 0.75 & 0.5\\
-\midrule
-$[0,0.05]$ & $0.470$ & $0.783$ & $0.892$\\
-$(0.05,0.1]$ & $0.464$ & $0.724$ & $0.895$\\
-$(0.1,0.25]$ & $0.326$ & $0.705$ & $0.923$\\
-$(0.25,0.5]$ & $0.136$ & $0.497$ & $0.838$\\
-$(0.5,1]$ & $0.000$ & $0.076$ & $0.380$\\
-\bottomrule
-\end{tabular}
-
-
-  \end{center}
-\end{table}
-\efloatseparator
- 
-\begin{table}[H]
   \center
   \caption{Values of $P(X = 1 | Z = z)$ and $P(Y = 1 | Z = z)$ used to illustrate our approach. For each cell (e.g. row A, column 1), we have $\{P(X = 1 | Z = 0), P(X = 1 | Z = 1), P(X = 1 | Z = 2)\}$ on the first row and $\{P(Y = 1 | Z = 0), P(Y = 1 | Z = 1), P(Y = 1 | Z = 2)\}$ on the second row.}
-  \label{tab:subset_plot_summaries_b}
+  \label{tab:subset_plot_summaries}
 
 \begin{tabular}{llll}
 \toprule

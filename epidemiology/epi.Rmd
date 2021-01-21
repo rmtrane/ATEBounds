@@ -10,7 +10,7 @@ output:
       in_header: epi_preamble.tex
 abstract: |
   Recently, in genetic epidemiology, Mendelian Randomization (MR) has become a popular approach to estimate causal exposure effects by using single nucleotide polymorphisms from genome-wide association studies (GWAS) as instruments. The most popular type of MR study, a two-sample summary-data MR study, relies on having summary statistics from two independent GWAS and using one of several parametric models for estimation. However, little is understood about using a nonparametric bound-based analysis, a popular approach in instrumental variables frameworks, to estimate causal effects in MR. In this work, we explore different properties about using a bound-based analysis to estimate causal effects in two-sample MR studies. We also propose a method to assess how likely one can obtain a more informative analysis had we had a one-sample MR study compared to a two-sample MR study. We replicate our findings through two real data analyses concerning the causal effect of smoking on lung cancer and the causal effect of high cholesterol on heart attacks. Overall, our results suggest that nonparametric bounds are rarely suitable to analyze causal effects in two-sample MR studies unless strong assumptions are met.
-bibliography: "references.bib"
+bibliography: "../references.bib"
 linkcolor: blue
 link-citations: true
 geometry: "margin=1in"
@@ -989,7 +989,7 @@ snp_coefs_lung_cancer <- summaries_lung_cancer %>%
   \center
   \includegraphics[width = 0.99\textwidth]{`r here("figures", "example_analyses", "smoking_lung_cancer_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.png")`}
     \caption{500 sets of bounds of the average treatment effect of smoking on lung cancer for each of the 84 SNPs. Each bound is based on a set of values for the trivariate distribution randomly sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
-    \label{fig:smoking_on_lung_cancer_tri_bounds_all}
+  \label{fig:smoking_on_lung_cancer_tri_bounds_all}
 \end{figure}
 
 \begin{figure}[H]

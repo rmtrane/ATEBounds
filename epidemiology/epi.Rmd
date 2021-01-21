@@ -10,7 +10,7 @@ output:
       in_header: epi_preamble.tex
 abstract: |
   Recently, in genetic epidemiology, Mendelian Randomization (MR) has become a popular approach to estimate causal exposure effects by using single nucleotide polymorphisms from genome-wide association studies (GWAS) as instruments. The most popular type of MR study, a two-sample summary-data MR study, relies on having summary statistics from two independent GWAS and using one of several parametric models for estimation. However, little is understood about using a nonparametric bound-based analysis, a popular approach in instrumental variables frameworks, to estimate causal effects in MR. In this work, we explore different properties about using a bound-based analysis to estimate causal effects in two-sample MR studies. We also propose a method to assess how likely one can obtain a more informative analysis had we had a one-sample MR study compared to a two-sample MR study. We replicate our findings through two real data analyses concerning the causal effect of smoking on lung cancer and the causal effect of high cholesterol on heart attacks. Overall, our results suggest that nonparametric bounds are rarely suitable to analyze causal effects in two-sample MR studies unless strong assumptions are met.
-bibliography: "../references.bib"
+bibliography: "references.bib"
 linkcolor: blue
 link-citations: true
 geometry: "margin=1in"
@@ -83,7 +83,7 @@ ST reduces to the definition of instrument strength in @balke_bounds_1997 when t
 
 \label{review-study-designs-and-target-estimand}
 
-The most popular design in MR studies is a two-sample design which has two separate data sources, one providing information about \((X,Z)\) in the form of \(P(X = 1 | Z = z)\), \(z \in \{0, 1, 2\}\), and another providing information about \((Y,Z)\) in the form of \(P(Y = 1 | Z = z)\),  \(z \in \{0, 1, 2\}\). A two-sample design differs from a more traditional one-sample design which has a single data source providing information on all observed variables \((X,Y,Z)\) in the form of  \(P(X = x, Y = y | Z = z), x\in \{0,1\}, y\in\{0,1\}, z \in \{0,1,2\}\). IV bounds have been well-studied under a one-sample design [@balke_bounds_1997; @richardson_ace_2014; @swanson_partial_2018]. However, not much is known about the behavior of IV bounds under a two-sample design.
+The most popular design in MR studies is a two-sample design which has two separate data sources, one providing information about \((X,Z)\) in the form of \(P(X = 1 | Z = z)\), \(z \in \{0, 1, 2\}\), and another providing information about \((Y,Z)\) in the form of \(P(Y = 1 | Z = z)\),  \(z \in \{0, 1, 2\}\). A two-sample design differs from a more traditional one-sample design which has a single data source providing information on all observed variables \((X,Y,Z)\) in the form of  \(P(Y = 1, X=1 | Z = z)\). IV bounds have been well-studied under a one-sample design [@balke_bounds_1997; @richardson_ace_2014; @swanson_partial_2018]. However, not much is known about the behavior of IV bounds under a two-sample design.
 
 Formally, the goal of this paper is to study the properties of sharp bounds on the average treatment effect (ATE)
 \[
@@ -726,7 +726,9 @@ U3 - L3 &= 1 + P(Y = 1 | Z = 0) + P(X = 1 | Z = 0) - P(X = 1 | Z = k)\\
         &\le 2 - 2\cdot ST.
 \end{aligned}$$
 
-As we see from the derivations above, regardless of which expression is the minimum and which is the maximum in bounds above, the width of the bounds is bounded from above by $2 - 2\cdot ST$. \qed.
+As we see from the derivations above, regardless of which expression is the minimum and which is the maximum in bounds above, the width of the bounds is bounded from above by $2 - 2\cdot ST$. 
+
+\qed
 
 \newpage
 
@@ -745,12 +747,14 @@ For each combination of values of the coefficients $\gamma_1, \gamma_U, \beta_1$
 
 Each set of marginal probabilities leads us to a set of non-parametric bounds from two-sample data. These are shown on Figure \ref{fig:power} together with the ATE. Figure \ref{fig:biv_width_vs_strength} shows the width of these bounds plotted against ST, while Figure \ref{fig:coef_vs_strength} shows the values of $\gamma_1$ plotted against ST. 
 
-\begin{figure}[H]
+\clearpage
+\begin{sidewaysfigure}
   \centering
-  \includegraphics[width=0.99\textwidth]{`r here("figures/power.png")`}
-  \caption{Bounds based on simulations as described. Upper and lower bounds are connected a curve based on a loess extrapolation. This curve is used to find the smallest coefficients needed to detect direction as plotted on Figure \ref{fig:power_curves}.}
+  \includegraphics[width=\textheight]{`r here("figures/power.png")`}
+  \caption{Bounds based on simulations as described. Upper and lower bounds are connected by a curve (dotted lines) based on a loess extrapolation. This curve is used to find the smallest coefficients needed to detect direction as plotted on Figure \ref{fig:power_curves}.}
   \label{fig:power}
-\end{figure}
+\end{sidewaysfigure}
+\clearpage
 
 To find the smallest value of $\gamma_1$ that results in bounds excluding $0$, we fit a loess curve to the lower bounds in Figure \ref{fig:power}, and find the value where this curve crosses $0$. This results in the values depicted on Figure \ref{fig:power_curves}.
 
@@ -919,7 +923,7 @@ Specifically, say we get bounds \((LB_{1i},UB_{1i}),i = 1,2,...,m\) by sampling 
 We use the `TwoSampleMR` R package [@mrbase] to extract and preprocess the data for our analyses. For preprocessing, we followed the defaults of the R pacakge where linkage disequilibrium based clumping (\(r^2 \ge 0.001\) within a \(10,000\) kb window using \(p < 5 \times 10^{-8}\) as the level of significance) were performed such that only independent instruments with significant associations were used in the analysis. Afterwards, we obtain the estimated coefficients corresponding to the effects of the SNPs on the exposure and the outcome from a logistic model. Since estimates of the intercept are not included in these reported results, but the marginal proportions of the outcome, exposure, and allele frequencies are known, we find the intercepts by solving \(P(X = 1) = \sum_{z = 0}^2\text{logit}(\beta_0 + \hat{\beta_1}\cdot z)\cdot P(Z_j = z)\) and \(P(Y = 1) = \sum_{z = 0}^2\text{logit}(\gamma_0 + \hat{\gamma_1}\cdot z)\cdot P(Z_j = z)\) for \(\beta_0\) and \(\gamma_0\), respectively. Overall, we have estimates of \(P(Y = 1 | Z_j = z)\) and \(P(X = 1 | Z_j = z)\) for every \(j\) and \(z=0,1,2\).
 
 ```{r include = FALSE}
-summaries_lung_cancer <- read_csv(here("vignettes_data/summary_stats_smoking_on_lung_cancer_3.csv"))
+summaries_lung_cancer <- read_csv(here("vignettes_data/summary_stats_smoking_on_lung_cancer.csv"))
 
 snp_marginals_lung_cancer <- summaries_lung_cancer %>% 
   select(SNP, starts_with("P(Z =")) %>%
@@ -944,23 +948,9 @@ snp_coefs_lung_cancer <- summaries_lung_cancer %>%
 \begin{figure}[H]
   \center
   \includegraphics[width = \textwidth]{`r here("figures/example_analyses/smoking_lung_cancer_marginal_Z.png")`}
-  \caption{Histograms of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing for analysis in Section \ref{smoking-effect-on-lung-cancer}.}
+  \caption{Histograms of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing.}
   \label{fig:marginal-distribution-of-instruments-lung-cancer}
 \end{figure}
-
-<!-- \begin{table}[H] -->
-<!--   \caption{Table of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing for analysis in Section \ref{smoking-effect-on-lung-cancer}} -->
-<!--   \label{tab:marginal-distribution-of-instruments-lung-cancer} -->
-<!--   \begin{minipage}{0.5\linewidth} -->
-<!--     \center -->
-<!--     `r kable(filter(snp_marginals_lung_cancer, row_number() < 43), format = "latex", booktabs = TRUE) %>% kable_styling(latex_options = "repeat_header")` -->
-<!--   \end{minipage} -->
-<!--   \qquad -->
-<!--   \begin{minipage}{0.5\linewidth} -->
-<!--     \center -->
-<!--     `r kable(filter(snp_marginals_lung_cancer, row_number() > 42), format = "latex", booktabs = TRUE) %>% kable_styling(latex_options = "repeat_header")` -->
-<!--   \end{minipage} -->
-<!-- \end{table} -->
 
 \begin{figure}[H]
   \center
@@ -980,17 +970,22 @@ snp_coefs_lung_cancer <- summaries_lung_cancer %>%
 \end{figure}
 
 \begin{figure}[H]
+  \center
   \includegraphics[width = 0.99\linewidth]{`r here('figures/example_analyses/smoking_lung_cancer_bivariate_bounds_ukb-d-20116_0_ukb-d-40001_C349.png')`}
   \caption{Nonparametric two-sample IV bounds on the average treatment effect of smoking on the incidence of lung cancer.}
   \label{fig:smoking_on_lung_cancer_ind_bounds}
 \end{figure}
 
-\begin{figure}[H]
+\clearpage
+
+\begin{sidewaysfigure}
   \center
-  \includegraphics[width = 0.99\textwidth]{`r here("figures", "example_analyses", "smoking_lung_cancer_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.png")`}
-    \caption{500 sets of bounds of the average treatment effect of smoking on lung cancer for each of the 84 SNPs. Each bound is based on a set of values for the trivariate distribution randomly sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
+  \includegraphics[width = \textheight]{`r here("figures", "example_analyses", "smoking_lung_cancer_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.png")`}
+  \caption{500 sets of bounds of the average treatment effect of smoking on lung cancer for each of the 84 SNPs. Each bound is based on a set of values for the trivariate distribution randomly sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
   \label{fig:smoking_on_lung_cancer_tri_bounds_all}
-\end{figure}
+\end{sidewaysfigure}
+
+\clearpage
 
 \begin{figure}[H]
   \center
@@ -1025,7 +1020,7 @@ snp_coefs_cholesterol <- summaries_cholesterol_heart_attack %>%
 \begin{figure}[H]
   \center
   \includegraphics[width = \textwidth]{`r here("figures/example_analyses/cholesterol_heart_attack_marginal_Z.png")`}
-  \caption{Histograms of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing for analysis in Section \ref{cholesterol-on-heart-attack}}
+  \caption{Histograms of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing.}
   \label{fig:marginal-distribution-of-instruments-cholesterol-heart-attack}
 \end{figure}
 
@@ -1074,12 +1069,16 @@ snp_coefs_cholesterol <- summaries_cholesterol_heart_attack %>%
   \label{fig:cholesterol_on_heart_attack_ind_bounds}
 \end{figure}
 
-\begin{figure}[H]
+\clearpage
+
+\begin{sidewaysfigure}
   \center
-  \includegraphics[width = 0.99\textwidth]{`r here("figures", "example_analyses", "cholesterol_heart_attack_individual_SNPs_plot_ukb-a-108_ukb-a-434.png")`}
+  \includegraphics[width = \textheight]{`r here("figures", "example_analyses", "cholesterol_heart_attack_individual_SNPs_plot_ukb-a-108_ukb-a-434.png")`}
     \caption{500 sets of bounds of the average treatment effect of high cholesterol on heart attack for each of the 54 SNPs. Each bound is based on a set of values for the trivariate distribution randomly sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
     \label{fig:cholesterol_heart_attack_tri_bounds_all}
-\end{figure}
+\end{sidewaysfigure}
+
+\clearpage
 
 \begin{figure}[H]
   \center

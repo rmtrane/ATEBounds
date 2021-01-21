@@ -3,7 +3,6 @@ library(ACEBounds)
 library(distributions3)
 library(furrr)
 
-
 SIM_AND_SAVE <- TRUE
 PLOT <- TRUE
 OVERWRITE <- TRUE
@@ -19,80 +18,134 @@ ATE_from_simulated_data <- function(from_simulate_data){
   return(mean(pY1X1 - pY1X0))
 }
 
-
 set.seed(9866311)
 
 if(SIM_AND_SAVE){
   plan(multicore, workers = 3)
 
-  Z_on_X <- c(0.25, 0.5, 1, 1.75, seq(2, 4, by = 0.1))
+  # Z_on_X <- c(0.25, 0.5, 1, 1.75, seq(2, 4, by = 0.1))
+  # U_on_XYs <- list(c(0.1, 0.5), c(1, 2))
 
-  for (i in seq_along(Z_on_X)){
-    cat(i, "of", length(Z_on_X))
+  all_combos <- expand_grid(indIVs_on_X = c(0.25, 0.5, 1, 1.75, seq(2, 4, by = 0.1), seq(5, 8, by = 0.25)),
+                            X_on_Y = c(0.25, 0.5, 1, 1.5, 2),
+                            U_on_XY = c(0.1, 0.5, 1, 2)) %>%
+    mutate(i = row_number(),
+           seed = round(round(runif(n = n()), digits = 7)*1e7, digits = 0))
 
-    many_sims <- expand_grid(indIVs_on_X = Z_on_X[i],
-                             X_on_Y = c(0.25, 0.5, 1, 1.5, 2),
-                             U_on_XY = c(0.1, 0.5)) %>%
-      mutate(
-        sim_data = future_pmap(
-          .l = list(indIVs_on_X, X_on_Y, U_on_XY),
-          function(x,y,z) simulate_data(
-            sample_size = 1e7,
-            IVs_ps = list(c(0.25, 0.5, 0.25)),
-            X_intercept = -x,
-            Y_intercept = -y/2,
-            indIVs_on_X = x,
-            indIVs_on_Y = 0,
-            U = distributions3::Normal(),
-            U_on_X = z,
-            U_on_Y = z,
-            X_on_Y = y
-          ),
-          .options = furrr_options(seed = TRUE)
-        )
-      )
+  this_combo <- filter(all_combos, i == slurm_array_id)
 
-    write_rds(
-      many_sims,
-      here::here("data", paste0("power_sims_", str_pad(i, width = 2, side = "left", pad = 0), ".Rds"))
-    )
-  }
+  set.seed(this_combo$seed)
+
+  sim_data <- simulate_data(
+    sample_size = 1e7,
+    IVs_ps = list(c(0.25, 0.5, 0.25)),
+    X_intercept = -this_combo$indIVs_on_X,
+    Y_intercept = -this_combo$X_on_Y/2,
+    indIVs_on_X = this_combo$indIVs_on_X,
+    indIVs_on_Y = 0,
+    U = distributions3::Normal(),
+    U_on_X = this_combo$U_on_XY,
+    U_on_Y = this_combo$U_on_XY,
+    X_on_Y = this_combo$X_on_Y
+  )
+
+  write_rds(sim_data,
+            file = here::here("data/power_sims",
+                              paste0("power_sims_", this_combo$i, ".rds")))
+
+  # for (K in 1:seq_along(U_on_XYs[1])){
+  #
+  #   for (i in seq_along(Z_on_X[1])){
+  #     cat(i, "of", length(Z_on_X)*2, "\n")
+  #
+  #     many_sims <- expand_grid(indIVs_on_X = Z_on_X[i],
+  #                              X_on_Y = c(0.25, 0.5, 1, 1.5, 2),
+  #                              U_on_XY = U_on_XYs[[K]]) %>%
+  #       mutate(
+  #         row = row_number(),
+  #         sim_data = future_pmap_chr(
+  #           .l = list(indIVs_on_X, X_on_Y, U_on_XY, row),
+  #           function(x,y,z,r){
+  #             tmp_sim_data <- simulate_data(
+  #               sample_size = 1e1,
+  #               IVs_ps = list(c(0.25, 0.5, 0.25)),
+  #               X_intercept = -x,
+  #               Y_intercept = -y/2,
+  #               indIVs_on_X = x,
+  #               indIVs_on_Y = 0,
+  #               U = distributions3::Normal(),
+  #               U_on_X = z,
+  #               U_on_Y = z,
+  #               X_on_Y = y
+  #             )
+  #
+  #             tmp <- write_rds(tmp_sim_data, here::here("data/power_sims", paste0("power_sims_", K, "_", str_pad(i, width = 2, side = "left", pad = 0), "_", r, ".Rds")))
+  #
+  #             return("OK")
+  #           },
+  #           .options = furrr_options(seed = TRUE)
+  #         )
+  #       )
+
+      # write_rds(
+      #   many_sims,
+      #   here::here("data", paste0("power_sims_", K, "_", str_pad(i, width = 2, side = "left", pad = 0), ".Rds"))
+      # )
+  #   }
+  # }
 }
 
 if(PLOT){
   if(!file.exists(here::here("data/power_bounds_and_ATE.Rds")) | OVERWRITE){
 
-  all_power_sims <- list.files(here::here("data"), pattern = "power_sims", full.names = TRUE)
+    all_power_sims <- list.files(here::here("data"), pattern = "power_sims", full.names = TRUE)
 
-  bounds_and_ATE <- tibble(data_file = all_power_sims) %>%
-    mutate(
-      subset = map(
-        data_file,
-        function(x){
-          tmp <- read_rds(x)
+    bounds_and_ATE <- tibble(data_file = all_power_sims) %>%
+      mutate(
+        subset = map(
+          data_file,
+          function(x){
+            tmp <- read_rds(x)
 
-          out <- tmp %>%
-            mutate(
-              sum_stats = future_map(sim_data, ~c(probs_from_data(.x$simulated_data, X, Y, Z1, data_format = "bivariate"),
-                                                 ATE = ATE_from_simulated_data(.x))),
-              get_bounds_res = future_map(sum_stats, ~get_bounds(gammas = .x$gammas, thetas = .x$thetas, stop = FALSE), .progress = TRUE),
-              bounds = future_map(get_bounds_res, "interval")
-            ) %>%
-            select(-sim_data)
+            out <- tmp %>%
+              mutate(
+                sum_stats = future_map(sim_data, ~c(probs_from_data(.x$simulated_data, X, Y, Z1, data_format = "bivariate"),
+                                                    ATE = ATE_from_simulated_data(.x))),
+                get_bounds_res = future_map(sum_stats, ~get_bounds(gammas = .x$gammas, thetas = .x$thetas, stop = FALSE), .progress = TRUE),
+                bounds = future_map(get_bounds_res, "interval")
+              ) %>%
+              select(-sim_data)
 
-          return(out)
-        })
-    )
+            write_rds()
+          })
+      )
 
-  write_rds(bounds_and_ATE, here::here("data/power_bounds_and_ATE.Rds"))
+    write_rds(bounds_and_ATE, here::here("data/power_bounds_and_ATE.Rds"))
 
   } else {
-    bounds_and_ATE <- read_rds(here::here("data/power_bounds_and_ATE.Rds"))
+    bounds_and_ATE <- read_rds(here::here("data/power_bounds_and_ATE_combined.Rds"))
   }
+
+  all_combinations_of_coefs <- bounds_and_ATE %>%
+    arrange(X_on_Y, indIVs_on_X, U_on_XY) %>%
+    # mutate(indIVs_on_X = if_else(as.character(indIVs_on_X) %in% c(3, 5),
+    #                              paste("\\newline", indIVs_on_X), as.character(indIVs_on_X)),
+    #        across(.cols = c(X_on_Y, U_on_XY), as.character)) %>%
+    select(`$\\gamma_1$` = indIVs_on_X,
+           `$\\beta_1$` = X_on_Y,
+           `$\\gamma_U$` = U_on_XY) %>%
+    pivot_longer(cols = everything()) %>%
+    unique() %>%
+    group_by(Coefficient = name) %>%
+    summarize(Values = paste(value, collapse = ", ")) %>%
+    pivot_wider(names_from = Coefficient, values_from = Values)
+
+  kableExtra::kable(all_combinations_of_coefs, format = "latex", escape = FALSE, booktabs = TRUE) %>%
+    kableExtra::column_spec(2, width = "1.5in") %>%
+    write_file(file = here::here("tables","sim_coefficients_table.tex"))
 
   ## Compare indIVs_on_X and resulting strength
   coefs_vs_strength <- bounds_and_ATE %>%
-    unnest(subset) %>%
     unnest_wider(sum_stats) %>%
     unnest_wider(bounds) %>%
     mutate(strength = map_dbl(thetas, ~.x[3] - .x[1]),
@@ -101,24 +154,23 @@ if(PLOT){
                color = U_on_XY)) +
       geom_line() +
       scale_x_continuous(limits = c(0, 1)) +
-      scale_y_continuous(limits = c(0, 2.075)*2,
-                         expand = expansion(mult = 0, add = c(0.05, 0.01)*2)) +
-      scale_color_manual(values = c("black", "red")) +
+      scale_y_continuous(limits = c(0, 6),
+                         expand = expansion(mult = 0, add = c(0.1, 0.2))) +
+      scale_color_manual(values = c("black", "red", "blue", "purple")) +
       labs(color = bquote(gamma[U]),
            x = "Strength of IV",
            y = bquote(gamma[Z])) +
       guides(color = guide_legend(nrow = 2)) +
-      coord_fixed(ratio = 1/4) +
+      coord_fixed(ratio = 1/6) +
       theme_bw() +
       theme(legend.position = "top")
 
   ggsave(here::here("figures/MR_coefs_vs_strength.png"),
          coefs_vs_strength, dpi = 300,
-         width = 4, height = 4)
+         width = 4, height = 4.7)
 
   ## Bounds Plot
   pretty_plot <- bounds_and_ATE %>%
-    unnest(subset) %>%
     unnest_wider(sum_stats) %>%
     unnest_wider(bounds) %>%
     mutate(zero = if_else(lower < 0 & upper > 0,
@@ -127,37 +179,36 @@ if(PLOT){
            U_on_XY = paste0("gamma[U] ==", U_on_XY)) %>%
     arrange(desc(lower)) %>%
     ggplot(aes(y = indIVs_on_X, color = zero)) +
-      geom_smooth(se = FALSE, aes(x = upper, group = "loess"), color = "black",
-                  #formula = "x ~ y",
-                  size = 0.2, linetype = "dashed") +
-      geom_smooth(se = FALSE, aes(x = lower, group = "loess"), color = "black",
-                  #formula = "x ~ y",
-                  size = 0.2, linetype = "dashed") +
-      geom_vline(xintercept = 0) +
-      geom_vline(aes(xintercept = ATE, color = "ATE")) +
-      geom_errorbar(aes(xmin = lower, xmax = upper)) +
-      facet_grid(U_on_XY ~ X_on_Y,
-                 labeller = label_parsed) +
-      lims(y = c(0, 4),
-           x = c(-1, 1)) +
-      scale_color_manual(
-        values = c("Overlaps Zero" = "black", "Does Not Overlap Zero" = "red", "ATE" = "blue")
-      ) +
-      labs(
-        y = bquote(gamma[j]),
-        x = "ATE",
-        color = ""
-      ) +
-      theme_bw() +
-      theme(legend.position = "top")
+    geom_smooth(se = FALSE, aes(x = upper, group = "loess"), color = "black",
+                #formula = "x ~ y",
+                size = 0.2, linetype = "dashed") +
+    geom_smooth(se = FALSE, aes(x = lower, group = "loess"), color = "black",
+                #formula = "x ~ y",
+                size = 0.2, linetype = "dashed") +
+    geom_vline(xintercept = 0) +
+    geom_vline(aes(xintercept = ATE, color = "ATE")) +
+    geom_errorbar(aes(xmin = lower, xmax = upper)) +
+    facet_grid(U_on_XY ~ X_on_Y,
+               labeller = label_parsed) +
+    lims(y = c(0, 6),
+         x = c(-1, 1)) +
+    scale_color_manual(
+      values = c("Overlaps Zero" = "black", "Does Not Overlap Zero" = "red", "ATE" = "blue")
+    ) +
+    labs(
+      y = bquote(gamma[j]),
+      x = "ATE",
+      color = ""
+    ) +
+    theme_bw() +
+    theme(legend.position = "top")
 
   ggsave(here::here("figures/power.png"),
          plot = pretty_plot, dpi = 300,
-         height = 4, width = 8, units = "in")
+         height = 6, width = 8, units = "in")
 
 
   power_curves <- bounds_and_ATE %>%
-    unnest(subset) %>%
     unnest_wider(sum_stats) %>%
     unnest_wider(bounds) %>%
     filter(lower > 0) %>%
@@ -165,17 +216,17 @@ if(PLOT){
     filter(indIVs_on_X == min(indIVs_on_X)) %>%
     mutate(U_on_XY = as.character(U_on_XY)) %>%
     ggplot(aes(x = ATE, y = indIVs_on_X, color = U_on_XY)) +
-      geom_point() + geom_line() +
-      lims(y = c(0, 5),
-           x = c(0, 1)) +
-      labs(
-        x = "Average Treatment Effect",
-        y = bquote(gamma[Z]),
-        color = bquote(gamma[U])
-      ) +
-      scale_color_manual(values = c("black", "red")) +
-      theme_bw() +
-      theme(legend.position = "top")
+    geom_point() + geom_line() +
+    lims(y = c(0, 6),
+         x = c(0, 1)) +
+    labs(
+      x = "Average Treatment Effect",
+      y = bquote(gamma[Z]),
+      color = bquote(gamma[U])
+    ) +
+    scale_color_manual(values = c("black", "red", "blue", "purple")) +
+    theme_bw() +
+    theme(legend.position = "top")
 
   ggsave(here::here("figures/power_curves.png"),
          plot = power_curves, dpi = 300,
@@ -183,7 +234,6 @@ if(PLOT){
 
 
   loess_strength <- bounds_and_ATE %>%
-    unnest(subset) %>%
     unnest_wider(sum_stats) %>%
     unnest_wider(bounds) %>%
     mutate(strength = map_dbl(thetas, ~.x[3] - .x[1])) %>%
@@ -191,11 +241,10 @@ if(PLOT){
           strength ~ indIVs_on_X + U_on_XY)
 
   uniroot(f = function(x) predict(loess_strength, newdata = data.frame(indIVs_on_X = x, U_on_XY = 0.1)) - 0.5,
-          interval = c(1, 4))
+          interval = c(1, 6))
 
   ## Model lower bounds by ATE
   loess_model <- bounds_and_ATE %>%
-    unnest(subset) %>%
     unnest_wider(sum_stats) %>%
     unnest_wider(bounds) %>%
     loess(data = .,
@@ -203,23 +252,22 @@ if(PLOT){
 
   ## Show on plot
   loess_plot <- bounds_and_ATE %>%
-    unnest(subset) %>%
     unnest_wider(sum_stats) %>%
     unnest_wider(bounds) %>%
     ggplot(aes(x = indIVs_on_X, y = lower)) +
-      geom_hline(yintercept = 0, linetype = "dashed") +
-      geom_point() +
-      geom_smooth() +
-      facet_grid(U_on_XY ~ X_on_Y,
-                 labeller = label_both) +
-      lims(y = c(-1, 1)) +
-      labs(
-        x = "Coefficient for effect of Z on X",
-        y = "ATE",
-        color = ""
-      ) +
-      theme_bw() +
-      theme(legend.position = "top")
+    geom_hline(yintercept = 0, linetype = "dashed") +
+    geom_point() +
+    geom_smooth() +
+    facet_grid(U_on_XY ~ X_on_Y,
+               labeller = label_both) +
+    lims(y = c(-1, 1)) +
+    labs(
+      x = "Coefficient for effect of Z on X",
+      y = "ATE",
+      color = ""
+    ) +
+    theme_bw() +
+    theme(legend.position = "top")
 
   ggsave(here::here("figures/power_loess_lower_bound.png"),
          loess_plot, dpi = 300,
@@ -227,41 +275,41 @@ if(PLOT){
 
   ## Find roots for loess curves
   roots <- bounds_and_ATE %>%
-    unnest(subset) %>%
     unnest_wider(sum_stats) %>%
     select(X_on_Y, U_on_XY, ATE) %>%
-    mutate(ATE = round(ATE, digits = 7)) %>%
+    mutate(ATE = round(ATE, digits = 7)) %>% #head(n=1) %>% print
     unique() %>%
     rowwise() %>%
-    mutate(uniroot_res = list(uniroot(f = function(x) predict(loess_model, newdata = data.frame(X_on_Y = X_on_Y, U_on_XY = U_on_XY, indIVs_on_X = x)),
-                                      interval = c(1, 4))),
+    mutate(uniroot_res = list(uniroot(f = function(x) predict(loess_model,
+                                                              newdata = data.frame(indIVs_on_X = x,
+                                                                                   X_on_Y = X_on_Y, U_on_XY = U_on_XY)),
+                                      interval = c(1, 6))),
            indIVs_on_X = uniroot_res$root) %>%
     ungroup()
 
 
   ## Power curves including for loess model
   (power_with_loess_ests <- bounds_and_ATE %>%
-    unnest(subset) %>%
-    unnest_wider(sum_stats) %>%
-    unnest_wider(bounds) %>%
-    filter(lower > 0) %>%
-    group_by(U_on_XY, X_on_Y) %>%
-    filter(indIVs_on_X == min(indIVs_on_X)) %>%
-    mutate(source = "simulations") %>%
-    ggplot(aes(x = ATE, y = indIVs_on_X, group = U_on_XY, alpha = source, color = as.character(U_on_XY))) +
+      unnest_wider(sum_stats) %>%
+      unnest_wider(bounds) %>%
+      filter(lower > 0) %>%
+      group_by(U_on_XY, X_on_Y) %>%
+      filter(indIVs_on_X == min(indIVs_on_X)) %>%
+      mutate(source = "simulations") %>%
+      ggplot(aes(x = ATE, y = indIVs_on_X, group = U_on_XY, alpha = source, color = as.character(U_on_XY))) +
       geom_point() +
       #geom_line() +
       #geom_point(data = roots %>% mutate(source = "loess")) +
       geom_line(data = roots %>% mutate(source = "loess")) +
       lims(
-        y = c(0, 4),
+        y = c(0, 6),
         x = c(0, 1)
       ) +
       labs(
         color = bquote(gamma[U]),
         y = bquote(gamma[Z])
       ) +
-      scale_color_manual(values = c("black", "red")) +
+      scale_color_manual(values = c("black", "red", "blue", "purple")) +
       scale_alpha_manual(values = c(1, 0.2)) +
       guides(
         color = guide_legend(title.position = "top"),
@@ -272,28 +320,32 @@ if(PLOT){
 
   (loess_power <- roots %>%
       ggplot(aes(x = ATE, y = indIVs_on_X, group = U_on_XY, color = as.character(U_on_XY))) +
-        geom_point() +
-        geom_line() +
-        #geom_point(data = roots %>% mutate(source = "loess")) +
-        lims(
-          y = c(0, 4),
-          x = c(0, 0.5)
-        ) +
-        labs(
-          color = bquote(gamma[U]),
-          y = bquote(gamma[Z])
-        ) +
-        scale_color_manual(values = c("black", "red")) +
-        #scale_alpha_manual(values = c(1, 0.2)) +
-        guides(
-          color = guide_legend(title.position = "top")
-        ) +
-        theme_bw() +
-        theme(legend.position = "top"))
+      geom_point(size = 0.5) +
+      geom_line() +
+      #geom_point(data = roots %>% mutate(source = "loess")) +
+      lims(
+        y = c(0, 6),
+        x = c(0, 0.5)
+      ) +
+      labs(
+        color = bquote(gamma[U]),
+        y = bquote(gamma[Z])
+      ) +
+      scale_color_manual(values = c("black", "red", "blue", "purple")) +
+      #scale_alpha_manual(values = c(1, 0.2)) +
+      guides(
+        color = guide_legend(title.position = "top")
+      ) +
+      coord_fixed(ratio = 1/12) +
+      theme_bw() +
+      theme(legend.position = "top"))
 
   ggsave(here::here("figures/loess_power.png"),
          loess_power, dpi = 300,
-         height = 5, width = 8)
+         height = 4, width = 4)
+
+
+
 }
 
 

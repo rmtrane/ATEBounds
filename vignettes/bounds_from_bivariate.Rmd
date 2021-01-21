@@ -158,6 +158,8 @@ ggsave(plot = width_vs_strength,
        dpi = 300, width = 4, height = 2.86)
 ```
 
+Here are all the bounds:
+
 ```{r}
 all_bounds_plot <- bounds %>% 
   filter(!violations, upper > lower) %>% 
@@ -165,29 +167,32 @@ all_bounds_plot <- bounds %>%
   arrange((upper + lower)/2) %>% 
   mutate(id = row_number()) %>% 
   ggplot(aes(x = id, y = (upper + lower)/2)) + 
-    geom_errorbar(aes(ymin = lower, ymax = upper),
-                  width = 0.001, alpha = 0.05) + 
-    geom_line(aes(color = "Center of bounds"),
-              alpha = 0.75) + 
-    labs(y = "ACE",
-         x = "Simulation run",
-         color = ""
+    geom_errorbar(
+      aes(ymin = lower, ymax = upper),
+      width = 0.001, alpha = 0.05
+    ) + 
+    geom_line(
+      aes(color = "Center of bounds"),
+      alpha = 0.75
+    )+ 
+    labs(
+      y = "ACE",
+      x = "Simulation run",
+      color = ""
     ) +
-    guides(color = 
-             guide_legend(
-                label.position = "top" 
-             )
-           ) +
+    guides(
+      color = guide_legend(label.position = "top")
+    ) +
     scale_color_manual(values = "red") +
     theme_bw() +
-    theme(#axis.text.x = element_blank(),
-          #axis.ticks.x = element_blank(),
-          panel.grid.major.x = element_blank(),
-          panel.grid.minor.x = element_blank(),
-          legend.position = c(1, 0),
-          legend.justification = c(1, 0),
-          legend.background = element_blank(),
-          legend.key = element_blank())
+    theme(
+      panel.grid.major.x = element_blank(),
+      panel.grid.minor.x = element_blank(),
+      legend.position = c(1, 0),
+      legend.justification = c(1, 0),
+      legend.background = element_blank(),
+      legend.key = element_blank()
+    )
 
 all_bounds_plot +
   labs(title = "Bounds from ≈10,000 randomly generated distributions",
@@ -198,7 +203,7 @@ ggsave(plot = all_bounds_plot,
        dpi = 300, width = 4, height = 2.86)
 ```
 
-As we can see, quite a few of the data
+Many of these randomly generated distributions result in rather wide bounds, as can be seen from the table below.
 
 ```{r}
 proportion_of_widths_greater_than <- bounds %>% 
@@ -216,7 +221,7 @@ proportion_of_widths_greater_than <- bounds %>%
 pander::pander(proportion_of_widths_greater_than)
 ```
 
-
+We save a few summaries for the manuscript.
 
 ```{r}
 bounds %>% 
@@ -234,8 +239,9 @@ write_csv(proportion_of_widths_greater_than,
 
 ## Relate to real world data
 
+We reproduce the plot of the width vs. strength, but include bounds from three real world examples. The first chunk below essentially summarizes the process laid out in `vignette("example_analysis")`
 
-```{r fig.width = 4, fig.height = 4, dpi = 300}
+```{r}
 library(TwoSampleMR)
 library(magrittr)
 
@@ -286,9 +292,11 @@ real_bounds <- function(exposure_id, outcome_id, ao = TwoSampleMR::available_out
            `thetas/gammas` = list(1/(1+exp(-beta0 - 0:2*beta))))
   
   bivariate_bounds <- include_intercept %>%
-    select(-find_intercept, -beta0, -beta, -p_outcome, -ave_eaf) %>%
-    mutate(regression = if_else(regression == "outcome", "gammas", "thetas")) %>%
-    pivot_wider(names_from = regression, values_from = `thetas/gammas`) %>%
+    select(-find_intercept, -beta0, -p_outcome, -ave_eaf, coefs = beta) %>%
+    mutate(regression = if_else(regression == "outcome", "gammas", "thetas")) %>% 
+    pivot_wider(names_from = regression, values_from = c(`thetas/gammas`, coefs)) %>% 
+    rename_with(.cols = starts_with("thetas"), 
+                ~str_remove_all(.x, "thetas/gammas_")) %>% 
     rowwise() %>%
     mutate(bivariate_bounds = list(get_bounds(thetas = thetas, gammas = gammas,
                                               stop = FALSE, warning = FALSE)),
@@ -299,13 +307,16 @@ real_bounds <- function(exposure_id, outcome_id, ao = TwoSampleMR::available_out
   
   return(bivariate_bounds)
 }
+```
 
+
+```{r fig.width = 4, fig.height = 4, dpi = 300}
 real_data_biv_bounds <- tibble(exposure = c("Cholesterol", "Smoking", "Obesity"), 
                                outcome = c("Heart Attack", "Lung Cancer", "Heart Attack"),
                                exposure_id = c("ukb-a-108", "ukb-d-20116_0", "ieu-a-90"),
                                outcome_id = c("ukb-a-434", "ukb-d-40001_C349", "ukb-a-434")) %>% 
   rowwise() %>% 
-  mutate(source = exposure, #paste(exposure, outcome, sep = " on "),
+  mutate(source = exposure,
          bounds = list(real_bounds(exposure_id = exposure_id, outcome_id = outcome_id, ao = ao))) %>% 
   ungroup() %>% 
   unnest(bounds) %>% 

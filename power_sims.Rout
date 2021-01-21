@@ -60,46 +60,81 @@ Loading required package: future
 +   return(mean(pY1X1 - pY1X0))
 + }
 > 
-> 
-> set.seed(9866311)
-> 
-> if(SIM_AND_SAVE){
-+   plan(multicore, workers = 3)
+> for (K in 2:2){
 + 
-+   Z_on_X <- c(0.25, 0.5, 1, 1.75, seq(2, 4, by = 0.1))
++   set.seed(9866311)
 + 
-+   for (i in seq_along(Z_on_X)){
-+     cat(i, "of", length(Z_on_X))
++   if(K == 1){
++     U_on_XY = c(0.1, 0.5)
++   } else {
++     U_on_XY = c(1, 2)
++   }
 + 
-+     many_sims <- expand_grid(indIVs_on_X = Z_on_X[i],
-+                              X_on_Y = c(0.25, 0.5, 1, 1.5, 2),
-+                              U_on_XY = c(0.1, 0.5)) %>%
-+       mutate(
-+         sim_data = future_pmap(
-+           .l = list(indIVs_on_X, X_on_Y, U_on_XY),
-+           function(x,y,z) simulate_data(
-+             sample_size = 1e7,
-+             IVs_ps = list(c(0.25, 0.5, 0.25)),
-+             X_intercept = -x,
-+             Y_intercept = -y/2,
-+             indIVs_on_X = x,
-+             indIVs_on_Y = 0,
-+             U = distributions3::Normal(),
-+             U_on_X = z,
-+             U_on_Y = z,
-+             X_on_Y = y
-+           ),
-+           .options = furrr_options(seed = TRUE)
++   if(SIM_AND_SAVE){
++     plan(multicore, workers = 3)
++ 
++     Z_on_X <- c(0.25, 0.5, 1, 1.75, seq(2, 4, by = 0.1))
++ 
++     for (i in seq_along(Z_on_X)){
++       cat(i, "of", length(Z_on_X)*2, "\n")
++ 
++ 
++ 
++       many_sims <- expand_grid(indIVs_on_X = Z_on_X[i],
++                                X_on_Y = c(0.25, 0.5, 1, 1.5, 2),
++                                U_on_XY = U_on_XY) %>%
++         mutate(
++           sim_data = future_pmap(
++             .l = list(indIVs_on_X, X_on_Y, U_on_XY),
++             function(x,y,z) simulate_data(
++               sample_size = 1e7,
++               IVs_ps = list(c(0.25, 0.5, 0.25)),
++               X_intercept = -x,
++               Y_intercept = -y/2,
++               indIVs_on_X = x,
++               indIVs_on_Y = 0,
++               U = distributions3::Normal(),
++               U_on_X = z,
++               U_on_Y = z,
++               X_on_Y = y
++             ),
++             .options = furrr_options(seed = TRUE)
++           )
 +         )
-+       )
 + 
-+     write_rds(
-+       many_sims,
-+       here::here("data", paste0("power_sims_", str_pad(i, width = 2, side = "left", pad = 0), ".Rds"))
-+     )
++       write_rds(
++         many_sims,
++         here::here("data", paste0("power_sims_", K, "_", str_pad(i, width = 2, side = "left", pad = 0), ".Rds"))
++       )
++     }
 +   }
 + }
-1 of 252 of 253 of 254 of 255 of 256 of 257 of 258 of 259 of 2510 of 2511 of 2512 of 2513 of 2514 of 2515 of 2516 of 2517 of 2518 of 2519 of 2520 of 2521 of 2522 of 2523 of 2524 of 2525 of 25> 
+1 of 50 
+2 of 50 
+3 of 50 
+4 of 50 
+5 of 50 
+6 of 50 
+7 of 50 
+8 of 50 
+9 of 50 
+10 of 50 
+11 of 50 
+12 of 50 
+13 of 50 
+14 of 50 
+15 of 50 
+16 of 50 
+17 of 50 
+18 of 50 
+19 of 50 
+20 of 50 
+21 of 50 
+22 of 50 
+23 of 50 
+24 of 50 
+25 of 50 
+> 
 > if(PLOT){
 +   if(!file.exists(here::here("data/power_bounds_and_ATE.Rds")) | OVERWRITE){
 + 
@@ -141,15 +176,15 @@ Loading required package: future
 +     ggplot(aes(y = indIVs_on_X, x = strength,
 +                color = U_on_XY)) +
 +       geom_line() +
-+       geom_point(size = 0.5) +
++       scale_x_continuous(limits = c(0, 1)) +
++       scale_y_continuous(limits = c(0, 2.075)*2,
++                          expand = expansion(mult = 0, add = c(0.05, 0.01)*2)) +
 +       scale_color_manual(values = c("black", "red")) +
 +       labs(color = bquote(gamma[U]),
 +            x = "Strength of IV",
 +            y = bquote(gamma[Z])) +
-+       lims(
-+         x = c(0, 1),
-+         y = c(0, 4)
-+       ) +
++       guides(color = guide_legend(nrow = 2)) +
++       coord_fixed(ratio = 1/4) +
 +       theme_bw() +
 +       theme(legend.position = "top")
 + 
@@ -281,7 +316,7 @@ Loading required package: future
 + 
 + 
 +   ## Power curves including for loess model
-+   power_with_loess_ests <- bounds_and_ATE %>%
++   (power_with_loess_ests <- bounds_and_ATE %>%
 +     unnest(subset) %>%
 +     unnest_wider(sum_stats) %>%
 +     unnest_wider(bounds) %>%
@@ -289,88 +324,74 @@ Loading required package: future
 +     group_by(U_on_XY, X_on_Y) %>%
 +     filter(indIVs_on_X == min(indIVs_on_X)) %>%
 +     mutate(source = "simulations") %>%
-+     ggplot(aes(x = ATE, y = indIVs_on_X, group = U_on_XY, color = as.character(U_on_XY))) +
-+       geom_point() + geom_line() +
-+       geom_point(data = roots %>% mutate(source = "loess")) +
++     ggplot(aes(x = ATE, y = indIVs_on_X, group = U_on_XY, alpha = source, color = as.character(U_on_XY))) +
++       geom_point() +
++       #geom_line() +
++       #geom_point(data = roots %>% mutate(source = "loess")) +
 +       geom_line(data = roots %>% mutate(source = "loess")) +
-+       lims(y = c(0, 4),
-+            x = c(0, 1)) +
-+       scale_color_manual("Smallest coefficient of Z on X with lower bound > 0",
-+                          values = c("black", "red")) +
-+       facet_grid(~source,
-+                  labeller = label_both) +
++       lims(
++         y = c(0, 4),
++         x = c(0, 1)
++       ) +
++       labs(
++         color = bquote(gamma[U]),
++         y = bquote(gamma[Z])
++       ) +
++       scale_color_manual(values = c("black", "red")) +
++       scale_alpha_manual(values = c(1, 0.2)) +
 +       guides(
-+         color = guide_legend(title.position = "top")
++         color = guide_legend(title.position = "top"),
++         alpha = "none"
 +       ) +
 +       theme_bw() +
-+       theme(legend.position = "top")
++       theme(legend.position = "top"))
 + 
-+   ggsave(here::here("figures/power_with_loess_ests.png"),
-+          power_with_loess_ests, dpi = 300,
++   (loess_power <- roots %>%
++       ggplot(aes(x = ATE, y = indIVs_on_X, group = U_on_XY, color = as.character(U_on_XY))) +
++         geom_point() +
++         geom_line() +
++         #geom_point(data = roots %>% mutate(source = "loess")) +
++         lims(
++           y = c(0, 4),
++           x = c(0, 0.5)
++         ) +
++         labs(
++           color = bquote(gamma[U]),
++           y = bquote(gamma[Z])
++         ) +
++         scale_color_manual(values = c("black", "red")) +
++         #scale_alpha_manual(values = c(1, 0.2)) +
++         guides(
++           color = guide_legend(title.position = "top")
++         ) +
++         theme_bw() +
++         theme(legend.position = "top"))
++ 
++   ggsave(here::here("figures/loess_power.png"),
++          loess_power, dpi = 300,
 +          height = 5, width = 8)
 + }
-`geom_smooth()` using method = 'loess' and formula 'y ~ x'
-`geom_smooth()` using method = 'loess' and formula 'y ~ x'
-`geom_smooth()` using method = 'loess' and formula 'y ~ x'
-Warning messages:
-1: In simpleLoess(y, x, w, span, degree = degree, parametric = parametric,  :
-  pseudoinverse used at 0.36252 0.48877
-2: In simpleLoess(y, x, w, span, degree = degree, parametric = parametric,  :
-  neighborhood radius 5.2119
-3: In simpleLoess(y, x, w, span, degree = degree, parametric = parametric,  :
-  reciprocal condition number  6.2562e-16
-4: In simpleLoess(y, x, w, span, degree = degree, parametric = parametric,  :
-  There are other near singularities as well. 10.46
-5: In simpleLoess(y, x, w, span, degree = degree, parametric = parametric,  :
-  pseudoinverse used at 0.36252 0.42585 0.48877
-6: In simpleLoess(y, x, w, span, degree = degree, parametric = parametric,  :
-  neighborhood radius 5.5215
-7: In simpleLoess(y, x, w, span, degree = degree, parametric = parametric,  :
-  reciprocal condition number  5.5901e-17
-8: In simpleLoess(y, x, w, span, degree = degree, parametric = parametric,  :
-  There are other near singularities as well. 14.927
-> 
-> 
-> 
-> # all_sims0 <- tibble(sims_for_power = list.files(pattern = "sims_for_power")) %>%
-> #   rowwise() %>%
-> #   mutate(sims = list(read_rds(sims_for_power))) %>%
-> #   ungroup() %>%
-> #   unnest(sims)
-> #
-> # plot_DAG(all_sims$sim_data[[1]])
-> #
-> # all_sims_w_bounds0 <- many_sims %>% #all_sims %>%
-> #   mutate(simulated_data = map(sim_data, "simulated_data"),
-> #          sum_stats = map(simulated_data, ~probs_from_data(.x, X, Y, Z1, data_format = "bivariate")),
-> #          get_bounds_res = map(sum_stats, ~get_bounds(gammas = .x$gammas, thetas = .x$thetas, stop = FALSE)),
-> #          bounds = map(get_bounds_res, "interval"))
-> #
-> #
-> # all_sims_w_bounds0 %>%
-> #   unnest_wider(bounds) %>%
-> #   #filter(i == 1) %>%
-> #   mutate(zero = lower < 0 & upper > 0) %>%
-> #   ggplot(aes(x = indIVs_on_X, color = zero)) +
-> #     geom_hline(yintercept = 0, linetype = "dashed") +
-> #     geom_errorbar(aes(ymin = lower, ymax = upper)) +
-> #     facet_wrap(~ X_on_Y, labeller = label_both,
-> #                nrow = 3) +
-> #     scale_color_manual(
-> #       values = c("TRUE" = "black", "FALSE" = "red")
-> #     )
-> #
-> #
-> # all_sims_w_bounds %>%
-> #   unnest_wider(bounds) %>%
-> #   group_by(X_on_Y, indIVs_on_X) %>%
-> #   summarize(
-> #     s_lower = sd(lower),
-> #     s_upper = sd(upper),
-> #     lower_range = max(lower) - min(lower),
-> #     upper_range = max(upper) - min(upper)
-> #   )
-> 
-> proc.time()
-    user   system  elapsed 
-59389.50 21665.65 40328.88 
+Error: Insufficient values in manual scale. 4 needed but only 2 provided.
+Backtrace:
+     █
+  1. └─ggplot2::ggsave(...)
+  2.   ├─grid::grid.draw(plot)
+  3.   └─ggplot2:::grid.draw.ggplot(plot)
+  4.     ├─base::print(x)
+  5.     └─ggplot2:::print.ggplot(x)
+  6.       ├─ggplot2::ggplot_build(x)
+  7.       └─ggplot2:::ggplot_build.ggplot(x)
+  8.         └─base::lapply(data, scales_map_df, scales = npscales)
+  9.           └─ggplot2:::FUN(X[[i]], ...)
+ 10.             ├─base::unlist(...)
+ 11.             └─base::lapply(scales$scales, function(scale) scale$map_df(df = df))
+ 12.               └─ggplot2:::FUN(X[[i]], ...)
+ 13.                 └─scale$map_df(df = df)
+ 14.                   └─ggplot2:::f(..., self = self)
+ 15.                     └─base::lapply(aesthetics, function(j) self$map(df[[j]]))
+ 16.                       └─ggplot2:::FUN(X[[i]], ...)
+ 17.                         └─self$map(df[[j]])
+ 18.                           └─ggplot2:::f(..., self = self)
+ 19.                             └─self$palette(n)
+ 20.                               └─ggplot2:::f(...)
+Execution halted

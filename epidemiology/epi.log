@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.1.15)  20 JAN 2021 17:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.1.15)  20 JAN 2021 18:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1071,8 +1071,41 @@ tex.def
 File: l3backend-pdftex.def 2021-01-09 L3 backend support: PDF output (pdfTeX)
 \l__kernel_color_stack_int=\count455
 \l__pdf_internal_box=\box80
+) (./epi.aux
+
+LaTeX Warning: Label `tab:upper-less-than-lower' multiply defined.
+
+
+LaTeX Warning: Label `tab:upper-less-than-lower' multiply defined.
+
+
+LaTeX Warning: Label `tab:upper-less-than-lower' multiply defined.
+
+
+LaTeX Warning: Label `tab:upper-less-than-lower' multiply defined.
+
+
+LaTeX Warning: Label `tab:upper-less-than-lower' multiply defined.
+
+
+LaTeX Warning: Label `tab:flipped-trivariates' multiply defined.
+
+
+LaTeX Warning: Label `tab:coefficients-lung-cancer' multiply defined.
+
+
+LaTeX Warning: Label `tab:coefficients-lung-cancer' multiply defined.
+
+
+LaTeX Warning: Label `tab:coefficients-lung-cancer' multiply defined.
+
+
+LaTeX Warning: Label `tab:coefficients-cholesterol' multiply defined.
+
+
+LaTeX Warning: Label `tab:coefficients-cholesterol' multiply defined.
+
 )
-No file epi.aux.
 \openout1 = `epi.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 119.
@@ -1120,6 +1153,7 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 119.
 LaTeX Info: Redefining \pageref on input line 119.
 LaTeX Info: Redefining \nameref on input line 119.
+(./epi.out) (./epi.out)
 \@outlinefile=\write5
 \openout5 = `epi.out'.
 
@@ -1195,8 +1229,8 @@ Package: blx-case-expl3 2020/12/31 v3.16 expl3 case changing code for biblatex
 \openout4 = `epi.bcf'.
 
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'epi.bbl' not found.
-No file epi.bbl.
+Package biblatex Info: ... file 'epi.bbl' found.
+(./epi.bbl)
 Package biblatex Info: Reference section=0 on input line 119.
 Package biblatex Info: Reference segment=0 on input line 119.
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 1
@@ -1238,321 +1272,15 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 {/Users/ralphtrane/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map
 }]
-
-LaTeX Warning: Citation 'davey_smith_mendelian_2003' on page 2 undefined on inp
-ut line 130.
-
-
-LaTeX Warning: Citation 'lawlor_mendelian_2008' on page 2 undefined on input li
-ne 130.
-
-
-LaTeX Warning: Citation 'burgess_mendelian_2013' on page 2 undefined on input l
-ine 130.
-
-
-LaTeX Warning: Citation 'burgess_using_2015' on page 2 undefined on input line 
-130.
-
-
-LaTeX Warning: Citation 'davies_reading_2018' on page 2 undefined on input line
- 130.
-
-
-LaTeX Warning: Citation 'burgess_mendelian_2013' on page 2 undefined on input l
-ine 130.
-
-
-LaTeX Warning: Citation 'bowden_assessing_2016' on page 2 undefined on input li
-ne 130.
-
-
-LaTeX Warning: Citation 'bowden_consistent_2016' on page 2 undefined on input l
-ine 130.
-
-
-LaTeX Warning: Citation 'verbanck_detection_2018' on page 2 undefined on input 
-line 130.
-
-
-LaTeX Warning: Citation 'zhao_statistical_2020' on page 2 undefined on input li
-ne 130.
-
-
-LaTeX Warning: Citation 'burgess_mendelian_2015' on page 2 undefined on input l
-ine 130.
-
-
-LaTeX Warning: Citation 'burgess_review_2017' on page 2 undefined on input line
- 130.
-
-
-LaTeX Warning: Citation 'slob_comparison_2020' on page 2 undefined on input lin
-e 130.
-
-
-Overfull \hbox (38.27176pt too wide) in paragraph at lines 130--131
-\T1/lmr/m/n/10 demi-o-log-i-cal stud-ies, of-ten re-ferred to as Mendelian ran-
-dom-iza-tion (MR) stud-ies [[],
- []
-
-
-Underfull \hbox (badness 1264) in paragraph at lines 130--131
-\T1/lmr/m/n/10 stru-ment, are used [[], [], []].
- []
-
-
-Underfull \hbox (badness 1590) in paragraph at lines 130--131
-\T1/lmr/m/n/10 Un-der a two-sample study de-sign, in-ves-ti-ga-tors fre-quently
- use para-met-ric meth-ods to study ex-
- []
-
-
-Underfull \hbox (badness 1057) in paragraph at lines 130--131
-\T1/lmr/m/n/10 po-sure ef-fects. No-table ex-am-ples in-clude the IVW es-ti-ma-
-tor [[]], MR-
- []
-
-
-LaTeX Warning: Citation 'balke_bounds_1997' on page 2 undefined on input line 1
-32.
-
-
-LaTeX Warning: Citation 'cheng_bounds_2006' on page 2 undefined on input line 1
-32.
-
-
-LaTeX Warning: Citation 'manski_nonparametric_1990' on page 2 undefined on inpu
-t line 132.
-
-
-LaTeX Warning: Citation 'richardson_ace_2014' on page 2 undefined on input line
- 132.
-
-
-LaTeX Warning: Citation 'robins_analysis_1989' on page 2 undefined on input lin
-e 132.
-
-
-LaTeX Warning: Citation 'balke_bounds_1997' on page 2 undefined on input line 1
-32.
-
-
-LaTeX Warning: Citation 'cheng_bounds_2006' on page 2 undefined on input line 1
-32.
-
-
-LaTeX Warning: Citation 'richardson_ace_2014' on page 2 undefined on input line
- 132.
-
-
-LaTeX Warning: Citation 'ramsahai_causal_2012' on page 2 undefined on input lin
-e 132.
-
-
-LaTeX Warning: Citation 'swanson_partial_2018' on page 2 undefined on input lin
-e 132.
-
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <10> on input line 144.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <7> on input line 144.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <5> on input line 144.
-
-LaTeX Warning: Citation 'rubin_estimating_1974' on page 2 undefined on input li
-ne 144.
-
-
-LaTeX Warning: Citation 'splawa-neyman_application_1990' on page 2 undefined on
- input line 144.
-
-
-LaTeX Warning: Citation 'cox_planning_1958' on page 2 undefined on input line 1
-44.
-
-
-LaTeX Warning: Citation 'rubin_randomization_1980' on page 2 undefined on input
- line 144.
-
-[2]
-
-LaTeX Warning: Citation 'didelez_mendelian_2007' on page 3 undefined on input l
-ine 146.
-
-
-LaTeX Warning: Citation 'wang_bounded_2018' on page 3 undefined on input line 1
-46.
-
-
-Underfull \hbox (badness 1248) in paragraph at lines 146--147
-\T1/lmr/m/n/10 the un-mea-sured con-founder that are typ-i-cal in MR stud-ies; 
-see [] and
- []
-
-
-LaTeX Warning: Citation 'burgess_mendelian_2015' on page 3 undefined on input l
-ine 158.
-
-
-LaTeX Warning: Citation 'richardson_ace_2014' on page 3 undefined on input line
- 158.
-
-
-LaTeX Warning: Citation 'didelez_mendelian_2007' on page 3 undefined on input l
-ine 158.
-
-
-LaTeX Warning: Citation 'swanson_partial_2018' on page 3 undefined on input lin
-e 158.
-
-
-Underfull \hbox (badness 1019) in paragraph at lines 158--159
-\T1/lmr/m/n/10 ies only ex-plic-itly state as-sump-tions (A1)-(A3) along with s
-ome para-met-ric mod-el-ing as-sump-tions
- []
-
-[3]
-
-LaTeX Warning: Citation 'angrist_identification_1996' on page 4 undefined on in
-put line 167.
-
-
-LaTeX Warning: Citation 'baiocchi_instrumental_2014' on page 4 undefined on inp
-ut line 167.
-
-
-LaTeX Warning: Citation 'balke_bounds_1997' on page 4 undefined on input line 1
-75.
-
-
-LaTeX Warning: Citation 'balke_bounds_1997' on page 4 undefined on input line 1
-75.
-
-
-LaTeX Warning: Reference `eq:strength' on page 4 undefined on input line 175.
-
-
-LaTeX Warning: Citation 'stock_survey_2002' on page 4 undefined on input line 1
-75.
-
-
-LaTeX Warning: Citation 'balke_bounds_1997' on page 4 undefined on input line 1
-82.
-
-
-LaTeX Warning: Citation 'richardson_ace_2014' on page 4 undefined on input line
- 182.
-
-
-LaTeX Warning: Citation 'swanson_partial_2018' on page 4 undefined on input lin
-e 182.
-
-
-LaTeX Warning: Citation 'ramsahai_causal_2012' on page 4 undefined on input lin
-e 188.
-
-
-LaTeX Warning: Reference `bounds-on-average-treatment-effect' on page 4 undefin
-ed on input line 188.
-
-[4]
-
-LaTeX Warning: Citation 'balke_bounds_1997' on page 5 undefined on input line 2
-12.
-
-
-LaTeX Warning: Reference `bounds-on-average-treatment-effect' on page 5 undefin
-ed on input line 212.
-
-
-LaTeX Warning: Citation 'diemer_application_2020' on page 5 undefined on input 
-line 212.
-
-
-LaTeX Warning: Reference `eq:ate_bound' on page 5 undefined on input line 214.
-
-
-LaTeX Warning: Citation 'lawlor_mendelian_2008' on page 5 undefined on input li
-ne 214.
-
-
-LaTeX Warning: Citation 'burgess_sample_2014' on page 5 undefined on input line
- 214.
-
-
-LaTeX Warning: Citation 'verma_simulation_2018' on page 5 undefined on input li
-ne 214.
-
-
-LaTeX Warning: Citation 'millard_mr-phewas_2019' on page 5 undefined on input l
-ine 214.
-
-
-LaTeX Warning: Citation 'king_mendelian_2020' on page 5 undefined on input line
- 214.
-
-
-LaTeX Warning: Reference `appendix-logistic-models' on page 5 undefined on inpu
-t line 214.
-
-
-LaTeX Warning: Reference `thm:upperBoundWidth' on page 5 undefined on input lin
-e 225.
-
-
-LaTeX Warning: Reference `eq:ate_bound' on page 5 undefined on input line 225.
-
-[5]
-
-LaTeX Warning: Reference `eq:ate_bound' on page 6 undefined on input line 228.
-
-
-LaTeX Warning: Reference `proof-of-theorem' on page 6 undefined on input line 2
-31.
-
-
-LaTeX Warning: Reference `thm:upperBoundWidth' on page 6 undefined on input lin
-e 231.
-
-
-LaTeX Warning: Citation 'balke_bounds_1997' on page 6 undefined on input line 2
-31.
-
-
-LaTeX Warning: Reference `fig:biv_width_vs_strength' on page 6 undefined on inp
-ut line 233.
-
-
-LaTeX Warning: Reference `thm:upperBoundWidth' on page 6 undefined on input lin
-e 233.
-
-
-LaTeX Warning: Reference `eq:ate_bound' on page 6 undefined on input line 233.
-
-
-LaTeX Warning: Reference `data-analysis' on page 6 undefined on input line 233.
-
-
-
-LaTeX Warning: Reference `fig:coef_vs_strength' on page 6 undefined on input li
-ne 233.
-
-
-LaTeX Warning: Reference `appendix-sim-results' on page 6 undefined on input li
-ne 233.
-
-
-LaTeX Warning: Reference `appendix-sim-results' on page 6 undefined on input li
-ne 235.
-
-
-LaTeX Warning: Reference `fig:power_curves' on page 6 undefined on input line 2
-35.
-
-[6]
+[2] [3] [4] [5] [6]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bivariate_width_vs
-_strength_pip.png, id=63, 1204.5pt x 1415.2875pt>
+_strength_pip.png, id=245, 1204.5pt x 1415.2875pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bivariate_wid
 th_vs_strength_pip.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bivariate_widt
@@ -1560,16 +1288,8 @@ h_vs_strength_pip.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
 gures/bivariate_width_vs_strength_pip.png  used on input line 242.
 (pdftex.def)             Requested size: 225.47562pt x 264.93384pt.
-
-LaTeX Warning: Reference `data-analysis' on page 7 undefined on input line 243.
-
-
-
-LaTeX Warning: Reference `data-analysis' on page 7 undefined on input line 243.
-
-
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/MR_coefs_vs_streng
-th.png, id=65, 1204.5pt x 1415.2875pt>
+th.png, id=249, 1204.5pt x 1415.2875pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/MR_coefs_vs_s
 trength.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/MR_coefs_vs_st
@@ -1578,7 +1298,7 @@ Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
 gures/MR_coefs_vs_strength.png  used on input line 249.
 (pdftex.def)             Requested size: 225.47562pt x 264.93384pt.
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/loess_power.png, i
-d=66, 2409.0pt x 1505.625pt>
+d=250, 2409.0pt x 1505.625pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/loess_power.p
 ng Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/loess_power.pn
@@ -1588,43 +1308,10 @@ gures/loess_power.png  used on input line 259.
 (pdftex.def)             Requested size: 446.24617pt x 278.90385pt.
 [7 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bivariate_width
 _vs_strength_pip.png> </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figu
-res/MR_coefs_vs_strength.png>]
-
-LaTeX Warning: Citation 'swanson_commentary_2017' on page 8 undefined on input 
-line 267.
-
-
-LaTeX Warning: Reference `appendix-sim-results-multiple-IVs' on page 8 undefine
-d on input line 267.
-
-
-LaTeX Warning: Reference `thm:upperBoundWidth' on page 8 undefined on input lin
-e 274.
-
-
-LaTeX Warning: Citation 'balke_bounds_1997' on page 8 undefined on input line 2
-74.
-
-
-LaTeX Warning: Citation 'richardson_ace_2014' on page 8 undefined on input line
- 274.
-
-
-LaTeX Warning: Reference `appendix-quasi-bayesian-details' on page 8 undefined 
-on input line 274.
-
-[8 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/loess_power.png
->]
-
-LaTeX Warning: Reference `tab:subset_plot_summaries' on page 9 undefined on inp
-ut line 276.
-
-
-LaTeX Warning: Reference `fig:trivariate_bounds' on page 9 undefined on input l
-ine 276.
-
+res/MR_coefs_vs_strength.png>] [8 </Users/ralphtrane/Documents/RPackages_dev/AC
+EBounds/figures/loess_power.png>]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_bounds_
-subset_plot.png, id=84, 2409.0pt x 2409.0pt>
+subset_plot.png, id=274, 2409.0pt x 2409.0pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_bo
 unds_subset_plot.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_bou
@@ -1632,80 +1319,616 @@ nds_subset_plot.png>
 Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
 gures/trivariate_bounds_subset_plot.png  used on input line 298.
 (pdftex.def)             Requested size: 469.73474pt x 469.73474pt.
-[9]
-
-LaTeX Warning: Reference `fig:trivariate_bounds' on page 10 undefined on input 
-line 303.
-
-[10 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_bou
-nds_subset_plot.png>]
-
-LaTeX Warning: Citation 'holmes_mendelian_2015' on page 11 undefined on input l
-ine 314.
-
-
-LaTeX Warning: Citation 'richardson_evaluating_2020' on page 11 undefined on in
-put line 314.
-
-
-LaTeX Warning: Citation '20051267' on page 11 undefined on input line 314.
-
-
-LaTeX Warning: Citation 'cholesterol_treatment_trialists_ctt_collaborators_effe
-cts_2012' on page 11 undefined on input line 314.
-
+[9] [10 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate
+_bounds_subset_plot.png>]
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 3
 16.
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
+) [11]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
+moking_lung_cancer_bivariate_bounds_subset_ukb-d-20116_0_ukb-d-40001_C349.png, 
+id=308, 1204.5pt x 903.375pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/smoking_lung_cancer_bivariate_bounds_subset_ukb-d-20116_0_ukb-d-40001_C349.
+png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_lung_cancer_bivariate_bounds_subset_ukb-d-20116_0_ukb-d-40001_C349.p
+ng>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/smoking_lung_cancer_bivariate_bounds_subset_ukb-d-20116_
+0_ukb-d-40001_C349.png  used on input line 325.
+(pdftex.def)             Requested size: 234.86737pt x 176.15053pt.
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
+holesterol_heart_attack_bivariate_bounds_subset_ukb-a-108_ukb-a-434.png, id=309
+, 1204.5pt x 903.375pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/cholesterol_heart_attack_bivariate_bounds_subset_ukb-a-108_ukb-a-434.png Gr
+aphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_bivariate_bounds_subset_ukb-a-108_ukb-a-434.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/cholesterol_heart_attack_bivariate_bounds_subset_ukb-a-1
+08_ukb-a-434.png  used on input line 331.
+(pdftex.def)             Requested size: 234.86737pt x 176.15053pt.
 
-LaTeX Warning: Citation 'mrbase' on page 11 undefined on input line 316.
+Overfull \hbox (4.44441pt too wide) in paragraph at lines 324--335
+ []$[]$  $[]$ 
+ []
+
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
+moking_lung_cancer_individual_SNPs_plot_subset_ukb-d-20116_0_ukb-d-40001_C349.p
+ng, id=314, 1204.5pt x 2032.59375pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/smoking_lung_cancer_individual_SNPs_plot_subset_ukb-d-20116_0_ukb-d-40001_C
+349.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_lung_cancer_individual_SNPs_plot_subset_ukb-d-20116_0_ukb-d-40001_C3
+49.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/smoking_lung_cancer_individual_SNPs_plot_subset_ukb-d-20
+116_0_ukb-d-40001_C349.png  used on input line 342.
+(pdftex.def)             Requested size: 234.86737pt x 396.33868pt.
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
+holesterol_heart_attack_individual_SNPs_plot_subset_ukb-a-108_ukb-a-434.png, id
+=315, 1204.5pt x 2032.59375pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/cholesterol_heart_attack_individual_SNPs_plot_subset_ukb-a-108_ukb-a-434.pn
+g Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_individual_SNPs_plot_subset_ukb-a-108_ukb-a-434.png
+>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/cholesterol_heart_attack_individual_SNPs_plot_subset_ukb
+-a-108_ukb-a-434.png  used on input line 348.
+(pdftex.def)             Requested size: 234.86737pt x 396.33868pt.
+
+Overfull \hbox (4.44441pt too wide) in paragraph at lines 341--352
+ []$[]$  $[]$ 
+ []
+
+[12 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_lung_cancer_bivariate_bounds_subset_ukb-d-20116_0_ukb-d-40001_C349.p
+ng> </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_bivariate_bounds_subset_ukb-a-108_ukb-a-434.png>] [
+13 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyse
+s/smoking_lung_cancer_individual_SNPs_plot_subset_ukb-d-20116_0_ukb-d-40001_C34
+9.png> </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_ana
+lyses/cholesterol_heart_attack_individual_SNPs_plot_subset_ukb-a-108_ukb-a-434.
+png>] [14] [15] [16]
+Overfull \hbox (2.57072pt too wide) in paragraph at lines 816--817
+ []\T1/lmr/m/n/10 PY0Z0| 
+ []
 
 
-LaTeX Warning: Reference `more-details-data-application-appendix' on page 11 un
-defined on input line 316.
+Overfull \hbox (2.57072pt too wide) in paragraph at lines 818--819
+ []\T1/lmr/m/n/10 PY0Z1| 
+ []
 
 
-LaTeX Warning: Reference `fig:two-sample-bounds' on page 11 undefined on input 
-line 318.
+Overfull \hbox (2.57072pt too wide) in paragraph at lines 820--821
+ []\T1/lmr/m/n/10 PY0Z2| 
+ []
 
 
-LaTeX Warning: Reference `quasi-bayesian' on page 11 undefined on input line 31
-8.
+Overfull \hbox (2.57072pt too wide) in paragraph at lines 822--823
+ []\T1/lmr/m/n/10 PY1Z0| 
+ []
 
 
-LaTeX Warning: Reference `fig:one-sample-bounds' on page 11 undefined on input 
-line 318.
+Overfull \hbox (2.57072pt too wide) in paragraph at lines 824--825
+ []\T1/lmr/m/n/10 PY1Z1| 
+ []
 
 
-LaTeX Warning: Reference `more-details-data-application-appendix' on page 11 un
-defined on input line 318.
-
-[11]
-
-LaTeX Warning: File `/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figure
-s/example_analyses/smoking_lung_cancer_bivariate_bounds_subset_ukb-d-20116_0_uk
-b-d-40001_C349.png' not found on input line 325.
+Overfull \hbox (2.57072pt too wide) in paragraph at lines 826--827
+ []\T1/lmr/m/n/10 PY1Z2| 
+ []
 
 
-! Package pdftex.def Error: File `/Users/ralphtrane/Documents/RPackages_dev/ACE
-Bounds/figures/example_analyses/smoking_lung_cancer_bivariate_bounds_subset_ukb
--d-20116_0_ukb-d-40001_C349.png' not found: using draft setting.
+Overfull \hbox (2.57072pt too wide) in paragraph at lines 828--829
+ []\T1/lmr/m/n/10 PX0Z0| 
+ []
 
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.325 ...ubset_ukb-d-20116_0_ukb-d-40001_C349.png}
-                                                   
+
+Overfull \hbox (2.57072pt too wide) in paragraph at lines 830--831
+ []\T1/lmr/m/n/10 PX0Z1| 
+ []
+
+
+Overfull \hbox (2.57072pt too wide) in paragraph at lines 832--833
+ []\T1/lmr/m/n/10 PX0Z2| 
+ []
+
+
+Overfull \hbox (2.57072pt too wide) in paragraph at lines 834--835
+ []\T1/lmr/m/n/10 PX1Z0| 
+ []
+
+
+Overfull \hbox (2.57072pt too wide) in paragraph at lines 836--837
+ []\T1/lmr/m/n/10 PX1Z1| 
+ []
+
+
+Overfull \hbox (2.57072pt too wide) in paragraph at lines 838--839
+ []\T1/lmr/m/n/10 PX1Z2| 
+ []
+
+
+Overfull \hbox (48.17207pt too wide) in alignment at lines 812--843
+ [] [] [] [] [] [] [] [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (2.57072pt too wide) in paragraph at lines 846--847
+ []\T1/lmr/m/n/10 PY0Z0| 
+ []
+
+
+Overfull \hbox (2.57072pt too wide) in paragraph at lines 848--849
+ []\T1/lmr/m/n/10 PY0Z1| 
+ []
+
+
+Overfull \hbox (2.57072pt too wide) in paragraph at lines 850--851
+ []\T1/lmr/m/n/10 PY0Z2| 
+ []
+
+
+Overfull \hbox (2.57072pt too wide) in paragraph at lines 852--853
+ []\T1/lmr/m/n/10 PY1Z0| 
+ []
+
+
+Overfull \hbox (2.57072pt too wide) in paragraph at lines 854--855
+ []\T1/lmr/m/n/10 PY1Z1| 
+ []
+
+
+Overfull \hbox (2.57072pt too wide) in paragraph at lines 856--857
+ []\T1/lmr/m/n/10 PY1Z2| 
+ []
+
+
+Overfull \hbox (2.57072pt too wide) in paragraph at lines 858--859
+ []\T1/lmr/m/n/10 PX0Z0| 
+ []
+
+
+Overfull \hbox (2.57072pt too wide) in paragraph at lines 860--861
+ []\T1/lmr/m/n/10 PX0Z1| 
+ []
+
+
+Overfull \hbox (2.57072pt too wide) in paragraph at lines 862--863
+ []\T1/lmr/m/n/10 PX0Z2| 
+ []
+
+
+Overfull \hbox (2.57072pt too wide) in paragraph at lines 864--865
+ []\T1/lmr/m/n/10 PX1Z0| 
+ []
+
+
+Overfull \hbox (2.57072pt too wide) in paragraph at lines 866--867
+ []\T1/lmr/m/n/10 PX1Z1| 
+ []
+
+
+Overfull \hbox (2.57072pt too wide) in paragraph at lines 868--869
+ []\T1/lmr/m/n/10 PX1Z2| 
+ []
+
+
+Overfull \hbox (48.17207pt too wide) in alignment at lines 843--873
+ [] [] [] [] [] [] [] [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (48.17207pt too wide) in alignment at lines 873--1414
+ [] [] [] [] [] [] [] [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (48.17207pt too wide) in alignment at lines 1414--1739
+ [] [] [] [] [] [] [] [] [] [] [] [] [] 
+ []
+
+[17] [18]
+Overfull \hbox (33.4495pt too wide) in alignment at lines 1743--1764
+ [] [] [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (33.4495pt too wide) in alignment at lines 1764--1784
+ [] [] [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (33.4495pt too wide) in alignment at lines 1784--2125
+ [] [] [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (33.4495pt too wide) in alignment at lines 2125--2465
+ [] [] [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (33.4495pt too wide) in alignment at lines 2465--2805
+ [] [] [] [] [] [] [] [] 
+ []
+
+[19]
+Overfull \hbox (33.4495pt too wide) in alignment at lines 2805--3010
+ [] [] [] [] [] [] [] [] 
+ []
+
+[20]
+Overfull \hbox (1.43364pt too wide) detected at line 3036
+[][][]
+ []
+
+[21] [22] [23] [24
+
+] [25] [26] [27] [28] [29] [30
+
+] [31] [32] [33] [34]
+(/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/tables/sim_coefficients_ta
+ble.tex)
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/power.png, id=450,
+ 2409.0pt x 1806.75pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/power.png Gra
+phic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/power.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/power.png  used on input line 3457.
+(pdftex.def)             Requested size: 465.02968pt x 348.77225pt.
+[35] [36 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/power.png
+>]
+
+LaTeX Warning: Reference `fig:multiple_IVs_scenario_3' on page 37 undefined on 
+input line 3478.
+
+
+LaTeX Warning: Reference `fig:multiple_IVs_scenario_4' on page 37 undefined on 
+input line 3480.
+
+[37]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_vs_coef_m
+ultiple_IVs_MR.png, id=501, 1204.5pt x 1204.5pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_vs_c
+oef_multiple_IVs_MR.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_vs_co
+ef_multiple_IVs_MR.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/strength_vs_coef_multiple_IVs_MR.png  used on input line 3489.
+(pdftex.def)             Requested size: 234.86737pt x 234.86737pt.
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_vs_coef_m
+ultiple_IVs_power.png, id=502, 1204.5pt x 1204.5pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_vs_c
+oef_multiple_IVs_power.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_vs_co
+ef_multiple_IVs_power.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/strength_vs_coef_multiple_IVs_power.png  used on input line 3495.
+(pdftex.def)             Requested size: 234.86737pt x 234.86737pt.
+
+Overfull \hbox (4.44441pt too wide) in paragraph at lines 3488--3499
+ []$[]$  $[]$ 
+ []
+
+[38] [39 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_
+vs_coef_multiple_IVs_MR.png> </Users/ralphtrane/Documents/RPackages_dev/ACEBoun
+ds/figures/strength_vs_coef_multiple_IVs_power.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multip
+le_IV_sims_MR.png, id=516, 3011.25pt x 2258.4375pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_m
+ultiple_IV_sims_MR.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
+ltiple_IV_sims_MR.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/bounds_from_multiple_IV_sims_MR.png  used on input line 3507.
+(pdftex.def)             Requested size: 650.4387pt x 487.82903pt.
+[40 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
+ltiple_IV_sims_MR.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multip
+le_IV_sims_MR_many_weak.png, id=522, 3011.25pt x 2258.4375pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_m
+ultiple_IV_sims_MR_many_weak.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
+ltiple_IV_sims_MR_many_weak.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/bounds_from_multiple_IV_sims_MR_many_weak.png  used on input line 3516.
+(pdftex.def)             Requested size: 650.4387pt x 487.82903pt.
+[41 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
+ltiple_IV_sims_MR_many_weak.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multip
+le_IV_sims_power.png, id=528, 3011.25pt x 2258.4375pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_m
+ultiple_IV_sims_power.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
+ltiple_IV_sims_power.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/bounds_from_multiple_IV_sims_power.png  used on input line 3525.
+(pdftex.def)             Requested size: 650.4387pt x 487.82903pt.
+[42 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
+ltiple_IV_sims_power.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multip
+le_IV_sims_power_many_weak.png, id=534, 3011.25pt x 2258.4375pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_m
+ultiple_IV_sims_power_many_weak.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
+ltiple_IV_sims_power_many_weak.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/bounds_from_multiple_IV_sims_power_many_weak.png  used on input line 3534
+.
+(pdftex.def)             Requested size: 650.4387pt x 487.82903pt.
+[43 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_mu
+ltiple_IV_sims_power_many_weak.png>] [44
+
+
+
+
+
+] [45]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
+moking_lung_cancer_marginal_Z.png, id=560, 1505.625pt x 602.25pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/smoking_lung_cancer_marginal_Z.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_lung_cancer_marginal_Z.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/smoking_lung_cancer_marginal_Z.png  used on input line 3
+619.
+(pdftex.def)             Requested size: 469.74852pt x 187.8994pt.
+
+LaTeX Warning: Reference `smoking-effect-on-lung-cancer' on page 46 undefined o
+n input line 3620.
+
+
+LaTeX Warning: Reference `smoking-effect-on-lung-cancer' on page 46 undefined o
+n input line 3620.
+
+[46]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
+moking_lung_cancer_coefficients.png, id=567, 1505.625pt x 903.375pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/smoking_lung_cancer_coefficients.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_lung_cancer_coefficients.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/smoking_lung_cancer_coefficients.png  used on input line
+ 3626.
+(pdftex.def)             Requested size: 469.74852pt x 281.8491pt.
+[47 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_lung_cancer_marginal_Z.png> </Users/ralphtrane/Documents/RPackages_d
+ev/ACEBounds/figures/example_analyses/smoking_lung_cancer_coefficients.png>] [4
+8] [49] [50]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
+trength_histogram.png, id=590, 2409.0pt x 1204.5pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/strength_histogram.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/strength_histogram.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/strength_histogram.png  used on input line 3750.
+(pdftex.def)             Requested size: 465.02968pt x 232.51483pt.
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
+moking_lung_cancer_bivariate_bounds_ukb-d-20116_0_ukb-d-40001_C349.png, id=591,
+ 2409.0pt x 3011.25pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/smoking_lung_cancer_bivariate_bounds_ukb-d-20116_0_ukb-d-40001_C349.png Gra
+phic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_lung_cancer_bivariate_bounds_ukb-d-20116_0_ukb-d-40001_C349.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/smoking_lung_cancer_bivariate_bounds_ukb-d-20116_0_ukb-d
+-40001_C349.png  used on input line 3756.
+(pdftex.def)             Requested size: 465.02968pt x 581.2871pt.
+[51 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/strength_histogram.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
+moking_lung_cancer_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.png, id=
+599, 3312.375pt x 1957.3125pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/smoking_lung_cancer_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.png
+ Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_lung_cancer_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.png>
+
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/smoking_lung_cancer_individual_SNPs_plot_ukb-d-20116_0_u
+kb-d-40001_C349.png  used on input line 3763.
+(pdftex.def)             Requested size: 465.04346pt x 274.7984pt.
+[52 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_lung_cancer_bivariate_bounds_ukb-d-20116_0_ukb-d-40001_C349.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/s
+moking_lung_cancer_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C349.png,
+ id=606, 2409.0pt x 1806.75pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/smoking_lung_cancer_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C349
+.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_lung_cancer_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C349.
+png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/smoking_lung_cancer_intersection_bounds_plot_ukb-d-20116
+_0_ukb-d-40001_C349.png  used on input line 3770.
+(pdftex.def)             Requested size: 465.02968pt x 348.77225pt.
+[53 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_lung_cancer_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.png>
+]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
+holesterol_heart_attack_marginal_Z.png, id=613, 1505.625pt x 602.25pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/cholesterol_heart_attack_marginal_Z.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_marginal_Z.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/cholesterol_heart_attack_marginal_Z.png  used on input l
+ine 3780.
+(pdftex.def)             Requested size: 469.74852pt x 187.8994pt.
+
+LaTeX Warning: Reference `cholesterol-on-heart-attack' on page 54 undefined on 
+input line 3781.
+
+
+LaTeX Warning: Reference `cholesterol-on-heart-attack' on page 54 undefined on 
+input line 3781.
+
+[54 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/smoking_lung_cancer_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C349.
+png>]
+
+LaTeX Warning: Reference `cholesterol-on-heart-attack' on page 55 undefined on 
+input line 3786.
+
+
+LaTeX Warning: Reference `cholesterol-on-heart-attack' on page 55 undefined on 
+input line 3786.
+
+
+Overfull \hbox (22.2222pt too wide) in paragraph at lines 3788--3877
+[]$[]$  $[]$ 
+ []
+
+[55 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_marginal_Z.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
+holesterol_heart_attack_marginal_conditionals.png, id=628, 1505.625pt x 903.375
+pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/cholesterol_heart_attack_marginal_conditionals.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_marginal_conditionals.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/cholesterol_heart_attack_marginal_conditionals.png  used
+ on input line 3881.
+(pdftex.def)             Requested size: 465.06183pt x 279.0371pt.
+[56]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
+holesterol_heart_attack_coefficients.png, id=634, 1505.625pt x 903.375pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/cholesterol_heart_attack_coefficients.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_coefficients.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/cholesterol_heart_attack_coefficients.png  used on input
+ line 3888.
+(pdftex.def)             Requested size: 469.74852pt x 281.8491pt.
+[57 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_marginal_conditionals.png>] [58 </Users/ralphtrane/
+Documents/RPackages_dev/ACEBounds/figures/example_analyses/cholesterol_heart_at
+tack_coefficients.png>] [59]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
+holesterol_heart_attack_strength_histogram.png, id=652, 2409.0pt x 1204.5pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/cholesterol_heart_attack_strength_histogram.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_strength_histogram.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/cholesterol_heart_attack_strength_histogram.png  used on
+ input line 3976.
+(pdftex.def)             Requested size: 465.02968pt x 232.51483pt.
+[60]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
+holesterol_heart_attack_bivariate_bounds_ukb-a-108_ukb-a-434.png, id=657, 2409.
+0pt x 3011.25pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/cholesterol_heart_attack_bivariate_bounds_ukb-a-108_ukb-a-434.png Graphic f
+ile (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_bivariate_bounds_ukb-a-108_ukb-a-434.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/cholesterol_heart_attack_bivariate_bounds_ukb-a-108_ukb-
+a-434.png  used on input line 3982.
+(pdftex.def)             Requested size: 465.02968pt x 581.2871pt.
+[61 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_strength_histogram.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
+holesterol_heart_attack_individual_SNPs_plot_ukb-a-108_ukb-a-434.png, id=665, 2
+409.0pt x 2710.125pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/cholesterol_heart_attack_individual_SNPs_plot_ukb-a-108_ukb-a-434.png Graph
+ic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_individual_SNPs_plot_ukb-a-108_ukb-a-434.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/cholesterol_heart_attack_individual_SNPs_plot_ukb-a-108_
+ukb-a-434.png  used on input line 3989.
+(pdftex.def)             Requested size: 465.02968pt x 523.15839pt.
+[62 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_bivariate_bounds_ukb-a-108_ukb-a-434.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
+holesterol_heart_attack_intersection_bounds_plot_ukb-a-108_ukb-a-434.png, id=67
+2, 2409.0pt x 1204.5pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analy
+ses/cholesterol_heart_attack_intersection_bounds_plot_ukb-a-108_ukb-a-434.png G
+raphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_intersection_bounds_plot_ukb-a-108_ukb-a-434.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/example_analyses/cholesterol_heart_attack_intersection_bounds_plot_ukb-a-
+108_ukb-a-434.png  used on input line 3996.
+(pdftex.def)             Requested size: 465.02968pt x 232.51483pt.
+[63 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analys
+es/cholesterol_heart_attack_individual_SNPs_plot_ukb-a-108_ukb-a-434.png>] [64 
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/c
+holesterol_heart_attack_intersection_bounds_plot_ukb-a-108_ukb-a-434.png>] [65]
+[66] [67] [68] [69] (./epi.aux)
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package rerunfilecheck Info: File `epi.out' has not changed.
+(rerunfilecheck)             Checksum: 05B3222D192AD70D3608F8D3B3600F31;4978.
+
+Package biblatex Warning: Please rerun LaTeX.
+
+Package logreq Info: Writing requests to 'epi.run.xml'.
+\openout1 = `epi.run.xml'.
+
+ ) 
 Here is how much of TeX's memory you used:
- 30854 strings out of 481252
- 570517 string characters out of 5914732
- 1257167 words of memory out of 5000000
- 47194 multiletter control sequences out of 15000+600000
- 473905 words of font info for 74 fonts, out of 8000000 for 9000
+ 31471 strings out of 481252
+ 598437 string characters out of 5914732
+ 1344116 words of memory out of 5000000
+ 47621 multiletter control sequences out of 15000+600000
+ 476700 words of font info for 75 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 87i,17n,88p,1746b,1593s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 87i,17n,88p,3051b,1701s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/Users/ralphtrane/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/
+Users/ralphtrane/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/User
+s/ralphtrane/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/User
+s/ralphtrane/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/User
+s/ralphtrane/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}</User
+s/ralphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></User
+s/ralphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></User
+s/ralphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx9.pfb></Users
+/ralphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb></User
+s/ralphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb></User
+s/ralphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></User
+s/ralphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></User
+s/ralphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></Users
+/ralphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/
+ralphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/r
+alphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></Users/ra
+lphtrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr5.pfb></Users/ralp
+htrane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></Users/ralpht
+rane/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.pfb></Users/ralphtra
+ne/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/ralphtra
+ne/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></Users/ralphtra
+ne/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></Users/ralphtran
+e/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></Users/ralphtrane
+/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
+Output written on epi.pdf (69 pages, 5823938 bytes).
+PDF statistics:
+ 892 PDF objects out of 1000 (max. 8388607)
+ 732 compressed objects within 8 object streams
+ 201 named destinations out of 1000 (max. 500000)
+ 321 words of extra memory for PDF output out of 10000 (max. 10000000)
 
-!  ==> Fatal error occurred, no output PDF file produced!

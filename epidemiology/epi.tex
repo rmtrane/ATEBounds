@@ -360,7 +360,7 @@ Nonparametric bounds are without a doubt an attractive concept. With a minimal s
 
 We also outlined an approach to roughly quantify the information loss going from two-sample designs to one-sample designs and to assess the range of conclusions that can be drawn from bound-based approaches if we had one-sample data. We demonstrate our method to a few different settings of two-sample data and showed the range conclusions that can be drawn about the ATE.
 
-What do our results suggest for bound-based analysis in two-sample MR settings in practice? Overall, our general recommendation is that unless investigators have a very strong instrument, ideally exceeding \(ST >0.5\), bounds will unlikely be useful as a nonparametric analysis of the ATE. Also, aggregating information from many instruments through simple intersections will only be as good as using a single strong instrument. But, there may be few limited, but meaningful use cases for bounds in two-sample MR studies. First when one has prior knowledge about the direction of the effect, but wish to get a better sense of the magnitude, nonparametric bounds can provide an upper limit on this magnitude. This is especially useful in cases where the exposure is known to cause harm or benefit, for example in our smoking lung cancer example where the direction of the effect of smoking on lung cancer is well known and an upper bound on this effect would tell investigators about the maximum possible effect that smoking could have on increasing the incidence of lung cancer. Second, two-sample IV bounds can be used to check estimates from parametric methods to see if they lie inside of the bounds; if the estimates lie outside of the bounds, then the parametric models underlying the estimates are likely mis-specified.
+What do our results suggest for bound-based analysis in two-sample MR settings in practice? Overall, our general recommendation is that unless investigators have a very strong instrument, ideally exceeding \(ST > 0.5\), bounds will unlikely be useful as a nonparametric analysis of the ATE. Also, aggregating information from many instruments through simple intersections will only be as good as using a single strong instrument. But, there may be few limited, but meaningful use cases for bounds in two-sample MR studies. First when one has prior knowledge about the direction of the effect, but wish to get a better sense of the magnitude, nonparametric bounds can provide an upper limit on this magnitude. This is especially useful in cases where the exposure is known to cause harm or benefit, for example in our smoking lung cancer example where the direction of the effect of smoking on lung cancer is well known and an upper bound on this effect would tell investigators about the maximum possible effect that smoking could have on increasing the incidence of lung cancer. Second, two-sample IV bounds can be used to check estimates from parametric methods to see if they lie inside of the bounds; if the estimates lie outside of the bounds, then the parametric models underlying the estimates are likely mis-specified.
 
 \newpage
 
@@ -3432,7 +3432,7 @@ U3 - L3 &= 1 + P(Y = 1 | Z = 0) + P(X = 1 | Z = 0) - P(X = 1 | Z = k)\\
         &\le 2 - 2\cdot ST.
 \end{aligned}\]
 
-As we see from the derivations above, regardless of which expression is the minimum and which is the maximum in bounds above, the width of the bounds is bounded from above by \(2 - 2\cdot ST\). \qed.
+As we see from the derivations above, regardless of which expression is the minimum and which is the maximum in bounds above, the width of the bounds is bounded from above by \(2 - 2\cdot ST\). \qed
 
 \newpage
 
@@ -3452,12 +3452,14 @@ For each combination of values of the coefficients \(\gamma_1, \gamma_U, \beta_1
 
 Each set of marginal probabilities leads us to a set of non-parametric bounds from two-sample data. These are shown on Figure \ref{fig:power} together with the ATE. Figure \ref{fig:biv_width_vs_strength} shows the width of these bounds plotted against ST, while Figure \ref{fig:coef_vs_strength} shows the values of \(\gamma_1\) plotted against ST.
 
-\begin{figure}[H]
+\clearpage
+\begin{sidewaysfigure}
   \centering
-  \includegraphics[width=0.99\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/power.png}
-  \caption{Bounds based on simulations as described. Upper and lower bounds are connected a curve based on a loess extrapolation. This curve is used to find the smallest coefficients needed to detect direction as plotted on Figure \ref{fig:power_curves}.}
+  \includegraphics[width=\textheight]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/power.png}
+  \caption{Bounds based on simulations as described. Upper and lower bounds are connected by a curve (dotted lines) based on a loess extrapolation. This curve is used to find the smallest coefficients needed to detect direction as plotted on Figure \ref{fig:power_curves}.}
   \label{fig:power}
-\end{figure}
+\end{sidewaysfigure}
+\clearpage
 
 To find the smallest value of \(\gamma_1\) that results in bounds excluding \(0\), we fit a loess curve to the lower bounds in Figure \ref{fig:power}, and find the value where this curve crosses \(0\). This results in the values depicted on Figure \ref{fig:power_curves}.
 
@@ -3600,7 +3602,7 @@ We sequentially sample values of \(\text{Cov}(X, Y | Z = 0), \text{Cov}(X, Y | Z
 For each plausible joint distribution \(P(X = x, Y = y | Z = z)\), we use the one-sample IV bounds by \textcite{balke_bounds_1997} and \textcite{richardson_ace_2014} to obtain a bound for the ATE. If a large number of the one-sample IV bounds do not cover zero, then there is some evidence for a non-zero exposure effect and the only reason we are not able to detect this effect is due to the limitations of the two-sample design. However, if a large number of the one-sample IV bounds do cover zero, there is less evidence for a non-zero causal effect or that utilizing bound-based approaches to obtain some information about the ATE may be a hopeless exercise even if we are under a one-sample design.
 
 \hypertarget{sampling-of-intersection-bounds-from-two-instruments}{%
-\subsection{\texorpdfstring{Sampling of Intersection Bounds From Two Instruments \label{sample-intersection-bounds}}{Sampling of Intersection Bounds From Two Instruments }}\label{sampling-of-intersection-bounds-from-two-instruments}}
+\subsubsection{\texorpdfstring{Sampling of Intersection Bounds From Two Instruments \label{sample-intersection-bounds}}{Sampling of Intersection Bounds From Two Instruments }}\label{sampling-of-intersection-bounds-from-two-instruments}}
 
 To extend our method for sampling plausible joint distributions of \(P(X = x, Y = y | Z = z)\) to the scenario where we have multiple instruments available, we simply repeat the one instrument sampling for each instrument. This is equivalent to assuming that the covariances of \(X\) and \(Y\) given \(Z_1\) are independent of the covariances of \(X\) and \(Y\) given \(Z_2\). Once we have obtained bounds for each instrument, we take the intersection to get the intersection bounds.
 
@@ -3617,7 +3619,7 @@ We use the \texttt{TwoSampleMR} R package \autocite{mrbase} to extract and prepr
 \begin{figure}[H]
   \center
   \includegraphics[width = \textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_lung_cancer_marginal_Z.png}
-  \caption{Histograms of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing for analysis in Section \ref{smoking-effect-on-lung-cancer}.}
+  \caption{Histograms of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing.}
   \label{fig:marginal-distribution-of-instruments-lung-cancer}
 \end{figure}
 
@@ -3753,17 +3755,22 @@ rs9835772 & -0.0078024 & 0.1814198 & -0.0031275 & -1.978401\\*
 \end{figure}
 
 \begin{figure}[H]
+  \center
   \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_lung_cancer_bivariate_bounds_ukb-d-20116_0_ukb-d-40001_C349.png}
   \caption{Nonparametric two-sample IV bounds on the average treatment effect of smoking on the incidence of lung cancer.}
   \label{fig:smoking_on_lung_cancer_ind_bounds}
 \end{figure}
 
-\begin{figure}[H]
+\clearpage
+
+\begin{sidewaysfigure}
   \center
-  \includegraphics[width = 0.99\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_lung_cancer_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.png}
-    \caption{500 sets of bounds of the average treatment effect of smoking on lung cancer for each of the 84 SNPs. Each bound is based on a set of values for the trivariate distribution randomly sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
-    \label{fig:smoking_on_lung_cancer_tri_bounds_all}
-\end{figure}
+  \includegraphics[width = \textheight]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_lung_cancer_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.png}
+  \caption{500 sets of bounds of the average treatment effect of smoking on lung cancer for each of the 84 SNPs. Each bound is based on a set of values for the trivariate distribution randomly sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
+  \label{fig:smoking_on_lung_cancer_tri_bounds_all}
+\end{sidewaysfigure}
+
+\clearpage
 
 \begin{figure}[H]
   \center
@@ -3778,7 +3785,7 @@ rs9835772 & -0.0078024 & 0.1814198 & -0.0031275 & -1.978401\\*
 \begin{figure}[H]
   \center
   \includegraphics[width = \textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/cholesterol_heart_attack_marginal_Z.png}
-  \caption{Histograms of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing for analysis in Section \ref{cholesterol-on-heart-attack}}
+  \caption{Histograms of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing.}
   \label{fig:marginal-distribution-of-instruments-cholesterol-heart-attack}
 \end{figure}
 
@@ -3984,12 +3991,16 @@ rs964184 & -0.0215630 & -3.737246 & -0.0013629 & -1.968778\\*
   \label{fig:cholesterol_on_heart_attack_ind_bounds}
 \end{figure}
 
-\begin{figure}[H]
+\clearpage
+
+\begin{sidewaysfigure}
   \center
-  \includegraphics[width = 0.99\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/cholesterol_heart_attack_individual_SNPs_plot_ukb-a-108_ukb-a-434.png}
+  \includegraphics[width = \textheight]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/cholesterol_heart_attack_individual_SNPs_plot_ukb-a-108_ukb-a-434.png}
     \caption{500 sets of bounds of the average treatment effect of high cholesterol on heart attack for each of the 54 SNPs. Each bound is based on a set of values for the trivariate distribution randomly sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
     \label{fig:cholesterol_heart_attack_tri_bounds_all}
-\end{figure}
+\end{sidewaysfigure}
+
+\clearpage
 
 \begin{figure}[H]
   \center

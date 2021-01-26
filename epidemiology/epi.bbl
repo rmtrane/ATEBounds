@@ -723,6 +723,70 @@
       \verb https://linkinghub.elsevier.com/retrieve/pii/S0140673612603675
       \endverb
     \endentry
+    \entry{cornfield_smoking_1959}{article}{}
+      \name{author}{6}{}{%
+        {{hash=5bbb0aab7e487c324bc126cbd3c9abe9}{%
+           family={Cornfield},
+           familyi={C\bibinitperiod},
+           given={Jerome},
+           giveni={J\bibinitperiod}}}%
+        {{hash=fb3613d11fcc23f108e7c4f72902489f}{%
+           family={Haenszel},
+           familyi={H\bibinitperiod},
+           given={William},
+           giveni={W\bibinitperiod}}}%
+        {{hash=90f35020b6f2009e50704c4932149b05}{%
+           family={Hammond},
+           familyi={H\bibinitperiod},
+           given={E.\bibnamedelimi Cuyler},
+           giveni={E\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=087e5032621540ced0a3a9352ec1aa66}{%
+           family={Lilienfeld},
+           familyi={L\bibinitperiod},
+           given={Abraham\bibnamedelima M.},
+           giveni={A\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=c19093dfedf2b964a0d4e3208a9cd76b}{%
+           family={Shimkin},
+           familyi={S\bibinitperiod},
+           given={Michael\bibnamedelima B.},
+           giveni={M\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=f4f66c3eb7fee38c76f4917a861dd322}{%
+           family={Wynder},
+           familyi={W\bibinitperiod},
+           given={Ernst\bibnamedelima L.},
+           giveni={E\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{8d90bc877fb668ee48cb17203f7995f9}
+      \strng{fullhash}{bc026cb2a11ce119fe6086ddca83663a}
+      \strng{bibnamehash}{8d90bc877fb668ee48cb17203f7995f9}
+      \strng{authorbibnamehash}{8d90bc877fb668ee48cb17203f7995f9}
+      \strng{authornamehash}{8d90bc877fb668ee48cb17203f7995f9}
+      \strng{authorfullhash}{bc026cb2a11ce119fe6086ddca83663a}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Abstract. This report reviews some of the more recent epidemiologic and experimental findings on the relationship of tobacco smoking to lung cancer, and discus}
+      \field{issn}{0027-8874}
+      \field{journaltitle}{JNCI: Journal of the National Cancer Institute}
+      \field{month}{1}
+      \field{number}{1}
+      \field{shorttitle}{Smoking and {{Lung Cancer}}}
+      \field{title}{Smoking and {{Lung Cancer}}: {{Recent Evidence}} and a {{Discussion}} of {{Some Questions}}}
+      \field{volume}{22}
+      \field{year}{1959}
+      \field{pages}{173\bibrangedash 203}
+      \range{pages}{31}
+      \verb{doi}
+      \verb 10.1093/jnci/22.1.173
+      \endverb
+      \verb{file}
+      \verb /Users/ralphtrane/Zotero/storage/NKP7E4NT/Cornfield et al. - 1959 - Smoking and Lung Cancer Recent Evidence and a Dis.pdf;/Users/ralphtrane/Zotero/storage/BEX7ZBTR/912572.html
+      \endverb
+    \endentry
     \entry{cox_planning_1958}{book}{}
       \name{author}{1}{}{%
         {{hash=2d4d0b24655232a7821096d23c2354b5}{%
@@ -1905,6 +1969,41 @@
       \verb http://europepmc.org/article/MED/29225335
       \endverb
     \endentry
+    \entry{united1964smoking}{book}{}
+      \name{author}{2}{}{%
+        {{hash=f44b3408dab9a661f8780fd57c3ff559}{%
+           family={{on Smoking}},
+           familyi={o\bibinitperiod},
+           given={Surgeon\bibnamedelimb General's\bibnamedelimb Advisory\bibnamedelima Committee},
+           giveni={S\bibinitperiod\bibinitdelim G\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=0b4c94c14e267661d253a95b6b10309f}{%
+           family={{ealth, United States.}},
+           familyi={e\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {U.S. Department of Health, Education, and Welfare, Public Health Service}%
+      }
+      \strng{namehash}{0c83cbbab8dfe4518e9dba813d6ad4d9}
+      \strng{fullhash}{0c83cbbab8dfe4518e9dba813d6ad4d9}
+      \strng{bibnamehash}{0c83cbbab8dfe4518e9dba813d6ad4d9}
+      \strng{authorbibnamehash}{0c83cbbab8dfe4518e9dba813d6ad4d9}
+      \strng{authornamehash}{0c83cbbab8dfe4518e9dba813d6ad4d9}
+      \strng{authorfullhash}{0c83cbbab8dfe4518e9dba813d6ad4d9}
+      \field{sortinit}{o}
+      \field{sortinithash}{2cd7140a07aea5341f9e2771efe90aae}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{series}{Public Health Service Publication}
+      \field{title}{Smoking and Health: {{Report}} of the Advisory Committee to the Surgeon General of the Public Health Service}
+      \field{year}{1964}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://books.google.com/books?id=yPtqAAAAMAAJ
+      \endverb
+      \verb{url}
+      \verb https://books.google.com/books?id=yPtqAAAAMAAJ
+      \endverb
+    \endentry
     \entry{ramsahai_causal_2012}{article}{}
       \name{author}{1}{}{%
         {{hash=3f3025a2adf0f861b9cc78d40a14fb07}{%
@@ -2416,6 +2515,49 @@
       \verb https://journals.lww.com/00001648-201701000-00007
       \endverb
     \endentry
+    \entry{swanson_commentary_2013}{article}{}
+      \name{author}{2}{}{%
+        {{hash=8da37b939b2602440fea5ee60a53cafa}{%
+           family={Swanson},
+           familyi={S\bibinitperiod},
+           given={Sonja\bibnamedelima A.},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=af027b87d5e28aecdc2834b9850e71f5}{%
+           family={Hern{\a'a}n},
+           familyi={H\bibinitperiod},
+           given={Miguel\bibnamedelima A.},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \strng{namehash}{8f693d88b6c57d34f144bad128bc9d48}
+      \strng{fullhash}{8f693d88b6c57d34f144bad128bc9d48}
+      \strng{bibnamehash}{8f693d88b6c57d34f144bad128bc9d48}
+      \strng{authorbibnamehash}{8f693d88b6c57d34f144bad128bc9d48}
+      \strng{authornamehash}{8f693d88b6c57d34f144bad128bc9d48}
+      \strng{authorfullhash}{8f693d88b6c57d34f144bad128bc9d48}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{An abstract is unavailable.}
+      \field{issn}{1044-3983}
+      \field{journaltitle}{Epidemiology}
+      \field{langid}{american}
+      \field{month}{5}
+      \field{number}{3}
+      \field{shorttitle}{Commentary}
+      \field{title}{Commentary: {{How}} to {{Report Instrumental Variable Analyses}} ({{Suggestions Welcome}})}
+      \field{volume}{24}
+      \field{year}{2013}
+      \field{dateera}{ce}
+      \field{pages}{370\bibrangedash 374}
+      \range{pages}{5}
+      \verb{doi}
+      \verb 10.1097/EDE.0b013e31828d0590
+      \endverb
+      \verb{file}
+      \verb /Users/ralphtrane/Zotero/storage/U9XXHNUJ/Commentary___How_to_Report_Instrumental_Variable.7.html
+      \endverb
+    \endentry
     \entry{swanson_partial_2018}{article}{}
       \name{author}{5}{}{%
         {{hash=8da37b939b2602440fea5ee60a53cafa}{%
@@ -2761,6 +2903,121 @@
       \verb /Users/ralphtrane/Zotero/storage/B2SAIRTA/Yang et al. - 2010 - Common SNPs explain a large proportion of the heri.pdf
       \endverb
       \keyw{Adolescent,Adult,Aged,Aged; 80 and over,Algorithms,Body Height,Female,Gene Frequency,Genetic Predisposition to Disease,Genome-Wide Association Study,Genome; Human,Genotype,Humans,Linkage Disequilibrium,Logistic Models,Male,Middle Aged,Models; Genetic,Polymorphism; Single Nucleotide,Young Adult}
+    \endentry
+    \entry{yusuf_obesity_2005}{article}{}
+      \name{author}{16}{}{%
+        {{hash=c44ee2c49259f38305e9d7a5c5b16214}{%
+           family={Yusuf},
+           familyi={Y\bibinitperiod},
+           given={Salim},
+           giveni={S\bibinitperiod}}}%
+        {{hash=64ff26158fb8d9677c4dcf0f7210b404}{%
+           family={Hawken},
+           familyi={H\bibinitperiod},
+           given={Steven},
+           giveni={S\bibinitperiod}}}%
+        {{hash=bd07119aeb75fdb705352d3efe07ed2f}{%
+           family={Ounpuu},
+           familyi={O\bibinitperiod},
+           given={Stephanie},
+           giveni={S\bibinitperiod}}}%
+        {{hash=1188b1d4fa1200439623ce44e6e419a2}{%
+           family={Bautista},
+           familyi={B\bibinitperiod},
+           given={Leonelo},
+           giveni={L\bibinitperiod}}}%
+        {{hash=e9d1569efe2fe98cb306de53b389190a}{%
+           family={Franzosi},
+           familyi={F\bibinitperiod},
+           given={Maria\bibnamedelima Grazia},
+           giveni={M\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=5e68606d9f03fa0ba525f61b750955af}{%
+           family={Commerford},
+           familyi={C\bibinitperiod},
+           given={Patrick},
+           giveni={P\bibinitperiod}}}%
+        {{hash=42422b5b09cca0d8eeb69edb41baa322}{%
+           family={Lang},
+           familyi={L\bibinitperiod},
+           given={Chim\bibnamedelima C.},
+           giveni={C\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=743d3285d19987c8bb33aa3acdc86fab}{%
+           family={Rumboldt},
+           familyi={R\bibinitperiod},
+           given={Zvonko},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=ff13e248d9cfbd0686f5c32ab78ef850}{%
+           family={Onen},
+           familyi={O\bibinitperiod},
+           given={Churchill\bibnamedelima L.},
+           giveni={C\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=928b0d9ec3a85136febecffb5466bd5f}{%
+           family={Lisheng},
+           familyi={L\bibinitperiod},
+           given={Liu},
+           giveni={L\bibinitperiod}}}%
+        {{hash=4e6a6fdc0cb051f7e28024806ea16ac0}{%
+           family={Tanomsup},
+           familyi={T\bibinitperiod},
+           given={Supachai},
+           giveni={S\bibinitperiod}}}%
+        {{hash=e1731f8c0d4d2906115c5746fbd9fb11}{%
+           family={Wangai},
+           familyi={W\bibinitperiod},
+           given={Paul},
+           giveni={P\bibinitperiod}}}%
+        {{hash=adbe65be72b73bdbe5247f5382285aec}{%
+           family={Razak},
+           familyi={R\bibinitperiod},
+           given={Fahad},
+           giveni={F\bibinitperiod}}}%
+        {{hash=cc4679dbac7facd5b7126b47eb2c4e47}{%
+           family={Sharma},
+           familyi={S\bibinitperiod},
+           given={Arya\bibnamedelima M.},
+           giveni={A\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=e07595da9e267d3eda92bb6d7f084584}{%
+           family={Anand},
+           familyi={A\bibinitperiod},
+           given={Sonia\bibnamedelima S.},
+           giveni={S\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=430d0185f07080583eef91d7a95356f4}{%
+           family={{INTERHEART Study Investigators}},
+           familyi={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{1514d4f6a676a56be27927522f47e88e}
+      \strng{fullhash}{2d4cbe069ee003f9d9c44e8c1102c3dc}
+      \strng{bibnamehash}{1514d4f6a676a56be27927522f47e88e}
+      \strng{authorbibnamehash}{1514d4f6a676a56be27927522f47e88e}
+      \strng{authornamehash}{1514d4f6a676a56be27927522f47e88e}
+      \strng{authorfullhash}{2d4cbe069ee003f9d9c44e8c1102c3dc}
+      \field{sortinit}{Y}
+      \field{sortinithash}{fd67ad5a9ef0f7456bdd9aab10fe1495}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{BACKGROUND: Obesity is a major risk factor for cardiovascular disease, but the most predictive measure for different ethnic populations is not clear. We aimed to assess whether markers of obesity, especially waist-to-hip ratio, would be stronger indicators of myocardial infarction than body-mass index (BMI), the conventional measure. METHODS: We did a standardised case-control study of acute myocardial infarction with 27 098 participants in 52 countries (12,461 cases and 14,637 controls) representing several major ethnic groups. We assessed the relation between BMI, waist and hip circumferences, and waist-to-hip ratio to myocardial infarction overall and for each group. FINDINGS: BMI showed a modest and graded association with myocardial infarction (OR 1.44, 95\% CI 1.32-1.57 top quintile vs bottom quintile before adjustment), which was substantially reduced after adjustment for waist-to-hip ratio (1.12, 1.03-1.22), and non-significant after adjustment for other risk factors (0.98, 0.88-1.09). For waist-to-hip ratio, the odds ratios for every successive quintile were significantly greater than that of the previous one (2nd quintile: 1.15, 1.05-1.26; 3rd quintile: 1.39; 1.28-1.52; 4th quintile: 1.90, 1.74-2.07; and 5th quintiles: 2.52, 2.31-2.74 [adjusted for age, sex, region, and smoking]). Waist (adjusted OR 1.77; 1.59-1.97) and hip (0.73; 0.66-0.80) circumferences were both highly significant after adjustment for BMI (p{$<$}0.0001 top vs bottom quintiles). Waist-to-hip ratio and waist and hip circumferences were closely (p{$<$}0.0001) associated with risk of myocardial infarction even after adjustment for other risk factors (ORs for top quintile vs lowest quintiles were 1.75, 1.33, and 0.76, respectively). The population-attributable risks of myocardial infarction for increased waist-to-hip ratio in the top two quintiles was 24.3\% (95\% CI 22.5-26.2) compared with only 7.7\% (6.0-10.0) for the top two quintiles of BMI. INTERPRETATION: Waist-to-hip ratio shows a graded and highly significant association with myocardial infarction risk worldwide. Redefinition of obesity based on waist-to-hip ratio instead of BMI increases the estimate of myocardial infarction attributable to obesity in most ethnic groups.}
+      \field{day}{5}
+      \field{eprinttype}{pmid}
+      \field{issn}{1474-547X}
+      \field{journaltitle}{Lancet (London, England)}
+      \field{langid}{english}
+      \field{month}{11}
+      \field{number}{9497}
+      \field{shortjournal}{Lancet}
+      \field{shorttitle}{Obesity and the Risk of Myocardial Infarction in 27,000 Participants from 52 Countries}
+      \field{title}{Obesity and the Risk of Myocardial Infarction in 27,000 Participants from 52 Countries: A Case-Control Study}
+      \field{volume}{366}
+      \field{year}{2005}
+      \field{dateera}{ce}
+      \field{pages}{1640\bibrangedash 1649}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1016/S0140-6736(05)67663-5
+      \endverb
+      \verb{eprint}
+      \verb 16271645
+      \endverb
+      \keyw{Adult,Body Mass Index,Case-Control Studies,Female,Global Health,Humans,Male,Myocardial Infarction,Obesity,Risk Factors,Waist-Hip Ratio}
     \endentry
     \entry{zhao_statistical_2020}{article}{}
       \name{author}{5}{}{%

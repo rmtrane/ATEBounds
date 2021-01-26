@@ -2,12 +2,12 @@
 title: "Bounds using Bivariate Data"
 description: "Obtaining bounds on the ACE using bivariate data."
 output: rmarkdown::html_vignette
+params:
+  n_cores: 2
 vignette: >
   %\VignetteIndexEntry{Bounds from Bivariate Data}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  chunk_output_type: console
 ---
 
 Here we will see how bounds on the ACE behaves when derived from a single IV in bivariate data. We know that the width of the bounds is bounded above by $2\cdot (1 - ST_X)$, when monotonicity of the effect of $Z$ on both $X$ and $Y$ holds. Here, we will see throught simulations, that the same is the case without these assumptions. 
@@ -35,8 +35,7 @@ The function `simulate_gammas_from_thetas` takes a vector of length 3 of values 
 ```{r}
 simulate_gammas_from_thetas <- function(thetas){
 
-  gammas <- vector(length = length(thetas))
-
+  gammas <- vector("numeric", length = 3)
 
   gammas[1] <- runif(1)
 
@@ -82,13 +81,13 @@ sim_probs <- tibble(j = 1:10000) %>%
 
 Here, we define the strength of $Z$ on $X$ as $\max_{z_1,z_2} \left | P(X = 1 | Z = z_1) - P(X = 1 | Z = z_2) \right |$, and the strength of $Z$ on $Y$ similarly as $\max_{z_1,z_2} \left | P(Y = 1 | Z = z_1) - P(Y = 1 | Z = z_2) \right |$. 
 
-We then calculate the strength of $Z$ on $X$, $Z$ on $Y$, and find the bounds. 
+We then calculate the strength of $Z$ on $X$, $Z$ on $Y$, and find the bounds. This is where we notice that some of the probability distributions result in bounds with an upper bound that is less than the lower bound. We generate extra random distributions such that the total number of distributions with correctly ordered bounds is $10,000$. 
 
 ```{r}
 if(!file.exists(here::here("vignettes_data/bivariate_bounds.Rds"))){
   library(furrr)
   
-  plan(multisession, workers = 2)
+  plan(multisession, workers = n_cores)
   
   bounds <- sim_probs %>% 
     mutate(strength_x = future_map_dbl(thetas, ~max(abs(outer(.x, .x, `-`)))),
@@ -105,7 +104,6 @@ if(!file.exists(here::here("vignettes_data/bivariate_bounds.Rds"))){
   
   n_extras <- 0
   
-  # Fill up with more bounds if any of the first 10,000 had negative width.
   while(sum(bounds$width >= 0) < nrow(sim_probs) & n_extras < 100){
     n_extras <- n_extras + 1
     
@@ -236,10 +234,9 @@ write_csv(proportion_of_widths_greater_than,
           file = here::here("tables", "proportion_of_biv_widths_greater_than.csv"))
 ```
 
-
 ## Relate to real world data
 
-We reproduce the plot of the width vs. strength, but include bounds from three real world examples. The first chunk below essentially summarizes the process laid out in `vignette("example_analysis")`
+We reproduce the plot of the width vs. strength, but include bounds from three real world examples. The first chunk below essentially summarizes the process laid out in `vignette("example_analysis")`. 
 
 ```{r}
 library(TwoSampleMR)
@@ -309,6 +306,7 @@ real_bounds <- function(exposure_id, outcome_id, ao = TwoSampleMR::available_out
 }
 ```
 
+We find bounds of the average treatment effect of high cholesterol on incidence of heart attack, smoking on incidence of lung cancer, and obesity on incidence of heart attack. 
 
 ```{r fig.width = 4, fig.height = 4, dpi = 300}
 real_data_biv_bounds <- tibble(exposure = c("Cholesterol", "Smoking", "Obesity"), 
@@ -322,7 +320,11 @@ real_data_biv_bounds <- tibble(exposure = c("Cholesterol", "Smoking", "Obesity")
   unnest(bounds) %>% 
   mutate(width = upper - lower,
          strength_x = map_dbl(thetas, ~max(abs(outer(.x, .x, "-")))))
+```
 
+With these in hand, we create a plot of the width of the bounds for all instruments against the strength of the instruments. 
+
+```{r}
 customvermillion <- rgb(213/255,94/255,0/255)
 custombluegreen <- rgb(0/255,158/255,115/255)
 customreddishpurple<-rgb(204/255,121/255,167/255) 
@@ -403,7 +405,6 @@ ggsave(filename = here::here("figures/bivariate_width_vs_strength_pip.png"),
        plot = pip_figure, 
        dpi = 300, width = 4, height = 4.7)
 ```
-
 
 ```{r eval = FALSE, include = FALSE}
 bounds_w_bpbounds <- bounds %>% 

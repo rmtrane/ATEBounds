@@ -3,6 +3,8 @@ title: "Utilize bivariate data in trivariate bounds"
 description: >
   See how we can use bivariate data to get a sense of what the bounds obtained from trivariate data could look like.
 output: rmarkdown::html_vignette
+params:
+  n_cores: 2
 vignette: >
   %\VignetteIndexEntry{Trivariate Bounds from Bivariate Data}
   %\VignetteEngine{knitr::rmarkdown}
@@ -72,7 +74,7 @@ The result of this chunk is a `tibble` calles `many_sample_joints` with 5 column
 * `j` is simply for book keeping
 * `thetas` are the values of $P(X = 1 | Z = z)$
 * `gammas` are the values of $P(Y = 1 | Z = z)$
-* `pot_covs` contain the constraints on $\text{Cov}(X,Y|Z=z)$
+* `pot_covs` contain the constraints on $\text{Cov}(X, Y | Z = z)$
 * `samp_joints` with the sampled joint distributions, $1000$ for each set of $P(X = 1 | Z = z)$ and $P(Y = 1 | Z = z)$. 
 
 The first six rows are shown below.
@@ -84,8 +86,7 @@ if(file.exists(here::here("vignettes_data/many_sample_joints.rds"))){
   
   library(furrr)
   
-  if(!interactive())
-    plan(multicore, workers = 1)
+  plan(multisession, workers = params$n_cores)
  
   set.seed(7226637)
   sim_probs <- tibble(j = 1:100) %>%
@@ -97,7 +98,8 @@ if(file.exists(here::here("vignettes_data/many_sample_joints.rds"))){
     mutate(
       samp_joints = future_map2(pot_covs, j,
                                 ~sample_joint_probs(.x, return_bounds = TRUE, n = 1000, max_rejections = 500, 
-                                                    print_progress = TRUE, print_as_progress = .y))
+                                                    print_progress = TRUE, print_as_progress = .y),
+                                seed = TRUE)
     )
   
   write_rds(many_sample_joints,
@@ -157,8 +159,8 @@ head(for_plot)
 
 Finally, the plot.
 
-```{r plot, fig.width = 10, fig.height = 10, dpi = 300}
-plot <- for_plot %>% #select(k, center, facet_row, facet_col) %>% arrange(center) %>% unique() %>% View()
+```{r plot, fig.width = 10, fig.height = 10, dpi = 150}
+plot <- for_plot %>% 
   ggplot(aes(y = id/max(id))) + 
     geom_vline(aes(xintercept = bivariate_lower, color = "Bivariate Bounds")) + 
     geom_vline(aes(xintercept = bivariate_upper, color = "Bivariate Bounds")) + 
@@ -202,7 +204,7 @@ Below are 9 of the 100 runs displayed. The figures are the same as in the plot b
 
 
 ```{r}
-chosen_ones <- c(53, 6, 66, #19,36, 94, 26
+chosen_ones <- c(53, 6, 66, 
                  38, 7, 88,
                  73, 44, 60)
 
@@ -294,7 +296,7 @@ This is meant to illustrate the different scenarios we can end up in:
     * `r chosen_ones[8]`: we would be able to determine direction from trivariate data in `r filter(subset_plot_summaries, J == chosen_ones[8])[["p_no_zero"]]*100`% of the drawn joints, but from the information in the bivariate data, we cannot rule out either direction. This seems rather surprising to me: even though the bivariate bounds are pretty tight around zero, bounds from trivariate data could still end up entirely on either side of zero!
     * `r chosen_ones[9]`: in `r filter(subset_plot_summaries, J == chosen_ones[9])[["p_no_zero"]]*100`% of the drawn joints, we would be able to determine direction, and in all of these the direction is positive.
 
-Save plot and a few objects for later use.
+Save plot and a few summaries for later use.
 
 ```{r}
 write_rds(x = subset_plot_summaries,
@@ -350,7 +352,7 @@ if(file.exists(here::here("vignettes_data/many_sample_joints_mono.rds"))){
   library(furrr)
 
   if(!interactive())
-    plan(multiprocess)
+    plan(multisession, workers = params$n_cores)
  
   set.seed(2884193)
   sim_probs_mono <- tibble(j = 1:100) %>%
@@ -361,7 +363,8 @@ if(file.exists(here::here("vignettes_data/many_sample_joints_mono.rds"))){
   many_sample_joints_mono <- sim_probs_mono %>%
     mutate(
       samp_joints = future_map(pot_covs, sample_joint_probs, x, return_bounds = TRUE, n = 1000, max_rejections = 100,
-                               x_mono = TRUE)
+                               x_mono = TRUE,
+                               seed = TRUE)
     )
   
   write_rds(many_sample_joints_mono,

@@ -32,13 +32,13 @@ plot_DAG(sim_dat) + scale_x_reverse()
 The first 10 rows of the data simulated:
 
 ```{r}
-print(sim_dat$simulated_data, n = 10)
+knitr::kable(sim_dat$simulated_data, n = 10)
 ```
 
 
 ## With Individual Level Data
 
-We create three data sets to illustrate the scenarios where either trivariate or bivariate data is available.
+We create three data sets to illustrate the scenarios where either a one-sample or a two-sample study design is used.
 
 ```{r}
 XYZ_data <- sim_dat$simulated_data
@@ -70,7 +70,7 @@ get_bounds(thetas = bivariate_probs$thetas,
 
 ### Bivariate data sources
 
-If we have from bivariate data sources, i.e. one data set contains observations on $(X, Z)$, and the other observations on $(Y,Z)$, we can still find bounds on ACE.
+If we have a two-sample study design, i.e. one data set contains observations on $(X, Z)$, and the other observations on $(Y,Z)$, we can still find bounds on the ACE.
 
 ```{r}
 X_probs <- probs_from_data(XZ_data, X = X, Z = Z1)

@@ -1,0 +1,19 @@
+---
+title: "Monte carlo integration"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+Here we briefly show how the monte carlo integration that provides the data used in `vignette("power_sims_figures")` was performed. This happens in two steps: (1) create $10,000,000$ observations of $(X,Y,Z,U)$, and (2) summarize the simulated observations to get $P(X|Z)$ and $P(Y|Z)$. 
+
+The first script showed below uses `simulate_data()` to simulate $10,000,000$ observations for one of the combinations of $\beta_X, \gamma_1, \gamma_U$. The other coefficients are set as $\beta_0 = -\beta_X / 2, \beta_U = \gamma_U, \gamma_0 = -\gamma_1$. (See `simulate_data()` for more details on the model.) The 
+
+```{r, code = readLines(here::here("scripts/power/power_sims_only.R")), eval = FALSE}
+```
+
+
+
+```{r, code = readLines(here::here("scripts/power/power_prep_for_plots.R")), eval = FALSE}
+```

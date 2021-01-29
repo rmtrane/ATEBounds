@@ -5,14 +5,17 @@
 \usepackage{longtable}
 \usepackage{booktabs}
 \usepackage{caption}
-\usepackage{subcaption}
+\usepackage[labelformat=simple,labelfont=bf,singlelinecheck=false]{subcaption}
+%\captionsetup[subfigure]{font={bf}, singlelinecheck = false}
+\renewcommand{\thesubfigure}{\Alph{subfigure}} % capitalize labelling of subfigures.
+
 \usepackage{rotating}
 \usepackage{float}
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{corollary}[theorem]{Corollary}
 
-\usepackage[nomarkers]{endfloat}
+%\usepackage[nomarkers]{endfloat}
 
 \usepackage{setspace}
 \doublespacing

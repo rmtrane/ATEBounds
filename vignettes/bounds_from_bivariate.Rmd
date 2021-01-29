@@ -352,7 +352,7 @@ width_vs_strength2 <- bounds %>%
     theme(legend.position = "top")
 
 
-(zoomed_in <- width_vs_strength2 +
+zoomed_in <- width_vs_strength2 +
   coord_fixed(ratio = 0.25,
               xlim = c(0, 0.1), 
               ylim = range(real_data_biv_bounds$width)) + 
@@ -364,8 +364,9 @@ width_vs_strength2 <- bounds %>%
   theme(plot.background = element_blank(),
         plot.margin = unit(c(0.5,0.5, -0.1, -0.1), "lines"),
         axis.text.x = element_text(angle = 45, hjust = 1))
-)
 
+
+## 
 box_x1 <- -0.01
 box_x2 <- 0.1
 box_y1 <- 0.94

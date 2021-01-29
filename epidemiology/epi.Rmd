@@ -201,7 +201,7 @@ proportion_with_width_latex <- proportion_with_width %>%
 ```
 
 
-Figure \ref{fig:biv_width_vs_strength} numerically illustrates the consequences of Theorem \ref{thm:upperBoundWidth} by calculating the bounds in equation \eqref{eq:ate_bound} from `r upper_less_than_lower[["good"]]` randomly generated sets of values of \(P(X = 1 | Z = z)\) and \(P(Y = 1 | Z = z)\) that satisfy the IV inequalities and assumptions (A1)-(A4). We also use three real-world data examples where the causal effect is known to exist: the effect of high cholesterol on incidence of heart attacks [@cholesterol_treatment_trialists_ctt_collaborators_effects_2012], the effect of smoking on incidence of lung cancer [@cornfield_smoking_1959], and the effect of obesity on incidence of heart attacks [@yusuf_obesity_2005]. The first two studies are discussed in detail in Section \ref{data-analysis}. We see that the width of the bounds often exceed \(1\) as the instrument strength decreases. Also, the three real-world studies generally do not lead to bounds with length less than \(1\). Figure \ref{fig:coef_vs_strength} further illustrates this point by characterizing the relationship between instrument strength ST and the summary statistic coefficient $\gamma_1$ from a logistic exposure model $\text{logit}(P(X = 1 | Z = z, U = u)) = \gamma_0 + \gamma_1 z + \gamma_U u$ <!--$P(X = 1 \mid Z = z) = \int {\rm logit}(\gamma_0 + \gamma_1 z + \gamma_U U) P(U | Z = z)$--> commonly used in parametric approaches to analyzing two-sample MR studies; see Appendix \ref{appendix-sim-results} for details. We see that instrument strength ST of \(0.5\) corresponds to a regression coefficient \(\gamma_1\) of approximately \(1.1, 1.16, 1.4\) and \(1.8\) if \(\gamma_U\) is \(0.1, 0.5, 1\) and \(2\), respectively. Coefficients with such magnitudes are rare in GWAS where genetic variants often explain a small amount of variation in the exposure. <!--; in the three MR studies, the largest value of \(\gamma_1\) seen is $0.21$.--> Also, to better contextualize this observation, from [@united1964smoking], a back-of-the-envelope calculation of smoking's causal effect on lung cancer leads to a $\gamma_1$ of roughly 0.95 using a 9-fold relative risk estimate and low incidence of lung cancer among non-smokers. \textcolor{red}{?!?!?!?!?!}
+Figure \ref{fig:biv_width_vs_strength} numerically illustrates the consequences of Theorem \ref{thm:upperBoundWidth} by calculating the bounds in equation \eqref{eq:ate_bound} from `r upper_less_than_lower[["good"]]` randomly generated sets of values of \(P(X = 1 | Z = z)\) and \(P(Y = 1 | Z = z)\) that satisfy the IV inequalities and assumptions (A1)-(A4). We also use three real-world data examples where the causal effect is known to exist: the effect of high cholesterol on incidence of heart attacks [@cholesterol_treatment_trialists_ctt_collaborators_effects_2012], the effect of smoking on incidence of lung cancer [@cornfield_smoking_1959], and the effect of obesity on incidence of heart attacks [@yusuf_obesity_2005]. The first two studies are discussed in detail in Section \ref{data-analysis}. We see that the width of the bounds often exceed \(1\) as the instrument strength decreases. Also, the three real-world studies generally do not lead to bounds with length less than \(1\). Figure \ref{fig:coef_vs_strength} further illustrates this point by characterizing the relationship between instrument strength ST and the summary statistic coefficient $\gamma_1$ from a logistic exposure model $\text{logit}(P(X = 1 | Z = z, U = u)) = \gamma_0 + \gamma_1 z + \gamma_U u$ <!--$P(X = 1 \mid Z = z) = \int {\rm logit}(\gamma_0 + \gamma_1 z + \gamma_U U) P(U | Z = z)$--> commonly used in parametric approaches to analyzing two-sample MR studies; see Appendix \ref{appendix-sim-results} for details. We see that instrument strength ST of \(0.5\) corresponds to a regression coefficient \(\gamma_1\) of approximately \(1.1, 1.16, 1.4\) and \(1.8\) if \(\gamma_U\) is \(0.1, 0.5, 1\) and \(2\), respectively. Coefficients with such magnitudes are rare in GWAS where genetic variants often explain a small amount of variation in the exposure. To better contextualize this observation, we note that the values of $\gamma_1$ correspond to odds ratios between $3$ and $6$ whereas the strong causal effect of exposure to ultraviolet light on the incidence of skin cancer is estimated be in the range from $1.4$ to $2.22$ [@schmitt_occupational_2011]. <!-- Also, to better contextualize this observation, from [@united1964smoking], a back-of-the-envelope calculation of smoking's causal effect on lung cancer leads to a $\gamma_1$ of roughly 0.95 using a 9-fold relative risk estimate and low incidence of lung cancer among non-smokers. -->
 
 Next, for bounds with length less than $1$, we examine what kind of $\gamma_1$ is needed in order for the two-sample IV bounds to exclude $0$ for an anticipated effect size of the ATE. This question is akin to computing the power of bounds but with population-level quantities. We reuse the same logistic model above for the exposure and the outcome; see Appendix \ref{appendix-sim-results} for details on this setup. Figure \ref{fig:power_curves} shows the smallest $\gamma_1$ needed to exclude $0$ for different values of the ATE. Even for moderate effect sizes of 0.4, the corresponding $\gamma_1$ must be around $2$, a tall order for most GWAS. Also, as the effect of unmeasured confounding increases via $\gamma_U$, a larger $\gamma_1$ is needed to exclude $0$.
 
@@ -211,19 +211,20 @@ Overall, using two-sample MR studies with a bound-based analysis is unlikely to 
 \begin{figure*}
   \centering
   \begin{subfigure}[t]{0.48\textwidth}
+    \centering
+    \caption{}
+    \label{fig:biv_bounds_vs_strength}
     \includegraphics[width=\textwidth]{`r here("figures/bivariate_width_vs_strength_pip.png")`}
-    \caption{Relationship between instrument strength (ST) and width of the IV bounds. Black line is the upper bound on the two-sample IV bounds from Theorem 1. Black dots indicate one of the 10,000 IV bounds. Colored dots indicate bounds from real data; see Section \ref{data-analysis} for details.}
-    \label{fig:biv_width_vs_strength}
   \end{subfigure}%
   \hspace{0.15in}
   \begin{subfigure}[t]{0.48\textwidth}
     \centering
+    \caption{}
+    \label{fig:biv_width_vs_strength}
     \includegraphics[width=\textwidth]{`r here("figures/MR_coefs_vs_strength.png")`}
-    \caption{Coefficients from logistic regression model and instrument strength (ST).}
-    \label{fig:coef_vs_strength}
   \end{subfigure}
-  \caption{Illustration of the relationship between instrument strength, and width of bounds obtained from two-sample design and coefficients from logistic regression model.}
-  \label{fig:biv_bounds_vs_strength}
+  \caption{Illustration of the relationship between instrument strength, and width of bounds obtained from two-sample design and coefficients from logistic regression model. A: Relationship between instrument strength (ST) and width of the IV bounds. Black line is the upper bound on the two-sample IV bounds from Theorem 1. Black dots indicate one of the 10,000 IV bounds. Colored dots indicate bounds from real data; see Section \ref{data-analysis} for details. B: Coefficients from logistic regression model and instrument strength (ST).}
+  \label{fig:coef_vs_strength}
 \end{figure*}
 
 \begin{figure}[H]
@@ -334,17 +335,17 @@ Overall, while nonparametric bounds allow us to not make parametric assumptions 
 \begin{figure*}
   \centering
   \begin{subfigure}{0.5\linewidth}
+  \caption{}
   \includegraphics[width=\textwidth]{`r here("figures/example_analyses/smoking_lung_cancer_bivariate_bounds_subset_ukb-d-20116_0_ukb-d-40001_C349.png")`}
-  \caption{Two-sample IV bounds for the ATE of smoking on the incidence of lung cancer.}
   \label{fig:two-sample-bounds-smoking}
   \end{subfigure}%
   ~
   \begin{subfigure}{0.5\linewidth}
+  \caption{}
   \includegraphics[width=\textwidth]{`r here("figures/example_analyses/cholesterol_heart_attack_bivariate_bounds_subset_ukb-a-108_ukb-a-434.png")`}
-  \caption{Two-sample IV bounds for the ATE of high cholesterol on the incidence of heart attack.}
   \label{fig:two-sample-bounds-cholesterol}
   \end{subfigure}
-  \caption{Two-sample IV bounds for the two real data examples with 8 SNPs from each data set.}
+  \caption{Two-sample IV bounds for the two real data examples with 8 SNPs from each data set. A: Two-sample IV bounds for the ATE of smoking on the incidence of lung cancer. B: Two-sample IV bounds for the ATE of high cholesterol on the incidence of heart attack.}
   \label{fig:two-sample-bounds}
 \end{figure*}
 
@@ -352,17 +353,19 @@ Overall, while nonparametric bounds allow us to not make parametric assumptions 
 \begin{figure*}
   \centering
   \begin{subfigure}{0.5\linewidth}
+  \centering
+  \caption{}
   \includegraphics[width=\textwidth]{`r here("figures/example_analyses/smoking_lung_cancer_individual_SNPs_plot_subset_ukb-d-20116_0_ukb-d-40001_C349.png")`}
-  \caption{One-sample IV bounds for the ATE of smoking on the incidence of lung cancer from 500 potential one-sample distributions.}
   \label{fig:one-sample-bounds-smoking}
   \end{subfigure}%
   ~
   \begin{subfigure}{0.5\linewidth}
+  \centering
+  \caption{}
   \includegraphics[width=\textwidth]{`r here("figures/example_analyses/cholesterol_heart_attack_individual_SNPs_plot_subset_ukb-a-108_ukb-a-434.png")`}
-  \caption{One-sample IV bounds for the ATE of high cholesterol on the incidence of heart attack from 500 potential one-sample distributions.}
   \label{fig:one-sample-bounds-cholesterol}
   \end{subfigure}
-  \caption{Potential one-sample IV bounds for the two real data examples using the method described in Section \ref{quasi-bayesian}.}
+  \caption{Potential one-sample IV bounds for the two real data examples using the method described in Section \ref{quasi-bayesian}. A: One-sample IV bounds for the ATE of smoking on the incidence of lung cancer from 500 potential one-sample distributions. B: One-sample IV bounds for the ATE of high cholesterol on the incidence of heart attack from 500 potential one-sample distributions.}
   \label{fig:one-sample-bounds}
 \end{figure*}
 
@@ -377,9 +380,23 @@ What do our results suggest for bound-based analysis in two-sample MR settings i
 
 \newpage
 
+\printbibliography
+
+\newpage
+
+\setcounter{page}{1}
+
+\setcounter{table}{0}
+\setcounter{figure}{0}
+
+\renewcommand{\tablename}{eTable}
+\renewcommand{\figurename}{eFigure}
+
 # (APPENDIX) Appendix {-}
 
-# Appendix
+# Supplemental Digital Content to "Non-parametric Bounds in Two-Sample Summary-Data Mendelian Randomization: Some Cautionary Tales for Practice"
+
+This document contains the Supplemental Digital Content to our paper "Non-parametric Bounds in Two-Sample Summary-Data Mendelian Randomization: Some Cautionary Tales for Practice". This includes additional details on how we obtain bounds on the Average Treatment Effect, more on the logistic models we used for simulating data, proof of Theorem \ref{thm:UpperBoundWidth}, additional details and results for the "power" analysis presented in Section \ref{bounds-from-bivariate-data}, exploration of the use of multiple IVs in two-sample MR analysis, details on the reconstruction of the one-sample distribution introduced in Section \ref{quasi-bayesian}, and details, summary statistics, and complete results for the two example analyses presented in Section \ref{data-analysis}.
 
 ## Bounds on Average Treatment Effect
 
@@ -748,7 +765,7 @@ For each combination of values of the coefficients $\gamma_1, \gamma_U, \beta_1$
   \input{`r here("tables/sim_coefficients_table.tex")`}
 \end{table}
 
-Each set of marginal probabilities leads us to a set of non-parametric bounds from two-sample data. These are shown on Figure \ref{fig:power} together with the ATE. Figure \ref{fig:biv_width_vs_strength} shows the width of these bounds plotted against ST, while Figure \ref{fig:coef_vs_strength} shows the values of $\gamma_1$ plotted against ST. 
+Each set of marginal probabilities leads us to a set of non-parametric bounds from two-sample data. These are shown on Figure \ref{fig:power} together with the ATE. The left plot in Figure \ref{fig:biv_width_vs_strength} shows the width of these bounds plotted against ST, while the right plot shows the values of $\gamma_1$ plotted against ST. 
 
 \clearpage
 \begin{sidewaysfigure}
@@ -801,17 +818,17 @@ Overall, combining our results in Section \ref{bounds-from-bivariate-data}, our 
 \begin{figure*}
   \centering
   \begin{subfigure}{0.5\linewidth}
+  \caption{}
   \includegraphics[width=\textwidth]{`r here("figures/strength_vs_coef_multiple_IVs_MR.png")`}
-  \caption{Scenarios 1 and 3}
   \label{fig:strength_vs_coef_multiple_IVs_MR}
   \end{subfigure}%
   ~
   \begin{subfigure}{0.5\linewidth}
+  \caption{}
   \includegraphics[width=\textwidth]{`r here("figures/strength_vs_coef_multiple_IVs_power.png")`}
-  \caption{Scenarios 2 and 4}
   \label{fig:strength_vs_coef_multiple_IVs_power}
   \end{subfigure}
-  \caption{Figure showing the dilution effect described in Section \ref{bounds-from-two-sample-data-with-multiple-ivs} in each of the four scenarios. When $p$ is larger, similar sized coefficients lead to lower strength. The effect is smaller when we are in a scenario where one coefficient is relatively much larger than the rest, rather than when the coefficients are evenly spread out.}
+  \caption{Figure showing the dilution effect described in Section \ref{bounds-from-two-sample-data-with-multiple-ivs} in each of the four scenarios. When $p$ is larger, similar sized coefficients lead to lower strength. The effect is smaller when we are in a scenario where one coefficient is relatively much larger than the rest, rather than when the coefficients are evenly spread out. A: Scenarios 1 and 3. B: Scenarios 2 and 4.}
   \label{fig:strength_vs_coef_multiple_IVs}
 \end{figure*}
 
@@ -1091,4 +1108,4 @@ snp_coefs_cholesterol <- summaries_cholesterol_heart_attack %>%
   \label{fig:cholesterol_on_heart_attack_intersections}
 \end{figure}
 
-# References
+\newpage

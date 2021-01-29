@@ -2,17 +2,15 @@
   \centering
   \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bivariate_width_vs_strength_pip.png}
-    \caption{Relationship between instrument strength (ST) and width of the IV bounds. Black line is the upper bound on the two-sample IV bounds from Theorem 1. Black dots indicate one of the 10,000 IV bounds. Colored dots indicate bounds from real data; see Section \ref{data-analysis} for details.}
     \label{fig:biv_width_vs_strength}
   \end{subfigure}%
   \hspace{0.15in}
   \begin{subfigure}[t]{0.48\textwidth}
     \centering
     \includegraphics[width=\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/MR_coefs_vs_strength.png}
-    \caption{Coefficients from logistic regression model and instrument strength (ST).}
     \label{fig:coef_vs_strength}
   \end{subfigure}
-  \caption{Illustration of the relationship between instrument strength, and width of bounds obtained from two-sample design and coefficients from logistic regression model.}
+  \caption{Illustration of the relationship between instrument strength, and width of bounds obtained from two-sample design and coefficients from logistic regression model. Left: Relationship between instrument strength (ST) and width of the IV bounds. Black line is the upper bound on the two-sample IV bounds from Theorem 1. Black dots indicate one of the 10,000 IV bounds. Colored dots indicate bounds from real data; see Section \ref{data-analysis} for details. Right: Coefficients from logistic regression model and instrument strength (ST).}
   \label{fig:biv_bounds_vs_strength}
 \end{figure*}
 \efloatseparator

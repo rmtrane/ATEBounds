@@ -8,12 +8,12 @@ vignette: >
 
 Here we briefly show how the monte carlo integration that provides the data used in `vignette("power_sims_figures")` was performed. This happens in two steps: (1) create $10,000,000$ observations of $(X,Y,Z,U)$, and (2) summarize the simulated observations to get $P(X|Z)$ and $P(Y|Z)$. 
 
-The first script showed below uses `simulate_data()` to simulate $10,000,000$ observations for one of the combinations of $\beta_X, \gamma_1, \gamma_U$. The other coefficients are set as $\beta_0 = -\beta_X / 2, \beta_U = \gamma_U, \gamma_0 = -\gamma_1$. (See `simulate_data()` for more details on the model.) The 
+The first script showed below uses `simulate_data()` to simulate $10,000,000$ observations for one of the combinations of $\beta_X, \gamma_1, \gamma_U$. The other coefficients are set as $\beta_0 = -\beta_X / 2, \beta_U = \gamma_U, \gamma_0 = -\gamma_1$. (See `simulate_data()` for more details on the model.) The results are saved to a file. Note: these files are somewhat large, which is why this script is run for each combination of coefficients separately. 
 
 ```{r, code = readLines(here::here("scripts/power/power_sims_only.R")), eval = FALSE}
 ```
 
-
+The script included below preps the results of the first script by finding the probabilities $P(X|Z)$ and $P(Y|Z)$, and from there the two-sample bounds, and the ATE. Since we have observations on $(X,Y,Z,U)$, the ATE can be calculated. 
 
 ```{r, code = readLines(here::here("scripts/power/power_prep_for_plots.R")), eval = FALSE}
 ```

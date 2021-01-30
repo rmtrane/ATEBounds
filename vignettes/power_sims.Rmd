@@ -8,12 +8,18 @@ vignette: >
 
 Here we briefly show how the monte carlo integration that provides the data used in `vignette("power_sims_figures")` was performed. This happens in two steps: (1) create $10,000,000$ observations of $(X,Y,Z,U)$, and (2) summarize the simulated observations to get $P(X|Z)$ and $P(Y|Z)$. 
 
-The first script showed below uses `simulate_data()` to simulate $10,000,000$ observations for one of the combinations of $\beta_X, \gamma_1, \gamma_U$. The other coefficients are set as $\beta_0 = -\beta_X / 2, \beta_U = \gamma_U, \gamma_0 = -\gamma_1$. (See `simulate_data()` for more details on the model.) The results are saved to a file. Note: these files are somewhat large, which is why this script is run for each combination of coefficients separately. 
+The first script showed below uses `simulate_data()` to simulate $10,000,000$ observations for one of the combinations of $\beta_X, \gamma_1, \gamma_U$. The other coefficients are set as $\beta_0 = -\beta_X / 2, \beta_U = \gamma_U, \gamma_0 = -\gamma_1$. (See `simulate_data()` for more details on the model.) The results are saved to a file. Note: these files are somewhat large, which is why this script is run for each combination of coefficients separately. We provide a `bash` script to run this for all 840 combinations, but *DO NOT* recommend you run this -- each combination took $\approx$ 3.5 minutes when run on our department's server. 
 
 ```{r, code = readLines(here::here("scripts/power/power_sims_only.R")), eval = FALSE}
 ```
 
-The script included below preps the results of the first script by finding the probabilities $P(X|Z)$ and $P(Y|Z)$, and from there the two-sample bounds, and the ATE. Since we have observations on $(X,Y,Z,U)$, the ATE can be calculated. 
+The script included below preps the results of the first script by finding the probabilities $P(X|Z)$ and $P(Y|Z)$, and from there the two-sample bounds, and the ATE. Since we have observations on $(X,Y,Z,U)$, the ATE can be calculated. Once again, to limit the amount of memory required, we do this for 10 combinations at a time, and saving the results to files. The script displayed below does this. 
 
 ```{r, code = readLines(here::here("scripts/power/power_prep_for_plots.R")), eval = FALSE}
 ```
+
+Finally, we stitch together the 84 .Rds files with all the bounds from the 840 combinations of coefficients into one .Rds file. 
+
+```{r, code = readLines(here::here("scripts/power/power_combine_results.R")) eval = FALSE}
+```
+

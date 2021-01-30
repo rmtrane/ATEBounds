@@ -43,7 +43,7 @@ kableExtra::kable(all_combinations_of_coefs, format = "latex", escape = FALSE, b
 
 Our first plot compares $\gamma_1$ and resulting strength.
 
-```{r width = 4, height = 4.7}
+```{r width = 4, height = 4.7, dpi = 300}
 (coefs_vs_strength <- bounds_and_ATE %>%
   unnest_wider(sum_stats) %>%
   unnest_wider(bounds) %>%

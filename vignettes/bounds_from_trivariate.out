@@ -1,67 +1,0 @@
-
-
-processing file: bounds_from_trivariate.Rmd
-  |                                                                              |                                                                      |   0%  |                                                                              |....                                                                  |   5%
-  ordinary text without R code
-
-  |                                                                              |.......                                                               |  11%
-label: unnamed-chunk-1 (with options) 
-List of 1
- $ message: logi FALSE
-
-── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
-✔ ggplot2 3.3.2     ✔ purrr   0.3.4
-✔ tibble  3.0.3     ✔ dplyr   1.0.0
-✔ tidyr   1.1.0     ✔ stringr 1.4.0
-✔ readr   1.3.1     ✔ forcats 0.5.0
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-  |                                                                              |...........                                                           |  16%
-  ordinary text without R code
-
-  |                                                                              |...............                                                       |  21%
-label: unnamed-chunk-2 (with options) 
-List of 1
- $ echo: logi FALSE
-
-  |                                                                              |..................                                                    |  26%
-  ordinary text without R code
-
-  |                                                                              |......................                                                |  32%
-label: unnamed-chunk-3
-  |                                                                              |..........................                                            |  37%
-  ordinary text without R code
-
-  |                                                                              |.............................                                         |  42%
-label: many_sample_joints
-  |                                                                              |.................................                                     |  47%
-  ordinary text without R code
-
-  |                                                                              |.....................................                                 |  53%
-label: trivariate_bounds
-  |                                                                              |.........................................                             |  58%
-  ordinary text without R code
-
-  |                                                                              |............................................                          |  63%
-label: bivariate_bounds
-  |                                                                              |................................................                      |  68%
-  ordinary text without R code
-
-  |                                                                              |....................................................                  |  74%
-label: for_plot
-  |                                                                              |.......................................................               |  79%
-  ordinary text without R code
-
-  |                                                                              |...........................................................           |  84%
-label: plot
-  |                                                                              |...............................................................       |  89%
-  ordinary text without R code
-
-  |                                                                              |..................................................................    |  95%
-label: unnamed-chunk-4
-Quitting from lines 163-258 (bounds_from_trivariate.Rmd) 
-Error in eval(lhs, parent, parent) : object 'sim_probs_mono' not found
-Calls: <Anonymous> ... withCallingHandlers -> withVisible -> eval -> eval -> %>% -> eval -> eval
-
-Execution halted

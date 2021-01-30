@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cp power_sims_only.R /workspace/rtrane/ACEBounds/.
+cp ~/ACEBounds/scripts/power/* /workspace/rtrane/ACEBounds/scripts/power/.
 
-sbatch slurm_power_sim.sh
+sbatch ~/ACEBounds/slurm/slurm_scripts/slurm_power_sim.sh

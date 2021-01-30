@@ -1,5 +1,3 @@
-
-
 n_nodes <- as.numeric(commandArgs(trailingOnly = TRUE)[[1]])
 slurm_array_id <- as.numeric(commandArgs(trailingOnly = TRUE)[[2]])
 
@@ -62,5 +60,4 @@ with_progress({
     )
 })
 
-write_rds(bounds_and_ATE, here::here(paste0("data/power_bounds_and_ATE_", slurm_array_id, ".Rds")))
-
+write_rds(bounds_and_ATE, here::here(paste0("data/power_results/power_bounds_and_ATE_", slurm_array_id, ".Rds")))

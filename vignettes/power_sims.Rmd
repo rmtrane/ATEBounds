@@ -1,5 +1,6 @@
 ---
 title: "Monte carlo integration"
+description: "Details describing how we perform the simulation/monte carlo integration that is the foundation for the results in Section 3. See `vignette('power_sims_figures')` for details on how figures were created."
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEncoding{UTF-8}
@@ -13,13 +14,13 @@ The first script showed below uses `simulate_data()` to simulate $10,000,000$ ob
 ```{r, code = readLines(here::here("scripts/power/power_sims_only.R")), eval = FALSE}
 ```
 
-The script included below preps the results of the first script by finding the probabilities $P(X|Z)$ and $P(Y|Z)$, and from there the two-sample bounds, and the ATE. Since we have observations on $(X,Y,Z,U)$, the ATE can be calculated. Once again, to limit the amount of memory required, we do this for 10 combinations at a time, and saving the results to files. The script displayed below does this. 
+The script included below preps the results of the first script by finding the probabilities $P(X|Z)$ and $P(Y|Z)$, and from there the two-sample bounds, and the ATE. Since we have observations on $(X,Y,Z,U)$, the ATE can be calculated. Once again, to limit the amount of memory required, we do this for 10 combinations at a time, and saving the results to files. The script displayed below does this. Again, beware that this is very time consuming. 
 
 ```{r, code = readLines(here::here("scripts/power/power_prep_for_plots.R")), eval = FALSE}
 ```
 
 Finally, we stitch together the 84 .Rds files with all the bounds from the 840 combinations of coefficients into one .Rds file. 
 
-```{r, code = readLines(here::here("scripts/power/power_combine_results.R")) eval = FALSE}
+```{r, code = readLines(here::here("scripts/power/power_combine_results.R")), eval = FALSE}
 ```
 

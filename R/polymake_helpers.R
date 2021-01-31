@@ -175,7 +175,7 @@ create_script <- function(vertices, output_file_name,
                     paste0("open(my $f1, '> ", paste(output_folder, output_file_name, sep = "/"), "'); print $f1 $tmp->FACETS; close($f1);"))
 
     readr::write_lines(x = for_script,
-                       path = paste(output_folder,
+                       file = paste(output_folder,
                                     polymake_script_name, sep = "/"))
   }
 

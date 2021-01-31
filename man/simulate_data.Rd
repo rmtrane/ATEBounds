@@ -8,7 +8,7 @@ simulate_data(
   sample_size = 10000,
   IVs_ps = list(c(0.5, 0.5), c(0.5, 0.5)),
   indIVs_on_X = NULL,
-  indIVs_on_Y = NULL,
+  indIVs_on_Y = rep(0, length(IVs_ps)),
   U = distributions3::Bernoulli(0.5),
   X_intercept = 0.05,
   U_on_X = 0.1,
@@ -27,9 +27,9 @@ simulate_data(
 \item{IVs_ps}{list of numeric vectors. Length of list specifies number of independent IVs to include. Each vector
 gives probabilities of \eqn{P(Z = i)}, and must therefore sum to 1.}
 
-\item{indIVs_on_X}{numeric vector specifying the effects of the independent IVs on X (i.e. \eqn{\alpha_1, ..., \alpha_n}).}
+\item{indIVs_on_X}{numeric vector specifying the effects of the independent IVs on X (i.e. \eqn{\gamma_1, ..., \gamma_n}).}
 
-\item{indIVs_on_Y}{numeric vector specifying the effects of the independent IVs on Y (i.e. \eqn{\beta_1, ..., \beta_n}).}
+\item{indIVs_on_Y}{numeric vector specifying the effects of the independent IVs on Y (i.e. \eqn{\beta_1, ..., \beta_n}). Default: 0}
 
 \item{U}{\code{distributions3} object specifying the distribution to be used for the unmeasured confounder. Default is \code{Bernoulli(0.5)}.}
 
@@ -61,7 +61,7 @@ on the outcome.
 Data are simulated from a logistic model as follows:
 \itemize{
 \item A binary confounder \eqn{U} is simulated with user specified \eqn{P(U = 1)}.
-\item A user specified number of independent IVs (\eqn{Z_1, ..., Z_n}) that are either
+\item A user specified number of independent IVs (\eqn{Z_1, ..., Z_p}) that are either
 di- or trichotomous. Probabilities \eqn{P(Z_j = z), z=0,1} (and \eqn{P(Z_j = 2)} if trichotomous
 case is considered) are specified by the user.
 \item Optionally, a pair of dependent IVs, \eqn{Z_{D1}, Z_{D2}}, simulated as follows:
@@ -72,11 +72,11 @@ then \deqn{
           Z_{Di} = \left\{\begin{array}{cl} 0 & \text{ if } N_{Di} \le z_{p_1} \\ 1 & \text{ if } z_{p_0} < N_{Di} \le z_{p_0 + p_1} \\ 2 & \text{ otherwise} \end{array}  \right. ,
         } where \eqn{z_k} is the \eqn{k'th} percentile of the standard normal (\eqn{P(Z \le z_k) = k} when \eqn{Z \sim N(0,1)}).
 }
-\item A binary treatment is simulated as \eqn{X | Z_1,...,Z_n, Z_{D1}, Z_{D2}, U \sim \text{Bernoulli}(p_X)},
-where \eqn{p_X = \frac{1}{1 + \exp(\gamma_x + \alpha_U \cdot U + \alpha_1 \cdot Z_1 + ... + \alpha_n \cdot Z_n + \alpha_{D1} \cdot Z_{D1} + \alpha_{D2} \cdot Z_{D2})}},
-and all parameters \eqn{\alpha_j} are user specified.
-\item A binary outcome is simulated as \eqn{Y | X, U, Z_1,...,Z_n, Z_{D1}, Z_{D2}, U \sim \text{Bernoulli}(p_Y)},
-where \deqn{p_Y = \frac{1}{1 + \exp(\gamma_y + \beta_U \cdot U + \beta_X \cdot X + \beta_1 \cdot Z_1 + ... + \beta_n \cdot Z_n + \beta_{D1} \cdot Z_{D1} + \beta_{D2} \cdot Z_{D2})},}
+\item A binary treatment is simulated as \eqn{X | Z_1,...,Z_p, Z_{D1}, Z_{D2}, U \sim \text{Bernoulli}(p_X)},
+where \deqn{\text{logit}(p_X) = \gamma_0 + \gamma_1 \cdot Z_1 + ... + \gamma_p \cdot Z_p + \gamma_{D1} \cdot Z_{D1} + \gamma_{D2} \cdot Z_{D2} + \gamma_U \cdot U},
+and all parameters \eqn{\gamma_j} are user specified.
+\item A binary outcome is simulated as \eqn{Y | X, U, Z_1,...,Z_p, Z_{D1}, Z_{D2}, U \sim \text{Bernoulli}(p_Y)},
+where \deqn{\text{logit}(p_Y) = \beta_0 + \beta_X \cdot X + \beta_1 \cdot Z_1 + ... + \beta_p \cdot Z_p + \beta_{D1} \cdot Z_{D1} + \beta_{D2} \cdot Z_{D2} + \beta_U \cdot U},
 and all parameters \eqn{\beta_j} are user specified.
 }
 }

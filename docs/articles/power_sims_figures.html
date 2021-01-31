@@ -62,7 +62,7 @@
       <a href="../articles/bounds_from_bivariate.html">Bounds using Two-Sample Data</a>
     </li>
     <li>
-      <a href="../articles/bounds_from_trivariate.html">Utilize bivariate data in trivariate bounds</a>
+      <a href="../articles/bounds_from_trivariate.html">Utilize two-sample data two get potential one-sample bounds</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">"Power" analysis</li>
@@ -71,6 +71,14 @@
     </li>
     <li>
       <a href="../articles/power_sims_figures.html">Coverage of Null Effect</a>
+    </li>
+    <li class="divider">
+    <li class="dropdown-header">Two-Sample Bounds using Multiple Instruments</li>
+    <li>
+      <a href="../articles/multiple_IVs_sims.html">Two-Sample Bounds using Multiple IV: Monte carlo integration and data prep</a>
+    </li>
+    <li>
+      <a href="../articles/multiple_IVs_figures.html">Two-Sample Bounds using Multiple IV: Figures</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">How-To's</li>
@@ -122,6 +130,7 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 
 <span class="va">bounds_and_ATE</span> <span class="op">&lt;-</span> <span class="fu">read_rds</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"data/power_bounds_and_ATE_combined.Rds"</span><span class="op">)</span><span class="op">)</span>
+
 <span class="va">bounds_and_ATE_unnested</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE</span> <span class="op">%&gt;%</span> 
   <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">sum_stats</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">bounds</span><span class="op">)</span>

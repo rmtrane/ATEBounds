@@ -62,7 +62,7 @@
       <a href="../articles/bounds_from_bivariate.html">Bounds using Two-Sample Data</a>
     </li>
     <li>
-      <a href="../articles/bounds_from_trivariate.html">Utilize bivariate data in trivariate bounds</a>
+      <a href="../articles/bounds_from_trivariate.html">Utilize two-sample data two get potential one-sample bounds</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">"Power" analysis</li>
@@ -71,6 +71,14 @@
     </li>
     <li>
       <a href="../articles/power_sims_figures.html">Coverage of Null Effect</a>
+    </li>
+    <li class="divider">
+    <li class="dropdown-header">Two-Sample Bounds using Multiple Instruments</li>
+    <li>
+      <a href="../articles/multiple_IVs_sims.html">Two-Sample Bounds using Multiple IV: Monte carlo integration and data prep</a>
+    </li>
+    <li>
+      <a href="../articles/multiple_IVs_figures.html">Two-Sample Bounds using Multiple IV: Figures</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">How-To's</li>
@@ -474,22 +482,12 @@
                           include.lowest <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>
     w <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.75</span>, <span class="fl">0.5</span><span class="op">)</span>,
-    <span class="co">#`Proportion with width &gt; w` = map_dbl(c(1, 0.75, 0.5), ~mean(width &gt; .x))</span>
     prop <span class="op">=</span> <span class="fu">map_dbl</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.75</span>, <span class="fl">0.5</span><span class="op">)</span>, <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">width</span> <span class="op">&gt;</span> <span class="va">.x</span><span class="op">)</span><span class="op">)</span>
   <span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>w <span class="op">=</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"w = {w}"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">w</span>, values_from <span class="op">=</span> <span class="va">prop</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="va">print</span></pre></div>
+  <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">w</span>, values_from <span class="op">=</span> <span class="va">prop</span><span class="op">)</span></pre></div>
 <pre><code>## `summarise()` regrouping output by 'Strength' (override with `.groups` argument)</code></pre>
-<pre><code>## # A tibble: 5 x 4
-## # Groups:   Strength [5]
-##   Strength   `w = 1` `w = 0.75` `w = 0.5`
-##   &lt;fct&gt;        &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;
-## 1 [0,0.05]     0.470     0.783      0.892
-## 2 (0.05,0.1]   0.464     0.724      0.895
-## 3 (0.1,0.25]   0.326     0.705      0.923
-## 4 (0.25,0.5]   0.136     0.497      0.838
-## 5 (0.5,1]      0         0.0756     0.380</code></pre>
-<div class="sourceCode" id="cb12"><pre class="downlit">
+<div class="sourceCode" id="cb11"><pre class="downlit">
 <span class="fu">pander</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html">pander</a></span><span class="op">(</span><span class="va">proportion_of_widths_greater_than</span><span class="op">)</span></pre></div>
 <table class="table">
 <colgroup>
@@ -538,7 +536,7 @@
 </tbody>
 </table>
 <p>We save a few summaries for the manuscript.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit">
+<div class="sourceCode" id="cb12"><pre class="downlit">
 <span class="va">bounds</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>
     n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>,
@@ -553,32 +551,18 @@
 <div id="relate-to-real-world-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#relate-to-real-world-data" class="anchor"></a>Relate to real world data</h2>
-<p>We reproduce the plot of the width vs. strength, but include bounds from three real world examples. The first chunk below essentially summarizes the process laid out in <code><a href="../articles/example_analysis.html">vignette("example_analysis")</a></code>.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">TwoSampleMR</span><span class="op">)</span></pre></div>
-<pre><code>## TwoSampleMR version 0.5.5 
-## [&gt;] New: Option to use non-European LD reference panels for clumping etc
-## [&gt;] Some studies temporarily quarantined to verify effect allele
-## [&gt;] See news(package='TwoSampleMR') and https://gwas.mrcieu.ac.uk for further details</code></pre>
-<div class="sourceCode" id="cb16"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span></pre></div>
-<pre><code>## 
-## Attaching package: 'magrittr'</code></pre>
-<pre><code>## The following object is masked from 'package:purrr':
-## 
-##     set_names</code></pre>
-<pre><code>## The following object is masked from 'package:tidyr':
-## 
-##     extract</code></pre>
-<div class="sourceCode" id="cb20"><pre class="downlit">
+<p>We reproduce the plot of the width vs. strength, but include bounds from three real world examples. The first chunk below essentially summarizes the process laid out in <code><a href="../articles/example_analysis.html">vignette("example_analysis")</a></code> and wraps it in a simple function.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">TwoSampleMR</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
+
 <span class="va">find_intercept</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">beta1</span>, <span class="va">p_outcome</span>, <span class="va">pz</span>, <span class="va">interval</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span>, <span class="va">zs</span> <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">{</span>
   <span class="fu"><a href="https://rdrr.io/r/stats/uniroot.html">uniroot</a></span><span class="op">(</span>f <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">beta0</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="op">(</span><span class="fl">1</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">beta0</span><span class="op">-</span><span class="va">beta1</span><span class="op">*</span><span class="va">zs</span><span class="op">)</span><span class="op">)</span><span class="op">^</span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="va">pz</span><span class="op">)</span> <span class="op">-</span> <span class="va">p_outcome</span>,
           interval <span class="op">=</span> <span class="va">interval</span><span class="op">)</span>
 <span class="op">}</span>
 
-<span class="va">ao</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/TwoSampleMR/man/available_outcomes.html">available_outcomes</a></span><span class="op">(</span><span class="op">)</span></pre></div>
-<pre><code>## API: public: http://gwas-api.mrcieu.ac.uk/</code></pre>
-<div class="sourceCode" id="cb22"><pre class="downlit">
+<span class="va">ao</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/TwoSampleMR/man/available_outcomes.html">available_outcomes</a></span><span class="op">(</span><span class="op">)</span>
+
 <span class="va">real_bounds</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">exposure_id</span>, <span class="va">outcome_id</span>, <span class="va">ao</span> <span class="op">=</span> <span class="fu">TwoSampleMR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/TwoSampleMR/man/available_outcomes.html">available_outcomes</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
   
   <span class="va">exposure_experiment</span> <span class="op">&lt;-</span> <span class="va">ao</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">id</span> <span class="op">==</span> <span class="va">exposure_id</span><span class="op">)</span>
@@ -635,7 +619,7 @@
   <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">bivariate_bounds</span><span class="op">)</span>
 <span class="op">}</span></pre></div>
 <p>We find bounds of the average treatment effect of high cholesterol on incidence of heart attack, smoking on incidence of lung cancer, and obesity on incidence of heart attack.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit">
+<div class="sourceCode" id="cb14"><pre class="downlit">
 <span class="va">real_data_biv_bounds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>exposure <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Cholesterol"</span>, <span class="st">"Smoking"</span>, <span class="st">"Obesity"</span><span class="op">)</span>, 
                                outcome <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Heart Attack"</span>, <span class="st">"Lung Cancer"</span>, <span class="st">"Heart Attack"</span><span class="op">)</span>,
                                exposure_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ukb-a-108"</span>, <span class="st">"ukb-d-20116_0"</span>, <span class="st">"ieu-a-90"</span><span class="op">)</span>,
@@ -661,7 +645,7 @@
 <pre><code>## Harmonising Obesity class 1 || id:ieu-a-90 (ieu-a-90) and Vascular/heart problems diagnosed by doctor: Heart attack || id:ukb-a-434 (ukb-a-434)</code></pre>
 <pre><code>## Joining, by = "regression"</code></pre>
 <p>With these in hand, we create a plot of the width of the bounds for all instruments against the strength of the instruments.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit">
+<div class="sourceCode" id="cb26"><pre class="downlit">
 <span class="va">customvermillion</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html">rgb</a></span><span class="op">(</span><span class="fl">213</span><span class="op">/</span><span class="fl">255</span>,<span class="fl">94</span><span class="op">/</span><span class="fl">255</span>,<span class="fl">0</span><span class="op">/</span><span class="fl">255</span><span class="op">)</span>
 <span class="va">custombluegreen</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html">rgb</a></span><span class="op">(</span><span class="fl">0</span><span class="op">/</span><span class="fl">255</span>,<span class="fl">158</span><span class="op">/</span><span class="fl">255</span>,<span class="fl">115</span><span class="op">/</span><span class="fl">255</span><span class="op">)</span>
 <span class="va">customreddishpurple</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html">rgb</a></span><span class="op">(</span><span class="fl">204</span><span class="op">/</span><span class="fl">255</span>,<span class="fl">121</span><span class="op">/</span><span class="fl">255</span>,<span class="fl">167</span><span class="op">/</span><span class="fl">255</span><span class="op">)</span> 
@@ -739,7 +723,7 @@
             fill <span class="op">=</span> <span class="cn">NA</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span>
 <span class="op">)</span></pre></div>
 <p><img src="bounds_from_bivariate_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
-<div class="sourceCode" id="cb36"><pre class="downlit">
+<div class="sourceCode" id="cb27"><pre class="downlit">
 <span class="fu">ggsave</span><span class="op">(</span>filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/bivariate_width_vs_strength_pip.png"</span><span class="op">)</span>,
        plot <span class="op">=</span> <span class="va">pip_figure</span>, 
        dpi <span class="op">=</span> <span class="fl">300</span>, width <span class="op">=</span> <span class="fl">4</span>, height <span class="op">=</span> <span class="fl">4.7</span><span class="op">)</span></pre></div>

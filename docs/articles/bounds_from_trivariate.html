@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Utilize bivariate data in trivariate bounds • Bounds in Two-Sample Mendelian Randomization With Summary Statistics</title>
+<title>Utilize two-sample data two get potential one-sample bounds • Bounds in Two-Sample Mendelian Randomization With Summary Statistics</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Utilize bivariate data in trivariate bounds">
-<meta property="og:description" content="See how we can use bivariate data to get a sense of what the bounds obtained from trivariate data could look like.
+<script src="../pkgdown.js"></script><meta property="og:title" content="Utilize two-sample data two get potential one-sample bounds">
+<meta property="og:description" content="See how we can use two-sample data to get a sense of what the bounds obtained from one-sample data could look like.
 ">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -63,7 +63,7 @@
       <a href="../articles/bounds_from_bivariate.html">Bounds using Two-Sample Data</a>
     </li>
     <li>
-      <a href="../articles/bounds_from_trivariate.html">Utilize bivariate data in trivariate bounds</a>
+      <a href="../articles/bounds_from_trivariate.html">Utilize two-sample data two get potential one-sample bounds</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">"Power" analysis</li>
@@ -72,6 +72,14 @@
     </li>
     <li>
       <a href="../articles/power_sims_figures.html">Coverage of Null Effect</a>
+    </li>
+    <li class="divider">
+    <li class="dropdown-header">Two-Sample Bounds using Multiple Instruments</li>
+    <li>
+      <a href="../articles/multiple_IVs_sims.html">Two-Sample Bounds using Multiple IV: Monte carlo integration and data prep</a>
+    </li>
+    <li>
+      <a href="../articles/multiple_IVs_figures.html">Two-Sample Bounds using Multiple IV: Figures</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">How-To's</li>
@@ -107,7 +115,7 @@
       </header><script src="bounds_from_trivariate_files/header-attrs-2.6/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Utilize bivariate data in trivariate bounds</h1>
+      <h1 data-toc-skip>Utilize two-sample data two get potential one-sample bounds</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/rmtrane/ACEBounds/blob/master/vignettes/bounds_from_trivariate.Rmd"><code>vignettes/bounds_from_trivariate.Rmd</code></a></small>
@@ -117,7 +125,7 @@
 
     
     
-<p>Bounds constructed using bivariate data generally provides much less information than bounds constructed using trivariate data. We will here see how we can squeeze a bit more information out of bivariate data by considering the potential distributions of <span class="math inline">\((X,Y)|Z\)</span> that are in agreement with the observed <span class="math inline">\(X|Z\)</span> and <span class="math inline">\(Y|Z\)</span>, and the model.</p>
+<p>Bounds constructed using two-sample data generally provides much less information than bounds constructed using one-sample data. We will here see how we can squeeze a bit more information out of two-sample data by considering the potential distributions of <span class="math inline">\((X,Y)|Z\)</span> that are in agreement with the observed <span class="math inline">\(X|Z\)</span> and <span class="math inline">\(Y|Z\)</span>, and the model.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rmtrane/ACEBounds">ACEBounds</a></span><span class="op">)</span></pre></div>
@@ -401,7 +409,7 @@
 ## 4     1 &lt;dbl[,2,3] [2 × 2 × 3]&gt;           -0.329            0.280          0
 ## 5     1 &lt;dbl[,2,3] [2 × 2 × 3]&gt;           -0.334            0.259          0
 ## 6     1 &lt;dbl[,2,3] [2 × 2 × 3]&gt;           -0.336            0.282          0</code></pre>
-<p>We then find the bounds we get if we only use the bivariate distributions.</p>
+<p>We then find the bounds we get if we only use the two-sample distributions.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit">
 <span class="va">bivariate_bounds</span> <span class="op">&lt;-</span> <span class="va">many_sample_joints</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -424,7 +432,7 @@
 ## 4     4 FALSE                            -0.722          0.162  &lt;dbl [3… &lt;dbl […
 ## 5     5 FALSE                            -0.478          0.0735 &lt;dbl [3… &lt;dbl […
 ## 6     6 FALSE                            -0.331          0.814  &lt;dbl [3… &lt;dbl […</code></pre>
-<p>To plot it all, we combine the two sets of bounds. We order by lower limit of trivariate bounds, give <code>id</code> for plotting, and then create a variable <code>contains_zero</code> which simply tells us if the trivariate bounds contain zero (<code>TRUE</code>) or not (<code>FALSE</code>).</p>
+<p>To plot it all, we combine the two sets of bounds. We order by lower limit of one-sample bounds, give <code>id</code> for plotting, and then create a variable <code>contains_zero</code> which simply tells us if the one-sample bounds contain zero (<code>TRUE</code>) or not (<code>FALSE</code>).</p>
 <div class="sourceCode" id="cb9"><pre class="downlit">
 <span class="va">for_plot</span> <span class="op">&lt;-</span> <span class="va">trivariate_bounds</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">bivariate_bounds</span> <span class="op">%&gt;%</span> 
@@ -457,8 +465,8 @@
 <div class="sourceCode" id="cb13"><pre class="downlit">
 <span class="op">(</span><span class="va">plot</span> <span class="op">&lt;-</span> <span class="va">for_plot</span> <span class="op">%&gt;%</span> 
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">id</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="fu">geom_vline</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">bivariate_lower</span>, color <span class="op">=</span> <span class="st">"Bivariate Bounds"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="fu">geom_vline</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">bivariate_upper</span>, color <span class="op">=</span> <span class="st">"Bivariate Bounds"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu">geom_vline</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">bivariate_lower</span>, color <span class="op">=</span> <span class="st">"Two-sample Bounds"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu">geom_vline</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">bivariate_upper</span>, color <span class="op">=</span> <span class="st">"Two-sample Bounds"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu">geom_errorbar</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>xmin <span class="op">=</span> <span class="va">trivariate_lower</span>, 
                       xmax <span class="op">=</span> <span class="va">trivariate_upper</span>,
                       color <span class="op">=</span> <span class="va">contains_zero</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
@@ -522,7 +530,7 @@
                               x_max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">3</span><span class="op">)</span>,
                               y_min <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">3</span><span class="op">)</span>,
                               y_max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">3</span><span class="op">)</span>,
-                              contains_zero <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Bivariate Bounds"</span>, <span class="st">"Overlaps Zero"</span>, <span class="st">"Does not Overlap Zero"</span><span class="op">)</span><span class="op">)</span>,
+                              contains_zero <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Two-Sample Bounds"</span>, <span class="st">"Overlaps Zero"</span>, <span class="st">"Does not Overlap Zero"</span><span class="op">)</span><span class="op">)</span>,
             inherit.aes <span class="op">=</span> <span class="cn">FALSE</span>,
             <span class="fu">aes</span><span class="op">(</span>xmin <span class="op">=</span> <span class="va">x_min</span>,
                 xmax <span class="op">=</span> <span class="va">x_max</span>,
@@ -530,9 +538,9 @@
                 ymax <span class="op">=</span> <span class="va">y_max</span>,
                 fill <span class="op">=</span> <span class="va">contains_zero</span><span class="op">)</span>,
             alpha <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">geom_vline</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">bivariate_lower</span>, color <span class="op">=</span> <span class="st">"Bivariate Bounds"</span><span class="op">)</span>,
+  <span class="fu">geom_vline</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">bivariate_lower</span>, color <span class="op">=</span> <span class="st">"Two-Sample Bounds"</span><span class="op">)</span>,
              linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">geom_vline</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">bivariate_upper</span>, color <span class="op">=</span> <span class="st">"Bivariate Bounds"</span><span class="op">)</span>,
+  <span class="fu">geom_vline</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">bivariate_upper</span>, color <span class="op">=</span> <span class="st">"Two-Sample Bounds"</span><span class="op">)</span>,
              linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">geom_errorbar</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>xmin <span class="op">=</span> <span class="va">trivariate_lower</span>, 
                     xmax <span class="op">=</span> <span class="va">trivariate_upper</span>,
@@ -542,9 +550,9 @@
   <span class="fu">facet_grid</span><span class="op">(</span><span class="va">row_i</span> <span class="op">~</span> <span class="va">col_j</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">coord_fixed</span><span class="op">(</span>ratio <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"grey50"</span>, <span class="st">"red"</span><span class="op">)</span>,
-                     breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Bivariate Bounds"</span>, <span class="st">"Overlaps Zero"</span>, <span class="st">"Does not Overlap Zero"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+                     breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Two-Sample Bounds"</span>, <span class="st">"Overlaps Zero"</span>, <span class="st">"Does not Overlap Zero"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">scale_fill_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"grey50"</span>, <span class="st">"red"</span><span class="op">)</span>,
-                    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Bivariate Bounds"</span>, <span class="st">"Overlaps Zero"</span>, <span class="st">"Does not Overlap Zero"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+                    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Two-Sample Bounds"</span>, <span class="st">"Overlaps Zero"</span>, <span class="st">"Does not Overlap Zero"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"ATE"</span>, 
        y <span class="op">=</span> <span class="st">""</span>,
        color <span class="op">=</span> <span class="st">""</span>,
@@ -567,25 +575,25 @@
 <p><img src="bounds_from_trivariate_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p>This is meant to illustrate the different scenarios we can end up in:</p>
 <ul>
-<li>The first row shows us three scenarios with relatively wide bivariate bounds, more or less centered around zero. Yet we would draw three different conclusions:
+<li>The first row shows us three scenarios with relatively wide two-sample bounds, more or less centered around zero. Yet we would draw three different conclusions:
 <ul>
-<li>53: even with trivariate data, we would not be able to determine direction</li>
-<li>6: with trivariate data, we would not be able to determine direction if the true ACE is negative. About % of the joint probabilities would result in the trivariate data giving us the direction, and in all of these cases the direction is positive.</li>
-<li>66: with trivariate data, we would be able to determine direction with about % of the possible joint distributions, but the direction could go either way.</li>
+<li>53: even with one-sample data, we would not be able to determine direction</li>
+<li>6: with one-sample data, we would not be able to determine direction if the true ACE is negative. About % of the joint probabilities would result in the one-sample data giving us the direction, and in all of these cases the direction is positive.</li>
+<li>66: with one-sample data, we would be able to determine direction with about % of the possible joint distributions, but the direction could go either way.</li>
 </ul>
 </li>
 <li>The second row shows scenarios where the bounds are relatively wide and centered relatively far from zero (here, it is above, but you can similarly find cases where it would be below). Again, three difference conclusions:
 <ul>
-<li>38: even with trivariate data, would would not be able to determine direction</li>
+<li>38: even with one-sample data, would would not be able to determine direction</li>
 <li>7: 0% of the drawn joint distributions let us determine direction, and in all cases the direction is positive.</li>
 <li>88: % of the drawn joint distributions let us determine direction, and in all cases the direction is positive.</li>
-<li>Notice the big difference in information in the bivariate data between 7 and 88 even though the bivariate bounds are relatively similar. One tells us that it is pretty likely that trivariate data would allow us to conclude the direction of the effect is positive, while the other one tells us it is rather unlikely we would be able to determine direction based on trivariate data.</li>
+<li>Notice the big difference in information in the two-sample data between 7 and 88 even though the two-sample bounds are relatively similar. One tells us that it is pretty likely that one-sample data would allow us to conclude the direction of the effect is positive, while the other one tells us it is rather unlikely we would be able to determine direction based on one-sample data.</li>
 </ul>
 </li>
-<li>Finally, the third row shows us three scenarios where the bivariate bounds are relatively narrow and centered around zero. Once again, we would arrive at three different conclusions:
+<li>Finally, the third row shows us three scenarios where the two-sample bounds are relatively narrow and centered around zero. Once again, we would arrive at three different conclusions:
 <ul>
-<li>73: trivariate data would not help us determine direction</li>
-<li>44: we would be able to determine direction from trivariate data in % of the drawn joints, but from the information in the bivariate data, we cannot rule out either direction. This seems rather surprising to me: even though the bivariate bounds are pretty tight around zero, bounds from trivariate data could still end up entirely on either side of zero!</li>
+<li>73: one-sample data would not help us determine direction</li>
+<li>44: we would be able to determine direction from one-sample data in % of the drawn joints, but from the information in the two-sample data, we cannot rule out either direction. This seems rather surprising to me: even though the two-sample bounds are pretty tight around zero, bounds from one-sample data could still end up entirely on either side of zero!</li>
 <li>60: in % of the drawn joints, we would be able to determine direction, and in all of these the direction is positive.</li>
 </ul>
 </li>
@@ -710,8 +718,8 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>facet_row <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">ceiling</a></span><span class="op">(</span><span class="va">j</span><span class="op">/</span><span class="fl">10</span><span class="op">)</span>, 
          facet_col <span class="op">=</span> <span class="va">j</span> <span class="op">-</span> <span class="op">(</span><span class="va">facet_row</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">*</span><span class="fl">10</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">id</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="fu">geom_hline</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>yintercept <span class="op">=</span> <span class="va">bivariate_lower</span>, color <span class="op">=</span> <span class="st">"Bivariate Bounds"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="fu">geom_hline</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>yintercept <span class="op">=</span> <span class="va">bivariate_upper</span>, color <span class="op">=</span> <span class="st">"Bivariate Bounds"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu">geom_hline</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>yintercept <span class="op">=</span> <span class="va">bivariate_lower</span>, color <span class="op">=</span> <span class="st">"Two-Sample Bounds"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu">geom_hline</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>yintercept <span class="op">=</span> <span class="va">bivariate_upper</span>, color <span class="op">=</span> <span class="st">"Two-Sample Bounds"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu">geom_errorbar</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>ymin <span class="op">=</span> <span class="va">trivariate_lower</span>, ymax <span class="op">=</span> <span class="va">trivariate_upper</span>,
                       color <span class="op">=</span> <span class="va">contains_zero</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu"><a href="https://rdrr.io/r/graphics/plot.window.html">ylim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>

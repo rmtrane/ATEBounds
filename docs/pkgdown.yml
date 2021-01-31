@@ -7,8 +7,10 @@ articles:
   bounds_from_trivariate: bounds_from_trivariate.html
   example_analysis: example_analysis.html
   get_bounds: get_bounds.html
+  multiple_IVs_figures: multiple_IVs_figures.html
+  multiple_IVs_sims: multiple_IVs_sims.html
   polymake_example: polymake_example.html
   power_sims: power_sims.html
   power_sims_figures: power_sims_figures.html
-last_built: 2021-01-30T21:11Z
+last_built: 2021-01-31T02:57Z
 

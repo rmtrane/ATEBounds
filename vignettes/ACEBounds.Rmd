@@ -18,7 +18,6 @@ To use for illustrative purposes, we simulate some data. The DAG corresponding t
 set.seed(184506)
 
 library(ACEBounds)
-library(magrittr)
 library(dplyr)
 
 sim_dat <- simulate_data(sample_size = 500,

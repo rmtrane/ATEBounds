@@ -15,7 +15,7 @@ You can install this package using `remotes::install_github("rmtrane/ACEBounds-p
 
 * [Get started](articles/ACEBounds.html) is a brief introduction to this package, and how to find bounds using it.
 * [Reference](reference/index.html) gives a list with links to the documentation of all functions included.
-* Under [Articles](articles/index.html) you will find a set of documents that show how results and figures were created. Every document provides the seed used in order to make the work 100% reproducible. In particular, referencing our paper, Figure 1a is created [here](articles/bounds_from_bivaraite.html), Figures 1b, 2 and eFigure 1 are created [here](articles/power_sims_figures.html), Figure 3 is created [here](articles/bounds_from_trivariate.html), all figures and results relating to real-world data examples are created [here](articles/example_analysis.html), and eFigure 2, 3, 4, 5, and 6 are created [here](articles/multiple_IVs.html). 
+* Under [Articles](articles/index.html) you will find a set of documents that show how results and figures were created. Every document provides the seed used in order to make the work 100% reproducible. In particular, referencing our paper, Figure 1a is created [here](articles/bounds_from_bivaraite.html), Figures 1b, 2 and eFigure 1 are [here](articles/bounds_from_trivariate.html), all figures and results relating to real-world data examples are created [here](articles/example_analysis.html), and eFigure 2, 3, 4, 5, and 6 are created [here](articles/multiple_IVs.html). 
 
 <!-- # Recap of Paper -->
 

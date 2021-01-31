@@ -142,15 +142,15 @@
 <span class="va">all_indIVs_on_X</span> <span class="op">&lt;-</span> <span class="fu">expand_grid</span><span class="op">(</span>p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">50</span><span class="op">)</span>,
                                many_weak <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span>,
                                scenario <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"MR"</span>, <span class="st">"power"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">rowwise</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">mutate</span><span class="op">(</span>
-    indIVs_on_X <span class="op">=</span> <span class="fu">case_when</span><span class="op">(</span><span class="va">many_weak</span> <span class="op">&amp;</span> <span class="va">scenario</span> <span class="op">==</span> <span class="st">"MR"</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.0</span>, <span class="fl">0.01</span>, length.out <span class="op">=</span> <span class="va">p</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span>,
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>
+    indIVs_on_X <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span><span class="va">many_weak</span> <span class="op">&amp;</span> <span class="va">scenario</span> <span class="op">==</span> <span class="st">"MR"</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.0</span>, <span class="fl">0.01</span>, length.out <span class="op">=</span> <span class="va">p</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span>,
                             <span class="va">many_weak</span> <span class="op">&amp;</span> <span class="va">scenario</span> <span class="op">==</span> <span class="st">"power"</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1.2</span>, length.out <span class="op">=</span> <span class="va">p</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>,
                             <span class="op">!</span><span class="va">many_weak</span> <span class="op">&amp;</span> <span class="va">scenario</span> <span class="op">==</span> <span class="st">"MR"</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.2</span>, length.out <span class="op">=</span> <span class="va">p</span><span class="op">)</span><span class="op">)</span>,
                             <span class="op">!</span><span class="va">many_weak</span> <span class="op">&amp;</span> <span class="va">scenario</span> <span class="op">==</span> <span class="st">"power"</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span>, length.out <span class="op">=</span> <span class="va">p</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>,
                             <span class="cn">TRUE</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="cn">NA</span><span class="op">)</span><span class="op">)</span>
   <span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="va">all_combinations</span> <span class="op">&lt;-</span> <span class="fu">expand_grid</span><span class="op">(</span>
   p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">50</span><span class="op">)</span>,
@@ -159,14 +159,14 @@
   X_on_Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">1.5</span>, <span class="fl">2</span><span class="op">)</span>,
   U_on_XY <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.5</span><span class="op">)</span>
 <span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">left_join</span><span class="op">(</span><span class="va">all_indIVs_on_X</span><span class="op">)</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">all_indIVs_on_X</span><span class="op">)</span>
 
 <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">all_combinations</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
 
   <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="va">i</span>, <span class="st">"of"</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">all_combinations</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span>
 
   <span class="va">tmp</span> <span class="op">&lt;-</span> <span class="va">all_combinations</span><span class="op">[</span><span class="va">i</span>, <span class="op">]</span> <span class="op">%&gt;%</span>
-    <span class="fu">mutate</span><span class="op">(</span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>
       sim_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/furrr/man/future_map2.html">future_pmap</a></span><span class="op">(</span>
         .l <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">indIVs_on_X</span>, <span class="va">X_on_Y</span>, <span class="va">U_on_XY</span><span class="op">)</span>,
         <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span> <span class="op">{</span>
@@ -202,36 +202,36 @@
 
 <span class="va">all_multiple_IV_sims</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"data/multiple_IV_sims"</span><span class="op">)</span>, pattern <span class="op">=</span> <span class="st">"[0-9]+.Rds"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="va">bounds_and_ATE</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>data_file <span class="op">=</span> <span class="va">all_multiple_IV_sims</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">mutate</span><span class="op">(</span>
+<span class="va">bounds_and_ATE</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>data_file <span class="op">=</span> <span class="va">all_multiple_IV_sims</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>
     subset <span class="op">=</span> <span class="fu">map</span><span class="op">(</span>
       <span class="va">data_file</span>,
       <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
         <span class="va">tmp</span> <span class="op">&lt;-</span> <span class="fu">read_rds</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
 
         <span class="va">out</span> <span class="op">&lt;-</span> <span class="va">tmp</span> <span class="op">%&gt;%</span>
-          <span class="fu">mutate</span><span class="op">(</span>
+          <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>
             ATE <span class="op">=</span> <span class="fu">map_dbl</span><span class="op">(</span><span class="va">sim_data</span>, <span class="va">ATE_from_simulated_data</span><span class="op">)</span>,
             sums_and_bounds <span class="op">=</span> <span class="fu">map</span><span class="op">(</span>
               <span class="va">sim_data</span>,
               <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
                 <span class="va">sums_and_bounds</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">$</span><span class="va">simulated_data</span> <span class="op">%&gt;%</span>
-                  <span class="fu">pivot_longer</span><span class="op">(</span><span class="fu">starts_with</span><span class="op">(</span><span class="st">"Z"</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"IV"</span>, values_to <span class="op">=</span> <span class="st">"z"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-                  <span class="fu">nest_by</span><span class="op">(</span><span class="va">IV</span><span class="op">)</span> <span class="op">%&gt;%</span>
-                  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-                  <span class="fu">mutate</span><span class="op">(</span>
+                  <span class="fu">pivot_longer</span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"Z"</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"IV"</span>, values_to <span class="op">=</span> <span class="st">"z"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+                  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nest_by.html">nest_by</a></span><span class="op">(</span><span class="va">IV</span><span class="op">)</span> <span class="op">%&gt;%</span>
+                  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+                  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>
                     sum_stats <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/furrr/man/future_map.html">future_map</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">~</span><span class="fu"><a href="../reference/probs_from_data.html">probs_from_data</a></span><span class="op">(</span><span class="va">.x</span>, <span class="va">X</span>, <span class="va">Y</span>, <span class="va">z</span>, data_format <span class="op">=</span> <span class="st">"bivariate"</span><span class="op">)</span><span class="op">)</span>,
                     get_bounds_res <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/furrr/man/future_map.html">future_map</a></span><span class="op">(</span><span class="va">sum_stats</span>, <span class="op">~</span><span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>gammas <span class="op">=</span> <span class="va">.x</span><span class="op">$</span><span class="va">gammas</span>, thetas <span class="op">=</span> <span class="va">.x</span><span class="op">$</span><span class="va">thetas</span>, stop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>,
                     bounds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/furrr/man/future_map.html">future_map</a></span><span class="op">(</span><span class="va">get_bounds_res</span>, <span class="st">"interval"</span><span class="op">)</span>
                   <span class="op">)</span> <span class="op">%&gt;%</span>
-                  <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">data</span><span class="op">)</span>
+                  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">data</span><span class="op">)</span>
 
                 <span class="va">coefs</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">$</span><span class="va">coefficients</span> <span class="op">%&gt;%</span>
-                  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="fu">str_sub</span><span class="op">(</span><span class="va">effect</span>, end <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">==</span> <span class="st">"Z"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-                  <span class="fu">mutate</span><span class="op">(</span>effect <span class="op">=</span> <span class="fu">str_remove</span><span class="op">(</span><span class="va">effect</span>, <span class="st">"_on_X"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-                  <span class="fu">rename</span><span class="op">(</span>IV <span class="op">=</span> <span class="va">effect</span>, indIVs_on_X <span class="op">=</span> <span class="va">coef</span><span class="op">)</span>
+                  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu">str_sub</span><span class="op">(</span><span class="va">effect</span>, end <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">==</span> <span class="st">"Z"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+                  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>effect <span class="op">=</span> <span class="fu">str_remove</span><span class="op">(</span><span class="va">effect</span>, <span class="st">"_on_X"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+                  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>IV <span class="op">=</span> <span class="va">effect</span>, indIVs_on_X <span class="op">=</span> <span class="va">coef</span><span class="op">)</span>
 
-                <span class="fu">left_join</span><span class="op">(</span>
+                <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span>
                   <span class="va">sums_and_bounds</span>,
                   <span class="va">coefs</span>,
                   by <span class="op">=</span> <span class="st">"IV"</span>
@@ -239,7 +239,7 @@
               <span class="op">}</span>
             <span class="op">)</span>
           <span class="op">)</span> <span class="op">%&gt;%</span>
-          <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">sim_data</span><span class="op">)</span>
+          <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">sim_data</span><span class="op">)</span>
 
         <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span>
       <span class="op">}</span>

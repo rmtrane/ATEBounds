@@ -20,7 +20,7 @@
 #'         } where \eqn{z_k} is the \eqn{k'th} percentile of the standard normal (\eqn{P(Z \le z_k) = k} when \eqn{Z \sim N(0,1)}).
 #'     }
 #'   \item A binary treatment is simulated as \eqn{X | Z_1,...,Z_p, Z_{D1}, Z_{D2}, U \sim \text{Bernoulli}(p_X)},
-#'     where \eqn{\text{logit}(p_X) = \gamma_0 + \gamma_1 \cdot Z_1 + ... + \gamma_p \cdot Z_p + \gamma_{D1} \cdot Z_{D1} + \gamma_{D2} \cdot Z_{D2} + \gamma_U \cdot U},
+#'     where \deqn{\text{logit}(p_X) = \gamma_0 + \gamma_1 \cdot Z_1 + ... + \gamma_p \cdot Z_p + \gamma_{D1} \cdot Z_{D1} + \gamma_{D2} \cdot Z_{D2} + \gamma_U \cdot U},
 #'     and all parameters \eqn{\gamma_j} are user specified.
 #'   \item A binary outcome is simulated as \eqn{Y | X, U, Z_1,...,Z_p, Z_{D1}, Z_{D2}, U \sim \text{Bernoulli}(p_Y)},
 #'     where \deqn{\text{logit}(p_Y) = \beta_0 + \beta_X \cdot X + \beta_1 \cdot Z_1 + ... + \beta_p \cdot Z_p + \beta_{D1} \cdot Z_{D1} + \beta_{D2} \cdot Z_{D2} + \beta_U \cdot U},

@@ -10,6 +10,8 @@ potential_covs(thetas, gammas, x_mono = FALSE)
 \item{thetas}{vector of length \code{n_z_levels} giving P(X = 1 | Z = z), z = 0, ..., (\code{n_z_levels} - 1).}
 
 \item{gammas}{vector of length \code{n_z_levels} giving P(Y = 1 | Z = z), z = 0, ..., (\code{n_z_levels} - 1).}
+
+\item{x_mono}{logical; should monotonicity of P(X = 1 | Z = z) be assumed?}
 }
 \value{
 A list with four elements:

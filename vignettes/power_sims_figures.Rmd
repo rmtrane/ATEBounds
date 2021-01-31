@@ -1,5 +1,6 @@
 ---
 title: "Coverage of Null Effect"
+description: "Figures and results to dive into when two-sample bounds might be useful in terms of detecting direction of the ATE."
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEncoding{UTF-8}
@@ -8,12 +9,17 @@ vignette: >
 
 This document generates results and figures based on the "power analysis" described in `vignettes("power_sims")`
 
-We load `tidyverse` and read in saved results. 
+We load `tidyverse`, read in saved results, and create a new object with a few list columns unnested. First six rows are displayed below. This object has one row for each combination of coefficients considered, and each rows contains both values of $P(X = 1 | Z = z)$ (in column `thetas`), $P(Y = 1 | Z = z)$ (in column `gammas`), ATE, and upper and lower two-sample bounds.
 
-```{r}
+```{r message = FALSE, warning = FALSE}
 library(tidyverse)
 
 bounds_and_ATE <- read_rds(here::here("data/power_bounds_and_ATE_combined.Rds"))
+bounds_and_ATE_unnested <- bounds_and_ATE %>% 
+  unnest_wider(sum_stats) %>%
+  unnest_wider(bounds)
+
+head(bounds_and_ATE_unnested)
 ```
 
 For use in our manuscript, we create a table with all the unique values used for the different coefficients. 
@@ -44,9 +50,7 @@ kableExtra::kable(all_combinations_of_coefs, format = "latex", escape = FALSE, b
 Our first plot compares $\gamma_1$ and resulting strength.
 
 ```{r width = 4, height = 4.7, dpi = 300}
-(coefs_vs_strength <- bounds_and_ATE %>%
-  unnest_wider(sum_stats) %>%
-  unnest_wider(bounds) %>%
+(coefs_vs_strength <- bounds_and_ATE_unnested %>%
   mutate(strength = map_dbl(thetas, ~.x[3] - .x[1]),
          U_on_XY = as.character(U_on_XY)) %>%
   ggplot(aes(y = indIVs_on_X, x = strength,
@@ -72,9 +76,7 @@ ggsave(here::here("figures/MR_coefs_vs_strength.png"),
 The second plot shows all the two-sample bounds and ATEs. 
 
 ```{r}
-(pretty_plot <- bounds_and_ATE %>%
-  unnest_wider(sum_stats) %>%
-  unnest_wider(bounds) %>%
+(pretty_plot <- bounds_and_ATE_unnested %>%
   mutate(zero = if_else(lower < 0 & upper > 0,
                         "Overlaps Zero", "Does Not Overlap Zero"),
          X_on_Y = paste0("beta[X] ==", X_on_Y),
@@ -115,9 +117,7 @@ ggsave(here::here("figures/power.png"),
 The plot above naturally leads to the question: what is the smallest value of $\gamma_1$ that results in two-sample bounds that do NOT include $0$? To answer this question, we model the lower bounds as a function of the coefficients using `loess`:
 
 ```{r}
-loess_model <- bounds_and_ATE %>%
-  unnest_wider(sum_stats) %>%
-  unnest_wider(bounds) %>%
+loess_model <- bounds_and_ATE_unnested %>%
   loess(data = .,
         lower ~ indIVs_on_X + X_on_Y + U_on_XY,
         span = 0.5)
@@ -126,10 +126,9 @@ loess_model <- bounds_and_ATE %>%
 Next, we find roots for the loess curves (one for each of the panels above). 
 
 ```{r}
-roots <- bounds_and_ATE %>%
-  unnest_wider(sum_stats) %>%
+roots <- bounds_and_ATE_unnested %>%
   select(X_on_Y, U_on_XY, ATE) %>%
-  mutate(ATE = round(ATE, digits = 2)) %>%
+  mutate(ATE = round(ATE, digits = 2)) %>% # to make sure ATE don't vary due to differences from randomness
   unique() %>%
   rowwise() %>%
   mutate(uniroot_res = list(uniroot(f = function(x) predict(loess_model,

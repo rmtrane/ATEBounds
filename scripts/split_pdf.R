@@ -19,11 +19,10 @@ main_ends <- lines_w_pagenumbers %>%
 
 sdc_ends <- lines_w_pagenumbers %>%
   filter(lines != "") %>%
-  filter(row_number() < which(str_detect(lines, pattern = "^References$"))[2]) %>%
   tail(n=1) %>% pull(page_number)
 
 pdftools::pdf_subset(input = epi_pdf, pages = 1:main_ends,
                      output = here::here("epidemiology/epi_main.pdf"))
 
-pdftools::pdf_subset(input = epi_pdf, pages = (main_ends + 1):(main_ends + sdc_ends),
+pdftools::pdf_subset(input = epi_pdf, pages = (main_ends + 1):pdftools::pdf_length(epi_pdf),
                      output = here::here("epidemiology/epi_sdc.pdf"))

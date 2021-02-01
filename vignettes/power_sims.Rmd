@@ -3,6 +3,7 @@ title: "Monte carlo integration"
 description: "Details describing how we perform the simulation/monte carlo integration that is the foundation for the results in Section 3. See `vignette('power_sims_figures')` for details on how figures were created."
 output: rmarkdown::html_vignette
 vignette: >
+  %\VignetteIndexEntry{Single IV simulations}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---

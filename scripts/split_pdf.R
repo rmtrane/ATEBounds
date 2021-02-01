@@ -17,10 +17,6 @@ main_ends <- lines_w_pagenumbers %>%
          page_number > 1) %>%
   tail(n=1) %>% pull(page_number)
 
-sdc_ends <- lines_w_pagenumbers %>%
-  filter(lines != "") %>%
-  tail(n=1) %>% pull(page_number)
-
 pdftools::pdf_subset(input = epi_pdf, pages = 1:main_ends,
                      output = here::here("epidemiology/epi_main.pdf"))
 

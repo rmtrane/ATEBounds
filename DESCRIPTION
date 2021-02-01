@@ -1,10 +1,10 @@
-Package: ACEBounds
+Package: ATEBounds
 Type: Package
-Title: ACE Bounds using IVs
+Title: ATE Bounds using IVs
 Version: 0.1.0
 Authors@R: person("Ralph Møller", "Trane", email = "rtrane@wisc.edu", role = c("aut", "cre"))
 Maintainer: The package maintainer <yourself@somewhere.net>
-Description: Find Average Causal Effects using IVs. Utilizes polymake to find bounds for any categorical IV.
+Description: Find Average Treatment Effects using IVs. Utilizes polymake to find bounds for any categorical IV.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -19,4 +19,8 @@ RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 Depends: 
     R (>= 2.10)
-URL: https://github.com/rmtrane/ACEBounds
+URL: https://github.com/rmtrane/ATEBounds
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

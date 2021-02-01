@@ -3,6 +3,7 @@ title: "Coverage of Null Effect"
 description: "Figures and results to dive into when two-sample bounds might be useful in terms of detecting direction of the ATE."
 output: rmarkdown::html_vignette
 vignette: >
+  %\VignetteIndexEntry{Coverage of Null Effect from Logistic Model}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---

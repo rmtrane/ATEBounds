@@ -3,7 +3,7 @@ title: "Two-Sample Bounds using Multiple IV: Monte carlo integration and data pr
 description: ""
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Monte carlo integration and data prep}
+  %\VignetteIndexEntry{Multiple IV simulations}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---

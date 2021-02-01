@@ -44,7 +44,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/ACEBounds.html">Get started</a>
+  <a href="../articles/ATEBounds.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -96,7 +96,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/rmtrane/ACEBounds/">
+  <a href="https://github.com/rmtrane/ATEBounds/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -117,7 +117,7 @@
       <h1 data-toc-skip>Bounds using Two-Sample Data</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rmtrane/ACEBounds/blob/master/vignettes/bounds_from_bivariate.Rmd"><code>vignettes/bounds_from_bivariate.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rmtrane/ATEBounds/blob/master/vignettes/bounds_from_bivariate.Rmd"><code>vignettes/bounds_from_bivariate.Rmd</code></a></small>
       <div class="hidden name"><code>bounds_from_bivariate.Rmd</code></div>
 
     </div>
@@ -486,7 +486,7 @@
   <span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>w <span class="op">=</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"w = {w}"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">w</span>, values_from <span class="op">=</span> <span class="va">prop</span><span class="op">)</span></pre></div>
-<pre><code>## `summarise()` regrouping output by 'Strength' (override with `.groups` argument)</code></pre>
+<pre><code>## `summarise()` has grouped output by 'Strength'. You can override using the `.groups` argument.</code></pre>
 <div class="sourceCode" id="cb11"><pre class="downlit">
 <span class="fu">pander</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html">pander</a></span><span class="op">(</span><span class="va">proportion_of_widths_greater_than</span><span class="op">)</span></pre></div>
 <table class="table">
@@ -581,8 +581,8 @@
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>samplesize.exposure <span class="op">=</span> <span class="va">exposure_experiment</span><span class="op">$</span><span class="va">ncase</span> <span class="op">+</span> <span class="va">exposure_experiment</span><span class="op">$</span><span class="va">ncontrol</span>,
            samplesize.outcome <span class="op">=</span> <span class="va">outcome_experiment</span><span class="op">$</span><span class="va">ncase</span> <span class="op">+</span> <span class="va">outcome_experiment</span><span class="op">$</span><span class="va">ncontrol</span>,
-           ave_eaf <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/weighted.mean.html">weighted.mean</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">c_across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">eaf.exposure</span>, <span class="va">eaf.outcome</span><span class="op">)</span><span class="op">)</span>,
-                                   w <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">c_across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">samplesize.exposure</span>, <span class="va">samplesize.outcome</span><span class="op">)</span><span class="op">)</span>,
+           ave_eaf <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/weighted.mean.html">weighted.mean</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/c_across.html">c_across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">eaf.exposure</span>, <span class="va">eaf.outcome</span><span class="op">)</span><span class="op">)</span>,
+                                   w <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/c_across.html">c_across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">samplesize.exposure</span>, <span class="va">samplesize.outcome</span><span class="op">)</span><span class="op">)</span>,
                                    na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">SNP</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"beta"</span><span class="op">)</span>, <span class="va">ave_eaf</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">pivot_longer</span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"beta"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>

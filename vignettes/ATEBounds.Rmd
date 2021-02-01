@@ -1,10 +1,10 @@
 ---
-title: "Introduction to ACEBounds"
+title: "Introduction to `ATEBounds`"
 description: >
   How to use this package to find bounds.
 output: html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to ACEBounds}
+  %\VignetteIndexEntry{Introduction to ATEBounds}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: "references.bib"
@@ -17,7 +17,7 @@ To use for illustrative purposes, we simulate some data. The DAG corresponding t
 ```{r message = FALSE, warning = FALSE}
 set.seed(184506)
 
-library(ACEBounds)
+library(ATEBounds)
 library(dplyr)
 
 sim_dat <- simulate_data(sample_size = 500,
@@ -48,7 +48,7 @@ two_sample_data_Y <- sim_dat$simulated_data %>% select(Y,Z1)
 
 ### Trivariate data source
 
-If we have observations of $(X,Y,Z)$, we can find the bounds on ACE as follows:
+If we have observations of $(X,Y,Z)$, we can find the bounds on ATE as follows:
 
 ```{r}
 probs <- probs_from_data(one_sample_data, X = X, Y = Y, Z = Z1)
@@ -69,7 +69,7 @@ get_bounds(thetas = two_sample_probs$thetas,
 
 ### Bivariate data sources
 
-If we have a two-sample study design, i.e. one data set contains observations on $(X, Z)$, and the other observations on $(Y,Z)$, we can still find bounds on the ACE.
+If we have a two-sample study design, i.e. one data set contains observations on $(X, Z)$, and the other observations on $(Y,Z)$, we can still find bounds on the ATE.
 
 ```{r}
 X_probs <- probs_from_data(two_sample_data_X, X = X, Z = Z1)

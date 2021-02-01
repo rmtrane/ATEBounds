@@ -2,7 +2,7 @@ pandoc: 2.11.3.1
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
-  ACEBounds: ACEBounds.html
+  ATEBounds: ATEBounds.html
   bounds_from_bivariate: bounds_from_bivariate.html
   bounds_from_trivariate: bounds_from_trivariate.html
   example_analysis: example_analysis.html
@@ -12,5 +12,5 @@ articles:
   polymake_example: polymake_example.html
   power_sims: power_sims.html
   power_sims_figures: power_sims_figures.html
-last_built: 2021-01-31T02:57Z
+last_built: 2021-02-01T19:23Z
 

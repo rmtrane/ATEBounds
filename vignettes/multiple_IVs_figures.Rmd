@@ -3,7 +3,7 @@ title: "Two-Sample Bounds using Multiple IV: Figures"
 description: ""
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Figures}
+  %\VignetteIndexEntry{Multiple IV Figures}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---

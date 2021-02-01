@@ -1,25 +1,29 @@
-title: ACEBounds
+title: "Bounds in Two-Sample Mendelian Randomization With Summary Statistics"
 
 articles:
   - title: Exploration of Bounds
     navbar: Exploration of Bounds
     contents:
       - bounds_from_bivariate
-      - bounds_from_bivariate_multiple_IVs
+      # - bounds_from_bivariate_multiple_IVs
       - bounds_from_trivariate
       # - text: Exploration of Bounds from Bivariate Data
       #   href: articles/bounds_from_bivariate.html
       # - text: Extracting more Information from Bivariate Data
         # href: articles/bounds_from_trivariate.html
+  - title: '"Power" analysis'
+    navbar: '"Power" analysis'
+    contents:
+      - power_sims
+      - power_sims_figures
+  - title: Two-Sample Bounds using Multiple Instruments
+    navbar: Two-Sample Bounds using Multiple Instruments
+    contents:
+      - multiple_IVs_sims
+      - multiple_IVs_figures
   - title: How-To's
     navbar: How-To's
     contents:
       - polymake_example
       - get_bounds
       - example_analysis
-# navbar:
-#   left:
-#     - text: Figures
-#       menu:
-#         - text: Test
-#           href: articles/index.html

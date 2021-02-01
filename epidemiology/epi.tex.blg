@@ -1,5 +1,0 @@
-[0] Config.pm:311> INFO - This is Biber 2.16
-[0] Config.pm:314> INFO - Logfile is 'epi.tex.blg'
-[128] biber-darwin:340> INFO - === Fri Jan 15, 2021, 17:08:46
-[163] Utils.pm:411> ERROR - Cannot find 'epi.tex.bcf'!
-[163] Biber.pm:132> INFO - ERRORS: 1

@@ -45,7 +45,7 @@ file.remove("example")
 polymake_script <- create_script(vertices = vertices, 
                                  output_file_name = "example",
                                  polymake_script_name = "polymake_script",
-                                 overwrite = FALSE,
+                                 overwrite = TRUE,
                                  output_folder = ".")
 
 polymake_script

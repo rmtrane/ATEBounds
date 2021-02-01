@@ -1,5 +1,5 @@
 ---
-title: "Two-Sample Bounds using Multiple IV: Figures"
+title: "Multiple IVs: Figures"
 description: ""
 output: rmarkdown::html_vignette
 vignette: >
@@ -12,9 +12,9 @@ This script creates figures that illustrates the behavior of two-sample bounds w
 
 We first load the needed packages, read in the data created [here](articles/multiple_IVs_sims.html), and unnest a few list columns. 
 
-```{r}
+```{r message = FALSE, warning = FALSE}
 library(tidyverse)
-library(ACEBounds)
+library(ATEBounds)
 
 bounds_and_ATE <- read_rds(here::here("data/multiple_IV_sims/bounds_and_ATE.Rds"))
 
@@ -145,7 +145,7 @@ ggsave(plot = bounds_plot_MR_many_weak,
 ## Scenario 4
 
 ```{r}
-bounds_plot_power_many_weak <- bounds_and_ATE %>%
+(bounds_plot_power_many_weak <- bounds_and_ATE %>%
   unnest(subset) %>%
   select(-data_file, -indIVs_on_X) %>%
   unnest(sums_and_bounds) %>%
@@ -174,7 +174,7 @@ bounds_plot_power_many_weak <- bounds_and_ATE %>%
              labeller = label_parsed) +
   theme_bw() +
   theme(legend.position = "top",
-        axis.text.x = element_text(angle = 45, hjust = 1))
+        axis.text.x = element_text(angle = 45, hjust = 1)))
 
 ggsave(plot = bounds_plot_power_many_weak,
        filename = here::here("figures/bounds_from_multiple_IV_sims_power_many_weak.png"),

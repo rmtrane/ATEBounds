@@ -1,7 +1,7 @@
 library(tidyverse)
 library(TwoSampleMR)
 library(magrittr)
-library(ACEBounds)
+library(ATEBounds)
 
 find_intercept <- function(beta1, p_outcome, pz, interval = c(-5, 5), zs = 0:2){
   uniroot(f = function(beta0) sum((1+exp(-beta0-beta1*zs))^(-1) * pz) - p_outcome,

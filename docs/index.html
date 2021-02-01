@@ -67,29 +67,31 @@
     <li class="divider">
     <li class="dropdown-header">"Power" analysis</li>
     <li>
-      <a href="articles/power_sims.html">Monte carlo integration</a>
+      <a href="articles/power_sims.html">"Power" Simulations</a>
     </li>
     <li>
-      <a href="articles/power_sims_figures.html">Coverage of Null Effect</a>
+      <a href="articles/power_sims_figures.html">"Power" Figures</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">Two-Sample Bounds using Multiple Instruments</li>
     <li>
-      <a href="articles/multiple_IVs_sims.html">Two-Sample Bounds using Multiple IV: Monte carlo integration and data prep</a>
+      <a href="articles/multiple_IVs_sims.html">Multiple IVs: Simulations</a>
     </li>
     <li>
-      <a href="articles/multiple_IVs_figures.html">Two-Sample Bounds using Multiple IV: Figures</a>
+      <a href="articles/multiple_IVs_figures.html">Multiple IVs: Figures</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">How-To's</li>
+    <li class="dropdown-header">Example Analysis using `TwoSampleMR`</li>
+    <li>
+      <a href="articles/example_analysis.html">Example Analysis of Data from the IEU GWAS Database</a>
+    </li>
+    <li class="divider">
+    <li class="dropdown-header">Other</li>
     <li>
       <a href="articles/polymake_example.html">Polymake Example</a>
     </li>
     <li>
       <a href="articles/get_bounds.html">How to use the `get_bounds` function</a>
-    </li>
-    <li>
-      <a href="articles/example_analysis.html">Example Analysis of Data from the IEU GWAS Database</a>
     </li>
   </ul>
 </li>
@@ -118,10 +120,10 @@
 <a href="#non-parametric-bounds-in-two-sample-summary-data-mendelian-randomization-some-cautionary-tales-for-practice" class="anchor"></a>Non-parametric Bounds in Two-Sample Summary-Data Mendelian Randomization: Some Cautionary Tales for Practice</h1></div>
 <p>This website provides full documentation of the code used for our paper, and step-by-step guides on how to reproduce every figure and result. For the curious, it was generated using <a href="https://pkgdown.r-lib.org"><code>pkgdown</code></a>.</p>
 <p>The R-package <code>ATEBounds</code> includes every bit of code needed to reproduce all figures and results included in our paper. Since the main purpose is to ensure the reproducibility of figures and results from this specific paper, it has not been thoroughly tested in other settings. The code has not been optimized for performance, and was mainly written and documented for internal use only. That being said, many parts of this can be directly applied to other data sets, or reused in different settings.</p>
-<p>You can install this package using <code><a href="https://remotes.r-lib.org/reference/install_github.html">remotes::install_github("rmtrane/ATEBounds")</a></code>.</p>
-<div id="introduction" class="section level2">
+<p>You can install this package using <code><a href="https://remotes.r-lib.org/reference/install_github.html">remotes::install_github("rmtrane/ATEBounds")</a></code>. This site includes an introduction to finding nonparametric bounds on the ATE using this package (<a href="articles/ATEBounds.html">Get started</a>) and documentation of the functions included. On top of that, there are a few pages with information on how to reproduce our results; see below for more. One that might be of particular interest is <code><a href="articles/example_analysis.html">vignette("example_analysis")</a></code>, which shows how to use this package to obtain two-sample bounds based on studies from the MR-Base database.</p>
+<div id="introduction-to-our-work" class="section level2">
 <h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h2>
+<a href="#introduction-to-our-work" class="anchor"></a>Introduction to our work</h2>
 <p>Nonparametric bounds of the Average Treatment Effect (ATE) are intriguing for several reasons. Getting bounds on the ATE with no further assumptions other than what is embedded in the IV model is very appealing in particular as such assumptions often limit the structure of unmeasured confounders. By definition, assumptions about unmeasured confounders cannot be checked, and it is therefore desirable to avoid such.</p>
 <p>Many have considered nonparametric bounds in the past. Swanson et al.</p>
 <p>(2018) provide a nice overview of different bounds derived from different sets of assumptions. Arguably the weakest set of assumptions result in what is known as the Balke-Pearl bounds, first presented in Balke and Pearl (1993).</p>
@@ -132,24 +134,18 @@
 <li>
 <strong>Section 2</strong> reviews relevant notation, definitions and assumptions, and introduces the two-sample IV bounds derived by Ramsahai (2012).</li>
 <li>
-<strong>Section 3</strong> shows that even when adding two strong monotonicity assumptions, the width of two-sample bounds are bounded above by 2 − 2 ⋅ ST (where ST = max<sub><em>z</em><sub>1</sub> ≠ <em>z</em><sub>2</sub></sub> = |<em>P</em>(<em>X</em> = 1|<em>Z</em> = <em>z</em><sub>1</sub>) − <em>P</em>(<em>X</em> = 2|<em>Z</em> = <em>z</em><sub>2</sub>)| is the measure of strength of the instrument we consider). This is important as one-sample bounds are guaranteed to have width at most
-<ol>
-<li>We show through simulations that this upper bounds is sharp also when the two monotonicity assumptions are not imposed. Figure 1a of our paper shows this, and is created in <code><a href="articles/bounds_from_bivariate.html">vignette("bounds_from_bivariate")</a></code>. We then illustrate the relationship between the ST measure and coefficients from a logistic model, and show what kind of coefficient is needed for two-sample bounds to exclude the null effect 0.</li>
-</ol>
-</li>
+<strong>Section 3</strong> shows that even when adding two strong monotonicity assumptions, the width of two-sample bounds are bounded above by 2 − 2 ⋅ ST (where ST = max<sub><em>z</em><sub>1</sub> ≠ <em>z</em><sub>2</sub></sub> = |<em>P</em>(<em>X</em> = 1|<em>Z</em> = <em>z</em><sub>1</sub>) − <em>P</em>(<em>X</em> = 2|<em>Z</em> = <em>z</em><sub>2</sub>)| is the measure of strength of the instrument we consider). This is important as one-sample bounds are guaranteed to have width at most 1. We show through simulations that this upper bounds is sharp also when the two monotonicity assumptions are not imposed. Figure 1a of our paper shows this, and is created in <code><a href="articles/bounds_from_bivariate.html">vignette("bounds_from_bivariate")</a></code>. Since our ST metric isn’t common in MR studies, we illustrate the relationship between the ST measure and coefficients from a logistic model, and show what kind of coefficient is needed for two-sample bounds to exclude the null effect 0 for various effect sizes. The latter can to some extend be thought of as a “power analysis,” except we work under the assumption that we have population based probabilities. Figures 1b and 2 are created in <code><a href="articles/power_sims_figures.html">vignette("power_sims_figures")</a></code>. Finally, we mention the use of multiple instruments. The main part of this discussion is presented in eAppendix A.5. Simulations for this eAppendix are in <code><a href="articles/multiple_IVs_sims.html">vignette("multiple_IVs_sims")</a></code> and figures are created in <code><a href="articles/multiple_IVs_figures.html">vignette("multiple_IVs_figures")</a></code>.</li>
+<li>
+<strong>Section 4</strong> illustrates the information loss we see when using a two-sample rather than a one-sample design. <code><a href="articles/bounds_from_trivariate.html">vignette("bounds_from_trivariate")</a></code> shows how Figure 3 was created.</li>
+<li>
+<strong>Section 5</strong> demonstrates our findings on two real MR studies. <code><a href="articles/example_analysis.html">vignette("example_analysis")</a></code> shows how we obtained the data and preprocessed it using the <code>TwoSampleMR</code> R-package (Hemani et al. 2018), and how Figures 4 and 5 were created. It also includes the code needed to reproduce eFigures and eTables in eAppendix A.7.</li>
 </ul>
 </div>
-<div id="contents" class="section level2">
+<div id="references" class="section level2">
 <h2 class="hasAnchor">
-<a href="#contents" class="anchor"></a>Contents</h2>
-<ul>
-<li>
-<a href="articles/ATEBounds.html">Get started</a> is a brief introduction to this package, and how to find bounds using it.</li>
-<li>
-<a href="reference/index.html">Reference</a> gives a list with links to the documentation of all functions included.</li>
-<li>Under <a href="articles/index.html">Articles</a> you will find a set of documents that show how results and figures were created. Every document provides the seed used in order to make the work 100% reproducible. In particular, referencing our paper, Figure 1a is created <a href="articles/bounds_from_bivaraite.html">here</a>, Figures 1b, 2 and eFigure 1 are <a href="articles/bounds_from_trivariate.html">here</a>, all figures and results relating to real-world data examples are created <a href="articles/example_analysis.html">here</a>, and eFigure 2, 3, 4, 5, and 6 are created <a href="articles/multiple_IVs.html">here</a>.</li>
-</ul>
-<!-- ## Width of Two-Sample Bounds --><!-- One nice result for bounds obtained from one-sample data tells us that the width will never exceed $1$. This is important since bounds with width greater than $1$ will always include $0$, the null effect, which means direction of the ATE cannot be determined. Unfortunately, two-sample bounds can be as large as $2$. Particularly, for two-sample MR studies, most bounds are in fact close to or exceeding $1$.  --><!-- ## Improving Bounds from Two-Sample Data --><!-- Since relatively large databases with two-sample data are already available, it seems worthwhile to explore if we can utilize these data in any way to improve the bounds we obtain. We considered two ways of doing so. --><!-- ### Multiple IVs --><!-- The simplest way of utilizing multiple IVs is by simply taking intersections of the individual intervals. We will see that in most scenarios, the width of an intersection interval is mainly driven by the strongest IV. In fact, if monotonicity is assumed, it can be shown that the lower and upper bounds are monotonically increasing and decreasing, respectively, as a function of the strength of the IV, all else being equal. This means that the intersection will be exactly the bounds of the strongest IV. We show through simulations that even when all else is not equal, the gain in the width of the intersection is miniscule compared to the best individual bounds. --><!-- ### Possible One-Sample Distributions --><!-- Since we know that the bounds obtained from one-sample data will always have length less than $1$, and generally be narrower than the two-sample bounds, one could ask what distributions of $(X,Y|Z)$ would be possible given the known distributions of $(X|Z)$, $(Y|Z)$, and assuming the IV model holds. Doing so, one can arrive at what can be thought of as a posterior distribution of the one-sample bounds. This enables us to draw a few different conclusions depending on the specific scenario: --><!-- * a one-sample study provides no further insights over the two-sample bounds --><!-- * a one-sample study might be very likely to tell us the direction of the effect --><!-- * a one-sample study might be very unlikely to tell us the direction of the effect --><!-- ## Results/Conclusions --><!-- * Bounds based on two-sample data are not very useful -- we need very, very strong IVs to be guaranteed any insights. --><!-- * Even when utilizing multiple IVs, two-sample data will in most cases (in our experience) not provide enough information to be useful. --><!-- * It seems the best use of two-sample data is to get a sense of what one might be able to get from a one-sample study design. This could be used to decide whether or not pursuing such data for a bound based analysis is worth the time. --><!-- ## References --><p>Balke, Alexander, and Judea Pearl. 1993. “Nonparametric Bounds on Causal Effects from Partial Compliance Data.” JOURNAL OF THE AMERICAN STATISTICAL ASSOCIATION.</p>
+<a href="#references" class="anchor"></a>References</h2>
+<p>Balke, Alexander, and Judea Pearl. 1993. “Nonparametric Bounds on Causal Effects from Partial Compliance Data.” JOURNAL OF THE AMERICAN STATISTICAL ASSOCIATION.</p>
+<p>Hemani, Gibran, Jie Zheng, Benjamin Elsworth, Kaitlin H Wade, Valeriia Haberland, Denis Baird, Charles Laurin, et al. 2018. “The MR-Base Platform Supports Systematic Causal Inference Across the Human Phenome.” Edited by Ruth Loos. <em>eLife</em> 7 (May): e34408. <a href="https://doi.org/10.7554/eLife.34408" class="uri">https://doi.org/10.7554/eLife.34408</a>.</p>
 <p>Ramsahai, Roland R. 2012. “Causal Bounds and Observable Constraints for Non-Deterministic Models.” <em>J. Mach. Learn. Res.</em> 13 (March): 829–48.</p>
 <p>Swanson, Sonja A., Miguel A. Hern’an, Matthew Miller, James M. Robins, and Thomas S. Richardson. 2018. “Partial Identification of the Average Treatment Effect Using Instrumental Variables: Review of Methods for Binary Instruments, Treatments, and Outcomes.” <em>Journal of the American Statistical Association</em> 113 (522): 933–47. <a href="https://doi.org/10.1080/01621459.2018.1434530" class="uri">https://doi.org/10.1080/01621459.2018.1434530</a>.</p>
 </div>

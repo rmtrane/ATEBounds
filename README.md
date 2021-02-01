@@ -15,9 +15,16 @@ can be directly applied to other data sets, or reused in different
 settings.
 
 You can install this package using
-`remotes::install_github("rmtrane/ATEBounds")`.
+`remotes::install_github("rmtrane/ATEBounds")`. This site includes an
+introduction to finding nonparametric bounds on the ATE using this
+package ([Get started](articles/ATEBounds.html)) and documentation of
+the functions included. On top of that, there are a few pages with
+information on how to reproduce our results; see below for more. One
+that might be of particular interest is `vignette("example_analysis")`,
+which shows how to use this package to obtain two-sample bounds based on
+studies from the MR-Base database.
 
-## Introduction
+## Introduction to our work
 
 Nonparametric bounds of the Average Treatment Effect (ATE) are
 intriguing for several reasons. Getting bounds on the ATE with no
@@ -67,51 +74,42 @@ Our paper contains the following sections:
     2 − 2 ⋅ ST (where
     ST = max<sub>*z*<sub>1</sub> ≠ *z*<sub>2</sub></sub> = |*P*(*X* = 1|*Z* = *z*<sub>1</sub>) − *P*(*X* = 2|*Z* = *z*<sub>2</sub>)|
     is the measure of strength of the instrument we consider). This is
-    important as one-sample bounds are guaranteed to have width at most
-    1. We show through simulations that this upper bounds is sharp also
-    when the two monotonicity assumptions are not imposed. Figure 1a of
-    our paper shows this, and is created in
-    `vignette("bounds_from_bivariate")`. We then illustrate the
-    relationship between the ST measure and coefficients from a logistic
-    model, and show what kind of coefficient is needed for two-sample
-    bounds to exclude the null effect 0.
+    important as one-sample bounds are guaranteed to have width at
+    most 1. We show through simulations that this upper bounds is sharp
+    also when the two monotonicity assumptions are not imposed. Figure
+    1a of our paper shows this, and is created in
+    `vignette("bounds_from_bivariate")`. Since our ST metric isn’t
+    common in MR studies, we illustrate the relationship between the ST
+    measure and coefficients from a logistic model, and show what kind
+    of coefficient is needed for two-sample bounds to exclude the null
+    effect 0 for various effect sizes. The latter can to some extend be
+    thought of as a “power analysis,” except we work under the
+    assumption that we have population based probabilities. Figures 1b
+    and 2 are created in `vignette("power_sims_figures")`. Finally, we
+    mention the use of multiple instruments. The main part of this
+    discussion is presented in eAppendix A.5. Simulations for this
+    eAppendix are in `vignette("multiple_IVs_sims")` and figures are
+    created in `vignette("multiple_IVs_figures")`.
+-   **Section 4** illustrates the information loss we see when using a
+    two-sample rather than a one-sample design.
+    `vignette("bounds_from_trivariate")` shows how Figure 3 was created.
+-   **Section 5** demonstrates our findings on two real MR studies.
+    `vignette("example_analysis")` shows how we obtained the data and
+    preprocessed it using the `TwoSampleMR` R-package (Hemani et
+    al. 2018), and how Figures 4 and 5 were created. It also includes
+    the code needed to reproduce eFigures and eTables in eAppendix A.7.
 
-## Contents
-
--   [Get started](articles/ATEBounds.html) is a brief introduction to
-    this package, and how to find bounds using it.
--   [Reference](reference/index.html) gives a list with links to the
-    documentation of all functions included.
--   Under [Articles](articles/index.html) you will find a set of
-    documents that show how results and figures were created. Every
-    document provides the seed used in order to make the work 100%
-    reproducible. In particular, referencing our paper, Figure 1a is
-    created [here](articles/bounds_from_bivaraite.html), Figures 1b, 2
-    and eFigure 1 are [here](articles/bounds_from_trivariate.html), all
-    figures and results relating to real-world data examples are created
-    [here](articles/example_analysis.html), and eFigure 2, 3, 4, 5, and
-    6 are created [here](articles/multiple_IVs.html).
-
-<!-- ## Width of Two-Sample Bounds -->
-<!-- One nice result for bounds obtained from one-sample data tells us that the width will never exceed $1$. This is important since bounds with width greater than $1$ will always include $0$, the null effect, which means direction of the ATE cannot be determined. Unfortunately, two-sample bounds can be as large as $2$. Particularly, for two-sample MR studies, most bounds are in fact close to or exceeding $1$.  -->
-<!-- ## Improving Bounds from Two-Sample Data -->
-<!-- Since relatively large databases with two-sample data are already available, it seems worthwhile to explore if we can utilize these data in any way to improve the bounds we obtain. We considered two ways of doing so. -->
-<!-- ### Multiple IVs -->
-<!-- The simplest way of utilizing multiple IVs is by simply taking intersections of the individual intervals. We will see that in most scenarios, the width of an intersection interval is mainly driven by the strongest IV. In fact, if monotonicity is assumed, it can be shown that the lower and upper bounds are monotonically increasing and decreasing, respectively, as a function of the strength of the IV, all else being equal. This means that the intersection will be exactly the bounds of the strongest IV. We show through simulations that even when all else is not equal, the gain in the width of the intersection is miniscule compared to the best individual bounds. -->
-<!-- ### Possible One-Sample Distributions -->
-<!-- Since we know that the bounds obtained from one-sample data will always have length less than $1$, and generally be narrower than the two-sample bounds, one could ask what distributions of $(X,Y|Z)$ would be possible given the known distributions of $(X|Z)$, $(Y|Z)$, and assuming the IV model holds. Doing so, one can arrive at what can be thought of as a posterior distribution of the one-sample bounds. This enables us to draw a few different conclusions depending on the specific scenario: -->
-<!-- * a one-sample study provides no further insights over the two-sample bounds -->
-<!-- * a one-sample study might be very likely to tell us the direction of the effect -->
-<!-- * a one-sample study might be very unlikely to tell us the direction of the effect -->
-<!-- ## Results/Conclusions -->
-<!-- * Bounds based on two-sample data are not very useful -- we need very, very strong IVs to be guaranteed any insights. -->
-<!-- * Even when utilizing multiple IVs, two-sample data will in most cases (in our experience) not provide enough information to be useful. -->
-<!-- * It seems the best use of two-sample data is to get a sense of what one might be able to get from a one-sample study design. This could be used to decide whether or not pursuing such data for a bound based analysis is worth the time. -->
-<!-- ## References -->
+## References
 
 Balke, Alexander, and Judea Pearl. 1993. “Nonparametric Bounds on Causal
 Effects from Partial Compliance Data.” JOURNAL OF THE AMERICAN
 STATISTICAL ASSOCIATION.
+
+Hemani, Gibran, Jie Zheng, Benjamin Elsworth, Kaitlin H Wade, Valeriia
+Haberland, Denis Baird, Charles Laurin, et al. 2018. “The MR-Base
+Platform Supports Systematic Causal Inference Across the Human Phenome.”
+Edited by Ruth Loos. *eLife* 7 (May): e34408.
+<https://doi.org/10.7554/eLife.34408>.
 
 Ramsahai, Roland R. 2012. “Causal Bounds and Observable Constraints for
 Non-Deterministic Models.” *J. Mach. Learn. Res.* 13 (March): 829–48.

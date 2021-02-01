@@ -21,9 +21,12 @@ articles:
     contents:
       - multiple_IVs_sims
       - multiple_IVs_figures
-  - title: How-To's
-    navbar: How-To's
+  - title: Example Analysis using `TwoSampleMR`
+    navbar: Example Analysis using `TwoSampleMR`
+    contents:
+      - example_analysis
+  - title: Other
+    navbar: Other
     contents:
       - polymake_example
       - get_bounds
-      - example_analysis

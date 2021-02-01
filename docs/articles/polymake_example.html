@@ -125,15 +125,15 @@
 
     
     
-<p>Before we see how the functions in this package can help us find bounds on ACE in different settings, we take a look at the helper functions that allow us to generate the constraints that give us the bounds. This approach is heavily based on the approach described in detail in <span class="citation">Ramsahai (2012)</span>. This set of functions allow us to create a script to use with the <a href="https://www.polymake.org">polymake</a> program, which in turn lets us find bounds for IVs with (theoretically…) an arbitrary number of categories.</p>
+<p>Here, we take a look at the helper functions that allow us to generate the constraints that give us bounds on the ATE. This approach is heavily based on the approach described in detail in <span class="citation">Ramsahai (2012)</span>. This set of functions allow us to create a script to use with the <a href="https://www.polymake.org">polymake</a> program, which in turn lets us find bounds for IVs with (theoretically…) an arbitrary number of categories.</p>
 <div id="create_vertices" class="section level2">
 <h2 class="hasAnchor">
 <a href="#create_vertices" class="anchor"></a><code>create_vertices</code>
 </h2>
-<p>The function <code>create_vertices</code> allows us to create the vertices of the polygon that represents the space of valid probability distributions. (Valid in the sense that they satisfy the IV model.) We can specify the number of levels the IV can take, whether the data at hand consist of two bivariate data sets (i.e. <span class="math inline">\((X,Z)\)</span> and <span class="math inline">\((Y,Z)\)</span> are observed independently) or a single trivariate data set (i.e we observe <span class="math inline">\((X,Y,Z)\)</span> jointly), if we want to impose monotonicity assumptions on <span class="math inline">\(P(X = 1 | Z = z)\)</span> and/or <span class="math inline">\(P(Y = 1 | Z = z)\)</span>, and if we want to include a column for <span class="math inline">\(\alpha\)</span> (needed to get actual bounds, and not simply constraints, hence included by default.)</p>
+<p>The function <code>create_vertices</code> allows us to create the vertices of the polygon that represents the space of valid probability distributions. (Valid in the sense that they satisfy the IV model.) We can specify the number of levels the IV can take, whether we want to consider two-sample (i.e. <span class="math inline">\((X,Z)\)</span> and <span class="math inline">\((Y,Z)\)</span> are observed independently) or one-sample datasets (i.e we observe <span class="math inline">\((X,Y,Z)\)</span> jointly), if we want to impose monotonicity assumptions on <span class="math inline">\(P(X = 1 | Z = z, U)\)</span> and/or <span class="math inline">\(P(Y = 1 | Z = z, U)\)</span>, and if we want to include a column for <span class="math inline">\(\alpha\)</span> (needed to get actual bounds, and not simply constraints, hence included by default.)</p>
 <p>Here we demonstrate how to get the vertices for a binary IV where the data is bivariate, and no monotonicity assumptions are included.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rmtrane/ACEBounds">ACEBounds</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rmtrane/ATEBounds">ATEBounds</a></span><span class="op">)</span>
 
 <span class="va">vertices</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_vertices.html">create_vertices</a></span><span class="op">(</span>
   n_z_levels <span class="op">=</span> <span class="fl">2</span>, 
@@ -220,7 +220,7 @@
 ##   The Parma Polyhedra Library ([[wiki:external_software#PPL]]): A C++ library for convex polyhedra
 ##   and other numerical abstractions.
 ##   http://www.cs.unipr.it/ppl/</code></pre>
-<p>This saves a text file with the constraints that we can read in using the <code>read_polymake_results</code>.</p>
+<p>This saves a text file with the constraints that we can read in using the <code>read_polymake_results</code>. This file is saved to the path specified in the <code>output_folder</code> argument to the function <code>create_script</code>.</p>
 </div>
 <div id="read_polymake_results" class="section level2">
 <h2 class="hasAnchor">
@@ -295,7 +295,7 @@
 ## 30       2      -1       0       0       0       2      -2       2     1
 ## 31       1      -1       0       0       0       2      -1       1     0
 ## 32       1       0       0       0       0       0       0       0     0</code></pre>
-<p>(The naming convention follows that in <span class="citation">Ramsahai (2012)</span>: <span class="math inline">\(\gamma_{yz} = P(Y = y | Z = z)\)</span>, <span class="math inline">\(\theta_{xz} = P(X = x | Z = z)\)</span>, and in the trivariate case, <span class="math inline">\(\zeta_{yxz} = P(Y = y, X = x | Z = z)\)</span>. In <code>R</code>, the greek letters are spelled out.)</p>
+<p>(The naming convention follows that in <span class="citation">Ramsahai (2012)</span>: <span class="math inline">\(\gamma_{yz} = P(Y = y | Z = z)\)</span>, <span class="math inline">\(\theta_{xz} = P(X = x | Z = z)\)</span>, and in the one-sample case, <span class="math inline">\(\zeta_{yxz} = P(Y = y, X = x | Z = z)\)</span>. In <code>R</code>, the greek letters are spelled out.)</p>
 </div>
 <div id="constraints" class="section level2">
 <h2 class="hasAnchor">
@@ -305,7 +305,7 @@
 <div id="matrices-provided" class="section level2">
 <h2 class="hasAnchor">
 <a href="#matrices-provided" class="anchor"></a>Matrices provided</h2>
-<p>For convenience, the matrices resulting from the following code are included in the package, though not available to the user. I.e. we can find bounds “out of the box” for any combination of bivariate/trivariate data, IVs with 2,3,4 levels, and monotonicity assumed for <span class="math inline">\(X\)</span> and/or <span class="math inline">\(Y\)</span>. For other scenarios, a new matrix would have to be generated using polymake.</p>
+<p>For convenience, the matrices resulting from the following code are included in the package. I.e. we can find bounds “out of the box” for any combination of one-sample/two-sample data, IVs with 2,3,4 levels, and monotonicity assumed for <span class="math inline">\(X\)</span> and/or <span class="math inline">\(Y\)</span>. For other scenarios, a new matrix would have to be generated using polymake. <code><a href="../articles/get_bounds.html">vignette("get_bounds")</a></code> shows how this is done for the build-in scenarios. If you need to get bounds in a scenario not included by default, for example for an instrument with 5 levels, simply pass the result of <code><a href="../reference/read_polymake_results.html">read_polymake_results()</a></code> to the <code>from_polymake</code> argument in the <code><a href="../reference/get_bounds.html">get_bounds()</a></code> function.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit">
 <span class="co">## Data type</span>
 <span class="kw">for</span> <span class="op">(</span><span class="va">data_format</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"bivariate"</span>, <span class="st">"trivariate"</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
@@ -337,12 +337,6 @@
     <span class="op">}</span>
   <span class="op">}</span>
 <span class="op">}</span></pre></div>
-</div>
-<div id="up-next-get_bounds" class="section level2">
-<h2 class="hasAnchor">
-<a href="#up-next-get_bounds" class="anchor"></a>Up Next: <code>get_bounds</code>
-</h2>
-<p>With this matrix at hand, we can get bounds on <span class="math inline">\(\alpha\)</span> in a number of different scenarios. More on this in <code><a href="../articles/get_bounds.html">vignette("get_bounds")</a></code>.</p>
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2 class="hasAnchor">

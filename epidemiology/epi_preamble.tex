@@ -5,7 +5,9 @@
 \usepackage{longtable}
 \usepackage{booktabs}
 \usepackage{caption}
-\usepackage{subcaption}
+\usepackage[labelformat=simple,labelfont=bf,singlelinecheck=false]{subcaption}
+\renewcommand{\thesubfigure}{\Alph{subfigure}} % capitalize labelling of subfigures.
+
 \usepackage{rotating}
 \usepackage{float}
 \theoremstyle{plain}

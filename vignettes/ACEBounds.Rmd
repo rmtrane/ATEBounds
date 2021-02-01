@@ -12,7 +12,7 @@ bibliography: "references.bib"
 
 ## Simulate Data 
 
-To use for illustrative purposes, we simulate some data. The DAG corresponding to the model simulated from is presented below. $X,Y,U$ are all binary, while $Z1$ is categorical with three levels. 
+To use for illustrative purposes, we simulate some data. The DAG corresponding to the model simulated from is presented below. $X,Y,U$ are all binary, while $Z1$ is categorical with three levels. The values indicate the coefficients used in the two logistic models -- see `?simulate_data` for more details.
 
 ```{r message = FALSE, warning = FALSE}
 set.seed(184506)
@@ -32,19 +32,19 @@ plot_DAG(sim_dat) + scale_x_reverse()
 The first 10 rows of the data simulated:
 
 ```{r}
-print(sim_dat$simulated_data, n = 10)
+knitr::kable(head(sim_dat$simulated_data, n = 10))
 ```
 
 
 ## With Individual Level Data
 
-We create three data sets to illustrate the scenarios where either trivariate or bivariate data is available.
+We create three data sets to illustrate the scenarios where either a one-sample or a two-sample study design is used.
 
 ```{r}
-XYZ_data <- sim_dat$simulated_data
+one_sample_data <- sim_dat$simulated_data
 
-XZ_data <- sim_dat$simulated_data %>% select(X,Z1)
-YZ_data <- sim_dat$simulated_data %>% select(Y,Z1)
+two_sample_data_X <- sim_dat$simulated_data %>% select(X,Z1)
+two_sample_data_Y <- sim_dat$simulated_data %>% select(Y,Z1)
 ```
 
 ### Trivariate data source
@@ -52,7 +52,7 @@ YZ_data <- sim_dat$simulated_data %>% select(Y,Z1)
 If we have observations of $(X,Y,Z)$, we can find the bounds on ACE as follows:
 
 ```{r}
-probs <- probs_from_data(XYZ_data, X = X, Y = Y, Z = Z1)
+probs <- probs_from_data(one_sample_data, X = X, Y = Y, Z = Z1)
 
 get_bounds(zetas = probs$zetas)
 ```
@@ -61,20 +61,20 @@ get_bounds(zetas = probs$zetas)
 If for whatever reason you want to get $P(X = 1 | Z = z)$ and $P(Y = 1 | Z = z)$ from a trivariate data source, that is also possible.
 
 ```{r}
-bivariate_probs <- probs_from_data(XYZ_data, X = X, Y = Y, Z = Z1, data_format = "bivariate")
+two_sample_probs <- probs_from_data(one_sample_data, X = X, Y = Y, Z = Z1, data_format = "bivariate")
 
-get_bounds(thetas = bivariate_probs$thetas,
-           gammas = bivariate_probs$gammas)
+get_bounds(thetas = two_sample_probs$thetas,
+           gammas = two_sample_probs$gammas)
 ```
 
 
 ### Bivariate data sources
 
-If we have from bivariate data sources, i.e. one data set contains observations on $(X, Z)$, and the other observations on $(Y,Z)$, we can still find bounds on ACE.
+If we have a two-sample study design, i.e. one data set contains observations on $(X, Z)$, and the other observations on $(Y,Z)$, we can still find bounds on the ACE.
 
 ```{r}
-X_probs <- probs_from_data(XZ_data, X = X, Z = Z1)
-Y_probs <- probs_from_data(YZ_data, Y = Y, Z = Z1)
+X_probs <- probs_from_data(two_sample_data_X, X = X, Z = Z1)
+Y_probs <- probs_from_data(two_sample_data_Y, Y = Y, Z = Z1)
 
 get_bounds(thetas = X_probs$thetas,
            gammas = Y_probs$gammas)
@@ -92,6 +92,21 @@ get_bounds(zetas = probs$zetas,
 get_bounds(gammas = Y_probs$gammas,
            thetas = X_probs$thetas,
            x_mono = TRUE)
+```
+
+Similarly, if you want to impose the monotonicity assumption $P(Y = 1 | Z = z, U) \leq P(Y = 1 | Z = z+1, U)$ for all values of $z$, we simply specify `y_mono = TRUE`. In this case, this leads to an error message since the data we have violate some of the verifiable inequalities we get when we include this second monotonicity assumption. (`stop = FALSE` changes the behavior such that we still get to see the results even though constraints are violated.)
+
+```{r}
+get_bounds(zetas = probs$zetas,
+           x_mono = TRUE,
+           y_mono = TRUE,
+           stop = FALSE)
+
+get_bounds(gammas = Y_probs$gammas,
+           thetas = X_probs$thetas,
+           x_mono = TRUE,
+           y_mono = TRUE,
+           stop = FALSE)
 ```
 
 ## With Summary Data Only

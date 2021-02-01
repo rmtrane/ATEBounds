@@ -58,9 +58,14 @@ plot_DAG <- function(sim_data){
   tidyDAG <- from_simulated_to_dag(sim_data)
 
   ggdag::ggdag(tidyDAG) +
-    ggdag::geom_dag_label_repel(aes(label = coef,
-                             x = label_x,
-                             y = label_y)) +
+    # ggdag::geom_dag_label_repel(aes(label = coef,
+    #                                 x = label_x,
+    #                                 y = label_y),
+    #                             force = 0) +
+    geom_label(data = filter(tidyDAG, !is.na(coef)),
+               aes(label = coef,
+                   x = label_x,
+                   y = label_y)) +
     ggdag::theme_dag_blank() +
     ggtitle("DAG structure used for simulation")
 }

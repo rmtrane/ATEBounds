@@ -1,15 +1,17 @@
 ---
-title: "Utilize bivariate data in trivariate bounds"
+title: "Utilize two-sample data two get potential one-sample bounds"
 description: >
-  See how we can use bivariate data to get a sense of what the bounds obtained from trivariate data could look like.
+  See how we can use two-sample data to get a sense of what the bounds obtained from one-sample data could look like.
 output: rmarkdown::html_vignette
+params:
+  n_cores: 2
 vignette: >
-  %\VignetteIndexEntry{Trivariate Bounds from Bivariate Data}
+  %\VignetteIndexEntry{Potential One-Sample Bounds from Two-Sample Data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-Bounds constructed using bivariate data generally provides much less information than bounds constructed using trivariate data. We will here see how we can squeeze a bit more information out of bivariate data by considering the potential distributions of $(X,Y)|Z$ that are in agreement with the observed $X|Z$ and $Y|Z$, and the model.
+Bounds constructed using two-sample data generally provides much less information than bounds constructed using one-sample data. We will here see how we can squeeze a bit more information out of two-sample data by considering the potential distributions of $(X,Y)|Z$ that are in agreement with the observed $X|Z$ and $Y|Z$, and the model.
 
 ```{r message = FALSE}
 library(tidyverse)
@@ -72,7 +74,7 @@ The result of this chunk is a `tibble` calles `many_sample_joints` with 5 column
 * `j` is simply for book keeping
 * `thetas` are the values of $P(X = 1 | Z = z)$
 * `gammas` are the values of $P(Y = 1 | Z = z)$
-* `pot_covs` contain the constraints on $\text{Cov}(X,Y|Z=z)$
+* `pot_covs` contain the constraints on $\text{Cov}(X, Y | Z = z)$
 * `samp_joints` with the sampled joint distributions, $1000$ for each set of $P(X = 1 | Z = z)$ and $P(Y = 1 | Z = z)$. 
 
 The first six rows are shown below.
@@ -84,8 +86,7 @@ if(file.exists(here::here("vignettes_data/many_sample_joints.rds"))){
   
   library(furrr)
   
-  if(!interactive())
-    plan(multicore, workers = 1)
+  plan(multisession, workers = params$n_cores)
  
   set.seed(7226637)
   sim_probs <- tibble(j = 1:100) %>%
@@ -97,7 +98,8 @@ if(file.exists(here::here("vignettes_data/many_sample_joints.rds"))){
     mutate(
       samp_joints = future_map2(pot_covs, j,
                                 ~sample_joint_probs(.x, return_bounds = TRUE, n = 1000, max_rejections = 500, 
-                                                    print_progress = TRUE, print_as_progress = .y))
+                                                    print_progress = TRUE, print_as_progress = .y),
+                               .options = furrr_options(seed = TRUE))
     )
   
   write_rds(many_sample_joints,
@@ -119,7 +121,7 @@ trivariate_bounds <- many_sample_joints %>%
 head(trivariate_bounds)
 ```
 
-We then find the bounds we get if we only use the bivariate distributions. 
+We then find the bounds we get if we only use the two-sample distributions. 
 
 ```{r bivariate_bounds}
 bivariate_bounds <- many_sample_joints %>% 
@@ -136,7 +138,7 @@ bivariate_bounds <- many_sample_joints %>%
 head(bivariate_bounds)
 ```
 
-To plot it all, we combine the two sets of bounds. We order by lower limit of trivariate bounds, give `id` for plotting, and then create a variable `contains_zero` which simply tells us if the trivariate bounds contain zero (`TRUE`) or not (`FALSE`). 
+To plot it all, we combine the two sets of bounds. We order by lower limit of one-sample bounds, give `id` for plotting, and then create a variable `contains_zero` which simply tells us if the one-sample bounds contain zero (`TRUE`) or not (`FALSE`). 
 
 ```{r for_plot}
 for_plot <- trivariate_bounds %>% 
@@ -157,11 +159,11 @@ head(for_plot)
 
 Finally, the plot.
 
-```{r plot, fig.width = 10, fig.height = 10, dpi = 300}
-plot <- for_plot %>% #select(k, center, facet_row, facet_col) %>% arrange(center) %>% unique() %>% View()
+```{r plot, fig.width = 10, fig.height = 8, dpi = 150}
+(plot <- for_plot %>% 
   ggplot(aes(y = id/max(id))) + 
-    geom_vline(aes(xintercept = bivariate_lower, color = "Bivariate Bounds")) + 
-    geom_vline(aes(xintercept = bivariate_upper, color = "Bivariate Bounds")) + 
+    geom_vline(aes(xintercept = bivariate_lower, color = "Two-sample Bounds")) + 
+    geom_vline(aes(xintercept = bivariate_upper, color = "Two-sample Bounds")) + 
     geom_errorbar(aes(xmin = trivariate_lower, 
                       xmax = trivariate_upper,
                       color = contains_zero)) + 
@@ -183,9 +185,7 @@ plot <- for_plot %>% #select(k, center, facet_row, facet_col) %>% arrange(center
     theme(axis.ticks.y = element_blank(),
           axis.text.y = element_blank(),
           strip.background = element_blank(),
-          strip.text = element_blank())
-
-plot
+          strip.text = element_blank()))
 ```
 
 Save the plot to a file for later use. 
@@ -194,7 +194,7 @@ Save the plot to a file for later use.
 ggsave(
   plot, 
   filename = here::here("figures/trivariate_bounds_plot.png"),
-  width = 10, height = 10, dpi = 300
+  width = 10, height = 8, dpi = 300
 )
 ```
 
@@ -202,7 +202,7 @@ Below are 9 of the 100 runs displayed. The figures are the same as in the plot b
 
 
 ```{r}
-chosen_ones <- c(53, 6, 66, #19,36, 94, 26
+chosen_ones <- c(53, 6, 66, 
                  38, 7, 88,
                  73, 44, 60)
 
@@ -232,7 +232,7 @@ subset_plot <- ggplot(for_subset_plot,
                               x_max = rep(0.3, 3),
                               y_min = rep(0.1, 3),
                               y_max = rep(0.2, 3),
-                              contains_zero = c("Bivariate Bounds", "Overlaps Zero", "Does not Overlap Zero")),
+                              contains_zero = c("Two-Sample Bounds", "Overlaps Zero", "Does not Overlap Zero")),
             inherit.aes = FALSE,
             aes(xmin = x_min,
                 xmax = x_max,
@@ -240,9 +240,9 @@ subset_plot <- ggplot(for_subset_plot,
                 ymax = y_max,
                 fill = contains_zero),
             alpha = 0) +
-  geom_vline(aes(xintercept = bivariate_lower, color = "Bivariate Bounds"),
+  geom_vline(aes(xintercept = bivariate_lower, color = "Two-Sample Bounds"),
              linetype = "dashed") + 
-  geom_vline(aes(xintercept = bivariate_upper, color = "Bivariate Bounds"),
+  geom_vline(aes(xintercept = bivariate_upper, color = "Two-Sample Bounds"),
              linetype = "dashed") + 
   geom_errorbar(aes(xmin = trivariate_lower, 
                     xmax = trivariate_upper,
@@ -252,9 +252,9 @@ subset_plot <- ggplot(for_subset_plot,
   facet_grid(row_i ~ col_j) +
   coord_fixed(ratio = 2) +
   scale_color_manual(values = c("black", "grey50", "red"),
-                     breaks = c("Bivariate Bounds", "Overlaps Zero", "Does not Overlap Zero")) +
+                     breaks = c("Two-Sample Bounds", "Overlaps Zero", "Does not Overlap Zero")) +
   scale_fill_manual(values = c("black", "grey50", "red"),
-                    breaks = c("Bivariate Bounds", "Overlaps Zero", "Does not Overlap Zero")) + 
+                    breaks = c("Two-Sample Bounds", "Overlaps Zero", "Does not Overlap Zero")) + 
   labs(x = "ATE", 
        y = "",
        color = "",
@@ -278,23 +278,23 @@ subset_plot +
 
 This is meant to illustrate the different scenarios we can end up in:
 
-* The first row shows us three scenarios with relatively wide bivariate bounds, more or less centered around zero. Yet we would draw three different conclusions:
-    * `r chosen_ones[1]`: even with trivariate data, we would not be able to determine direction
-    * `r chosen_ones[2]`: with trivariate data, we would not be able to determine direction if the true ACE is negative. About `r filter(subset_plot_summaries, row_i == 1, col_j == 2)[["p_no_zero"]]*100`% of the joint probabilities would result in the trivariate data giving us the direction, and in all of these cases the direction is positive. 
-    * `r chosen_ones[3]`: with trivariate data, we would be able to determine direction with about `r filter(subset_plot_summaries, J == chosen_ones[3])[["p_no_zero"]]*100`% of the possible joint distributions, but the direction could go either way. 
+* The first row shows us three scenarios with relatively wide two-sample bounds, more or less centered around zero. Yet we would draw three different conclusions:
+    * `r chosen_ones[1]`: even with one-sample data, we would not be able to determine direction
+    * `r chosen_ones[2]`: with one-sample data, we would not be able to determine direction if the true ACE is negative. About `r filter(subset_plot_summaries, row_i == 1, col_j == 2)[["p_no_zero"]]*100`% of the joint probabilities would result in the one-sample data giving us the direction, and in all of these cases the direction is positive. 
+    * `r chosen_ones[3]`: with one-sample data, we would be able to determine direction with about `r filter(subset_plot_summaries, J == chosen_ones[3])[["p_no_zero"]]*100`% of the possible joint distributions, but the direction could go either way. 
 
 * The second row shows scenarios where the bounds are relatively wide and centered relatively far from zero (here, it is above, but you can similarly find cases where it would be below). Again, three difference conclusions:
-    * `r chosen_ones[4]`: even with trivariate data, would would not be able to determine direction
+    * `r chosen_ones[4]`: even with one-sample data, would would not be able to determine direction
     * `r chosen_ones[5]`: `r filter(subset_plot_summaries, J == chosen_ones[5])[["p_no_zero"]]*100`% of the drawn joint distributions let us determine direction, and in all cases the direction is positive.
     * `r chosen_ones[6]`: `r filter(subset_plot_summaries, J == chosen_ones[6])[["p_no_zero"]]*100`% of the drawn joint distributions let us determine direction, and in all cases the direction is positive. 
-    * Notice the big difference in information in the bivariate data between `r chosen_ones[5]` and `r chosen_ones[6]` even though the bivariate bounds are relatively similar. One tells us that it is pretty likely that trivariate data would allow us to conclude the direction of the effect is positive, while the other one tells us it is rather unlikely we would be able to determine direction based on trivariate data. 
+    * Notice the big difference in information in the two-sample data between `r chosen_ones[5]` and `r chosen_ones[6]` even though the two-sample bounds are relatively similar. One tells us that it is pretty likely that one-sample data would allow us to conclude the direction of the effect is positive, while the other one tells us it is rather unlikely we would be able to determine direction based on one-sample data. 
     
-* Finally, the third row shows us three scenarios where the bivariate bounds are relatively narrow and centered around zero. Once again, we would arrive at three different conclusions:
-    * `r chosen_ones[7]`: trivariate data would not help us determine direction
-    * `r chosen_ones[8]`: we would be able to determine direction from trivariate data in `r filter(subset_plot_summaries, J == chosen_ones[8])[["p_no_zero"]]*100`% of the drawn joints, but from the information in the bivariate data, we cannot rule out either direction. This seems rather surprising to me: even though the bivariate bounds are pretty tight around zero, bounds from trivariate data could still end up entirely on either side of zero!
+* Finally, the third row shows us three scenarios where the two-sample bounds are relatively narrow and centered around zero. Once again, we would arrive at three different conclusions:
+    * `r chosen_ones[7]`: one-sample data would not help us determine direction
+    * `r chosen_ones[8]`: we would be able to determine direction from one-sample data in `r filter(subset_plot_summaries, J == chosen_ones[8])[["p_no_zero"]]*100`% of the drawn joints, but from the information in the two-sample data, we cannot rule out either direction. This seems rather surprising to me: even though the two-sample bounds are pretty tight around zero, bounds from one-sample data could still end up entirely on either side of zero!
     * `r chosen_ones[9]`: in `r filter(subset_plot_summaries, J == chosen_ones[9])[["p_no_zero"]]*100`% of the drawn joints, we would be able to determine direction, and in all of these the direction is positive.
 
-Save plot and a few objects for later use.
+Save plot and a few summaries for later use.
 
 ```{r}
 write_rds(x = subset_plot_summaries,
@@ -350,7 +350,7 @@ if(file.exists(here::here("vignettes_data/many_sample_joints_mono.rds"))){
   library(furrr)
 
   if(!interactive())
-    plan(multiprocess)
+    plan(multisession, workers = params$n_cores)
  
   set.seed(2884193)
   sim_probs_mono <- tibble(j = 1:100) %>%
@@ -358,10 +358,13 @@ if(file.exists(here::here("vignettes_data/many_sample_joints_mono.rds"))){
            gammas = map(thetas, simulate_gammas_from_thetas_mono),
            pot_covs = map2(thetas, gammas, potential_covs, x_mono = TRUE))
   
-  many_sample_joints_mono <- sim_probs_mono %>%
+  many_sample_joints_mono <- sim_probs_mono %>% 
     mutate(
-      samp_joints = future_map(pot_covs, sample_joint_probs, x, return_bounds = TRUE, n = 1000, max_rejections = 100,
-                               x_mono = TRUE)
+      samp_joints = future_map(pot_covs, 
+                               sample_joint_probs, #x, 
+                               return_bounds = TRUE, n = 1000, max_rejections = 100,
+                               x_mono = TRUE,
+                               .options = furrr_options(seed = TRUE))
     )
   
   write_rds(many_sample_joints_mono,
@@ -399,8 +402,8 @@ plot_mono <- for_plot_mono %>%
   mutate(facet_row = ceiling(j/10), 
          facet_col = j - (facet_row-1)*10) %>% 
   ggplot(aes(x = id/max(id))) + 
-    geom_hline(aes(yintercept = bivariate_lower, color = "Bivariate Bounds")) + 
-    geom_hline(aes(yintercept = bivariate_upper, color = "Bivariate Bounds")) + 
+    geom_hline(aes(yintercept = bivariate_lower, color = "Two-Sample Bounds")) + 
+    geom_hline(aes(yintercept = bivariate_upper, color = "Two-Sample Bounds")) + 
     geom_errorbar(aes(ymin = trivariate_lower, ymax = trivariate_upper,
                       color = contains_zero)) + 
     ylim(c(-1,1)) +

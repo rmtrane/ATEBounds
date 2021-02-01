@@ -45,7 +45,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/ACEBounds.html">Get started</a>
+  <a href="../articles/ATEBounds.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -97,7 +97,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/rmtrane/ACEBounds/">
+  <a href="https://github.com/rmtrane/ATEBounds/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -118,7 +118,7 @@
       <h1 data-toc-skip>Example Analysis of Data from the IEU GWAS Database</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rmtrane/ACEBounds/blob/master/vignettes/example_analysis.Rmd"><code>vignettes/example_analysis.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rmtrane/ATEBounds/blob/master/vignettes/example_analysis.Rmd"><code>vignettes/example_analysis.Rmd</code></a></small>
       <div class="hidden name"><code>example_analysis.Rmd</code></div>
 
     </div>
@@ -140,7 +140,7 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></pre></div>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.0.4     ✓ dplyr   1.0.2
+## ✓ tibble  3.0.6     ✓ dplyr   1.0.3
 ## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
 ## ✓ readr   1.4.0     ✓ forcats 0.5.0</code></pre>
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -201,8 +201,8 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>samplesize.exposure <span class="op">=</span> <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">ncase</span> <span class="op">+</span> <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">ncontrol</span>,
          samplesize.outcome <span class="op">=</span> <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">ncase</span> <span class="op">+</span> <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">ncontrol</span>,
-         ave_eaf <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/weighted.mean.html">weighted.mean</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">c_across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">eaf.exposure</span>, <span class="va">eaf.outcome</span><span class="op">)</span><span class="op">)</span>,
-                                 w <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">c_across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">samplesize.exposure</span>, <span class="va">samplesize.outcome</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+         ave_eaf <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/weighted.mean.html">weighted.mean</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/c_across.html">c_across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">eaf.exposure</span>, <span class="va">eaf.outcome</span><span class="op">)</span><span class="op">)</span>,
+                                 w <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/c_across.html">c_across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">samplesize.exposure</span>, <span class="va">samplesize.outcome</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">SNP</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"beta"</span><span class="op">)</span>, <span class="va">ave_eaf</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">pivot_longer</span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"beta"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">separate</span><span class="op">(</span><span class="va">name</span>, into <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"variable"</span>, <span class="st">"regression"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\\."</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -595,7 +595,7 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span><span class="op">(</span><span class="va">SNPs</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>SNPs <span class="op">=</span> <span class="fu">map</span><span class="op">(</span><span class="va">SNPs</span>, <span class="op">~</span><span class="fu">tibble_row</span><span class="op">(</span>SNP1 <span class="op">=</span> <span class="va">.x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, SNP2 <span class="op">=</span> <span class="va">.x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">SNPs</span><span class="op">)</span></pre></div>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre><code>## `summarise()` has ungrouped output. You can override using the `.groups` argument.</code></pre>
 <div class="sourceCode" id="cb47"><pre class="downlit">
 <span class="va">smoking_lung_cancer_pairs_of_snps</span></pre></div>
 <pre><code>## # A tibble: 3,486 x 2
@@ -797,8 +797,8 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>samplesize.exposure <span class="op">=</span> <span class="va">cholesterol_experiment</span><span class="op">$</span><span class="va">ncase</span> <span class="op">+</span> <span class="va">cholesterol_experiment</span><span class="op">$</span><span class="va">ncontrol</span>,
          samplesize.outcome <span class="op">=</span> <span class="va">heart_attack_experiment</span><span class="op">$</span><span class="va">ncase</span> <span class="op">+</span> <span class="va">heart_attack_experiment</span><span class="op">$</span><span class="va">ncontrol</span>,
-         ave_eaf <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/weighted.mean.html">weighted.mean</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">c_across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">eaf.exposure</span>, <span class="va">eaf.outcome</span><span class="op">)</span><span class="op">)</span>,
-                                 w <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">c_across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">samplesize.exposure</span>, <span class="va">samplesize.outcome</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+         ave_eaf <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/weighted.mean.html">weighted.mean</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/c_across.html">c_across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">eaf.exposure</span>, <span class="va">eaf.outcome</span><span class="op">)</span><span class="op">)</span>,
+                                 w <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/c_across.html">c_across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">samplesize.exposure</span>, <span class="va">samplesize.outcome</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">SNP</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"beta"</span><span class="op">)</span>, <span class="va">ave_eaf</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">pivot_longer</span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"beta"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">separate</span><span class="op">(</span><span class="va">name</span>, into <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"variable"</span>, <span class="st">"regression"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\\."</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -1171,7 +1171,7 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span><span class="op">(</span><span class="va">SNPs</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>SNPs <span class="op">=</span> <span class="fu">map</span><span class="op">(</span><span class="va">SNPs</span>, <span class="op">~</span><span class="fu">tibble_row</span><span class="op">(</span>SNP1 <span class="op">=</span> <span class="va">.x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, SNP2 <span class="op">=</span> <span class="va">.x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">SNPs</span><span class="op">)</span></pre></div>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre><code>## `summarise()` has ungrouped output. You can override using the `.groups` argument.</code></pre>
 <div class="sourceCode" id="cb71"><pre class="downlit">
 <span class="va">cholesterol_heart_attack_pairs_of_snps</span></pre></div>
 <pre><code>## # A tibble: 1,431 x 2

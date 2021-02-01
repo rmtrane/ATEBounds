@@ -44,7 +44,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/ACEBounds.html">Get started</a>
+  <a href="../articles/ATEBounds.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -96,7 +96,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/rmtrane/ACEBounds/">
+  <a href="https://github.com/rmtrane/ATEBounds/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -117,7 +117,7 @@
       <h1 data-toc-skip>Monte carlo integration</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rmtrane/ACEBounds/blob/master/vignettes/power_sims.Rmd"><code>vignettes/power_sims.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rmtrane/ATEBounds/blob/master/vignettes/power_sims.Rmd"><code>vignettes/power_sims.Rmd</code></a></small>
       <div class="hidden name"><code>power_sims.Rmd</code></div>
 
     </div>
@@ -242,13 +242,13 @@
           <span class="co">## ... find summary statistics and ATE</span>
           <span class="va">out</span> <span class="op">&lt;-</span> <span class="va">tmp</span> <span class="op">%&gt;%</span>
             <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>
-              sum_stats <span class="op">=</span> <span class="fu">map</span><span class="op">(</span><span class="va">sim_data</span>, <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu">ACEBounds</span><span class="fu">::</span><span class="fu"><a href="../reference/probs_from_data.html">probs_from_data</a></span><span class="op">(</span><span class="va">.x</span><span class="op">$</span><span class="va">simulated_data</span>, <span class="va">X</span>, <span class="va">Y</span>, <span class="va">Z1</span>, data_format <span class="op">=</span> <span class="st">"bivariate"</span><span class="op">)</span>,
+              sum_stats <span class="op">=</span> <span class="fu">map</span><span class="op">(</span><span class="va">sim_data</span>, <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu">ACEBounds</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ACEBounds/man/probs_from_data.html">probs_from_data</a></span><span class="op">(</span><span class="va">.x</span><span class="op">$</span><span class="va">simulated_data</span>, <span class="va">X</span>, <span class="va">Y</span>, <span class="va">Z1</span>, data_format <span class="op">=</span> <span class="st">"bivariate"</span><span class="op">)</span>,
                                            ATE <span class="op">=</span> <span class="fu">ATE_from_simulated_data</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
             <span class="op">)</span> <span class="op">%&gt;%</span>
             <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">sim_data</span><span class="op">)</span> <span class="op">%&gt;%</span>
             <span class="co">## ... find bounds</span>
             <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>
-              get_bounds_res <span class="op">=</span> <span class="fu">map</span><span class="op">(</span><span class="va">sum_stats</span>, <span class="op">~</span><span class="fu">ACEBounds</span><span class="fu">::</span><span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>gammas <span class="op">=</span> <span class="va">.x</span><span class="op">$</span><span class="va">gammas</span>, thetas <span class="op">=</span> <span class="va">.x</span><span class="op">$</span><span class="va">thetas</span>, stop <span class="op">=</span> <span class="cn">FALSE</span>, warning <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>,
+              get_bounds_res <span class="op">=</span> <span class="fu">map</span><span class="op">(</span><span class="va">sum_stats</span>, <span class="op">~</span><span class="fu">ACEBounds</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ACEBounds/man/get_bounds.html">get_bounds</a></span><span class="op">(</span>gammas <span class="op">=</span> <span class="va">.x</span><span class="op">$</span><span class="va">gammas</span>, thetas <span class="op">=</span> <span class="va">.x</span><span class="op">$</span><span class="va">thetas</span>, stop <span class="op">=</span> <span class="cn">FALSE</span>, warning <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>,
               bounds <span class="op">=</span> <span class="fu">map</span><span class="op">(</span><span class="va">get_bounds_res</span>, <span class="st">"interval"</span><span class="op">)</span>
             <span class="op">)</span>
 

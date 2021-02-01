@@ -81,7 +81,6 @@
 \usepackage{booktabs}
 \usepackage{caption}
 \usepackage[labelformat=simple,labelfont=bf,singlelinecheck=false]{subcaption}
-%\captionsetup[subfigure]{font={bf}, singlelinecheck = false}
 \renewcommand{\thesubfigure}{\Alph{subfigure}} % capitalize labelling of subfigures.
 
 \usepackage{rotating}
@@ -304,7 +303,7 @@ Row C & \makecell[l]{\{0.175, 0.079, 0.365\}\\\{0.599, 0.358, 0.087\}} & \makece
   \label{fig:trivariate_bounds}
 \end{figure}
 
-Row A of Figure \ref{fig:trivariate_bounds} shows three scenarios where the two-sample bounds are all centered close to zero with similar widths. But, the conclusions from the one-sample bound analysis are rather different. Column 1 shows no one-sample bounds would allow us to determine the presence of a non-zero exposure effect. Column 2 indicates that about 24\% of the one-sample IV bounds does not contain \(0\) while for column 3 that number is approximately 36.8\%. However, the latter includes one-sample bounds entirely below 0 and one-sample bounds entirely above 0.
+Row A of Figure \ref{fig:trivariate_bounds} shows three scenarios where the two-sample bounds are all centered close to zero with similar widths. But, the conclusions from the one-sample bound analysis are rather different. Column 1 shows no one-sample bounds would allow us to determine the presence of a non-zero exposure effect. Column 2 indicates that about 26.3\% of the one-sample IV bounds does not contain \(0\) while for column 3 that number is approximately 35.9\%. However, the latter includes one-sample bounds entirely below 0 and one-sample bounds entirely above 0.
 
 Row B illustrates three scenarios where the two-sample bounds are centered well above zero and have large widths. We see one case where we have no hope of determining direction of the ATE from the one-sample bounds (column 1), one case where we are most likely to determine the ATE's direction (column 2), and one case where we are unlikely to determine the ATE's direction (column 3).
 

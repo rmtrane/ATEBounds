@@ -5,7 +5,7 @@ map_dfr(list.files(here::here("data/power_results"),
                    full.names = TRUE),
         read_rds) %>%
     unnest(subset) %>%
-    write_rds(file = here::here("data/power_combined_results.Rds"))
+    write_rds(file = here::here("data/power_results/power_combined_results.Rds"))
 
 
 

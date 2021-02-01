@@ -15,7 +15,7 @@ We load `tidyverse`, read in saved results, and create a new object with a few l
 ```{r message = FALSE, warning = FALSE}
 library(tidyverse)
 
-bounds_and_ATE <- read_rds(here::here("data/power_bounds_and_ATE_combined.Rds"))
+bounds_and_ATE <- read_rds(here::here("data/power_results/power_bounds_and_ATE_combined.Rds"))
 
 bounds_and_ATE_unnested <- bounds_and_ATE %>% 
   unnest_wider(sum_stats) %>%

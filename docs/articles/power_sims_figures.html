@@ -81,15 +81,17 @@
       <a href="../articles/multiple_IVs_figures.html">Multiple IVs: Figures</a>
     </li>
     <li class="divider">
+    <li class="dropdown-header">Example Analysis using `TwoSampleMR`</li>
+    <li>
+      <a href="../articles/example_analysis.html">Example Analysis of Data from the IEU GWAS Database</a>
+    </li>
+    <li class="divider">
     <li class="dropdown-header">Other</li>
     <li>
       <a href="../articles/polymake_example.html">Polymake Example</a>
     </li>
     <li>
       <a href="../articles/get_bounds.html">How to use the `get_bounds` function</a>
-    </li>
-    <li>
-      <a href="../articles/example_analysis.html">Example Analysis of Data from the IEU GWAS Database</a>
     </li>
   </ul>
 </li>
@@ -129,34 +131,34 @@
 <div class="sourceCode" id="cb1"><pre class="downlit">
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 
-<span class="va">bounds_and_ATE</span> <span class="op">&lt;-</span> <span class="fu">read_rds</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"data/power_bounds_and_ATE_combined.Rds"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">bounds_and_ATE</span> <span class="op">&lt;-</span> <span class="fu">read_rds</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"data/power_results/power_combined_results.Rds"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="va">bounds_and_ATE_unnested</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE</span> <span class="op">%&gt;%</span> 
   <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">sum_stats</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">bounds</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">bounds_and_ATE_unnested</span><span class="op">)</span></pre></div>
-<pre><code>## # A tibble: 6 x 11
-##   indIVs_on_X X_on_Y U_on_XY     i   seed gammas thetas    ATE get_bounds_res
-##         &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;list&gt; &lt;list&gt;  &lt;dbl&gt; &lt;list&gt;        
-## 1         0.2   0.25     0.1     1 3.59e4 &lt;dbl … &lt;dbl … 0.0623 &lt;named list […
-## 2         0.2   0.25     0.5     2 8.15e6 &lt;dbl … &lt;dbl … 0.0589 &lt;named list […
-## 3         0.2   0.25     1       3 2.27e6 &lt;dbl … &lt;dbl … 0.0516 &lt;named list […
-## 4         0.2   0.25     2       4 6.35e6 &lt;dbl … &lt;dbl … 0.0379 &lt;named list […
-## 5         0.2   0.5      0.1     5 8.61e6 &lt;dbl … &lt;dbl … 0.124  &lt;named list […
-## 6         0.2   0.5      0.5     6 2.50e5 &lt;dbl … &lt;dbl … 0.118  &lt;named list […
-## # … with 2 more variables: lower &lt;dbl&gt;, upper &lt;dbl&gt;</code></pre>
+<pre><code>## # A tibble: 6 x 13
+##   data_file     j indIVs_on_X X_on_Y U_on_XY     i   seed gammas thetas    ATE
+##   &lt;chr&gt;     &lt;dbl&gt;       &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;list&gt; &lt;list&gt;  &lt;dbl&gt;
+## 1 /workspa…     1         0.2   0.25     0.1     1 3.59e4 &lt;dbl … &lt;dbl … 0.0623
+## 2 /workspa…     1         0.2   0.25     0.5     2 8.15e6 &lt;dbl … &lt;dbl … 0.0589
+## 3 /workspa…     1         0.2   0.25     1       3 2.27e6 &lt;dbl … &lt;dbl … 0.0516
+## 4 /workspa…     1         0.2   0.25     2       4 6.35e6 &lt;dbl … &lt;dbl … 0.0379
+## 5 /workspa…     1         0.2   0.5      0.1     5 8.61e6 &lt;dbl … &lt;dbl … 0.124 
+## 6 /workspa…     1         0.2   0.5      0.5     6 2.50e5 &lt;dbl … &lt;dbl … 0.118 
+## # … with 3 more variables: get_bounds_res &lt;list&gt;, lower &lt;dbl&gt;, upper &lt;dbl&gt;</code></pre>
 <p>For use in our manuscript, we create a table with all the unique values used for the different coefficients.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="va">all_combinations_of_coefs</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE</span> <span class="op">%&gt;%</span>
-  <span class="fu">arrange</span><span class="op">(</span><span class="va">X_on_Y</span>, <span class="va">indIVs_on_X</span>, <span class="va">U_on_XY</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">select</span><span class="op">(</span>`$\\gamma_1$` <span class="op">=</span> <span class="va">indIVs_on_X</span>,
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">X_on_Y</span>, <span class="va">indIVs_on_X</span>, <span class="va">U_on_XY</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span>`$\\gamma_1$` <span class="op">=</span> <span class="va">indIVs_on_X</span>,
          `$\\beta_1$` <span class="op">=</span> <span class="va">X_on_Y</span>,
          `$\\gamma_U$` <span class="op">=</span> <span class="va">U_on_XY</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="fu">everything</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">group_by</span><span class="op">(</span>Coefficient <span class="op">=</span> <span class="va">name</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">summarize</span><span class="op">(</span>Values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">value</span>, collapse <span class="op">=</span> <span class="st">", "</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span>Coefficient <span class="op">=</span> <span class="va">name</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>Values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">value</span>, collapse <span class="op">=</span> <span class="st">", "</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">Coefficient</span>, values_from <span class="op">=</span> <span class="va">Values</span><span class="op">)</span>
 
 <span class="fu">pander</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html">pander</a></span><span class="op">(</span><span class="va">all_combinations_of_coefs</span><span class="op">)</span></pre></div>
@@ -185,7 +187,7 @@
 <p>Our first plot compares <span class="math inline">\(\gamma_1\)</span> and resulting strength.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
 <span class="op">(</span><span class="va">coefs_vs_strength</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE_unnested</span> <span class="op">%&gt;%</span>
-  <span class="fu">mutate</span><span class="op">(</span>strength <span class="op">=</span> <span class="fu">map_dbl</span><span class="op">(</span><span class="va">thetas</span>, <span class="op">~</span><span class="va">.x</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span> <span class="op">-</span> <span class="va">.x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>,
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>strength <span class="op">=</span> <span class="fu">map_dbl</span><span class="op">(</span><span class="va">thetas</span>, <span class="op">~</span><span class="va">.x</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span> <span class="op">-</span> <span class="va">.x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>,
          U_on_XY <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">U_on_XY</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">indIVs_on_X</span>, x <span class="op">=</span> <span class="va">strength</span>,
              color <span class="op">=</span> <span class="va">U_on_XY</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
@@ -209,11 +211,11 @@
 <p>The second plot shows all the two-sample bounds and ATEs.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit">
 <span class="op">(</span><span class="va">pretty_plot</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE_unnested</span> <span class="op">%&gt;%</span>
-  <span class="fu">mutate</span><span class="op">(</span>zero <span class="op">=</span> <span class="fu">if_else</span><span class="op">(</span><span class="va">lower</span> <span class="op">&lt;</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="va">upper</span> <span class="op">&gt;</span> <span class="fl">0</span>,
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>zero <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">lower</span> <span class="op">&lt;</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="va">upper</span> <span class="op">&gt;</span> <span class="fl">0</span>,
                         <span class="st">"Overlaps Zero"</span>, <span class="st">"Does Not Overlap Zero"</span><span class="op">)</span>,
          X_on_Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"beta[X] =="</span>, <span class="va">X_on_Y</span><span class="op">)</span>,
          U_on_XY <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"gamma[U] =="</span>, <span class="va">U_on_XY</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">arrange</span><span class="op">(</span><span class="fu">desc</span><span class="op">(</span><span class="va">lower</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">lower</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">indIVs_on_X</span>, color <span class="op">=</span> <span class="va">zero</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">geom_smooth</span><span class="op">(</span>se <span class="op">=</span> <span class="cn">FALSE</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">upper</span>, group <span class="op">=</span> <span class="st">"loess"</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"black"</span>,
                 method <span class="op">=</span> <span class="st">"loess"</span>,
@@ -254,18 +256,18 @@
 <p>Next, we find roots for the loess curves (one for each of the panels above).</p>
 <div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="va">roots</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE_unnested</span> <span class="op">%&gt;%</span>
-  <span class="fu">select</span><span class="op">(</span><span class="va">X_on_Y</span>, <span class="va">U_on_XY</span>, <span class="va">ATE</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">mutate</span><span class="op">(</span>ATE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">ATE</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="co"># to make sure ATE don't vary due to differences from randomness</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">X_on_Y</span>, <span class="va">U_on_XY</span>, <span class="va">ATE</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>ATE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">ATE</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="co"># to make sure ATE don't vary due to differences from randomness</span>
   <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">rowwise</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">mutate</span><span class="op">(</span>uniroot_res <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/uniroot.html">uniroot</a></span><span class="op">(</span>f <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">loess_model</span>,
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>uniroot_res <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/uniroot.html">uniroot</a></span><span class="op">(</span>f <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">loess_model</span>,
                                                             newdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>indIVs_on_X <span class="op">=</span> <span class="va">x</span>,
                                                                                  X_on_Y <span class="op">=</span> <span class="va">X_on_Y</span>, U_on_XY <span class="op">=</span> <span class="va">U_on_XY</span><span class="op">)</span><span class="op">)</span>,
                                     interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,
          indIVs_on_X <span class="op">=</span> <span class="va">uniroot_res</span><span class="op">$</span><span class="va">root</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="va">roots</span> <span class="op">%&gt;%</span> <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">uniroot_res</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">rename</span><span class="op">(</span><span class="st">"$\\gamma_1$"</span> <span class="op">=</span> <span class="va">indIVs_on_X</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">pander</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html">pander</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<span class="va">roots</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">uniroot_res</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span><span class="st">"$\\gamma_1$"</span> <span class="op">=</span> <span class="va">indIVs_on_X</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">pander</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html">pander</a></span><span class="op">(</span><span class="op">)</span></pre></div>
 <table class="table">
 <colgroup>
 <col width="12%">

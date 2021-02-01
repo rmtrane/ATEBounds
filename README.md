@@ -34,8 +34,7 @@ unmeasured confounders. By definition, assumptions about unmeasured
 confounders cannot be checked, and it is therefore desirable to avoid
 such.
 
-Many have considered nonparametric bounds in the past. Swanson et al.
-(2018) provide a nice overview of different bounds derived from
+Many have considered nonparametric bounds in the past. Swanson et al. (2018) provide a nice overview of different bounds derived from
 different sets of assumptions. Arguably the weakest set of assumptions
 result in what is known as the Balke-Pearl bounds, first presented in
 Balke and Pearl (1993).

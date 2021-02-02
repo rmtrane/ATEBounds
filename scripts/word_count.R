@@ -3,7 +3,7 @@ library(tidyverse)
 
 pdf_file = here::here("epidemiology/epi.pdf")
 main_starts = "^1 [[:space:]]+ Introduction"
-main_ends = "^A [[:space:]]+ References"
+main_ends = "Supplementary Digital Content" # "^A [[:space:]]+ References"
 
 doc_lines <- tibble(lines = pdf_text(pdf_file) %>%
                       readr::read_lines() %>%
@@ -11,31 +11,29 @@ doc_lines <- tibble(lines = pdf_text(pdf_file) %>%
     filter(str_detect(lines, "[A-Za-z]"),
            !str_detect(lines, "/Users/"))
 
-
 words_per_line <- doc_lines %>%
   filter(str_detect(lines, "[A-Za-z]")) %>%
-  mutate(section_starts = str_detect(lines, "^([0-9\\.]+|A[[[:space:]]\\.0-9]+) [[:space:]] [[:space:]]+|^References$"), # (Appendix|Introduction|Methods|Review|Notation|Properties|Using|Method|Discussion|Results|IV|Length|Would|Characterizing)"),
+  mutate(section_starts = str_detect(lines, "^([0-9\\.]+|A\\.[[[:space:]]\\.0-9]+) [[:space:]] [[:space:]]+|^References$|^A [[:space:]]+ Supplemental Digital Content"),
          section = if_else(section_starts, str_trim(str_extract(lines, "[0-9\\.]+|^A[0-9\\. [[:space:]]]+|References")), NA_character_)) %>%
   fill(section) %>%
   mutate(section = if_else(is.na(section), "0", section)) %>%
   mutate(n_words = str_count(lines, "\\w+"))
 
-words_per_line %>% View()
+words_per_line %>% filter(row_number() > 450) %>% View()
 
 words_per_line %>%
   group_by(section) %>%
   summarize(n_words = sum(n_words)) %>%
   print(n = Inf)
 
-
 # Without abstract, section headers, and large equations:
 words_per_line %>%
   filter(!row_number() %in% (115 + 0:10)) %>%
+  filter(row_number() > which(str_trim(section) == "0"),
+         row_number() < min(which(str_trim(section) == "A"))) %>%
   group_by(section) %>%
   summarize(n_words = sum(n_words)) %>%
   print(n = Inf) %>% ungroup() %>%
-  filter(row_number() > which(str_trim(section) == "0"),
-         row_number() < which(str_trim(section) == "A")) %>%
   summarize(total = sum(n_words))
 
 # oneliner <- epi_pdf_text %>%

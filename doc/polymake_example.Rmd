@@ -1,0 +1,138 @@
+---
+title: "Polymake Example"
+description: >
+  An introduction to the polymake helper functions.
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Polymake Example}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: "references.bib"
+---
+
+Before we see how the functions in this package can help us find bounds on ACE in different settings, we take a look at the helper functions that allow us to generate the constraints that give us the bounds. This approach is heavily based on the approach described in detail in @ramsahai_causal_2012. This set of functions allow us to create a script to use with the [polymake](https://www.polymake.org) program, which in turn lets us find bounds for IVs with (theoretically...) an arbitrary number of categories. 
+
+## `create_vertices`
+
+The function `create_vertices` allows us to create the vertices of the polygon that represents the space of valid probability distributions. (Valid in the sense that they satisfy the IV model.) We can specify the number of levels the IV can take, whether the data at hand consist of two bivariate data sets (i.e. $(X,Z)$ and $(Y,Z)$ are observed independently) or a single trivariate data set (i.e we observe $(X,Y,Z)$ jointly), if we want to impose monotonicity assumptions on $P(X = 1 | Z = z)$ and/or $P(Y = 1 | Z = z)$, and if we want to include a column for $\alpha$ (needed to get actual bounds, and not simply constraints, hence included by default.)
+
+Here we demonstrate how to get the vertices for a binary IV where the data is bivariate, and no monotonicity assumptions are included. 
+
+```{r}
+library(ACEBounds, quietly = TRUE)
+
+vertices <- create_vertices(
+  n_z_levels = 2, 
+  data_format = "bivariate",
+  x_monotone = FALSE,
+  y_monotone = FALSE,
+  include_alpha = TRUE
+)
+
+vertices
+```
+
+## `create_script`
+
+Now that we have specified the vertices, we can use the function `create_script` to generate the actual script that polymake can take advantage of. The object returned simply provides the output file and relative path to the polymake script. These are included for easy of use in programming. 
+
+```{r include = FALSE}
+file.remove("example")
+```
+
+
+```{r}
+polymake_script <- create_script(vertices = vertices, 
+                                 output_file_name = "example",
+                                 polymake_script_name = "polymake_script",
+                                 overwrite = TRUE,
+                                 output_folder = ".")
+
+polymake_script
+```
+
+The resulting polymake script:
+
+```{bash}
+cat polymake_script
+```
+
+
+## polymake
+
+Now that we have the script, we can run polymake. If you have polymake installed on macOS, you can run this line in `R` (make sure the path points to your installation of polymake):
+
+```{r}
+system(paste("/Applications/polymake.app/Contents/MacOS/polymake.run --script", polymake_script$polymake_script))
+```
+
+or equivalently run this line in the terminal:
+
+```{bash}
+/Applications/polymake.app/Contents/MacOS/polymake.run --script polymake_script
+```
+
+This saves a text file with the constraints that we can read in using the `read_polymake_results`. 
+
+## `read_polymake_results`
+
+This function is a simple wrapper that reads in the text file, and provides column names that are consistent. This makes it easier to avoid confusing about what column refers to which probability. 
+
+```{r}
+from_polymake <- read_polymake_results(
+  output_file = polymake_script$output_file, 
+  data_format = "bivariate"
+)
+
+print(from_polymake, n = Inf)
+```
+
+(The naming convention follows that in @ramsahai_causal_2012: $\gamma_{yz} = P(Y = y | Z = z)$, $\theta_{xz} = P(X = x | Z = z)$, and in the trivariate case, $\zeta_{yxz} = P(Y = y, X = x | Z = z)$. In `R`, the greek letters are spelled out.)
+
+## Constraints
+
+This matrix now gives us constraints on the probabilities $\theta_{xz} = P(X = x | Z = z), \gamma_{yz} = P(Y = y | Z = z)$, and $\alpha = P(Y = 1 | X = 1) - P(Y = 1 | X = 0)$: a set of probabilities (and a value of $\alpha$) $\vec{p} = (\gamma_{01}, \gamma_{02}, \gamma_{11}, \gamma_{12}, \theta_{01}, \theta_{02}, \theta_{11}, \theta_{12}, \alpha)$ must satisfy $A \cdot \vec{p} \ge \vec{0}$, where $A$ is the matrix obtained from polymake. This gives us a set of constraints on the probability distributions themselves as well as the quantity of interest, $\alpha$.
+
+## Matrices provided
+
+For convenience, the matrices resulting from the following code are included in the package, though not available to the user. I.e. we can find bounds "out of the box" for any combination of bivariate/trivariate data, IVs with 2,3,4 levels, and monotonicity assumed for $X$ and/or $Y$. For other scenarios, a new matrix would have to be generated using polymake. 
+
+```{r eval = FALSE}
+## Data type
+for (data_format in c("bivariate", "trivariate")){
+  ## Number of levels for IV
+  for (n_z_levels in 2:4){
+    ## Monotonicity of X?
+    for (x_mono in c(FALSE, TRUE)){
+      ## Monotonicity of Y?
+      for (y_mono in c(FALSE, TRUE)){
+        ## Create vertices
+        vertices <- create_vertices(n_z_levels, x_monotone = x_mono, y_monotone = y_mono,
+                                    data_format = data_format, include_alpha = TRUE)
+
+        ## Create script
+        script <- create_script(vertices,
+                                output_file_name = paste("n_z_levels", n_z_levels,
+                                                         "x_monotone", x_mono,
+                                                         "y_monotone", y_mono,
+                                                         sep = "-"),
+                                overwrite = FALSE,
+                                output_folder = here::here(paste(data_format, "bound_matrices", sep = "_")))
+
+        ## Run polymake using script created if script is new (i.e. error = 0)
+        if(script$error < 1){
+          system(paste("/Applications/polymake.app/Contents/MacOS/polymake.run --script", script$polymake_script))
+          system(paste("rm", script$polymake_script))
+        }
+      }
+    }
+  }
+}
+```
+
+
+## Up Next: `get_bounds`
+
+With this matrix at hand, we can get bounds on $\alpha$ in a number of different scenarios. More on this in `vignette("get_bounds")`.
+
+## References

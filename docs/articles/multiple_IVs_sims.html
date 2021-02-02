@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Two-Sample Bounds using Multiple IV: Monte carlo integration and data prep • Bounds in Two-Sample Mendelian Randomization With Summary Statistics</title>
+<title>Multiple IVs: Simulations • Bounds in Two-Sample Mendelian Randomization With Summary Statistics</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Two-Sample Bounds using Multiple IV: Monte carlo integration and data prep">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Multiple IVs: Simulations">
 <meta property="og:description" content="">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -67,29 +67,31 @@
     <li class="divider">
     <li class="dropdown-header">"Power" analysis</li>
     <li>
-      <a href="../articles/power_sims.html">Monte carlo integration</a>
+      <a href="../articles/power_sims.html">"Power" Simulations</a>
     </li>
     <li>
-      <a href="../articles/power_sims_figures.html">Coverage of Null Effect</a>
+      <a href="../articles/power_sims_figures.html">"Power" Figures</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">Two-Sample Bounds using Multiple Instruments</li>
     <li>
-      <a href="../articles/multiple_IVs_sims.html">Two-Sample Bounds using Multiple IV: Monte carlo integration and data prep</a>
+      <a href="../articles/multiple_IVs_sims.html">Multiple IVs: Simulations</a>
     </li>
     <li>
-      <a href="../articles/multiple_IVs_figures.html">Two-Sample Bounds using Multiple IV: Figures</a>
+      <a href="../articles/multiple_IVs_figures.html">Multiple IVs: Figures</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">How-To's</li>
+    <li class="dropdown-header">Example Analysis using `TwoSampleMR`</li>
+    <li>
+      <a href="../articles/example_analysis.html">Example Analysis of Data from the IEU GWAS Database</a>
+    </li>
+    <li class="divider">
+    <li class="dropdown-header">Other</li>
     <li>
       <a href="../articles/polymake_example.html">Polymake Example</a>
     </li>
     <li>
       <a href="../articles/get_bounds.html">How to use the `get_bounds` function</a>
-    </li>
-    <li>
-      <a href="../articles/example_analysis.html">Example Analysis of Data from the IEU GWAS Database</a>
     </li>
   </ul>
 </li>
@@ -114,7 +116,7 @@
       </header><script src="multiple_IVs_sims_files/header-attrs-2.6/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Two-Sample Bounds using Multiple IV: Monte carlo integration and data prep</h1>
+      <h1 data-toc-skip>Multiple IVs: Simulations</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/rmtrane/ATEBounds/blob/master/vignettes/multiple_IVs_sims.Rmd"><code>vignettes/multiple_IVs_sims.Rmd</code></a></small>
@@ -124,7 +126,7 @@
 
     
     
-<p>Here we briefly show how the monte carlo integration that provides the data used in <code><a href="../articles/power_sims_figures.html">vignette("power_sims_figures")</a></code> was performed. This happens in two steps: (1) create <span class="math inline">\(1,000,000\)</span> observations of <span class="math inline">\((X,Y,Z_1, Z_2, ..., Z_p, U)\)</span>, and (2) summarize the simulated observations to get <span class="math inline">\(P(X|Z)\)</span> and <span class="math inline">\(P(Y|Z)\)</span>.</p>
+<p>Here we briefly show how the monte carlo integration that provides the data used in <code><a href="../articles/multiple_IVs_figures.html">vignette("multiple_IVs_figures")</a></code> was performed. This happens in two steps: (1) create <span class="math inline">\(1,000,000\)</span> observations of <span class="math inline">\((X,Y,Z_1, Z_2, ..., Z_p, U)\)</span>, and (2) summarize the simulated observations to get <span class="math inline">\(P(X|Z)\)</span> and <span class="math inline">\(P(Y|Z)\)</span>.</p>
 <p>We assume that <span class="math inline">\(P(Z = 0) = P(Z = 2) = 0.25\)</span> and <span class="math inline">\(P(Z = 1) = 0.5\)</span>, and a value of an unmeasured confounder <span class="math inline">\(U\)</span> from the standard normal. We assume the exposure <span class="math inline">\(X\)</span> is binary with <span class="math inline">\(\text{logit}(P(X = 1 | Z_1 = z_1, ..., Z_p = z_p, U = u)) = \gamma_0 + \sum_i \gamma_i z_i + \gamma_U u\)</span>, where <span class="math inline">\(\text{logit}(a) = \frac{1}{1+\exp(a)}\)</span>. For each instrument <span class="math inline">\(i\)</span>, we set <span class="math inline">\(P(Z_i = 0) = P(Z_i = 2) = 0.25\)</span> and <span class="math inline">\(P(Z_i = 1) = 0.5\)</span>. We set <span class="math inline">\(p = 10\)</span> or <span class="math inline">\(p = 50\)</span>, and draw <span class="math inline">\(U\)</span> from a standard normal distribution. Again, for simplicity, we set <span class="math inline">\(\beta_U = \gamma_U\)</span>, and <span class="math inline">\(\gamma_0 = -\sum_i \gamma_i\)</span> and <span class="math inline">\(\beta_0 = -\beta_1/2\)</span> to spread out the probabilities <span class="math inline">\(P(X = 1 | Z = z)\)</span> and <span class="math inline">\(P(Y = 1 | X = x)\)</span> as much as possible. <span class="math inline">\(\beta_1\)</span> is set to be either <span class="math inline">\(0.25\)</span>, <span class="math inline">\(0.5\)</span>, <span class="math inline">\(1\)</span>, <span class="math inline">\(1.5\)</span>, or <span class="math inline">\(2\)</span>. We then consider four scenarios for setting the <span class="math inline">\(\gamma_i\)</span>’s:</p>
 <p>The script below simulates <span class="math inline">\(1,000,000\)</span> observations for each scenario for each combination of coefficients. The results are saved to separate .Rds files (total of 80 .Rds files) due to memory constraints.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">

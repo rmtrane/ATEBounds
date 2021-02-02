@@ -10,16 +10,16 @@ vignette: >
 bibliography: "references.bib"
 ---
 
-Before we see how the functions in this package can help us find bounds on ACE in different settings, we take a look at the helper functions that allow us to generate the constraints that give us the bounds. This approach is heavily based on the approach described in detail in @ramsahai_causal_2012. This set of functions allow us to create a script to use with the [polymake](https://www.polymake.org) program, which in turn lets us find bounds for IVs with (theoretically...) an arbitrary number of categories. 
+Here, we take a look at the helper functions that allow us to generate the constraints that give us bounds on the ATE. This approach is heavily based on the approach described in detail in @ramsahai_causal_2012. This set of functions allow us to create a script to use with the [polymake](https://www.polymake.org) program, which in turn lets us find bounds for IVs with (theoretically...) an arbitrary number of categories. 
 
 ## `create_vertices`
 
-The function `create_vertices` allows us to create the vertices of the polygon that represents the space of valid probability distributions. (Valid in the sense that they satisfy the IV model.) We can specify the number of levels the IV can take, whether the data at hand consist of two bivariate data sets (i.e. $(X,Z)$ and $(Y,Z)$ are observed independently) or a single trivariate data set (i.e we observe $(X,Y,Z)$ jointly), if we want to impose monotonicity assumptions on $P(X = 1 | Z = z)$ and/or $P(Y = 1 | Z = z)$, and if we want to include a column for $\alpha$ (needed to get actual bounds, and not simply constraints, hence included by default.)
+The function `create_vertices` allows us to create the vertices of the polygon that represents the space of valid probability distributions. (Valid in the sense that they satisfy the IV model.) We can specify the number of levels the IV can take, whether we want to consider two-sample (i.e. $(X,Z)$ and $(Y,Z)$ are observed independently) or one-sample datasets (i.e we observe $(X,Y,Z)$ jointly), if we want to impose monotonicity assumptions on $P(X = 1 | Z = z, U)$ and/or $P(Y = 1 | Z = z, U)$, and if we want to include a column for $\alpha$ (needed to get actual bounds, and not simply constraints, hence included by default.)
 
 Here we demonstrate how to get the vertices for a binary IV where the data is bivariate, and no monotonicity assumptions are included. 
 
-```{r}
-library(ACEBounds, quietly = TRUE)
+```{r message = FALSE, warning = FALSE}
+library(ATEBounds)
 
 vertices <- create_vertices(
   n_z_levels = 2, 
@@ -72,7 +72,7 @@ or equivalently run this line in the terminal:
 /Applications/polymake.app/Contents/MacOS/polymake.run --script polymake_script
 ```
 
-This saves a text file with the constraints that we can read in using the `read_polymake_results`. 
+This saves a text file with the constraints that we can read in using the `read_polymake_results`. This file is saved to the path specified in the `output_folder` argument to the function `create_script`. 
 
 ## `read_polymake_results`
 
@@ -87,7 +87,7 @@ from_polymake <- read_polymake_results(
 print(from_polymake, n = Inf)
 ```
 
-(The naming convention follows that in @ramsahai_causal_2012: $\gamma_{yz} = P(Y = y | Z = z)$, $\theta_{xz} = P(X = x | Z = z)$, and in the trivariate case, $\zeta_{yxz} = P(Y = y, X = x | Z = z)$. In `R`, the greek letters are spelled out.)
+(The naming convention follows that in @ramsahai_causal_2012: $\gamma_{yz} = P(Y = y | Z = z)$, $\theta_{xz} = P(X = x | Z = z)$, and in the one-sample case, $\zeta_{yxz} = P(Y = y, X = x | Z = z)$. In `R`, the greek letters are spelled out.)
 
 ## Constraints
 
@@ -95,7 +95,7 @@ This matrix now gives us constraints on the probabilities $\theta_{xz} = P(X = x
 
 ## Matrices provided
 
-For convenience, the matrices resulting from the following code are included in the package, though not available to the user. I.e. we can find bounds "out of the box" for any combination of bivariate/trivariate data, IVs with 2,3,4 levels, and monotonicity assumed for $X$ and/or $Y$. For other scenarios, a new matrix would have to be generated using polymake. 
+For convenience, the matrices resulting from the following code are included in the package. I.e. we can find bounds "out of the box" for any combination of one-sample/two-sample data, IVs with 2,3,4 levels, and monotonicity assumed for $X$ and/or $Y$. For other scenarios, a new matrix would have to be generated using polymake. `vignette("get_bounds")` shows how this is done for the build-in scenarios. If you need to get bounds in a scenario not included by default, for example for an instrument with 5 levels, simply pass the result of `read_polymake_results()` to the `from_polymake` argument in the `get_bounds()` function. 
 
 ```{r eval = FALSE}
 ## Data type
@@ -130,9 +130,5 @@ for (data_format in c("bivariate", "trivariate")){
 }
 ```
 
-
-## Up Next: `get_bounds`
-
-With this matrix at hand, we can get bounds on $\alpha$ in a number of different scenarios. More on this in `vignette("get_bounds")`.
 
 ## References

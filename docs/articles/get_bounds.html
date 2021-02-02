@@ -67,29 +67,31 @@
     <li class="divider">
     <li class="dropdown-header">"Power" analysis</li>
     <li>
-      <a href="../articles/power_sims.html">Monte carlo integration</a>
+      <a href="../articles/power_sims.html">"Power" Simulations</a>
     </li>
     <li>
-      <a href="../articles/power_sims_figures.html">Coverage of Null Effect</a>
+      <a href="../articles/power_sims_figures.html">"Power" Figures</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">Two-Sample Bounds using Multiple Instruments</li>
     <li>
-      <a href="../articles/multiple_IVs_sims.html">Two-Sample Bounds using Multiple IV: Monte carlo integration and data prep</a>
+      <a href="../articles/multiple_IVs_sims.html">Multiple IVs: Simulations</a>
     </li>
     <li>
-      <a href="../articles/multiple_IVs_figures.html">Two-Sample Bounds using Multiple IV: Figures</a>
+      <a href="../articles/multiple_IVs_figures.html">Multiple IVs: Figures</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">How-To's</li>
+    <li class="dropdown-header">Example Analysis using `TwoSampleMR`</li>
+    <li>
+      <a href="../articles/example_analysis.html">Example Analysis of Data from the IEU GWAS Database</a>
+    </li>
+    <li class="divider">
+    <li class="dropdown-header">Other</li>
     <li>
       <a href="../articles/polymake_example.html">Polymake Example</a>
     </li>
     <li>
       <a href="../articles/get_bounds.html">How to use the `get_bounds` function</a>
-    </li>
-    <li>
-      <a href="../articles/example_analysis.html">Example Analysis of Data from the IEU GWAS Database</a>
     </li>
   </ul>
 </li>
@@ -124,7 +126,7 @@
 
     
     
-<p>To get bounds on <span class="math inline">\(\alpha\)</span>, one simply provides values of <span class="math inline">\(\theta\)</span> and <span class="math inline">\(\gamma\)</span>, or <span class="math inline">\(\zeta\)</span> to the function <code><a href="../reference/get_bounds.html">get_bounds()</a></code>. Let’s generate some random values of <span class="math inline">\(\theta\)</span> and <span class="math inline">\(\gamma\)</span> for a three-leveled IV:</p>
+<p>To get bounds on <span class="math inline">\(\alpha\)</span>, one simply provides values of <span class="math inline">\(P(X = 1 | Z = z)\)</span> (<code>theta</code>) and <span class="math inline">\(P(Y = 1 | Z = z)\)</span> (<code>gamma</code>) for two-sample bounds, or <span class="math inline">\(P(X = x, Y = y | Z = z)\)</span> (<code>zeta</code>) for one-sample bounds to the function <code><a href="../reference/get_bounds.html">get_bounds()</a></code>. Let’s generate some random values of <span class="math inline">\(\theta\)</span> and <span class="math inline">\(\gamma\)</span> for a three-leveled IV:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1406</span><span class="op">)</span>
 <span class="op">(</span><span class="va">thetas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></pre></div>
@@ -134,7 +136,7 @@
 <pre><code>## [1] 0.5239985 0.8083276 0.8270051</code></pre>
 <p>Here, <code>thetas</code> and <code>gammas</code> must be vectors of length 3 (since the IV is three-leveled). The i’th element of <code>thetas</code> must be <span class="math inline">\(P(X = 1 | Z = i-1)\)</span>, and the i’th element of <code>gammas</code> must be <span class="math inline">\(P(Y = 1 | Z = i-1)\)</span>. We can then feed these values to the <code><a href="../reference/get_bounds.html">get_bounds()</a></code> function, and it will return a list with some results, including the interval given by the lower and upper bounds for <span class="math inline">\(\alpha\)</span>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rmtrane/ACEBounds">ACEBounds</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rmtrane/ATEBounds">ATEBounds</a></span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>thetas <span class="op">=</span> <span class="va">thetas</span>,
            gammas <span class="op">=</span> <span class="va">gammas</span><span class="op">)</span></pre></div>
@@ -239,7 +241,7 @@
 ## 
 ## $constraints_violated
 ## [1] FALSE</code></pre>
-<p>If the values you provide violate some of the constraints, an error is thrown by default. Here, <span class="math inline">\(P(X = 1, Y = 0 | Z = 1) + P(X = 1, Y = 1 | Z = 2) = 1.08 &gt; 1\)</span>, which violates the Balke and Pearl IV inequalities <span class="citation">(<strong>balke_bounds_1997?</strong>)</span>).</p>
+<p>If the values you provide violate some of the constraints, an error is thrown by default. Here, <span class="math inline">\(P(X = 1, Y = 0 | Z = 1) + P(X = 1, Y = 1 | Z = 2) = 1.08 &gt; 1\)</span>, which violates the Balke and Pearl IV inequalities <span class="citation">(<strong>balke_bounds_1997?</strong>)</span>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit">
 <span class="va">invalid_probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.83</span>, <span class="fl">.05</span>, <span class="fl">.11</span>, <span class="fl">.01</span>, 
                    <span class="fl">.88</span>, <span class="fl">.06</span>, <span class="fl">.05</span>, <span class="fl">.01</span>, 

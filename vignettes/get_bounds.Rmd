@@ -10,7 +10,7 @@ bibliography: "references.bib"
 ---
 
 
-To get bounds on $\alpha$, one simply provides values of $\theta$ and $\gamma$, or $\zeta$ to the function `get_bounds()`. Let's generate some random values of $\theta$ and $\gamma$ for a three-leveled IV:
+To get bounds on $\alpha$, one simply provides values of $P(X = 1 | Z = z)$ (`theta`) and $P(Y = 1 | Z = z)$ (`gamma`) for two-sample bounds, or $P(X = x, Y = y | Z = z)$ (`zeta`) for one-sample bounds to the function `get_bounds()`. Let's generate some random values of $\theta$ and $\gamma$ for a three-leveled IV:
 
 ```{r}
 set.seed(1406)
@@ -21,7 +21,7 @@ set.seed(1406)
 Here, `thetas` and `gammas` must be vectors of length 3 (since the IV is three-leveled). The i'th element of `thetas` must be $P(X = 1 | Z = i-1)$, and the i'th element of `gammas` must be $P(Y = 1 | Z = i-1)$. We can then feed these values to the `get_bounds()` function, and it will return a list with some results, including the interval given by the lower and upper bounds for $\alpha$. 
 
 ```{r}
-library(ACEBounds)
+library(ATEBounds)
 
 get_bounds(thetas = thetas,
            gammas = gammas)
@@ -46,7 +46,7 @@ get_bounds(zetas = zetas)
 ```
 
 
-If the values you provide violate some of the constraints, an error is thrown by default. Here, $P(X = 1, Y = 0 | Z = 1) + P(X = 1, Y = 1 | Z = 2) = 1.08 > 1$, which violates the Balke and Pearl IV inequalities [@balke_bounds_1997]). 
+If the values you provide violate some of the constraints, an error is thrown by default. Here, $P(X = 1, Y = 0 | Z = 1) + P(X = 1, Y = 1 | Z = 2) = 1.08 > 1$, which violates the Balke and Pearl IV inequalities [@balke_bounds_1997]. 
 
 ```{r}
 invalid_probs <- c(.83, .05, .11, .01, 

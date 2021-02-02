@@ -12,7 +12,7 @@ sim_zetas <- function(n_z_levels = 3){
   return(ps_table)
 }
 
-library(ACEBounds)
+library(ATEBounds)
 library(furrr)
 
 plan(multiprocess)

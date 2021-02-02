@@ -1,4 +1,4 @@
-latex_lower_bounds <- ACEBounds:::matrices_from_polymake %>%
+latex_lower_bounds <- ATEBounds:::matrices_from_polymake %>%
   filter(n_z_levels == 3, !x_monotone, !y_monotone, data_format == "bivariate") %>%
   pull(matrix) %>% .[[1]] %>%
   filter(alpha == 1) %>%
@@ -29,7 +29,7 @@ latex_lower_bounds <- ACEBounds:::matrices_from_polymake %>%
                        out)) %>%
   pull(out)
 
-latex_upper_bounds <- ACEBounds:::matrices_from_polymake %>%
+latex_upper_bounds <- ATEBounds:::matrices_from_polymake %>%
   filter(n_z_levels == 3, !x_monotone, !y_monotone, data_format == "bivariate") %>%
   pull(matrix) %>% .[[1]] %>%
   filter(alpha == -1) %>%
@@ -61,7 +61,7 @@ latex_upper_bounds <- ACEBounds:::matrices_from_polymake %>%
   str_trim()
 
 
-latex_constraints <- ACEBounds:::matrices_from_polymake %>%
+latex_constraints <- ATEBounds:::matrices_from_polymake %>%
   filter(n_z_levels == 3, !x_monotone, !y_monotone, data_format == "bivariate") %>%
   pull(matrix) %>% .[[1]] %>%
   filter(alpha == 0) %>%

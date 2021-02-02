@@ -1,9 +1,11 @@
 ---
-title: "Title Page for Non-parametric Bounds in Two-Sample Summary-Data Mendelian Randomization: Some Cautionary Tales for Practice"
+title: ""
 author: ""
 date: ""
 output: pdf_document
 ---
+
+## Title Page for "Nonparametric Bounds in Two-Sample Summary-Data Mendelian Randomization: Some Cautionary Tales for Practice"
 
 **Type of Manuscript:** Original Research Article
 
@@ -11,8 +13,8 @@ output: pdf_document
 
 **Corresponding Author**: Ralph Møller Trane, UW Madison, Department of Statistics, 1300 University Ave, Madison, WI 53706.
 
-**Suggested running head**: 
+**Suggested running head**: Nonparametric Bounds in Two-Sample Summary-Data MR
 
 **Sources of financial support**: (1) National Science Foundation, DMS-1811414 and (2) University of Wisconsin-Madison Data Science Initiative.
 
-**Description of how to reproduce results and figures**: 
+**Description of how to reproduce results and figures**: All code and documentation can be found at https://rmtrane.github.io/ATEBounds

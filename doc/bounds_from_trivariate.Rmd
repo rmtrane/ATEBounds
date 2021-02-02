@@ -1,0 +1,428 @@
+---
+title: "Utilize two-sample data two get potential one-sample bounds"
+description: >
+  See how we can use two-sample data to get a sense of what the bounds obtained from one-sample data could look like.
+output: rmarkdown::html_vignette
+params:
+  n_cores: 2
+vignette: >
+  %\VignetteIndexEntry{Potential One-Sample Bounds from Two-Sample Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Bounds constructed using two-sample data generally provides much less information than bounds constructed using one-sample data. We will here see how we can squeeze a bit more information out of two-sample data by considering the potential distributions of $(X,Y)|Z$ that are in agreement with the observed $X|Z$ and $Y|Z$, and the model.
+
+```{r message = FALSE}
+library(tidyverse)
+library(ACEBounds)
+```
+
+We will consider IVs that take three levels. To generate values of $P(X = 1 | Z = z)$ we simply choose three values from a uniform distribution. The matrices obtained from the polymake program give us some constraints on the values of $P(Y = 1 | Z = z)$. These are included below. 
+
+```{r echo = FALSE}
+ACEBounds:::matrices_from_polymake %>% 
+  filter(!x_monotone, !y_monotone,
+         data_format == "bivariate", 
+         n_z_levels == 3) %>% 
+  pull(matrix) %>% .[[1]] %>% 
+  filter(alpha == 0) %>%
+  select(where(~sum(abs(.x)) > 0)) %>%
+  filter(rowSums(abs(.)) > 1) %>% 
+  pander::pander()
+```
+
+
+The function `simulate_gammas_from_thetas` takes a vector of length 3 of values of $P(X = 1 | Z = z)$, and return a vector of length 3 of values of $P(Y = 1 | Z = z)$ such that no constraint is violated.
+
+```{r}
+simulate_gammas_from_thetas <- function(thetas){
+
+  gammas <- vector(length = length(thetas))
+
+
+  gammas[1] <- runif(1)
+
+  gammas[2] <- runif(1,
+                     min = max(0,
+                               gammas[1] - thetas[1] - thetas[2], # row 3
+                               gammas[1] + thetas[1] + thetas[2] - 2), # row 5
+                     max = min(1,
+                               gammas[1] - thetas[1] - thetas[2] + 2, # row 11
+                               gammas[1] + thetas[1] + thetas[2]) # row 16
+                     )
+
+  gammas[3] <- runif(1,
+                     min = max(0,
+                               gammas[1] - thetas[1] - thetas[3], # row 4
+                               gammas[1] + thetas[1] + thetas[3] - 2, # row 6
+                               gammas[2] - thetas[2] - thetas[3], # row 12
+                               gammas[2] + thetas[2] + thetas[3] - 2), # row 9
+                     max = min(1,
+                               gammas[2] - thetas[2] - thetas[3] + 2, # row 10
+                               gammas[2] + thetas[2] + thetas[3], # row 13
+                               gammas[1] - thetas[1] - thetas[3] + 2, # row 17
+                               gammas[1] + thetas[1] + thetas[3])) # row 15
+  return(gammas)
+}
+```
+
+For each set of values of $P(X = 1 | Z = z)$ and $P(Y = 1 | Z = z)$, we first get the constraints on the values of $\text{Cov}(X,Y | Z = z)$ that must be satisfied for the resulting distribution of $(X,Y|Z)$ to be valid. Note: the constraints used are based on the inequalities $0 \le P(X = x, Y = y | Z = z) \le 1$, and the IV inequalities $\max_x \sum_y \max_z P(X = x, Y = y | Z = z) \le 1$. These hold no matter the number of levels of $Z$. However, when the number of levels of $Z$ is greater than $2$, these are not sufficient, only necessary, for the joint condition $(X,Y|Z)$ to be valid. Therefore, every time we sample a set of values of $\text{Cov}(X,Y | Z = z)$, we check if the resulting joint conditional violates any of the constraints using the results from polymake. If they do violate, we reject the set of values, and sample a new set of values. We do this $1000$ times, which results in us getting $1000$ possible distributions of $(X,Y|Z)$ for each set of $(X|Z)$ and $(Y|Z)$. Since this takes a while to run, we save the results to a .rds file, so we can read it in for later use. 
+
+The result of this chunk is a `tibble` calles `many_sample_joints` with 5 columns:
+
+* `j` is simply for book keeping
+* `thetas` are the values of $P(X = 1 | Z = z)$
+* `gammas` are the values of $P(Y = 1 | Z = z)$
+* `pot_covs` contain the constraints on $\text{Cov}(X, Y | Z = z)$
+* `samp_joints` with the sampled joint distributions, $1000$ for each set of $P(X = 1 | Z = z)$ and $P(Y = 1 | Z = z)$. 
+
+The first six rows are shown below.
+
+```{r many_sample_joints}
+if(file.exists(here::here("vignettes_data/many_sample_joints.rds"))){
+  many_sample_joints <- read_rds(here::here("vignettes_data/many_sample_joints.rds"))
+} else {
+  
+  library(furrr)
+  
+  plan(multisession, workers = params$n_cores)
+ 
+  set.seed(7226637)
+  sim_probs <- tibble(j = 1:100) %>%
+    mutate(thetas = map(j, ~runif(n = 3, min = 0, max = 1)), 
+           gammas = map(thetas, simulate_gammas_from_thetas),
+           pot_covs = map2(thetas, gammas, potential_covs))
+  
+  many_sample_joints <- sim_probs %>%
+    mutate(
+      samp_joints = future_map2(pot_covs, j,
+                                ~sample_joint_probs(.x, return_bounds = TRUE, n = 1000, max_rejections = 500, 
+                                                    print_progress = TRUE, print_as_progress = .y),
+                               .options = furrr_options(seed = TRUE))
+    )
+  
+  write_rds(many_sample_joints,
+            here::here("vignettes_data/many_sample_joints.rds"))
+}
+
+head(many_sample_joints)
+```
+
+Everything we need is included in this object. We simply need to unnest a few list columns to get the upper and lower bounds for the sampled joint distributions. 
+
+```{r trivariate_bounds}
+trivariate_bounds <- many_sample_joints %>% 
+  unnest(samp_joints) %>% 
+  unnest(joint) %>% 
+  unnest_wider(bounds) %>% 
+  select(j, joint, trivariate_lower = lower, trivariate_upper = upper, n_rejected)
+
+head(trivariate_bounds)
+```
+
+We then find the bounds we get if we only use the two-sample distributions. 
+
+```{r bivariate_bounds}
+bivariate_bounds <- many_sample_joints %>% 
+  rowwise() %>% 
+  mutate(bounds = list(get_bounds(thetas = thetas, gammas = gammas, stop = FALSE, warning = FALSE)),
+         bivariate_constraints_violated = bounds$constraints_violated,
+         interval = list(bounds$interval)) %>% 
+  ungroup() %>% 
+  unnest_wider(interval) %>% 
+  rename(bivariate_lower = lower,
+         bivariate_upper = upper) %>% 
+  select(j, contains("bivariate"), thetas, gammas)
+
+head(bivariate_bounds)
+```
+
+To plot it all, we combine the two sets of bounds. We order by lower limit of one-sample bounds, give `id` for plotting, and then create a variable `contains_zero` which simply tells us if the one-sample bounds contain zero (`TRUE`) or not (`FALSE`). 
+
+```{r for_plot}
+for_plot <- trivariate_bounds %>% 
+  left_join(bivariate_bounds %>% 
+              mutate(center = (bivariate_upper + bivariate_lower) / 2) %>% 
+              arrange(center) %>% 
+              mutate(k = row_number())) %>% 
+  arrange(j, trivariate_lower) %>% 
+  group_by(j) %>% 
+  mutate(id = row_number()) %>% 
+  ungroup() %>% 
+  mutate(contains_zero = if_else(trivariate_lower < 0 & trivariate_upper > 0, "Overlaps Zero", "Does not Overlap Zero"),
+         facet_row = ceiling(k/10), 
+         facet_col = k - (facet_row-1)*10)
+
+head(for_plot)
+```
+
+Finally, the plot.
+
+```{r plot, fig.width = 10, fig.height = 8, dpi = 150}
+(plot <- for_plot %>% 
+  ggplot(aes(y = id/max(id))) + 
+    geom_vline(aes(xintercept = bivariate_lower, color = "Two-sample Bounds")) + 
+    geom_vline(aes(xintercept = bivariate_upper, color = "Two-sample Bounds")) + 
+    geom_errorbar(aes(xmin = trivariate_lower, 
+                      xmax = trivariate_upper,
+                      color = contains_zero)) + 
+    geom_text(data = for_plot %>% 
+                select(j, k, contains("facet"), bivariate_upper) %>% 
+                unique(),
+              aes(label = j, y = 0.25, x = if_else(bivariate_upper < 0.6,
+                                                   0.85, -0.85))) +
+    xlim(c(-1,1)) +
+    facet_grid(facet_row ~ facet_col) +
+    coord_fixed() +
+    scale_color_manual(values = c("black", "red4", "grey50")) + 
+    labs(y = "", x = "ATE",
+         title = "Bounds on ATE",
+         color = "",
+         linetype = ""
+    ) + 
+    theme_bw() +
+    theme(axis.ticks.y = element_blank(),
+          axis.text.y = element_blank(),
+          strip.background = element_blank(),
+          strip.text = element_blank()))
+```
+
+Save the plot to a file for later use. 
+
+```{r}
+ggsave(
+  plot, 
+  filename = here::here("figures/trivariate_bounds_plot.png"),
+  width = 10, height = 8, dpi = 300
+)
+```
+
+Below are 9 of the 100 runs displayed. The figures are the same as in the plot below. 
+
+
+```{r}
+chosen_ones <- c(53, 6, 66, 
+                 38, 7, 88,
+                 73, 44, 60)
+
+for_subset_plot <- for_plot %>% 
+  filter(j %in% chosen_ones) %>% 
+  mutate(J = as.numeric(factor(j, levels = chosen_ones)),
+         row_i = case_when(J %in% 1:3 ~ "A",
+                           J %in% 4:6 ~ "B",
+                           J %in% 7:9 ~ "C",
+                           TRUE ~ NA_character_),
+         col_j = (J-1) %% 3 + 1)
+
+subset_plot_summaries <- for_subset_plot %>% 
+  group_by(row_i, col_j, thetas, gammas, J) %>% 
+  summarize(bivariate_lower = unique(bivariate_lower),
+            bivariate_upper = unique(bivariate_upper),
+            p_no_zero = mean(contains_zero == "Does not Overlap Zero")) %>% 
+  rowwise() %>% 
+  mutate(thetas = list(setNames(thetas, paste0("P(X = 1 | Z = ", 0:2, ")"))),
+         gammas = list(setNames(gammas, paste0("P(Y = 1 | Z = ", 0:2, ")")))) %>% 
+  unnest_wider(thetas) %>% 
+  unnest_wider(gammas)
+
+subset_plot <- ggplot(for_subset_plot,
+                      aes(y = id/max(id))) + 
+  geom_rect(data = data.frame(x_min = rep(0.2, 3),
+                              x_max = rep(0.3, 3),
+                              y_min = rep(0.1, 3),
+                              y_max = rep(0.2, 3),
+                              contains_zero = c("Two-Sample Bounds", "Overlaps Zero", "Does not Overlap Zero")),
+            inherit.aes = FALSE,
+            aes(xmin = x_min,
+                xmax = x_max,
+                ymin = y_min,
+                ymax = y_max,
+                fill = contains_zero),
+            alpha = 0) +
+  geom_vline(aes(xintercept = bivariate_lower, color = "Two-Sample Bounds"),
+             linetype = "dashed") + 
+  geom_vline(aes(xintercept = bivariate_upper, color = "Two-Sample Bounds"),
+             linetype = "dashed") + 
+  geom_errorbar(aes(xmin = trivariate_lower, 
+                    xmax = trivariate_upper,
+                    color = contains_zero)) + 
+  geom_vline(xintercept = 0) +
+  xlim(c(-1,1)) +
+  facet_grid(row_i ~ col_j) +
+  coord_fixed(ratio = 2) +
+  scale_color_manual(values = c("black", "grey50", "red"),
+                     breaks = c("Two-Sample Bounds", "Overlaps Zero", "Does not Overlap Zero")) +
+  scale_fill_manual(values = c("black", "grey50", "red"),
+                    breaks = c("Two-Sample Bounds", "Overlaps Zero", "Does not Overlap Zero")) + 
+  labs(x = "ATE", 
+       y = "",
+       color = "",
+       fill = "", 
+       linetype = ""
+  ) + 
+  guides(
+    color = "none",
+    fill = guide_legend(override.aes = list(alpha = 1))
+  ) +
+  theme_bw() +
+  theme(axis.ticks.y = element_blank(),
+        axis.text.y = element_blank(),
+        strip.text = element_text(size = 12),
+        legend.text = element_text(size = 12),
+        legend.position = "top")
+
+subset_plot +
+  labs(title = "Bounds on ATE")
+```
+
+This is meant to illustrate the different scenarios we can end up in:
+
+* The first row shows us three scenarios with relatively wide two-sample bounds, more or less centered around zero. Yet we would draw three different conclusions:
+    * `r chosen_ones[1]`: even with one-sample data, we would not be able to determine direction
+    * `r chosen_ones[2]`: with one-sample data, we would not be able to determine direction if the true ACE is negative. About `r filter(subset_plot_summaries, row_i == 1, col_j == 2)[["p_no_zero"]]*100`% of the joint probabilities would result in the one-sample data giving us the direction, and in all of these cases the direction is positive. 
+    * `r chosen_ones[3]`: with one-sample data, we would be able to determine direction with about `r filter(subset_plot_summaries, J == chosen_ones[3])[["p_no_zero"]]*100`% of the possible joint distributions, but the direction could go either way. 
+
+* The second row shows scenarios where the bounds are relatively wide and centered relatively far from zero (here, it is above, but you can similarly find cases where it would be below). Again, three difference conclusions:
+    * `r chosen_ones[4]`: even with one-sample data, would would not be able to determine direction
+    * `r chosen_ones[5]`: `r filter(subset_plot_summaries, J == chosen_ones[5])[["p_no_zero"]]*100`% of the drawn joint distributions let us determine direction, and in all cases the direction is positive.
+    * `r chosen_ones[6]`: `r filter(subset_plot_summaries, J == chosen_ones[6])[["p_no_zero"]]*100`% of the drawn joint distributions let us determine direction, and in all cases the direction is positive. 
+    * Notice the big difference in information in the two-sample data between `r chosen_ones[5]` and `r chosen_ones[6]` even though the two-sample bounds are relatively similar. One tells us that it is pretty likely that one-sample data would allow us to conclude the direction of the effect is positive, while the other one tells us it is rather unlikely we would be able to determine direction based on one-sample data. 
+    
+* Finally, the third row shows us three scenarios where the two-sample bounds are relatively narrow and centered around zero. Once again, we would arrive at three different conclusions:
+    * `r chosen_ones[7]`: one-sample data would not help us determine direction
+    * `r chosen_ones[8]`: we would be able to determine direction from one-sample data in `r filter(subset_plot_summaries, J == chosen_ones[8])[["p_no_zero"]]*100`% of the drawn joints, but from the information in the two-sample data, we cannot rule out either direction. This seems rather surprising to me: even though the two-sample bounds are pretty tight around zero, bounds from one-sample data could still end up entirely on either side of zero!
+    * `r chosen_ones[9]`: in `r filter(subset_plot_summaries, J == chosen_ones[9])[["p_no_zero"]]*100`% of the drawn joints, we would be able to determine direction, and in all of these the direction is positive.
+
+Save plot and a few summaries for later use.
+
+```{r}
+write_rds(x = subset_plot_summaries,
+          file = here::here("vignettes_data", "subset_plot_summaries.Rds"))
+
+ggsave(
+  plot = subset_plot,
+  filename = here::here("figures", "trivariate_bounds_subset_plot.png"),
+  width = 8, dpi = 300, height = 8
+)
+```
+
+
+## Monotonicity of $P(X = 1 | Z = z, U)$.
+
+Below, we go through the exact same steps as above, except we now assume that $P(X = 1 | Z = z, U)$ is monotonically increasing. 
+
+```{r fig.width = 10, fig.height = 10, dpi = 300}
+simulate_gammas_from_thetas_mono <- function(thetas){
+
+  gammas <- vector(length = length(thetas))
+
+  ## constraints: 
+  # matrices_from_polymake %>%
+  #   filter(n_z_levels == 3, x_monotone, !y_monotone, data_format == "bivariate") %>%
+  #   pull(matrix) %>% .[[1]] %>%
+  #   filter(alpha == 0) %>%
+  #   select(where(~sum(abs(.x)) > 0)) %>%
+  #   filter(rowSums(abs(.)) > 1)
+  
+  gammas[1] <- runif(1)
+
+  gammas[2] <- runif(1,
+                     min = max(0,
+                               gammas[1] - thetas[2] + thetas[1]), # row 8
+                     max = min(1,
+                               gammas[1] + thetas[2] - thetas[1])) # row 4
+
+  gammas[3] <- runif(1,
+                     min = max(0,
+                               gammas[2] - gammas[1], # row 5
+                               gammas[2] + thetas[2] - thetas[3]), # row 3
+                     max = min(1,
+                               gammas[2] + thetas[3] - thetas[2], # row 2
+                               1 + gammas[2] - gammas[1])) # row 7
+  return(gammas)
+}
+
+if(file.exists(here::here("vignettes_data/many_sample_joints_mono.rds"))){
+  many_sample_joints_mono <- read_rds(here::here("vignettes_data/many_sample_joints_mono.rds"))
+} else {
+  
+  library(furrr)
+
+  if(!interactive())
+    plan(multisession, workers = params$n_cores)
+ 
+  set.seed(2884193)
+  sim_probs_mono <- tibble(j = 1:100) %>%
+    mutate(thetas = map(j, ~sort(runif(n = 3, min = 0, max = 1))), 
+           gammas = map(thetas, simulate_gammas_from_thetas_mono),
+           pot_covs = map2(thetas, gammas, potential_covs, x_mono = TRUE))
+  
+  many_sample_joints_mono <- sim_probs_mono %>% 
+    mutate(
+      samp_joints = future_map(pot_covs, 
+                               sample_joint_probs, #x, 
+                               return_bounds = TRUE, n = 1000, max_rejections = 100,
+                               x_mono = TRUE,
+                               .options = furrr_options(seed = TRUE))
+    )
+  
+  write_rds(many_sample_joints_mono,
+            here::here("vignettes_data/many_sample_joints_mono.rds"))
+}
+
+
+trivariate_bounds_mono <- many_sample_joints_mono %>% 
+  unnest(samp_joints) %>% 
+  unnest(joint) %>% 
+  unnest_wider(bounds) %>% 
+  select(j, joint, trivariate_lower = lower, trivariate_upper = upper, n_rejected)
+
+bivariate_bounds_mono <- many_sample_joints_mono %>% 
+  rowwise() %>% 
+  mutate(bounds = list(get_bounds(thetas = thetas, gammas = gammas, x_mono = TRUE, stop = FALSE, warning = FALSE)),
+         bivariate_constraints_violated = bounds$constraints_violated,
+         interval = list(bounds$interval)) %>% 
+  ungroup() %>% 
+  unnest_wider(interval) %>% 
+  rename(bivariate_lower = lower,
+         bivariate_upper = upper) %>% 
+  print() %>% 
+  select(j, contains("bivariate"))
+
+for_plot_mono <- trivariate_bounds_mono %>% 
+  left_join(bivariate_bounds_mono) %>% 
+  arrange(j, trivariate_lower) %>% 
+  group_by(j) %>% 
+  mutate(id = row_number()) %>% 
+  ungroup() %>% 
+  mutate(contains_zero = if_else(trivariate_lower < 0 & trivariate_upper > 0, "Overlaps Zero", "Does not Overalp Zero"))
+
+plot_mono <- for_plot_mono %>% 
+  mutate(facet_row = ceiling(j/10), 
+         facet_col = j - (facet_row-1)*10) %>% 
+  ggplot(aes(x = id/max(id))) + 
+    geom_hline(aes(yintercept = bivariate_lower, color = "Two-Sample Bounds")) + 
+    geom_hline(aes(yintercept = bivariate_upper, color = "Two-Sample Bounds")) + 
+    geom_errorbar(aes(ymin = trivariate_lower, ymax = trivariate_upper,
+                      color = contains_zero)) + 
+    ylim(c(-1,1)) +
+    facet_grid(facet_row ~ facet_col) +
+    coord_fixed() +
+    scale_color_manual(values = c("black", "grey50", "red4")) + 
+    labs(x = "", y = "ACE",
+         title = "Bounds on ACE",
+         caption = "Assuming P(X = 1 | Z = z, U) is monotonically increasing.",
+         color = "",
+         linetype = ""
+    ) + 
+    theme_bw() +
+    theme(axis.ticks.x = element_blank(),
+          axis.text.x = element_blank())
+
+plot_mono
+
+ggsave(plot_mono, filename = here::here("figures/trivariate_bounds_mono_plot.png"),
+       width = 10, height = 10, dpi = 300)
+```
+

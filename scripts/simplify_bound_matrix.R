@@ -32,7 +32,7 @@ simplify_matrix <- function(poly_matrix, upper_or_lower = c("upper", "lower")){
     select(id, expression)
 }
 
-ACEBounds:::matrices_from_polymake %>%
+ATEBounds:::matrices_from_polymake %>%
   filter(x_monotone, y_monotone, data_format == "bivariate") %>%
   mutate(simplified_matrix_lower = map(matrix, simplify_matrix, upper_or_lower = "lower"),
          simplified_matrix_upper = map(matrix, simplify_matrix, upper_or_lower = "upper")) %>%

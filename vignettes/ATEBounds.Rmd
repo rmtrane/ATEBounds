@@ -4,7 +4,7 @@ description: >
   How to use this package to find bounds.
 output: html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to ATEBounds}
+  %\VignetteIndexEntry{Introduction to `ATEBounds`}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: "references.bib"

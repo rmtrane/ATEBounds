@@ -68,29 +68,31 @@
     <li class="divider">
     <li class="dropdown-header">"Power" analysis</li>
     <li>
-      <a href="../articles/power_sims.html">Monte carlo integration</a>
+      <a href="../articles/power_sims.html">"Power" Simulations</a>
     </li>
     <li>
-      <a href="../articles/power_sims_figures.html">Coverage of Null Effect</a>
+      <a href="../articles/power_sims_figures.html">"Power" Figures</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">Two-Sample Bounds using Multiple Instruments</li>
     <li>
-      <a href="../articles/multiple_IVs_sims.html">Two-Sample Bounds using Multiple IV: Monte carlo integration and data prep</a>
+      <a href="../articles/multiple_IVs_sims.html">Multiple IVs: Simulations</a>
     </li>
     <li>
-      <a href="../articles/multiple_IVs_figures.html">Two-Sample Bounds using Multiple IV: Figures</a>
+      <a href="../articles/multiple_IVs_figures.html">Multiple IVs: Figures</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">How-To's</li>
+    <li class="dropdown-header">Example Analysis using `TwoSampleMR`</li>
+    <li>
+      <a href="../articles/example_analysis.html">Example Analysis of Data from the IEU GWAS Database</a>
+    </li>
+    <li class="divider">
+    <li class="dropdown-header">Other</li>
     <li>
       <a href="../articles/polymake_example.html">Polymake Example</a>
     </li>
     <li>
       <a href="../articles/get_bounds.html">How to use the `get_bounds` function</a>
-    </li>
-    <li>
-      <a href="../articles/example_analysis.html">Example Analysis of Data from the IEU GWAS Database</a>
     </li>
   </ul>
 </li>
@@ -157,7 +159,7 @@
 ## 
 ##     extract</code></pre>
 <div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rmtrane/ACEBounds">ACEBounds</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rmtrane/ATEBounds">ATEBounds</a></span><span class="op">)</span>
 
 
 <span class="fu">theme_set</span><span class="op">(</span><span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></pre></div>
@@ -305,9 +307,9 @@
   dpi <span class="op">=</span> <span class="fl">300</span>, width <span class="op">=</span> <span class="fl">5</span>, height <span class="op">=</span> <span class="fl">3</span>
 <span class="op">)</span></pre></div>
 </div>
-<div id="bound-ace-using-the-bivariate-data" class="section level2">
+<div id="bound-ate-using-the-bivariate-data" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bound-ace-using-the-bivariate-data" class="anchor"></a>Bound ACE using the bivariate data</h2>
+<a href="#bound-ate-using-the-bivariate-data" class="anchor"></a>Bound ATE using the bivariate data</h2>
 <p>Now, we calculate the bounds (both with and without assuming monotonicity of <span class="math inline">\(P(X = 1 | Z = z)\)</span>) using the <code><a href="../reference/get_bounds.html">get_bounds()</a></code> function.</p>
 <div class="sourceCode" id="cb33"><pre class="downlit">
 <span class="va">smoking_lung_cancer_bounds</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_w_intercept</span> <span class="op">%&gt;%</span> 
@@ -434,7 +436,7 @@
   <span class="fu">unnest</span><span class="op">(</span><span class="va">joint</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">bounds</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>contains_zero <span class="op">=</span> <span class="va">lower</span> <span class="op">&lt;</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="va">upper</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></pre></div>
-<p>The plot below shows all bounds obtained from sampled joint distributions along with the original bivariate bounds. In this particular example, having a dataset with observations of <span class="math inline">\((X,Y,Z)\)</span> would not provide much more information. There seems to be essentially no setting where the IV model holds, the marginals we observe are correct, AND the joint distribution would allow to determine direction of the ACE.</p>
+<p>The plot below shows all bounds obtained from sampled joint distributions along with the original bivariate bounds. In this particular example, having a dataset with observations of <span class="math inline">\((X,Y,Z)\)</span> would not provide much more information. There seems to be essentially no setting where the IV model holds, the marginals we observe are correct, AND the joint distribution would allow to determine direction of the ATE.</p>
 <div class="sourceCode" id="cb41"><pre class="downlit">
 <span class="va">smoking_lung_cancer_individual_SNPs_plot</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_trivariate_bounds</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">SNP</span><span class="op">)</span> <span class="op">%&gt;%</span> 

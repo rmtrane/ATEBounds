@@ -20,7 +20,7 @@ Our first example will use smoking as exposure, and lung cancer as outcome (both
 library(TwoSampleMR)
 library(tidyverse)
 library(magrittr)
-library(ACEBounds)
+library(ATEBounds)
 
 
 theme_set(theme_bw())
@@ -198,7 +198,7 @@ ggsave(
 )
 ```
 
-## Bound ACE using the bivariate data
+## Bound ATE using the bivariate data
 
 Now, we calculate the bounds (both with and without assuming monotonicity of $P(X = 1 | Z = z)$) using the `get_bounds()` function.
 
@@ -342,7 +342,7 @@ smoking_lung_cancer_trivariate_bounds <- smoking_lung_cancer_samples_of_joints %
   mutate(contains_zero = lower < 0 & upper > 0)
 ```
 
-The plot below shows all bounds obtained from sampled joint distributions along with the original bivariate bounds. In this particular example, having a dataset with observations of $(X,Y,Z)$ would not provide much more information. There seems to be essentially no setting where the IV model holds, the marginals we observe are correct, AND the joint distribution would allow to determine direction of the ACE. 
+The plot below shows all bounds obtained from sampled joint distributions along with the original bivariate bounds. In this particular example, having a dataset with observations of $(X,Y,Z)$ would not provide much more information. There seems to be essentially no setting where the IV model holds, the marginals we observe are correct, AND the joint distribution would allow to determine direction of the ATE. 
 
 ```{r fig.width = 8}
 smoking_lung_cancer_individual_SNPs_plot <- smoking_lung_cancer_trivariate_bounds %>% 

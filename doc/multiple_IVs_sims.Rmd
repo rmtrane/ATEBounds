@@ -1,0 +1,31 @@
+---
+title: "Two-Sample Bounds using Multiple IV: Monte carlo integration and data prep"
+description: ""
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Multiple IV simulations}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+Here we briefly show how the monte carlo integration that provides the data used in `vignette("power_sims_figures")` was performed. This happens in two steps: (1) create $1,000,000$ observations of $(X,Y,Z_1, Z_2, ..., Z_p, U)$, and (2) summarize the simulated observations to get $P(X|Z)$ and $P(Y|Z)$. 
+
+We assume that \(P(Z = 0) = P(Z = 2) = 0.25\) and \(P(Z = 1) = 0.5\), and a value of an unmeasured confounder \(U\) from the standard normal. We assume the exposure $X$ is binary with $\text{logit}(P(X = 1 | Z_1 = z_1, ..., Z_p = z_p, U = u)) = \gamma_0 + \sum_i \gamma_i z_i + \gamma_U u$, where $\text{logit}(a) = \frac{1}{1+\exp(a)}$. For each instrument $i$, we set \(P(Z_i = 0) = P(Z_i = 2) = 0.25\) and \(P(Z_i = 1) = 0.5\). We set $p = 10$ or $p = 50$, and draw \(U\) from a standard normal distribution. Again, for simplicity, we set $\beta_U = \gamma_U$, and $\gamma_0 = -\sum_i \gamma_i$ and $\beta_0 = -\beta_1/2$ to spread out the probabilities $P(X = 1 | Z = z)$ and $P(Y = 1 | X = x)$ as much as possible. $\beta_1$ is set to be either $0.25$, $0.5$, $1$, $1.5$, or $2$. We then consider four scenarios for setting the $\gamma_i$'s:
+
+\begin{enumerate}
+\item \emph{Many weak instruments}: \(\gamma_i\) are spread out evenly on the interval \(0\) to \(0.2\).
+\item \emph{Many strong instruments}: \(\gamma_i\) are spread out evenly on the interval \(1\) to \(4\). This is the magnitude of $\gamma$s that detected the direction of the ATE in the previous section
+\item \emph{Many very weak instruments, one medium strength instrument}: $\gamma_i$, $i=1,2,...,p-1$, are evenly spread out on the interval $0$ to $0.01$, and $\gamma_p = 0.2$. 
+\item \emph{Many medium strong instruments, one strong instrument}: $\gamma_i$, $i=1,2,...,p-1$, are evenly spread out on the interval $1$ to $1.2$, and $\gamma_p = 4$.
+\end{enumerate}
+
+The script below simulates $1,000,000$ observations for each scenario for each combination of coefficients. The results are saved to separate .Rds files (total of 80 .Rds files) due to memory constraints. 
+
+```{r code = readLines(here::here("scripts/multiple_IVs/multiple_IVs_sims.R")), eval = FALSE}
+```
+
+The 80 .Rds files are combined using the script below, which results in a single .Rds file that contains all data needed to create the figures.
+
+```{r code = readLines(here::here("scripts/multiple_IVs/multiple_IVs_prep.R")), eval = FALSE}
+```
+

@@ -1,6 +1,6 @@
 ---
 title: "Bounds using Two-Sample Data"
-description: "Obtaining bounds on the ACE using two-sample data."
+description: "Obtaining bounds on the ATE using two-sample data."
 output: rmarkdown::html_vignette
 params:
   n_cores: 2
@@ -10,7 +10,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
-Here we will see how bounds on the ACE behaves when derived from a single IV in two-sample data. We know that the width of the bounds is bounded above by $2\cdot (1 - ST_X)$, when monotonicity of the effect of $Z$ on both $X$ and $Y$ holds. Here, we will see through simulations, that the same seems to hold without these assumptions. 
+Here we will see how bounds on the ATE behaves when derived from a single IV in two-sample data. We know that the width of the bounds is bounded above by $2\cdot (1 - ST_X)$, when monotonicity of the effect of $Z$ on both $X$ and $Y$ holds. Here, we will see through simulations, that the same seems to hold without these assumptions. 
 
 ## Generate Distributions
 
@@ -19,7 +19,7 @@ We will consider IVs that take three levels. To generate values of $P(X = 1 | Z 
 ```{r warning = FALSE, message = FALSE}
 library(tidyverse, quietly = TRUE)
 
-ACEBounds:::matrices_from_polymake %>% 
+ATEBounds:::matrices_from_polymake %>% 
   filter(!x_monotone, !y_monotone,
          data_format == "bivariate", 
          n_z_levels == 3) %>% 
@@ -68,7 +68,7 @@ We generate $10,000$ sets of distributions.
 
 ```{r}
 library(tidyverse)
-library(ACEBounds)
+library(ATEBounds)
 
 
 set.seed(7226637)
@@ -175,7 +175,7 @@ all_bounds_plot <- bounds %>%
       alpha = 0.75
     )+ 
     labs(
-      y = "ACE",
+      y = "ATE",
       x = "Simulation run",
       color = ""
     ) +
@@ -414,7 +414,7 @@ bounds_w_bpbounds <- bounds %>%
   mutate(bpbounds = list(tidy_bpbounds(bpbounds::bpbounds(p = as.table(rbind(1-gammas, gammas)), 
                                                           t = as.table(rbind(1-thetas, thetas)), 
                                                           fmt = "bivariate")) %>% 
-                           filter(Assumption == "IV Inequality", `Causal parameter` == "ACE") %>% 
+                           filter(Assumption == "IV Inequality", `Causal parameter` == "ATE") %>% 
                            select(assumption_holds = `Assumption Holds`, bplower = `Lower bound`, bpupper = `Upper bound`)))
 
 bounds_w_bpbounds %>% 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.2.8)  10 FEB 2021 16:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.2.8)  10 FEB 2021 16:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -962,6 +962,27 @@ Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
 \c@nlinenum=\count444
 \TeXr@lab=\toks50
 )
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf.s
+ty
+Package: epstopdf 2020-01-24 v2.11 Conversion with epstopdf on the fly (HO)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/grfext/grfext.sty
+Package: grfext 2019/12/03 v1.3 Manage graphics extensions (HO)
+)
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-b
+ase.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 504.
+
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sy
+s.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+)))
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdf
 tex.def
 File: l3backend-pdftex.def 2021-02-06 L3 backend support: PDF output (pdfTeX)
@@ -976,216 +997,41 @@ LaTeX Warning: Unused global option(s):
 
 LaTeX Warning: Label `introduction' multiply defined.
 
-
-LaTeX Warning: Label `properties-of-iv-bounds' multiply defined.
-
-
-LaTeX Warning: Label `bounds-on-average-treatment-effect' multiply defined.
-
-
-LaTeX Warning: Label `tab:marginal-distribution-of-instruments-lung-cancer' mul
-tiply defined.
-
-
-Package natbib Warning: Citation `davey_smith_mendelian_2003' multiply defined.
-
-
-
-Package natbib Warning: Citation `lawlor_mendelian_2008' multiply defined.
-
-
-Package natbib Warning: Citation `burgess_mendelian_2015' multiply defined.
-
-
-Package natbib Warning: Citation `burgess_mendelian_2013' multiply defined.
-
-
-Package natbib Warning: Citation `burgess_using_2015' multiply defined.
-
-
-Package natbib Warning: Citation `davies_reading_2018' multiply defined.
-
-
-Package natbib Warning: Citation `bowden_assessing_2016' multiply defined.
-
-
-Package natbib Warning: Citation `bowden_consistent_2016' multiply defined.
-
-
-Package natbib Warning: Citation `verbanck_detection_2018' multiply defined.
-
-
-Package natbib Warning: Citation `zhao_statistical_2020' multiply defined.
-
-
-Package natbib Warning: Citation `burgess_review_2017' multiply defined.
-
-
-Package natbib Warning: Citation `slob_comparison_2020' multiply defined.
-
-
-Package natbib Warning: Citation `balke_bounds_1997' multiply defined.
-
-
-Package natbib Warning: Citation `cheng_bounds_2006' multiply defined.
-
-
-Package natbib Warning: Citation `manski_nonparametric_1990' multiply defined.
-
-
-Package natbib Warning: Citation `richardson_ace_2014' multiply defined.
-
-
-Package natbib Warning: Citation `robins_analysis_1989' multiply defined.
-
-
-Package natbib Warning: Citation `ramsahai_causal_2012' multiply defined.
-
-
-Package natbib Warning: Citation `swanson_partial_2018' multiply defined.
-
-
-Package natbib Warning: Citation `swanson_commentary_2013' multiply defined.
-
-
-Package natbib Warning: Citation `didelez_mendelian_2007' multiply defined.
-
-
-Package natbib Warning: Citation `swanson_commentary_2017' multiply defined.
-
-
-Package natbib Warning: Citation `rubin_estimating_1974' multiply defined.
-
-
-Package natbib Warning: Citation `splawa-neyman_application_1990' multiply defi
-ned.
-
-
-Package natbib Warning: Citation `cox_planning_1958' multiply defined.
-
-
-Package natbib Warning: Citation `rubin_randomization_1980' multiply defined.
-
-
-Package natbib Warning: Citation `wang_bounded_2018' multiply defined.
-
-
-Package natbib Warning: Citation `angrist_identification_1996' multiply defined
-.
-
-
-Package natbib Warning: Citation `baiocchi_instrumental_2014' multiply defined.
-
-
-
-Package natbib Warning: Citation `stock_survey_2002' multiply defined.
-
-
-Package natbib Warning: Citation `burgess_sample_2014' multiply defined.
-
-
-Package natbib Warning: Citation `verma_simulation_2018' multiply defined.
-
-
-Package natbib Warning: Citation `millard_mr-phewas_2019' multiply defined.
-
-
-Package natbib Warning: Citation `king_mendelian_2020' multiply defined.
-
-
-Package natbib Warning: Citation `burgess_improving_2012' multiply defined.
-
-
-Package natbib Warning: Citation `diemer_application_2020' multiply defined.
-
-
-Package natbib Warning: Citation `cholesterol_treatment_trialists_ctt_collabora
-tors_effects_2012' multiply defined.
-
-
-Package natbib Warning: Citation `cornfield_smoking_1959' multiply defined.
-
-
-Package natbib Warning: Citation `yusuf_obesity_2005' multiply defined.
-
-
-Package natbib Warning: Citation `schmitt_occupational_2011' multiply defined.
-
-
-Package natbib Warning: Citation `loh_contrasting_2015' multiply defined.
-
-
-Package natbib Warning: Citation `shi_contrasting_2016' multiply defined.
-
-
-Package natbib Warning: Citation `nj_genetic_2017' multiply defined.
-
-
-Package natbib Warning: Citation `yang_common_2010' multiply defined.
-
-
-Package natbib Warning: Citation `united1964smoking' multiply defined.
-
-
-Package natbib Warning: Citation `holmes_mendelian_2015' multiply defined.
-
-
-Package natbib Warning: Citation `richardson_evaluating_2020' multiply defined.
-
-
-
-Package natbib Warning: Citation `20051267' multiply defined.
-
-
-Package natbib Warning: Citation `mrbase' multiply defined.
-
 )
 \openout1 = `sim_submission.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
-LaTeX Font Info:    Checking defaults for LS1/stix/m/n on input line 58.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for LS1/stix/m/n on input line 59.
 LaTeX Font Info:    Trying to load font information for LS1+stix on input line 
-58.
+59.
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/stix/ls1stix.fd
 File: ls1stix.fd 2015/04/17 v1.1.2-latex STIX LS1 font definitions
 )
-LaTeX Font Info:    ... okay on input line 58.
-LaTeX Font Info:    Checking defaults for LS2/stix/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for LS2/stix/m/n on input line 59.
 LaTeX Font Info:    Trying to load font information for LS2+stix on input line 
-58.
+59.
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/stix/ls2stix.fd
 File: ls2stix.fd 2015/04/17 v1.1.2-latex STIX LS2 font definitions
 )
-LaTeX Font Info:    ... okay on input line 58.
-
-(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-b
-ase.sty
-Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
-Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
-85.
-
-(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sy
-s.cfg
-File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
-e
-))
+LaTeX Font Info:    ... okay on input line 59.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: hyperref package is loaded.
@@ -1197,7 +1043,7 @@ Package: ltcaption 2020/05/30 v1.4b longtable captions (AR)
 Package caption Info: threeparttable package is loaded.
 Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring OFF on input line 58.
+Package hyperref Info: Link coloring OFF on input line 59.
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty
@@ -1209,9 +1055,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count446
 )
-LaTeX Info: Redefining \ref on input line 58.
-LaTeX Info: Redefining \pageref on input line 58.
-LaTeX Info: Redefining \nameref on input line 58.
+LaTeX Info: Redefining \ref on input line 59.
+LaTeX Info: Redefining \pageref on input line 59.
+LaTeX Info: Redefining \nameref on input line 59.
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -1250,61 +1096,157 @@ LaTeX Info: Redefining \nameref on input line 58.
 
 \c@lstlisting=\count447
 LaTeX Font Info:    Trying to load font information for LS1+stixscr on input li
-ne 99.
+ne 100.
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/stix/ls1stixscr.fd
 File: ls1stixscr.fd 2015/04/17 v1.1.2-latex STIX script LS1 font definitions
 )
 LaTeX Font Info:    Trying to load font information for LS2+stixex on input lin
-e 99.
+e 100.
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/stix/ls2stixex.fd
 File: ls2stixex.fd 2015/04/17 v1.1.2-latex STIX extentions LS2 font definitions
 
 )
 LaTeX Font Info:    Trying to load font information for LS1+stixfrak on input l
-ine 99.
+ine 100.
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/stix/ls1stixfrak.fd
 File: ls1stixfrak.fd 2015/04/17 v1.1.2-latex STIX fraktur LS1 font definitions
 )
 LaTeX Font Info:    Trying to load font information for LS1+stixbb on input lin
-e 99.
+e 100.
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/stix/ls1stixbb.fd
 File: ls1stixbb.fd 2015/04/17 v1.1.2-latex STIX blackboard LS1 font definitions
 
 )
 LaTeX Font Info:    Trying to load font information for LS2+stixcal on input li
-ne 99.
+ne 100.
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/stix/ls2stixcal.fd
 File: ls2stixcal.fd 2015/04/17 v1.1.2-latex STIX calligraphic LS2 font definiti
 ons
 )
 LaTeX Font Info:    Trying to load font information for LS1+stixsf on input lin
-e 99.
+e 100.
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/stix/ls1stixsf.fd
 File: ls1stixsf.fd 2015/04/17 v1.1.2-latex STIX sans-serif LS1 font definitions
 
 )
 LaTeX Font Info:    Trying to load font information for LS2+stixtt on input lin
-e 99.
+e 100.
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/stix/ls2stixtt.fd
 File: ls2stixtt.fd 2015/04/17 v1.1.2-latex STIX typewriter LS2 font definitions
 
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 99.
-
+LaTeX Font Info:    Trying to load font information for U+msa on input line 100
+.
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 99.
-
+LaTeX Font Info:    Trying to load font information for U+msb on input line 100
+.
 (/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Overfull \hbox (346.99213pt too wide) in paragraph at lines 99--99
+Overfull \hbox (346.99213pt too wide) in paragraph at lines 100--100
 [][] | || []|[][] 
  []
 
-LaTeX Font Info:    Calculating math sizes for size <10.03749> on input line 99
-.
+LaTeX Font Info:    Calculating math sizes for size <10.03749> on input line 10
+0.
+
+Package natbib Warning: Citation `davey_smith_mendelian_2003' on page 1 undefin
+ed on input line 110.
+
+
+Package natbib Warning: Citation `lawlor_mendelian_2008' on page 1 undefined on
+ input line 110.
+
+
+Package natbib Warning: Citation `burgess_mendelian_2015' on page 1 undefined o
+n input line 110.
+
+
+Package natbib Warning: Citation `burgess_mendelian_2013' on page 1 undefined o
+n input line 116.
+
+
+Package natbib Warning: Citation `burgess_using_2015' on page 1 undefined on in
+put line 116.
+
+
+Package natbib Warning: Citation `davies_reading_2018' on page 1 undefined on i
+nput line 116.
+
+
+Package natbib Warning: Citation `burgess_mendelian_2013' on page 1 undefined o
+n input line 119.
+
+
+Package natbib Warning: Citation `bowden_assessing_2016' on page 1 undefined on
+ input line 120.
+
+
+Package natbib Warning: Citation `bowden_consistent_2016' on page 1 undefined o
+n input line 121.
+
+
+Package natbib Warning: Citation `verbanck_detection_2018' on page 1 undefined 
+on input line 122.
+
+
+Package natbib Warning: Citation `zhao_statistical_2020' on page 1 undefined on
+ input line 123.
+
+
+Package natbib Warning: Citation `burgess_mendelian_2015' on page 1 undefined o
+n input line 124.
+
+
+Package natbib Warning: Citation `burgess_review_2017' on page 1 undefined on i
+nput line 124.
+
+
+Package natbib Warning: Citation `slob_comparison_2020' on page 1 undefined on 
+input line 124.
+
+
+Package natbib Warning: Citation `balke_bounds_1997' on page 1 undefined on inp
+ut line 130.
+
+
+Package natbib Warning: Citation `cheng_bounds_2006' on page 1 undefined on inp
+ut line 130.
+
+
+Package natbib Warning: Citation `manski_nonparametric_1990' on page 1 undefine
+d on input line 130.
+
+
+Package natbib Warning: Citation `richardson_ace_2014' on page 1 undefined on i
+nput line 130.
+
+
+Package natbib Warning: Citation `robins_analysis_1989' on page 1 undefined on 
+input line 130.
+
+
+Package natbib Warning: Citation `balke_bounds_1997' on page 1 undefined on inp
+ut line 137.
+
+
+Package natbib Warning: Citation `cheng_bounds_2006' on page 1 undefined on inp
+ut line 138.
+
+
+Package natbib Warning: Citation `richardson_ace_2014' on page 1 undefined on i
+nput line 138.
+
+
+Package natbib Warning: Citation `ramsahai_causal_2012' on page 1 undefined on 
+input line 140.
+
+
+Package natbib Warning: Citation `swanson_partial_2018' on page 1 undefined on 
+input line 141.
+
 
 Overfull \vbox (6.46347pt too high) has occurred while \output is active []
 
@@ -1313,32 +1255,233 @@ ap}
 
 \openout3 = `sim_submission.pag'.
 
-] [2]
-Underfull \hbox (badness 1383) in paragraph at lines 263--275
-[]\T1/stix/m/n/10.03749 Another pop-u-lar sum-mary statis-tic mea-sur-ing instr
-u-ment strength in MR stud-ies is the coef-fi-cient from a logis-tic
- []
+]
+
+Package natbib Warning: Citation `swanson_commentary_2013' on page 2 undefined 
+on input line 146.
+
+
+Package natbib Warning: Citation `swanson_partial_2018' on page 2 undefined on 
+input line 146.
+
+
+Package natbib Warning: Citation `didelez_mendelian_2007' on page 2 undefined o
+n input line 147.
+
+
+Package natbib Warning: Citation `swanson_commentary_2017' on page 2 undefined 
+on input line 147.
+
+
+Package natbib Warning: Citation `rubin_estimating_1974' on page 2 undefined on
+ input line 193.
+
+
+Package natbib Warning: Citation `splawa-neyman_application_1990' on page 2 und
+efined on input line 193.
+
+
+Package natbib Warning: Citation `cox_planning_1958' on page 2 undefined on inp
+ut line 196.
+
+
+Package natbib Warning: Citation `rubin_randomization_1980' on page 2 undefined
+ on input line 196.
+
+
+Package natbib Warning: Citation `didelez_mendelian_2007' on page 2 undefined o
+n input line 201.
+
+
+Package natbib Warning: Citation `wang_bounded_2018' on page 2 undefined on inp
+ut line 202.
+
+
+Package natbib Warning: Citation `burgess_mendelian_2015' on page 2 undefined o
+n input line 226.
+
+
+Package natbib Warning: Citation `richardson_ace_2014' on page 2 undefined on i
+nput line 226.
+
+
+Package natbib Warning: Citation `didelez_mendelian_2007' on page 2 undefined o
+n input line 231.
+
+
+Package natbib Warning: Citation `swanson_partial_2018' on page 2 undefined on 
+input line 231.
+
+
+Package natbib Warning: Citation `angrist_identification_1996' on page 2 undefi
+ned on input line 245.
+
+
+Package natbib Warning: Citation `baiocchi_instrumental_2014' on page 2 undefin
+ed on input line 245.
+
+[2]
+
+Package natbib Warning: Citation `balke_bounds_1997' on page 3 undefined on inp
+ut line 257.
+
+
+Package natbib Warning: Citation `balke_bounds_1997' on page 3 undefined on inp
+ut line 258.
+
+
+Package natbib Warning: Citation `stock_survey_2002' on page 3 undefined on inp
+ut line 262.
+
+
+Package natbib Warning: Citation `lawlor_mendelian_2008' on page 3 undefined on
+ input line 266.
+
+
+Package natbib Warning: Citation `burgess_sample_2014' on page 3 undefined on i
+nput line 266.
+
+
+Package natbib Warning: Citation `verma_simulation_2018' on page 3 undefined on
+ input line 266.
+
+
+Package natbib Warning: Citation `millard_mr-phewas_2019' on page 3 undefined o
+n input line 266.
+
+
+Package natbib Warning: Citation `king_mendelian_2020' on page 3 undefined on i
+nput line 266.
+
+
+Package natbib Warning: Citation `burgess_sample_2014' on page 3 undefined on i
+nput line 285.
+
+
+Package natbib Warning: Citation `burgess_improving_2012' on page 3 undefined o
+n input line 285.
+
+
+Package natbib Warning: Citation `balke_bounds_1997' on page 3 undefined on inp
+ut line 309.
+
+
+Package natbib Warning: Citation `richardson_ace_2014' on page 3 undefined on i
+nput line 309.
+
+
+Package natbib Warning: Citation `swanson_partial_2018' on page 3 undefined on 
+input line 309.
+
+
+Package natbib Warning: Citation `ramsahai_causal_2012' on page 3 undefined on 
+input line 323.
+
+
+LaTeX Warning: Reference `bounds-on-average-treatment-effect' on page 3 undefin
+ed on input line 324.
+
+
+Package natbib Warning: Citation `balke_bounds_1997' on page 3 undefined on inp
+ut line 326.
+
+
+Package natbib Warning: Citation `diemer_application_2020' on page 3 undefined 
+on input line 326.
 
 [3]
 
+LaTeX Warning: Reference `thm:upperBoundWidth' on page 4 undefined on input lin
+e 372.
+
+
+LaTeX Warning: Reference `eq:ate_bound' on page 4 undefined on input line 373.
+
+
+LaTeX Warning: Reference `eq:ate_bound' on page 4 undefined on input line 380.
+
+
+LaTeX Warning: Reference `proof-of-theorem' on page 4 undefined on input line 3
+83.
+
+
+LaTeX Warning: Reference `thm:upperBoundWidth' on page 4 undefined on input lin
+e 384.
+
+
+Package natbib Warning: Citation `balke_bounds_1997' on page 4 undefined on inp
+ut line 386.
+
+
+LaTeX Warning: Reference `fig:biv_bounds_vs_strength' on page 4 undefined on in
+put line 396.
+
+
+LaTeX Warning: Reference `thm:upperBoundWidth' on page 4 undefined on input lin
+e 397.
+
+
+LaTeX Warning: Reference `eq:ate_bound' on page 4 undefined on input line 398.
+
+
+Package natbib Warning: Citation `cholesterol_treatment_trialists_ctt_collabora
+tors_effects_2012' on page 4 undefined on input line 403.
+
+
+Package natbib Warning: Citation `cornfield_smoking_1959' on page 4 undefined o
+n input line 405.
+
+
+Package natbib Warning: Citation `yusuf_obesity_2005' on page 4 undefined on in
+put line 406.
+
+
+LaTeX Warning: Reference `data-analysis' on page 4 undefined on input line 407.
+
+
+
+LaTeX Warning: Reference `fig:biv_bounds_vs_strength' on page 4 undefined on in
+put line 411.
+
+
+LaTeX Warning: Reference `appendix-sim-results' on page 4 undefined on input li
+ne 415.
+
+
+Package natbib Warning: Citation `schmitt_occupational_2011' on page 4 undefine
+d on input line 425.
+
+
 LaTeX Warning: File `/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figure
-s/pip_and_coefs_vs_strength.tiff' not found on input line 428.
+s/pip_and_coefs_vs_strength.eps' not found on input line 429.
 
+Package epstopdf Info: Source file: </Users/ralphtrane/Documents/RPackages_dev/
+ACEBounds/figures/pip_and_coefs_vs_strength.eps>
+(epstopdf)             Output file: </Users/ralphtrane/Documents/RPackages_dev/
+ACEBounds/figures/pip_and_coefs_vs_strength-eps-converted-to.pdf>
+(epstopdf)             Command: <repstopdf --outfile=/Users/ralphtrane/Document
+s/RPackages_dev/ACEBounds/figures/pip_and_coefs_vs_strength-eps-converted-to.pd
+f /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/pip_and_coefs_vs_
+strength.eps>
+(epstopdf)             \includegraphics on input line 429.
+Package epstopdf Info: Output file is already uptodate.
 
-! LaTeX Error: Unknown graphics extension: .tiff.
+! Package pdftex.def Error: File `/Users/ralphtrane/Documents/RPackages_dev/ACE
+Bounds/figures/pip_and_coefs_vs_strength-eps-converted-to.pdf' not found: using
+ draft setting.
 
-See the LaTeX manual or LaTeX Companion for explanation.
+See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.428 ...s/figures/pip_and_coefs_vs_strength.tiff}
+l.429 ...ds/figures/pip_and_coefs_vs_strength.eps}
                                                    
 Here is how much of TeX's memory you used:
- 20040 strings out of 481250
- 290918 string characters out of 5914546
- 599225 words of memory out of 5000000
- 36547 multiletter control sequences out of 15000+600000
- 495815 words of font info for 143 fonts, out of 8000000 for 9000
+ 19923 strings out of 481250
+ 287860 string characters out of 5914546
+ 590639 words of memory out of 5000000
+ 36462 multiletter control sequences out of 15000+600000
+ 498544 words of font info for 144 fonts, out of 8000000 for 9000
  40 hyphenation exceptions out of 8191
  86i,15n,88p,1252b,415s stack positions out of 5000i,500n,10000p,200000b,80000s
 

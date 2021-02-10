@@ -134,8 +134,8 @@
 </h2>
 <p>The function <code>create_vertices</code> allows us to create the vertices of the polygon that represents the space of valid probability distributions. (Valid in the sense that they satisfy the IV model.) We can specify the number of levels the IV can take, whether we want to consider two-sample (i.e. <span class="math inline">\((X,Z)\)</span> and <span class="math inline">\((Y,Z)\)</span> are observed independently) or one-sample datasets (i.e we observe <span class="math inline">\((X,Y,Z)\)</span> jointly), if we want to impose monotonicity assumptions on <span class="math inline">\(P(X = 1 | Z = z, U)\)</span> and/or <span class="math inline">\(P(Y = 1 | Z = z, U)\)</span>, and if we want to include a column for <span class="math inline">\(\alpha\)</span> (needed to get actual bounds, and not simply constraints, hence included by default.)</p>
 <p>Here we demonstrate how to get the vertices for a binary IV where the data is bivariate, and no monotonicity assumptions are included.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rmtrane/ATEBounds">ATEBounds</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rmtrane/ATEBounds">ATEBounds</a></span><span class="op">)</span>
 
 <span class="va">vertices</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_vertices.html">create_vertices</a></span><span class="op">(</span>
   n_z_levels <span class="op">=</span> <span class="fl">2</span>, 
@@ -145,7 +145,7 @@
   include_alpha <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span>
 
-<span class="va">vertices</span></pre></div>
+<span class="va">vertices</span></code></pre></div>
 <pre><code>## # A tibble: 16 x 9
 ##    gamma01 gamma02 gamma11 gamma12 theta01 theta02 theta11 theta12 alpha
 ##      &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;
@@ -171,14 +171,14 @@
 <a href="#create_script" class="anchor"></a><code>create_script</code>
 </h2>
 <p>Now that we have specified the vertices, we can use the function <code>create_script</code> to generate the actual script that polymake can take advantage of. The object returned simply provides the output file and relative path to the polymake script. These are included for easy of use in programming.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="va">polymake_script</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_script.html">create_script</a></span><span class="op">(</span>vertices <span class="op">=</span> <span class="va">vertices</span>, 
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">polymake_script</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_script.html">create_script</a></span><span class="op">(</span>vertices <span class="op">=</span> <span class="va">vertices</span>, 
                                  output_file_name <span class="op">=</span> <span class="st">"example"</span>,
                                  polymake_script_name <span class="op">=</span> <span class="st">"polymake_script"</span>,
                                  overwrite <span class="op">=</span> <span class="cn">TRUE</span>,
                                  output_folder <span class="op">=</span> <span class="st">"."</span><span class="op">)</span>
 
-<span class="va">polymake_script</span></pre></div>
+<span class="va">polymake_script</span></code></pre></div>
 <pre><code>## $output_file
 ## [1] "./example"
 ## 
@@ -214,8 +214,8 @@
 <h2 class="hasAnchor">
 <a href="#polymake" class="anchor"></a>polymake</h2>
 <p>Now that we have the script, we can run polymake. If you have polymake installed on macOS, you can run this line in <code>R</code> (make sure the path points to your installation of polymake):</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"/Applications/polymake.app/Contents/MacOS/polymake.run --script"</span>, <span class="va">polymake_script</span><span class="op">$</span><span class="va">polymake_script</span><span class="op">)</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"/Applications/polymake.app/Contents/MacOS/polymake.run --script"</span>, <span class="va">polymake_script</span><span class="op">$</span><span class="va">polymake_script</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>or equivalently run this line in the terminal:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">/Applications/polymake.app/Contents/MacOS/polymake.run</span> <span class="at">--script</span> polymake_script</span></code></pre></div>
 <pre><code>## ]0;polymakepolymake: used package ppl
@@ -229,11 +229,11 @@
 <a href="#read_polymake_results" class="anchor"></a><code>read_polymake_results</code>
 </h2>
 <p>This function is a simple wrapper that reads in the text file, and provides column names that are consistent. This makes it easier to avoid confusing about what column refers to which probability.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="va">from_polymake</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_polymake_results.html">read_polymake_results</a></span><span class="op">(</span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">from_polymake</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_polymake_results.html">read_polymake_results</a></span><span class="op">(</span>
   output_file <span class="op">=</span> <span class="va">polymake_script</span><span class="op">$</span><span class="va">output_file</span>, 
   data_format <span class="op">=</span> <span class="st">"bivariate"</span>
-<span class="op">)</span></pre></div>
+<span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## ── Column specification ────────────────────────────────────────────────────────
 ## cols(
@@ -260,8 +260,8 @@
 ##   theta12 = col_double(),
 ##   alpha = col_double()
 ## )</code></pre>
-<div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">from_polymake</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">from_polymake</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 32 x 9
 ##    gamma01 gamma02 gamma11 gamma12 theta01 theta02 theta11 theta12 alpha
 ##      &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;
@@ -308,8 +308,8 @@
 <h2 class="hasAnchor">
 <a href="#matrices-provided" class="anchor"></a>Matrices provided</h2>
 <p>For convenience, the matrices resulting from the following code are included in the package. I.e. we can find bounds “out of the box” for any combination of one-sample/two-sample data, IVs with 2,3,4 levels, and monotonicity assumed for <span class="math inline">\(X\)</span> and/or <span class="math inline">\(Y\)</span>. For other scenarios, a new matrix would have to be generated using polymake. <code><a href="../articles/get_bounds.html">vignette("get_bounds")</a></code> shows how this is done for the build-in scenarios. If you need to get bounds in a scenario not included by default, for example for an instrument with 5 levels, simply pass the result of <code><a href="../reference/read_polymake_results.html">read_polymake_results()</a></code> to the <code>from_polymake</code> argument in the <code><a href="../reference/get_bounds.html">get_bounds()</a></code> function.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit">
-<span class="co">## Data type</span>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## Data type</span>
 <span class="kw">for</span> <span class="op">(</span><span class="va">data_format</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"bivariate"</span>, <span class="st">"trivariate"</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
   <span class="co">## Number of levels for IV</span>
   <span class="kw">for</span> <span class="op">(</span><span class="va">n_z_levels</span> <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span><span class="op">{</span>
@@ -328,7 +328,7 @@
                                                          <span class="st">"y_monotone"</span>, <span class="va">y_mono</span>,
                                                          sep <span class="op">=</span> <span class="st">"-"</span><span class="op">)</span>,
                                 overwrite <span class="op">=</span> <span class="cn">FALSE</span>,
-                                output_folder <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">data_format</span>, <span class="st">"bound_matrices"</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+                                output_folder <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">data_format</span>, <span class="st">"bound_matrices"</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 
         <span class="co">## Run polymake using script created if script is new (i.e. error = 0)</span>
         <span class="kw">if</span><span class="op">(</span><span class="va">script</span><span class="op">$</span><span class="va">error</span> <span class="op">&lt;</span> <span class="fl">1</span><span class="op">)</span><span class="op">{</span>
@@ -338,7 +338,7 @@
       <span class="op">}</span>
     <span class="op">}</span>
   <span class="op">}</span>
-<span class="op">}</span></pre></div>
+<span class="op">}</span></code></pre></div>
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2 class="hasAnchor">

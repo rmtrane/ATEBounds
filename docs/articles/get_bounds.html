@@ -127,19 +127,19 @@
     
     
 <p>To get bounds on <span class="math inline">\(\alpha\)</span>, one simply provides values of <span class="math inline">\(P(X = 1 | Z = z)\)</span> (<code>theta</code>) and <span class="math inline">\(P(Y = 1 | Z = z)\)</span> (<code>gamma</code>) for two-sample bounds, or <span class="math inline">\(P(X = x, Y = y | Z = z)\)</span> (<code>zeta</code>) for one-sample bounds to the function <code><a href="../reference/get_bounds.html">get_bounds()</a></code>. Let’s generate some random values of <span class="math inline">\(\theta\)</span> and <span class="math inline">\(\gamma\)</span> for a three-leveled IV:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1406</span><span class="op">)</span>
-<span class="op">(</span><span class="va">thetas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1406</span><span class="op">)</span>
+<span class="op">(</span><span class="va">thetas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 0.5442796 0.2642781 0.5128713</code></pre>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="op">(</span><span class="va">gammas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">(</span><span class="va">gammas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 0.5239985 0.8083276 0.8270051</code></pre>
 <p>Here, <code>thetas</code> and <code>gammas</code> must be vectors of length 3 (since the IV is three-leveled). The i’th element of <code>thetas</code> must be <span class="math inline">\(P(X = 1 | Z = i-1)\)</span>, and the i’th element of <code>gammas</code> must be <span class="math inline">\(P(Y = 1 | Z = i-1)\)</span>. We can then feed these values to the <code><a href="../reference/get_bounds.html">get_bounds()</a></code> function, and it will return a list with some results, including the interval given by the lower and upper bounds for <span class="math inline">\(\alpha\)</span>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rmtrane/ATEBounds">ATEBounds</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rmtrane/ATEBounds">ATEBounds</a></span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>thetas <span class="op">=</span> <span class="va">thetas</span>,
-           gammas <span class="op">=</span> <span class="va">gammas</span><span class="op">)</span></pre></div>
+           gammas <span class="op">=</span> <span class="va">gammas</span><span class="op">)</span></code></pre></div>
 <pre><code>## $interval
 ##      lower      upper 
 ## -0.6601236  0.4356694 
@@ -166,8 +166,8 @@
 ## $constraints_violated
 ## [1] FALSE</code></pre>
 <p>Similarly, you can choose to provide a 3 dimensional array of values to the <code>zetas</code> argument. This should have <span class="math inline">\(P(Y = y, X = x | Z = z)\)</span> as element <span class="math inline">\((y+1,x+1,z+1)\)</span> (when <span class="math inline">\(y \in \{0,1\}, x \in \{0,1\}, z \in \{0,...,(k-1)})\)</span>. Here is an example for an IV with four levels:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="va">probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.83</span>, <span class="fl">.05</span>, <span class="fl">.11</span>, <span class="fl">.01</span>, 
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.83</span>, <span class="fl">.05</span>, <span class="fl">.11</span>, <span class="fl">.01</span>, 
            <span class="fl">.88</span>, <span class="fl">.06</span>, <span class="fl">.05</span>, <span class="fl">.01</span>, 
            <span class="fl">.72</span>, <span class="fl">.05</span>, <span class="fl">.10</span>, <span class="fl">.13</span>,
            <span class="fl">.85</span>, <span class="fl">.02</span>, <span class="fl">.07</span>, <span class="fl">.06</span><span class="op">)</span>
@@ -176,7 +176,7 @@
                dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>,
                                y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>,
                                z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="va">zetas</span></pre></div>
+<span class="va">zetas</span></code></pre></div>
 <pre><code>## , , z = 0
 ## 
 ##    y
@@ -204,8 +204,8 @@
 ## x      0    1
 ##   0 0.85 0.07
 ##   1 0.02 0.06</code></pre>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>zetas <span class="op">=</span> <span class="va">zetas</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>zetas <span class="op">=</span> <span class="va">zetas</span><span class="op">)</span></code></pre></div>
 <pre><code>## $interval
 ## lower upper 
 ##  0.02  0.79 
@@ -242,15 +242,15 @@
 ## $constraints_violated
 ## [1] FALSE</code></pre>
 <p>If the values you provide violate some of the constraints, an error is thrown by default. Here, <span class="math inline">\(P(X = 1, Y = 0 | Z = 1) + P(X = 1, Y = 1 | Z = 2) = 1.08 &gt; 1\)</span>, which violates the Balke and Pearl IV inequalities <span class="citation">(<strong>balke_bounds_1997?</strong>)</span>.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="va">invalid_probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.83</span>, <span class="fl">.05</span>, <span class="fl">.11</span>, <span class="fl">.01</span>, 
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">invalid_probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.83</span>, <span class="fl">.05</span>, <span class="fl">.11</span>, <span class="fl">.01</span>, 
                    <span class="fl">.88</span>, <span class="fl">.06</span>, <span class="fl">.05</span>, <span class="fl">.01</span>, 
                    <span class="fl">.72</span>, <span class="fl">.05</span>, <span class="fl">.20</span>, <span class="fl">.03</span><span class="op">)</span>
 <span class="va">invalid_zetas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="va">invalid_probs</span>, dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>,
                        dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>,
                                        y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>,
                                        z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="va">invalid_zetas</span></pre></div>
+<span class="va">invalid_zetas</span></code></pre></div>
 <pre><code>## , , z = 0
 ## 
 ##    y
@@ -271,13 +271,13 @@
 ## x      0    1
 ##   0 0.72 0.20
 ##   1 0.05 0.03</code></pre>
-<div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>zetas <span class="op">=</span> <span class="va">invalid_zetas</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>zetas <span class="op">=</span> <span class="va">invalid_zetas</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning in get_bounds(zetas = invalid_zetas, stop = FALSE): The probability
 ## distributions specified do not satisfy the IV constraints</code></pre>
 <p>If you use this function programmatically, for example for a simulation study, you might want to change this behaviour. This can be achieved by setting <code>stop = FALSE</code>. A warning will be printed instead, but your program won’t stop. The element <code>constraints_violated</code> in the output indicates that some constraints were not satisfied.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit">
-<span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>zetas <span class="op">=</span> <span class="va">invalid_zetas</span>, stop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>zetas <span class="op">=</span> <span class="va">invalid_zetas</span>, stop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning in get_bounds(zetas = invalid_zetas, stop = FALSE): The probability
 ## distributions specified do not satisfy the IV constraints</code></pre>
 <pre><code>## $interval
@@ -309,8 +309,8 @@
 ## $constraints_violated
 ## [1] TRUE</code></pre>
 <p>This warning can also be disabled:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit">
-<span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>zetas <span class="op">=</span> <span class="va">invalid_zetas</span>, stop <span class="op">=</span> <span class="cn">FALSE</span>, warning <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>zetas <span class="op">=</span> <span class="va">invalid_zetas</span>, stop <span class="op">=</span> <span class="cn">FALSE</span>, warning <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <pre><code>## $interval
 ##        lower        upper 
 ## 6.938894e-18 6.100000e-01 

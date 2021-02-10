@@ -132,8 +132,8 @@
 <h2 class="hasAnchor">
 <a href="#simulate-data" class="anchor"></a>Simulate Data</h2>
 <p>To use for illustrative purposes, we simulate some data. The DAG corresponding to the model simulated from is presented below. <span class="math inline">\(X,Y,U\)</span> are all binary, while <span class="math inline">\(Z1\)</span> is categorical with three levels. The values indicate the coefficients used in the two logistic models – see <code><a href="../reference/simulate_data.html">?simulate_data</a></code> for more details.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">184506</span><span class="op">)</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">184506</span><span class="op">)</span>
 
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rmtrane/ATEBounds">ATEBounds</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
@@ -143,11 +143,11 @@
                          indIVs_on_X <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span>
 
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/malcolmbarrett/ggdag">ggdag</a></span><span class="op">)</span>
-<span class="fu"><a href="../reference/plot_DAG.html">plot_DAG</a></span><span class="op">(</span><span class="va">sim_dat</span><span class="op">)</span> <span class="op">+</span> <span class="fu">scale_x_reverse</span><span class="op">(</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="../reference/plot_DAG.html">plot_DAG</a></span><span class="op">(</span><span class="va">sim_dat</span><span class="op">)</span> <span class="op">+</span> <span class="fu">scale_x_reverse</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="ATEBounds_files/figure-html/unnamed-chunk-1-1.png" width="700"></p>
 <p>The first 10 rows of the data simulated:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">sim_dat</span><span class="op">$</span><span class="va">simulated_data</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">sim_dat</span><span class="op">$</span><span class="va">simulated_data</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">U</th>
@@ -223,19 +223,19 @@
 <h2 class="hasAnchor">
 <a href="#with-individual-level-data" class="anchor"></a>With Individual Level Data</h2>
 <p>We create three data sets to illustrate the scenarios where either a one-sample or a two-sample study design is used.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="va">one_sample_data</span> <span class="op">&lt;-</span> <span class="va">sim_dat</span><span class="op">$</span><span class="va">simulated_data</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">one_sample_data</span> <span class="op">&lt;-</span> <span class="va">sim_dat</span><span class="op">$</span><span class="va">simulated_data</span>
 
 <span class="va">two_sample_data_X</span> <span class="op">&lt;-</span> <span class="va">sim_dat</span><span class="op">$</span><span class="va">simulated_data</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">X</span>,<span class="va">Z1</span><span class="op">)</span>
-<span class="va">two_sample_data_Y</span> <span class="op">&lt;-</span> <span class="va">sim_dat</span><span class="op">$</span><span class="va">simulated_data</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">Y</span>,<span class="va">Z1</span><span class="op">)</span></pre></div>
+<span class="va">two_sample_data_Y</span> <span class="op">&lt;-</span> <span class="va">sim_dat</span><span class="op">$</span><span class="va">simulated_data</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">Y</span>,<span class="va">Z1</span><span class="op">)</span></code></pre></div>
 <div id="trivariate-data-source" class="section level3">
 <h3 class="hasAnchor">
 <a href="#trivariate-data-source" class="anchor"></a>Trivariate data source</h3>
 <p>If we have observations of <span class="math inline">\((X,Y,Z)\)</span>, we can find the bounds on ATE as follows:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="va">probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/probs_from_data.html">probs_from_data</a></span><span class="op">(</span><span class="va">one_sample_data</span>, X <span class="op">=</span> <span class="va">X</span>, Y <span class="op">=</span> <span class="va">Y</span>, Z <span class="op">=</span> <span class="va">Z1</span><span class="op">)</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/probs_from_data.html">probs_from_data</a></span><span class="op">(</span><span class="va">one_sample_data</span>, X <span class="op">=</span> <span class="va">X</span>, Y <span class="op">=</span> <span class="va">Y</span>, Z <span class="op">=</span> <span class="va">Z1</span><span class="op">)</span>
 
-<span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>zetas <span class="op">=</span> <span class="va">probs</span><span class="op">$</span><span class="va">zetas</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>zetas <span class="op">=</span> <span class="va">probs</span><span class="op">$</span><span class="va">zetas</span><span class="op">)</span></code></pre></div>
 <pre><code>## $interval
 ##      lower      upper 
 ## -0.3654220  0.2807125 
@@ -267,11 +267,11 @@
 ## $constraints_violated
 ## [1] FALSE</code></pre>
 <p>If for whatever reason you want to get <span class="math inline">\(P(X = 1 | Z = z)\)</span> and <span class="math inline">\(P(Y = 1 | Z = z)\)</span> from a trivariate data source, that is also possible.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="va">two_sample_probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/probs_from_data.html">probs_from_data</a></span><span class="op">(</span><span class="va">one_sample_data</span>, X <span class="op">=</span> <span class="va">X</span>, Y <span class="op">=</span> <span class="va">Y</span>, Z <span class="op">=</span> <span class="va">Z1</span>, data_format <span class="op">=</span> <span class="st">"bivariate"</span><span class="op">)</span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">two_sample_probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/probs_from_data.html">probs_from_data</a></span><span class="op">(</span><span class="va">one_sample_data</span>, X <span class="op">=</span> <span class="va">X</span>, Y <span class="op">=</span> <span class="va">Y</span>, Z <span class="op">=</span> <span class="va">Z1</span>, data_format <span class="op">=</span> <span class="st">"bivariate"</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>thetas <span class="op">=</span> <span class="va">two_sample_probs</span><span class="op">$</span><span class="va">thetas</span>,
-           gammas <span class="op">=</span> <span class="va">two_sample_probs</span><span class="op">$</span><span class="va">gammas</span><span class="op">)</span></pre></div>
+           gammas <span class="op">=</span> <span class="va">two_sample_probs</span><span class="op">$</span><span class="va">gammas</span><span class="op">)</span></code></pre></div>
 <pre><code>## $interval
 ##      lower      upper 
 ## -0.6586826  0.5444144 
@@ -302,12 +302,12 @@
 <h3 class="hasAnchor">
 <a href="#bivariate-data-sources" class="anchor"></a>Bivariate data sources</h3>
 <p>If we have a two-sample study design, i.e. one data set contains observations on <span class="math inline">\((X, Z)\)</span>, and the other observations on <span class="math inline">\((Y,Z)\)</span>, we can still find bounds on the ATE.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="va">X_probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/probs_from_data.html">probs_from_data</a></span><span class="op">(</span><span class="va">two_sample_data_X</span>, X <span class="op">=</span> <span class="va">X</span>, Z <span class="op">=</span> <span class="va">Z1</span><span class="op">)</span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">X_probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/probs_from_data.html">probs_from_data</a></span><span class="op">(</span><span class="va">two_sample_data_X</span>, X <span class="op">=</span> <span class="va">X</span>, Z <span class="op">=</span> <span class="va">Z1</span><span class="op">)</span>
 <span class="va">Y_probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/probs_from_data.html">probs_from_data</a></span><span class="op">(</span><span class="va">two_sample_data_Y</span>, Y <span class="op">=</span> <span class="va">Y</span>, Z <span class="op">=</span> <span class="va">Z1</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>thetas <span class="op">=</span> <span class="va">X_probs</span><span class="op">$</span><span class="va">thetas</span>,
-           gammas <span class="op">=</span> <span class="va">Y_probs</span><span class="op">$</span><span class="va">gammas</span><span class="op">)</span></pre></div>
+           gammas <span class="op">=</span> <span class="va">Y_probs</span><span class="op">$</span><span class="va">gammas</span><span class="op">)</span></code></pre></div>
 <pre><code>## $interval
 ##      lower      upper 
 ## -0.6586826  0.5444144 
@@ -339,9 +339,9 @@
 <h2 class="hasAnchor">
 <a href="#assuming-monotonicity" class="anchor"></a>Assuming Monotonicity</h2>
 <p>If you feel comfortable assuming that <span class="math inline">\(P(X = 1 | Z = z, U) \leq P(X = 1 | Z = z+1, U)\)</span> for all values of <span class="math inline">\(z\)</span>, we simply specify <code>x_mono = TRUE</code>:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>zetas <span class="op">=</span> <span class="va">probs</span><span class="op">$</span><span class="va">zetas</span>,
-           x_mono <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>zetas <span class="op">=</span> <span class="va">probs</span><span class="op">$</span><span class="va">zetas</span>,
+           x_mono <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <pre><code>## $interval
 ##      lower      upper 
 ## -0.3654220  0.2807125 
@@ -361,10 +361,10 @@
 ## 
 ## $constraints_violated
 ## [1] FALSE</code></pre>
-<div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>gammas <span class="op">=</span> <span class="va">Y_probs</span><span class="op">$</span><span class="va">gammas</span>,
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>gammas <span class="op">=</span> <span class="va">Y_probs</span><span class="op">$</span><span class="va">gammas</span>,
            thetas <span class="op">=</span> <span class="va">X_probs</span><span class="op">$</span><span class="va">thetas</span>,
-           x_mono <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></pre></div>
+           x_mono <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <pre><code>## $interval
 ##      lower      upper 
 ## -0.6586826  0.5444144 
@@ -387,11 +387,11 @@
 ## $constraints_violated
 ## [1] FALSE</code></pre>
 <p>Similarly, if you want to impose the monotonicity assumption <span class="math inline">\(P(Y = 1 | Z = z, U) \leq P(Y = 1 | Z = z+1, U)\)</span> for all values of <span class="math inline">\(z\)</span>, we simply specify <code>y_mono = TRUE</code>. In this case, this leads to an error message since the data we have violate some of the verifiable inequalities we get when we include this second monotonicity assumption. (<code>stop = FALSE</code> changes the behavior such that we still get to see the results even though constraints are violated.)</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>zetas <span class="op">=</span> <span class="va">probs</span><span class="op">$</span><span class="va">zetas</span>,
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>zetas <span class="op">=</span> <span class="va">probs</span><span class="op">$</span><span class="va">zetas</span>,
            x_mono <span class="op">=</span> <span class="cn">TRUE</span>,
            y_mono <span class="op">=</span> <span class="cn">TRUE</span>,
-           stop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></pre></div>
+           stop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning in get_bounds(zetas = probs$zetas, x_mono = TRUE, y_mono = TRUE, : The
 ## probability distributions specified do not satisfy the IV constraints</code></pre>
 <pre><code>## $interval
@@ -413,12 +413,12 @@
 ## 
 ## $constraints_violated
 ## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb17"><pre class="downlit">
-<span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>gammas <span class="op">=</span> <span class="va">Y_probs</span><span class="op">$</span><span class="va">gammas</span>,
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>gammas <span class="op">=</span> <span class="va">Y_probs</span><span class="op">$</span><span class="va">gammas</span>,
            thetas <span class="op">=</span> <span class="va">X_probs</span><span class="op">$</span><span class="va">thetas</span>,
            x_mono <span class="op">=</span> <span class="cn">TRUE</span>,
            y_mono <span class="op">=</span> <span class="cn">TRUE</span>,
-           stop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></pre></div>
+           stop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning in get_bounds(gammas = Y_probs$gammas, thetas = X_probs$thetas, : The
 ## probability distributions specified do not satisfy the IV constraints</code></pre>
 <pre><code>## $interval
@@ -446,15 +446,15 @@
 <a href="#with-summary-data-only" class="anchor"></a>With Summary Data Only</h2>
 <p>If you do not have individual level data available, you need to either provide vectors of <span class="math inline">\(P(X = 1 | Z = z)\)</span> and <span class="math inline">\(P(Y = 1 | Z = z)\)</span>, or an array of <span class="math inline">\(P(X = x, Y = y | Z = z)\)</span>.</p>
 <p>In the trivariate case, we take as an example the Vitamin A supplementation data from <span class="citation">(<strong>balke_bounds_1997?</strong>)</span>.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit">
-<span class="va">counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">74</span>, <span class="fl">0</span>, <span class="fl">11514</span>, <span class="fl">0</span>,
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">74</span>, <span class="fl">0</span>, <span class="fl">11514</span>, <span class="fl">0</span>,
                          <span class="fl">34</span>, <span class="fl">12</span>, <span class="fl">2385</span>, <span class="fl">9663</span><span class="op">)</span>,
                 dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span>,
                 dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">1</span>,
                                 y <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">1</span>, 
                                 z <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 
-<span class="fu">pander</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pandoc.table.return.html">pandoc.table</a></span><span class="op">(</span><span class="va">counts</span>, style <span class="op">=</span> <span class="st">"rmarkdown"</span><span class="op">)</span></pre></div>
+<span class="fu">pander</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pandoc.table.return.html">pandoc.table</a></span><span class="op">(</span><span class="va">counts</span>, style <span class="op">=</span> <span class="st">"rmarkdown"</span><span class="op">)</span></code></pre></div>
 <table class="table"><tbody>
 <tr class="odd">
 <td align="center"></td>
@@ -500,10 +500,10 @@
 </tr>
 </tbody></table>
 <p>We convert the counts to the respective proportions.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit">
-<span class="va">zetas</span> <span class="op">&lt;-</span> <span class="va">counts</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">counts</span>, <span class="fl">3</span>, <span class="va">sum</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">zetas</span> <span class="op">&lt;-</span> <span class="va">counts</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">counts</span>, <span class="fl">3</span>, <span class="va">sum</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
 
-<span class="fu">pander</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pandoc.table.return.html">pandoc.table</a></span><span class="op">(</span><span class="va">zetas</span>, style <span class="op">=</span> <span class="st">"rmarkdown"</span><span class="op">)</span></pre></div>
+<span class="fu">pander</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pandoc.table.return.html">pandoc.table</a></span><span class="op">(</span><span class="va">zetas</span>, style <span class="op">=</span> <span class="st">"rmarkdown"</span><span class="op">)</span></code></pre></div>
 <table class="table"><tbody>
 <tr class="odd">
 <td align="center"></td>
@@ -549,8 +549,8 @@
 </tr>
 </tbody></table>
 <p>These can then be passed to the <code>zetas</code> argument of the <code><a href="../reference/get_bounds.html">get_bounds()</a></code> function:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit">
-<span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>zetas <span class="op">=</span> <span class="va">zetas</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>zetas <span class="op">=</span> <span class="va">zetas</span><span class="op">)</span></code></pre></div>
 <pre><code>## $interval
 ##        lower        upper 
 ## -0.194622848  0.005393689 
@@ -573,13 +573,13 @@
 ## $constraints_violated
 ## [1] FALSE</code></pre>
 <p>If we only had the values of <span class="math inline">\(P(X = 1 | Z = z)\)</span> and <span class="math inline">\(P(Y = 1 | Z = z)\)</span>, these would be passed to the <code>thetas</code> and <code>gammas</code> arguments of the <code><a href="../reference/get_bounds.html">get_bounds()</a></code> function, respectively:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit">
-<span class="va">thetas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.8</span><span class="op">)</span>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">thetas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.8</span><span class="op">)</span>
 <span class="va">gammas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.994</span>, <span class="fl">0.996</span><span class="op">)</span>
 
 
 <span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>gammas <span class="op">=</span> <span class="va">gammas</span>,
-           thetas <span class="op">=</span> <span class="va">thetas</span><span class="op">)</span></pre></div>
+           thetas <span class="op">=</span> <span class="va">thetas</span><span class="op">)</span></code></pre></div>
 <pre><code>## $interval
 ##  lower  upper 
 ## -0.198  0.006 

@@ -225,7 +225,7 @@ Figure \ref{fig:biv_bounds_vs_strength}a numerically illustrates the consequence
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.95\textwidth]{`r here("figures/pip_and_coefs_vs_strength.png")`}
+  \includegraphics[width=0.95\textwidth]{`r here("figures/pip_and_coefs_vs_strength.tiff")`}
   \caption{Illustration of the relationship between instrument strength, width of bounds obtained from two-sample design, and coefficients from logistic regression model. A: Relationship between instrument strength (ST) and width of the IV bounds. Black line is the upper bound on the two-sample IV bounds from Theorem 1. Black dots indicate one of the 10,000 IV bounds. Colored dots indicate bounds from real data; see Section \ref{data-analysis} for details. B: Coefficients from logistic regression model and instrument strength (ST).}
   \label{fig:biv_bounds_vs_strength}
 \end{figure}
@@ -235,7 +235,7 @@ Next, for bounds with length less than $1$, we examine what kind of $\gamma_1$ i
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.95\textwidth]{`r here("figures/loess_power.png")`}
+  \includegraphics[width=0.95\textwidth]{`r here("figures/loess_power.tiff")`}
   \caption{The smallest $\gamma_1$ needed for a two-sample IV bound to exclude $0$.}
   \label{fig:power_curves}
 \end{figure}
@@ -267,7 +267,7 @@ Overall, combining our results in Section \ref{bounds-from-bivariate-data}, our 
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.9\textwidth]{`r here::here("figures/strength_vs_coefs_multiple_IVs.png")`}
+  \includegraphics[width=0.9\textwidth]{`r here::here("figures/strength_vs_coefs_multiple_IVs.tiff")`}
   \caption{When $p$ is larger, similar sized coefficients lead to lower strength. The effect is smaller when we are in a scenario where one coefficient is relatively much larger than the rest, rather than when the coefficients are evenly spread out. A: Scenarios 1 and 3. B: Scenarios 2 and 4.}
   \label{fig:strength_vs_coef_multiple_IVs}
 \end{figure}
@@ -276,7 +276,7 @@ Overall, combining our results in Section \ref{bounds-from-bivariate-data}, our 
 
 \begin{sidewaysfigure}
   \centering
-  \includegraphics[width=\textheight]{`r here("figures/bounds_from_multiple_IV_sims_MR.png")`}
+  \includegraphics[width=\textheight]{`r here("figures/bounds_from_multiple_IV_sims_MR.tiff")`}
   \caption{Bounds based on monte carlo integration with 1,000,000 resamples in scenario 1.}
   \label{fig:bounds_from_multiple_IV_sims_MR}
 \end{sidewaysfigure}
@@ -286,7 +286,7 @@ Overall, combining our results in Section \ref{bounds-from-bivariate-data}, our 
 
 \begin{sidewaysfigure}
   \centering
-  \includegraphics[width=\textheight]{`r here("figures/bounds_from_multiple_IV_sims_power.png")`}
+  \includegraphics[width=\textheight]{`r here("figures/bounds_from_multiple_IV_sims_power.tiff")`}
   \caption{Bounds based on monte carlo integration with 1,000,000 resamples in scenario 2.}
   \label{fig:bounds_from_multiple_IV_sims_power}
 \end{sidewaysfigure}
@@ -295,7 +295,7 @@ Overall, combining our results in Section \ref{bounds-from-bivariate-data}, our 
 
 \begin{sidewaysfigure}
   \centering
-  \includegraphics[width=\textheight]{`r here("figures/bounds_from_multiple_IV_sims_MR_many_weak.png")`}
+  \includegraphics[width=\textheight]{`r here("figures/bounds_from_multiple_IV_sims_MR_many_weak.tiff")`}
   \caption{Bounds based on monte carlo integration with 1,000,000 resamples in scenario 3.}
   \label{fig:bounds_from_multiple_IV_sims_MR_many_weak}
 \end{sidewaysfigure}
@@ -304,7 +304,7 @@ Overall, combining our results in Section \ref{bounds-from-bivariate-data}, our 
 
 \begin{sidewaysfigure}
   \centering
-  \includegraphics[width=\textheight]{`r here("figures/bounds_from_multiple_IV_sims_power_many_weak.png")`}
+  \includegraphics[width=\textheight]{`r here("figures/bounds_from_multiple_IV_sims_power_many_weak.tiff")`}
   \caption{Bounds based on monte carlo integration with 1,000,000 resamples in scenario 4.}
   \label{fig:bounds_from_multiple_IV_sims_power_many_weak}
 \end{sidewaysfigure}
@@ -369,7 +369,7 @@ Table \ref{tab:subset_plot_summaries} presents nine different sets of values of 
 
 \begin{figure}[ht]
   \center
-  \includegraphics[width=\linewidth]{`r here("figures", "trivariate_bounds_subset_plot.png")`}
+  \includegraphics[width=\linewidth]{`r here("figures", "trivariate_bounds_subset_plot.tiff")`}
   \caption{One-sample bounds (horizontal lines) and two-sample bounds (vertical dotted lines). Red color represents one-sample bounds that do not cover zero and gray color represents one-sample bounds that do cover zero.}
   \label{fig:trivariate_bounds}
 \end{figure}
@@ -402,7 +402,7 @@ For the effect of smoking on lung cancer, we used 84 genetic instruments, and fo
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width = 0.95\textwidth]{`r here("figures/example_analyses/bivariate_bounds.png")`}
+  \includegraphics[width = 0.95\textwidth]{`r here("figures/example_analyses/bivariate_bounds.tiff")`}
   \caption{Two-sample IV bounds for the two real data examples with 8 SNPs from each data set. A: Two-sample IV bounds for the ATE of smoking on the incidence of lung cancer. B: Two-sample IV bounds for the ATE of high cholesterol on the incidence of heart attack.}
   \label{fig:two-sample-bounds}
 \end{figure}
@@ -410,7 +410,7 @@ For the effect of smoking on lung cancer, we used 84 genetic instruments, and fo
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width = 0.95\textwidth]{`r here("figures/example_analyses/trivariate_bounds.png")`}
+  \includegraphics[width = 0.95\textwidth]{`r here("figures/example_analyses/trivariate_bounds.tiff")`}
   \caption{Potential one-sample IV bounds for the two real data examples using the method described in Section \ref{quasi-bayesian}. A: One-sample IV bounds for the ATE of smoking on the incidence of lung cancer from 500 potential one-sample distributions for each SNP. B: One-sample IV bounds for the ATE of high cholesterol on the incidence of heart attack from 500 potential one-sample distributions for each SNP.}
   \label{fig:one-sample-bounds}
 \end{figure}
@@ -835,7 +835,7 @@ To find the smallest value of $\gamma_1$ that results in bounds excluding $0$, w
 \clearpage
 \begin{sidewaysfigure}
   \centering
-  \includegraphics[width=\textheight]{`r here("figures/power.png")`}
+  \includegraphics[width=\textheight]{`r here("figures/power.tiff")`}
   \caption{Bounds based on simulations as described. Upper and lower bounds are connected by a curve (dotted lines) based on a loess extrapolation. This curve is used to find the smallest coefficients needed to detect direction as plotted on Figure \ref{fig:power_curves}.}
   \label{fig:power}
 \end{sidewaysfigure}
@@ -881,7 +881,7 @@ Overall, combining our results in Section \ref{bounds-from-bivariate-data}, our 
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.9\textwidth]{`r here::here("figures/strength_vs_coefs_multiple_IVs.png")`}
+  \includegraphics[width=0.9\textwidth]{`r here::here("figures/strength_vs_coefs_multiple_IVs.tiff")`}
   \caption{Figure showing the dilution effect described in Section \ref{bounds-from-two-sample-data-with-multiple-ivs} in each of the four scenarios. When $p$ is larger, similar sized coefficients lead to lower strength. The effect is smaller when we are in a scenario where one coefficient is relatively much larger than the rest, rather than when the coefficients are evenly spread out. A: Scenarios 1 and 3. B: Scenarios 2 and 4.}
   \label{fig:strength_vs_coef_multiple_IVs}
 \end{figure}
@@ -890,7 +890,7 @@ Overall, combining our results in Section \ref{bounds-from-bivariate-data}, our 
 
 \begin{sidewaysfigure}
   \centering
-  \includegraphics[width=\textheight]{`r here("figures/bounds_from_multiple_IV_sims_MR.png")`}
+  \includegraphics[width=\textheight]{`r here("figures/bounds_from_multiple_IV_sims_MR.tiff")`}
   \caption{Bounds based on monte carlo integration with 1,000,000 resamples in scenario 1.}
   \label{fig:bounds_from_multiple_IV_sims_MR}
 \end{sidewaysfigure}
@@ -900,7 +900,7 @@ Overall, combining our results in Section \ref{bounds-from-bivariate-data}, our 
 
 \begin{sidewaysfigure}
   \centering
-  \includegraphics[width=\textheight]{`r here("figures/bounds_from_multiple_IV_sims_power.png")`}
+  \includegraphics[width=\textheight]{`r here("figures/bounds_from_multiple_IV_sims_power.tiff")`}
   \caption{Bounds based on monte carlo integration with 1,000,000 resamples in scenario 2.}
   \label{fig:bounds_from_multiple_IV_sims_power}
 \end{sidewaysfigure}
@@ -909,7 +909,7 @@ Overall, combining our results in Section \ref{bounds-from-bivariate-data}, our 
 
 \begin{sidewaysfigure}
   \centering
-  \includegraphics[width=\textheight]{`r here("figures/bounds_from_multiple_IV_sims_MR_many_weak.png")`}
+  \includegraphics[width=\textheight]{`r here("figures/bounds_from_multiple_IV_sims_MR_many_weak.tiff")`}
   \caption{Bounds based on monte carlo integration with 1,000,000 resamples in scenario 3.}
   \label{fig:bounds_from_multiple_IV_sims_MR_many_weak}
 \end{sidewaysfigure}
@@ -918,7 +918,7 @@ Overall, combining our results in Section \ref{bounds-from-bivariate-data}, our 
 
 \begin{sidewaysfigure}
   \centering
-  \includegraphics[width=\textheight]{`r here("figures/bounds_from_multiple_IV_sims_power_many_weak.png")`}
+  \includegraphics[width=\textheight]{`r here("figures/bounds_from_multiple_IV_sims_power_many_weak.tiff")`}
   \caption{Bounds based on monte carlo integration with 1,000,000 resamples in scenario 4.}
   \label{fig:bounds_from_multiple_IV_sims_power_many_weak}
 \end{sidewaysfigure}
@@ -1035,7 +1035,7 @@ snp_coefs_lung_cancer <- summaries_lung_cancer %>%
 
 \begin{figure}[ht]
   \center
-  \includegraphics[width = 0.9\textwidth]{`r here("figures/example_analyses/smoking_lung_cancer_marginal_Z.png")`}
+  \includegraphics[width = 0.9\textwidth]{`r here("figures/example_analyses/smoking_lung_cancer_marginal_Z.tiff")`}
   \caption{Histograms of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing.}
   \label{fig:marginal-distribution-of-instruments-lung-cancer}
 \end{figure}
@@ -1056,7 +1056,7 @@ snp_coefs_lung_cancer <- summaries_lung_cancer %>%
 
 \begin{figure}[ht]
   \center
-  \includegraphics[width = 0.9\textwidth]{`r here("figures/example_analyses/smoking_lung_cancer_coefficients.png")`}
+  \includegraphics[width = 0.9\textwidth]{`r here("figures/example_analyses/smoking_lung_cancer_coefficients.tiff")`}
   \caption{Histograms of the coefficients from GWAS results of logistic regression of the SNPs on smoking status and lung cancer status. Intercepts ($\beta_0$ and $\gamma_0$) are inferred, while slopes ($\beta_1$ and $\gamma_1$) are as reported.}
   \label{fig:marginal-distribution-of-coefficients-lung-cancer}
 \end{figure}
@@ -1066,14 +1066,14 @@ snp_coefs_lung_cancer <- summaries_lung_cancer %>%
 
 \begin{figure}[ht]
  \center
- \includegraphics[width = 0.99\linewidth]{`r here('figures/example_analyses/strength_histogram.png')`}
+ \includegraphics[width = 0.99\linewidth]{`r here('figures/example_analyses/strength_histogram.tiff')`}
  \caption{Histogram of strengths of IVs on the exposure. Here, SNPs are IVs, and smoking status (ever/never) is exposure. We see that all IVs are very weak, with the largest value just below 0.01.}
  \label{fig:strength_histogram}
 \end{figure}
 
 \begin{figure}[ht]
   \center
-  \includegraphics[width = 0.99\linewidth]{`r here('figures/example_analyses/smoking_lung_cancer_bivariate_bounds_ukb-d-20116_0_ukb-d-40001_C349.png')`}
+  \includegraphics[width = 0.99\linewidth]{`r here('figures/example_analyses/smoking_lung_cancer_bivariate_bounds_ukb-d-20116_0_ukb-d-40001_C349.tiff')`}
   \caption{Nonparametric two-sample IV bounds on the average treatment effect of smoking on the incidence of lung cancer.}
   \label{fig:smoking_on_lung_cancer_ind_bounds}
 \end{figure}
@@ -1082,7 +1082,7 @@ snp_coefs_lung_cancer <- summaries_lung_cancer %>%
 
 \begin{sidewaysfigure}
   \center
-  \includegraphics[width = \textheight]{`r here("figures", "example_analyses", "smoking_lung_cancer_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.png")`}
+  \includegraphics[width = \textheight]{`r here("figures", "example_analyses", "smoking_lung_cancer_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.tiff")`}
   \caption{500 sets of bounds of the average treatment effect of smoking on lung cancer for each of the 84 SNPs. Each bound is based on a set of values for the trivariate distribution randomly sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
   \label{fig:smoking_on_lung_cancer_tri_bounds_all}
 \end{sidewaysfigure}
@@ -1091,7 +1091,7 @@ snp_coefs_lung_cancer <- summaries_lung_cancer %>%
 
 \begin{figure}[ht]
   \center
-  \includegraphics[width = 0.99\linewidth]{`r here('figures/example_analyses/smoking_lung_cancer_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C349.png')`}
+  \includegraphics[width = 0.99\linewidth]{`r here('figures/example_analyses/smoking_lung_cancer_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C349.tiff')`}
   \caption{Intersection bounds of the average treatment effect of smoking on lung cancer based on randomly sampled trivariate distributions from pairs of SNPs. These 8 pairs were randomly chosen from all possible pairs.}
   \label{fig:smoking_on_lung_cancer_intersections}
 \end{figure}
@@ -1121,7 +1121,7 @@ snp_coefs_cholesterol <- summaries_cholesterol_heart_attack %>%
 
 \begin{figure}[ht]
   \center
-  \includegraphics[width = 0.9\textwidth]{`r here("figures/example_analyses/cholesterol_heart_attack_marginal_Z.png")`}
+  \includegraphics[width = 0.9\textwidth]{`r here("figures/example_analyses/cholesterol_heart_attack_marginal_Z.tiff")`}
   \caption{Histograms of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing.}
   \label{fig:marginal-distribution-of-instruments-cholesterol-heart-attack}
 \end{figure}
@@ -1142,14 +1142,14 @@ snp_coefs_cholesterol <- summaries_cholesterol_heart_attack %>%
 
 \begin{figure}[ht]
   \center
-  \includegraphics[width = 0.99\linewidth]{`r here("figures", "example_analyses", "cholesterol_heart_attack_marginal_conditionals.png")`}
+  \includegraphics[width = 0.99\linewidth]{`r here("figures", "example_analyses", "cholesterol_heart_attack_marginal_conditionals.tiff")`}
   \caption{Histograms of the marginal conditional probabilities $P(X = 1 | Z = z), z = 0,1,2$ and $P(Y = 1 | Z = z), z=0,1,2$.}
   \label{fig:smoking_on_depression_marginals}
 \end{figure}
 
 \begin{figure}[ht]
   \center
-  \includegraphics[width = 0.9\textwidth]{`r here("figures/example_analyses/cholesterol_heart_attack_coefficients.png")`}
+  \includegraphics[width = 0.9\textwidth]{`r here("figures/example_analyses/cholesterol_heart_attack_coefficients.tiff")`}
   \caption{Histograms of the coefficients from GWAS results of logistic regression of the SNPs on high cholesterol and heart attack, respectively. Intercepts ($\beta_0$ and $\gamma_0$) are inferred, while slopes ($\beta_1$ and $\gamma_1$) are as reported.}
   \label{fig:marginal-distribution-of-coefficients-depression}
 \end{figure}
@@ -1160,13 +1160,13 @@ snp_coefs_cholesterol <- summaries_cholesterol_heart_attack %>%
 
 \begin{figure}[ht]
  \center
- \includegraphics[width = 0.99\linewidth]{`r here('figures/example_analyses/cholesterol_heart_attack_strength_histogram.png')`}
+ \includegraphics[width = 0.99\linewidth]{`r here('figures/example_analyses/cholesterol_heart_attack_strength_histogram.tiff')`}
  \caption{Histogram of strengths of IVs on the exposure. Here, SNPs are IVs, and high cholesterol is the exposure. We see that all IVs are very weak, with the largest value below 0.003.}
  \label{fig:cholesterol_heart_attack_strength_histogram}
 \end{figure}
 
 \begin{figure}[ht]
-  \includegraphics[width = 0.99\linewidth]{`r here("figures/example_analyses/cholesterol_heart_attack_bivariate_bounds_ukb-a-108_ukb-a-434.png")`}
+  \includegraphics[width = 0.99\linewidth]{`r here("figures/example_analyses/cholesterol_heart_attack_bivariate_bounds_ukb-a-108_ukb-a-434.tiff")`}
   \caption{Nonparametric two-sample IV bounds on the average treatment effect of high cholesterol on the incidence of heart attack.}
   \label{fig:cholesterol_on_heart_attack_ind_bounds}
 \end{figure}
@@ -1175,7 +1175,7 @@ snp_coefs_cholesterol <- summaries_cholesterol_heart_attack %>%
 
 \begin{sidewaysfigure}
   \center
-  \includegraphics[width = \textheight]{`r here("figures", "example_analyses", "cholesterol_heart_attack_individual_SNPs_plot_ukb-a-108_ukb-a-434.png")`}
+  \includegraphics[width = \textheight]{`r here("figures", "example_analyses", "cholesterol_heart_attack_individual_SNPs_plot_ukb-a-108_ukb-a-434.tiff")`}
     \caption{500 sets of bounds of the average treatment effect of high cholesterol on heart attack for each of the 54 SNPs. Each bound is based on a set of values for the trivariate distribution randomly sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
     \label{fig:cholesterol_heart_attack_tri_bounds_all}
 \end{sidewaysfigure}
@@ -1184,7 +1184,7 @@ snp_coefs_cholesterol <- summaries_cholesterol_heart_attack %>%
 
 \begin{figure}[ht]
   \center
-  \includegraphics[width = 0.99\linewidth]{`r here('figures/example_analyses/cholesterol_heart_attack_intersection_bounds_plot_ukb-a-108_ukb-a-434.png')`}
+  \includegraphics[width = 0.99\linewidth]{`r here('figures/example_analyses/cholesterol_heart_attack_intersection_bounds_plot_ukb-a-108_ukb-a-434.tiff')`}
   \caption{Intersection bounds of the average treatment effect of high cholesterol on heart attack based on randomly sampled trivariate distributions from pairs of SNPs. These 8 pairs were randomly chosen from all possible pairs.}
   \label{fig:cholesterol_on_heart_attack_intersections}
 \end{figure}

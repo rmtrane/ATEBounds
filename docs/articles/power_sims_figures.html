@@ -128,16 +128,16 @@
     
 <p>This document generates results and figures based on the “power analysis” described in <code><a href="https://rdrr.io/r/utils/vignette.html">vignettes("power_sims")</a></code></p>
 <p>We load <code>tidyverse</code>, read in saved results, and create a new object with a few list columns unnested. First six rows are displayed below. This object has one row for each combination of coefficients considered, and each rows contains both values of <span class="math inline">\(P(X = 1 | Z = z)\)</span> (in column <code>thetas</code>), <span class="math inline">\(P(Y = 1 | Z = z)\)</span> (in column <code>gammas</code>), ATE, and upper and lower two-sample bounds.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 
-<span class="va">bounds_and_ATE</span> <span class="op">&lt;-</span> <span class="fu">read_rds</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"data/power_results/power_combined_results.Rds"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">bounds_and_ATE</span> <span class="op">&lt;-</span> <span class="fu">read_rds</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data/power_results/power_combined_results.Rds"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="va">bounds_and_ATE_unnested</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE</span> <span class="op">%&gt;%</span> 
   <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">sum_stats</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">bounds</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">bounds_and_ATE_unnested</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">bounds_and_ATE_unnested</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 6 x 13
 ##   data_file     j indIVs_on_X X_on_Y U_on_XY     i   seed gammas thetas    ATE
 ##   &lt;chr&gt;     &lt;dbl&gt;       &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;list&gt; &lt;list&gt;  &lt;dbl&gt;
@@ -149,8 +149,8 @@
 ## 6 /workspa…     1         0.2   0.5      0.5     6 2.50e5 &lt;dbl … &lt;dbl … 0.118 
 ## # … with 3 more variables: get_bounds_res &lt;list&gt;, lower &lt;dbl&gt;, upper &lt;dbl&gt;</code></pre>
 <p>For use in our manuscript, we create a table with all the unique values used for the different coefficients.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="va">all_combinations_of_coefs</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE</span> <span class="op">%&gt;%</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">all_combinations_of_coefs</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">X_on_Y</span>, <span class="va">indIVs_on_X</span>, <span class="va">U_on_XY</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span>`$\\gamma_1$` <span class="op">=</span> <span class="va">indIVs_on_X</span>,
          `$\\beta_1$` <span class="op">=</span> <span class="va">X_on_Y</span>,
@@ -161,7 +161,7 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>Values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">value</span>, collapse <span class="op">=</span> <span class="st">", "</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">Coefficient</span>, values_from <span class="op">=</span> <span class="va">Values</span><span class="op">)</span>
 
-<span class="fu">pander</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html">pander</a></span><span class="op">(</span><span class="va">all_combinations_of_coefs</span><span class="op">)</span></pre></div>
+<span class="fu">pander</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html">pander</a></span><span class="op">(</span><span class="va">all_combinations_of_coefs</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="36%">
@@ -180,13 +180,13 @@
 </tr></tbody>
 </table>
 <p>We save this in latex format:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">all_combinations_of_coefs</span>, format <span class="op">=</span> <span class="st">"latex"</span>, escape <span class="op">=</span> <span class="cn">FALSE</span>, booktabs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">all_combinations_of_coefs</span>, format <span class="op">=</span> <span class="st">"latex"</span>, escape <span class="op">=</span> <span class="cn">FALSE</span>, booktabs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/column_spec.html">column_spec</a></span><span class="op">(</span><span class="fl">2</span>, width <span class="op">=</span> <span class="st">"1.5in"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">write_file</span><span class="op">(</span>file <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"tables"</span>, <span class="st">"sim_coefficients_table.tex"</span><span class="op">)</span><span class="op">)</span></pre></div>
+  <span class="fu">write_file</span><span class="op">(</span>file <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"tables"</span>, <span class="st">"sim_coefficients_table.tex"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Our first plot compares <span class="math inline">\(\gamma_1\)</span> and resulting strength.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="op">(</span><span class="va">coefs_vs_strength</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE_unnested</span> <span class="op">%&gt;%</span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">(</span><span class="va">coefs_vs_strength</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE_unnested</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>strength <span class="op">=</span> <span class="fu">map_dbl</span><span class="op">(</span><span class="va">thetas</span>, <span class="op">~</span><span class="va">.x</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span> <span class="op">-</span> <span class="va">.x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>,
          U_on_XY <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">U_on_XY</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">indIVs_on_X</span>, x <span class="op">=</span> <span class="va">strength</span>,
@@ -202,15 +202,15 @@
     <span class="fu">guides</span><span class="op">(</span>color <span class="op">=</span> <span class="fu">guide_legend</span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">coord_fixed</span><span class="op">(</span>ratio <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fl">6</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span><span class="op">)</span></pre></div>
+    <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="power_sims_figures_files/figure-html/unnamed-chunk-4-1.png" width="2187.5"></p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="fu">ggsave</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/MR_coefs_vs_strength.png"</span><span class="op">)</span>,
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/MR_coefs_vs_strength.tiff"</span><span class="op">)</span>,
        <span class="va">coefs_vs_strength</span>, dpi <span class="op">=</span> <span class="fl">300</span>,
-       width <span class="op">=</span> <span class="fl">4</span>, height <span class="op">=</span> <span class="fl">4.7</span><span class="op">)</span></pre></div>
+       width <span class="op">=</span> <span class="fl">4</span>, height <span class="op">=</span> <span class="fl">4.7</span><span class="op">)</span></code></pre></div>
 <p>The second plot shows all the two-sample bounds and ATEs.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="op">(</span><span class="va">pretty_plot</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE_unnested</span> <span class="op">%&gt;%</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">(</span><span class="va">pretty_plot</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE_unnested</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>zero <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">lower</span> <span class="op">&lt;</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="va">upper</span> <span class="op">&gt;</span> <span class="fl">0</span>,
                         <span class="st">"Overlaps Zero"</span>, <span class="st">"Does Not Overlap Zero"</span><span class="op">)</span>,
          X_on_Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"beta[X] =="</span>, <span class="va">X_on_Y</span><span class="op">)</span>,
@@ -241,21 +241,21 @@
       color <span class="op">=</span> <span class="st">""</span>
     <span class="op">)</span> <span class="op">+</span>
     <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span><span class="op">)</span></pre></div>
+    <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="power_sims_figures_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="fu">ggsave</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/power.png"</span><span class="op">)</span>,
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/power.tiff"</span><span class="op">)</span>,
        <span class="va">pretty_plot</span>, dpi <span class="op">=</span> <span class="fl">300</span>,
-       height <span class="op">=</span> <span class="fl">6</span>, width <span class="op">=</span> <span class="fl">8</span>, units <span class="op">=</span> <span class="st">"in"</span><span class="op">)</span></pre></div>
+       height <span class="op">=</span> <span class="fl">6</span>, width <span class="op">=</span> <span class="fl">8</span>, units <span class="op">=</span> <span class="st">"in"</span><span class="op">)</span></code></pre></div>
 <p>The plot above naturally leads to the question: what is the smallest value of <span class="math inline">\(\gamma_1\)</span> that results in two-sample bounds that do NOT include <span class="math inline">\(0\)</span>? To answer this question, we model the lower bounds as a function of the coefficients using <code>loess</code>:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="va">loess_model</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE_unnested</span> <span class="op">%&gt;%</span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">loess_model</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE_unnested</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/stats/loess.html">loess</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">.</span>,
         <span class="va">lower</span> <span class="op">~</span> <span class="va">indIVs_on_X</span> <span class="op">+</span> <span class="va">X_on_Y</span> <span class="op">+</span> <span class="va">U_on_XY</span>,
-        span <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></pre></div>
+        span <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></code></pre></div>
 <p>Next, we find roots for the loess curves (one for each of the panels above).</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="va">roots</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE_unnested</span> <span class="op">%&gt;%</span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">roots</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE_unnested</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">X_on_Y</span>, <span class="va">U_on_XY</span>, <span class="va">ATE</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>ATE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">ATE</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="co"># to make sure ATE don't vary due to differences from randomness</span>
   <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -267,7 +267,7 @@
          indIVs_on_X <span class="op">=</span> <span class="va">uniroot_res</span><span class="op">$</span><span class="va">root</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="va">roots</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">uniroot_res</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span><span class="st">"$\\gamma_1$"</span> <span class="op">=</span> <span class="va">indIVs_on_X</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">pander</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html">pander</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<span class="va">roots</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">uniroot_res</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span><span class="st">"$\\gamma_1$"</span> <span class="op">=</span> <span class="va">indIVs_on_X</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">pander</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html">pander</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="12%">
@@ -453,8 +453,8 @@
 </tbody>
 </table>
 <p>Using these values, we plot the smallest values of <span class="math inline">\(\gamma_1\)</span> needed to make sure the two-sample bounds do not include <span class="math inline">\(0\)</span>. We see that rather large values of <span class="math inline">\(\gamma_1\)</span> are needed in all cases, even for relatively large effect sizes.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="op">(</span><span class="va">loess_power</span> <span class="op">&lt;-</span> <span class="va">roots</span> <span class="op">%&gt;%</span>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">(</span><span class="va">loess_power</span> <span class="op">&lt;-</span> <span class="va">roots</span> <span class="op">%&gt;%</span>
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">ATE</span>, y <span class="op">=</span> <span class="va">indIVs_on_X</span>, group <span class="op">=</span> <span class="va">U_on_XY</span>, color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">U_on_XY</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">geom_point</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
@@ -472,12 +472,12 @@
     <span class="op">)</span> <span class="op">+</span>
     <span class="fu">coord_fixed</span><span class="op">(</span>ratio <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fl">12</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span><span class="op">)</span></pre></div>
+    <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="power_sims_figures_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
-<div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="fu">ggsave</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/loess_power.png"</span><span class="op">)</span>,
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/loess_power.tiff"</span><span class="op">)</span>,
        <span class="va">loess_power</span>, dpi <span class="op">=</span> <span class="fl">300</span>,
-       height <span class="op">=</span> <span class="fl">5</span>, width <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></pre></div>
+       height <span class="op">=</span> <span class="fl">5</span>, width <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></code></pre></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

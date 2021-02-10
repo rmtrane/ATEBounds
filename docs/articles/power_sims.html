@@ -128,12 +128,12 @@
     
 <p>Here we briefly show how the monte carlo integration that provides the data used in <code><a href="../articles/power_sims_figures.html">vignette("power_sims_figures")</a></code> was performed. This happens in two steps: (1) create <span class="math inline">\(10,000,000\)</span> observations of <span class="math inline">\((X,Y,Z,U)\)</span>, and (2) summarize the simulated observations to get <span class="math inline">\(P(X|Z)\)</span> and <span class="math inline">\(P(Y|Z)\)</span>.</p>
 <p>The first script showed below uses <code><a href="../reference/simulate_data.html">simulate_data()</a></code> to simulate <span class="math inline">\(10,000,000\)</span> observations for one of the combinations of <span class="math inline">\(\beta_X, \gamma_1, \gamma_U\)</span>. The other coefficients are set as <span class="math inline">\(\beta_0 = -\beta_X / 2, \beta_U = \gamma_U, \gamma_0 = -\gamma_1\)</span>. (See <code><a href="../reference/simulate_data.html">simulate_data()</a></code> for more details on the model.) The results are saved to a file. Note: these files are somewhat large, which is why this script is run for each combination of coefficients separately. This script was run for all 840 combinations. This is very time consuming, so rerun at own risk.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="co">## Run for sim_n = 1,2,3,...,840.</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## Run for sim_n = 1,2,3,...,840.</span>
 <span class="va">sim_n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/commandArgs.html">commandArgs</a></span><span class="op">(</span>trailingOnly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
 
 <span class="co">## Only run if results don't already exist.</span>
-<span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html">file.exists</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"data/power_sims"</span>,
+<span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html">file.exists</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data/power_sims"</span>,
                            <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"power_sims_"</span>, <span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_pad.html">str_pad</a></span><span class="op">(</span><span class="va">sim_n</span>, width <span class="op">=</span> <span class="fl">3</span>, side <span class="op">=</span> <span class="st">"left"</span>, pad <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>, <span class="st">".rds"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
 
   <span class="co">## Make sure V8 is available. If not, install in special folder.</span>
@@ -179,14 +179,14 @@
 
   <span class="co">## Add simulated data to tibble and save to .Rds file.</span>
   <span class="fu">write_rds</span><span class="op">(</span><span class="va">this_combo</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>sim_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">sim_data</span><span class="op">)</span><span class="op">)</span>,
-            file <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"data/power_sims"</span>,
+            file <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data/power_sims"</span>,
                               <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"power_sims_"</span>, <span class="fu">str_pad</span><span class="op">(</span><span class="va">sim_n</span>, width <span class="op">=</span> <span class="fl">3</span>, side <span class="op">=</span> <span class="st">"left"</span>, pad <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>, <span class="st">".rds"</span><span class="op">)</span><span class="op">)</span>,
             compress <span class="op">=</span> <span class="st">"gz"</span>,
             compression <span class="op">=</span> <span class="fl">9L</span><span class="op">)</span>
-<span class="op">}</span></pre></div>
+<span class="op">}</span></code></pre></div>
 <p>The script included below preps the results of the first script by finding the probabilities <span class="math inline">\(P(X|Z)\)</span> and <span class="math inline">\(P(Y|Z)\)</span>, and from there the two-sample bounds, and the ATE. Since we have observations on <span class="math inline">\((X,Y,Z,U)\)</span>, the ATE can be calculated. Once again, to limit the amount of memory required, we do this for 10 combinations at a time, and saving the results to files. The script displayed below does this. Again, beware that this is very time consuming.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="co">## Specify number of cores for parallelization and run_n. Must be run for run_n = 1,2,3,...,84.</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## Specify number of cores for parallelization and run_n. Must be run for run_n = 1,2,3,...,84.</span>
 <span class="va">n_cores</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/commandArgs.html">commandArgs</a></span><span class="op">(</span>trailingOnly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
 <span class="va">run_n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/commandArgs.html">commandArgs</a></span><span class="op">(</span>trailingOnly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
 
@@ -219,7 +219,7 @@
 <span class="op">}</span>
 
 <span class="co">## Get files with results.</span>
-<span class="va">all_power_sims</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"data/power_sims"</span><span class="op">)</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">all_power_sims</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data/power_sims"</span><span class="op">)</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="fu">plan</span><span class="op">(</span><span class="va">multisession</span>,
      workers <span class="op">=</span> <span class="va">n_cores</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>
@@ -263,17 +263,17 @@
 <span class="op">}</span><span class="op">)</span>
 
 <span class="co">## Save to file</span>
-<span class="fu">write_rds</span><span class="op">(</span><span class="va">bounds_and_ATE</span>, <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"data/power_results/power_bounds_and_ATE_"</span>, <span class="va">run_n</span>, <span class="st">".Rds"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></pre></div>
+<span class="fu">write_rds</span><span class="op">(</span><span class="va">bounds_and_ATE</span>, <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"data/power_results/power_bounds_and_ATE_"</span>, <span class="va">run_n</span>, <span class="st">".Rds"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Finally, we stitch together the 84 .Rds files with all the bounds from the 840 combinations of coefficients into one .Rds file.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 
-<span class="fu">map_dfr</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"data/power_results"</span><span class="op">)</span>,
+<span class="fu">map_dfr</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data/power_results"</span><span class="op">)</span>,
                    pattern <span class="op">=</span> <span class="st">"power_bounds_and_ATE_[0-9]+.Rds"</span>,
                    full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
         <span class="va">read_rds</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">unnest</span><span class="op">(</span><span class="va">subset</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">write_rds</span><span class="op">(</span>file <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"data/power_results/power_combined_results.Rds"</span><span class="op">)</span><span class="op">)</span></pre></div>
+    <span class="fu">write_rds</span><span class="op">(</span>file <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data/power_results/power_combined_results.Rds"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

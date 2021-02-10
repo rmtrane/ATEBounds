@@ -1105,7 +1105,7 @@ cholesterol_heart_attack_intersection_bounds_plot +
                            "Outcome: Heart Attack (id: ", heart_attack_experiment$id, ")."))
 ```
 
-# Save Experiment Information
+# Save Experiment Information and Combined Figures
 
 ```{r}
 write_csv(x = 
@@ -1117,5 +1117,27 @@ write_csv(x =
             ),
           file = here::here("vignettes_data/example_analyses/experiment_info.csv")
 )
+```
+
+```{r}
+library(patchwork)
+
+bivariate_bounds <- smoking_lung_cancer_bivariate_bounds_subset + 
+  cholesterol_heart_attack_bivariate_bounds_subset +
+  plot_annotation(tag_levels = "A")
+
+ggsave(bivariate_bounds,
+       filename = here::here("figures/example_analyses/bivariate_bounds.png"),
+       height = 4, width = 8,
+       dpi = 300)
+
+trivariate_bounds <- smoking_lung_cancer_individual_SNPs_plot_subset +
+  cholesterol_heart_attack_individual_SNPs_plot_subset +
+  plot_annotation(tag_levels = "A")
+
+ggsave(trivariate_bounds,
+       filename = here::here("figures/example_analyses/trivariate_bounds.png"),
+       height = 8, width = 8,
+       dpi = 300)
 ```
 

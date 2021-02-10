@@ -402,6 +402,9 @@ zoomed_in_y2 <- 2.075
             fill = NA, color = "red")
 )
 
+write_rds(pip_figure, 
+          file = here::here("vignettes_data/pip_figure.Rds"))
+
 ggsave(filename = here::here("figures/bivariate_width_vs_strength_pip.png"),
        plot = pip_figure, 
        dpi = 300, width = 4, height = 4.7)

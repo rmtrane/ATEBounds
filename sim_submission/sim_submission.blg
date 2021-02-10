@@ -1,0 +1,51 @@
+This is BibTeX, Version 0.99d (TeX Live 2020)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: sim_submission.aux
+The style file: WileyNJD-AMA.bst
+Illegal, another \bibdata command---line 347 of file sim_submission.aux
+ : \bibdata
+ :         {../bibliography/references.bib}
+I'm skipping whatever remains of this command
+Database file #1: ../bibliography/references.bib
+You've used 49 entries,
+            2067 wiz_defined-function locations,
+            893 strings with 19161 characters,
+and the built_in function-call counts, 9609 in all, are:
+= -- 773
+> -- 427
+< -- 0
++ -- 189
+- -- 140
+* -- 1198
+:= -- 1642
+add.period$ -- 56
+call.type$ -- 49
+change.case$ -- 1
+chr.to.int$ -- 0
+cite$ -- 49
+duplicate$ -- 527
+empty$ -- 975
+format.name$ -- 140
+if$ -- 2087
+int.to.chr$ -- 0
+int.to.str$ -- 49
+missing$ -- 52
+newline$ -- 198
+num.names$ -- 49
+pop$ -- 75
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 50
+stack$ -- 0
+substring$ -- 0
+swap$ -- 169
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 49
+width$ -- 51
+write$ -- 613
+(There was 1 error message)

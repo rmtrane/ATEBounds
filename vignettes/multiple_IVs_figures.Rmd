@@ -28,7 +28,7 @@ Next, we create similar figures for each of the four scenarios described [here](
 
 * In all cases, the bounds are nested in each other. As a consequence of this, intersections of bounds will simply return the bounds based on the strongest IV, and there is therefore little to gain by intersecting multiple bounds
 
-* When many IVs are present, a much larger coefficient is needed for us to be able to determine direction of the ATE. 
+* When many IVs are present, a much larger coefficient is needed for us to be able to determine direction of the ATE. This is explained by the last two figures at the bottom here, where we see the "dilution" that happens when many IVs are included -- a coefficient of a certain size leads to a weaker IV when many instruments are included compared to when only few instruments are included.
 
 ## Scenario 1
 
@@ -179,5 +179,76 @@ ggsave(plot = bounds_plot_MR_many_weak,
 ggsave(plot = bounds_plot_power_many_weak,
        filename = here::here("figures/bounds_from_multiple_IV_sims_power_many_weak.png"),
        dpi = 300, height = 7.5, width = 10)
+```
+
+## Dilution Effect
+
+```{r}
+(strength_vs_coefs_power <- bounds_and_ATE_unnested %>%
+   filter(scenario == "power") %>%
+   unnest_wider(bounds) %>%
+   mutate(strength = map_dbl(sum_stats, ~max(abs(outer(.x$thetas, .x$thetas, "-")))),
+          U_on_XY = paste0("gamma[U]==", U_on_XY),
+          p = factor(paste0("p==", p),
+                     levels = paste0("p==", c(10,50))),
+          many_weak = if_else(many_weak, "Many Weak", "Uniform")) %>%
+   ggplot(aes(x = strength, y = indIVs_on_X, color = many_weak)) +
+   geom_point() +
+   facet_grid(p ~ U_on_XY,
+              labeller = label_parsed) +
+   labs(
+     y = bquote(gamma[j]),
+     x = "Strength",
+     color = "Simulation Scenario"
+   ) +
+   lims(
+     x = c(0, 1),
+     y = c(0, 4)
+   ) +
+   scale_color_manual(values = c("red", "black")) +
+   theme_bw() +
+   theme(legend.position = "top",
+         axis.text.x = element_text(angle = 45, hjust = 1))
+)
+
+ggsave(here::here("figures/strength_vs_coef_multiple_IVs_power.png"),
+       strength_vs_coefs_power,
+       width = 4, height = 4, dpi = 300)
+
+(strength_vs_coefs_MR <- bounds_and_ATE_unnested %>%
+    filter(scenario == "MR", X_on_Y == 2) %>%
+    unnest_wider(bounds) %>%
+    mutate(strength = map_dbl(sum_stats, ~max(abs(outer(.x$thetas, .x$thetas, "-")))),
+           U_on_XY = paste0("gamma[U]==", U_on_XY),
+           p = factor(paste0("p==", p),
+                      levels = paste0("p==", c(10,50))),
+           many_weak = if_else(many_weak, "Many Weak", "Uniform")) %>%
+    ggplot(aes(x = strength, y = indIVs_on_X, color = many_weak)) +
+    geom_point() +
+    facet_grid(p ~ U_on_XY,
+               labeller = label_parsed) +
+    labs(
+      y = bquote(gamma[j]),
+      x = "Strength",
+      color = "Simulation Scenario"
+    ) +
+    scale_color_manual(values = c("red", "black")) +
+    theme_bw() +
+    theme(legend.position = "top",
+          axis.text.x = element_text(angle = 45, hjust = 1))
+)
+
+ggsave(here::here("figures/strength_vs_coef_multiple_IVs_MR.png"),
+       strength_vs_coefs_MR,
+       width = 4, height = 4, dpi = 300)
+
+library(patchwork)
+
+strength_vs_coefs <- strength_vs_coefs_MR + strength_vs_coefs_power +
+  plot_annotation(tag_levels = "A")
+
+ggsave(strength_vs_coefs,
+       filename = here::here("figures/strength_vs_coefs_multiple_IVs.png"),
+       width = 8, height = 4, dpi = 300)
 ```
 

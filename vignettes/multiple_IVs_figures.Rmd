@@ -196,6 +196,66 @@ ggsave(plot = bounds_plot_power_many_weak,
        dpi = 300, height = 7.5, width = 10)
 ```
 
+Subset of figure above.
+
+
+```{r fig.width = 8, fig.height = 10}
+sub_figure <- bounds_and_ATE %>%
+  unnest(subset) %>%
+  select(-data_file, -indIVs_on_X) %>%
+  unnest(sums_and_bounds) %>%
+  unnest_wider(bounds) %>%
+  filter(#!(scenario == "power" & many_weak),
+         # p == 10,
+         X_on_Y %in% c(0.25, 1)) %>% 
+  mutate(U_on_XY = paste0("gamma[U]==", U_on_XY),
+         p = factor(paste0("p==", p),
+                    levels = paste0("p==", c(10,50))),
+         scenario = case_when(scenario != "power" & !many_weak ~ "Scenario~1",
+                              scenario != "power" & many_weak ~ "Scenario~2",
+                              scenario == "power" & !many_weak ~ "Scenario~3",
+                              scenario == "power" & many_weak ~ "Scenario~4",
+                              TRUE ~ NA_character_),
+         X_on_Y = paste0("beta[X]==", X_on_Y)) %>%
+  group_by(scenario, U_on_XY) %>% 
+  mutate(strongest = if_else(indIVs_on_X == max(indIVs_on_X), "strongest"," ")) %>% 
+  ungroup() %>% 
+  ggplot(aes(y = indIVs_on_X, color = strongest)) +
+    geom_errorbar(aes(xmin = lower, xmax = upper),
+                  width = 0.0) +
+    geom_vline(xintercept = 0) +
+    geom_vline(aes(xintercept = ATE,
+                 color = "ATE")) +
+    geom_errorbar(aes(xmin = lower, xmax = upper),
+                  width = 0.0) +
+    labs(
+      y = bquote(gamma[j]),
+      x = "ATE",
+      color = ""
+    ) +
+    scale_x_continuous(limits = c(-1,1),
+                       breaks = c(-1, 0, 1)) +
+    scale_color_manual(values = c("ATE" = "blue", "strongest" = "red", " " = "black")) +
+    facet_grid(scenario + p ~ X_on_Y + U_on_XY,
+               scales = "free_y",
+               labeller = label_parsed) +
+    guides(color = "none") +
+    theme_bw() #+
+    # theme(#legend.position = "top",
+    #       axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+
+ggsave(filename = here::here("figures/png/bounds_from_multiple_IVs.png"),
+       plot = sub_figure,
+       width = 8, height = 10, dpi = 300)
+
+ggsave(filename = here::here("figures/tiff/bounds_from_multiple_IVs.tiff"),
+       plot = sub_figure,
+       width = 8, height = 11, dpi = 300)
+```
+
+
 ## Dilution Effect
 
 ```{r}

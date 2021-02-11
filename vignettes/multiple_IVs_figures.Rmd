@@ -196,3 +196,71 @@ ggsave(plot = bounds_plot_power_many_weak,
        dpi = 300, height = 7.5, width = 10)
 ```
 
+
+## Strength vs Coefficients
+
+```{r}
+(strength_vs_coefs_power <- bounds_and_ATE_unnested %>%
+  filter(scenario == "power") %>%
+  unnest_wider(bounds) %>%
+  mutate(strength = map_dbl(sum_stats, ~max(abs(outer(.x$thetas, .x$thetas, "-")))),
+         U_on_XY = paste0("gamma[U]==", U_on_XY),
+         p = factor(paste0("p==", p),
+                    levels = paste0("p==", c(10,50))),
+         many_weak = if_else(many_weak, "Scenario 4", "Scenario 2")) %>%
+  ggplot(aes(x = strength, y = indIVs_on_X, color = many_weak)) +
+    geom_point() +
+    facet_grid(p ~ U_on_XY,
+               labeller = label_parsed) +
+    labs(
+      y = bquote(gamma[j]),
+      x = "Strength",
+      color = ""
+    ) +
+    lims(
+      x = c(0, 1),
+      y = c(0, 4)
+    ) +
+    scale_color_manual(values = c("red", "black")) +
+    theme_bw() +
+    theme(legend.position = "top",
+          axis.text.x = element_text(angle = 45, hjust = 1))
+)
+
+(strength_vs_coefs_MR <- bounds_and_ATE_unnested %>%
+    filter(scenario == "MR", X_on_Y == 2) %>%
+    unnest_wider(bounds) %>%
+    mutate(strength = map_dbl(sum_stats, ~max(abs(outer(.x$thetas, .x$thetas, "-")))),
+           U_on_XY = paste0("gamma[U]==", U_on_XY),
+           p = factor(paste0("p==", p),
+                      levels = paste0("p==", c(10,50))),
+           many_weak = if_else(many_weak, "Scenario 3", "Scenario 1")) %>%
+    ggplot(aes(x = strength, y = indIVs_on_X, color = many_weak)) +
+    geom_point() +
+    facet_grid(p ~ U_on_XY,
+               labeller = label_parsed) +
+    labs(
+      y = bquote(gamma[j]),
+      x = "Strength",
+      color = ""
+    ) +
+    scale_color_manual(values = c("red", "black")) +
+    theme_bw() +
+    theme(legend.position = "top",
+          axis.text.x = element_text(angle = 45, hjust = 1))
+)
+
+library(patchwork)
+
+combined <- strength_vs_coefs_MR + strength_vs_coefs_power +
+  plot_annotation(tag_levels = "A")
+
+ggsave(here::here("figures/png/strength_vs_coef_multiple_IVs.png"),
+       combined,
+       width = 8, height = 4, dpi = 300)
+
+ggsave(here::here("figures/tiff/strength_vs_coef_multiple_IVs.tiff"),
+       combined,
+       width = 8, height = 4, dpi = 300)
+```
+

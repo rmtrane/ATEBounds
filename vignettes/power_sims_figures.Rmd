@@ -70,7 +70,10 @@ Our first plot compares $\gamma_1$ and resulting strength.
     theme_bw() +
     theme(legend.position = "top"))
 
-ggsave(here::here("figures/MR_coefs_vs_strength.eps"),
+ggsave(here::here("figures/tiff/MR_coefs_vs_strength.tiff"),
+       coefs_vs_strength, dpi = 300,
+       width = 4, height = 4.7)
+ggsave(here::here("figures/png/MR_coefs_vs_strength.png"),
        coefs_vs_strength, dpi = 300,
        width = 4, height = 4.7)
 ```
@@ -111,7 +114,11 @@ The second plot shows all the two-sample bounds and ATEs.
     theme_bw() +
     theme(legend.position = "top"))
 
-ggsave(here::here("figures/power.eps"),
+ggsave(here::here("figures/png/power.png"),
+       pretty_plot, dpi = 300,
+       height = 6, width = 8, units = "in")
+
+ggsave(here::here("figures/tiff/power.tiff"),
        pretty_plot, dpi = 300,
        height = 6, width = 8, units = "in")
 ```
@@ -166,7 +173,11 @@ Using these values, we plot the smallest values of $\gamma_1$ needed to make sur
     theme_bw() +
     theme(legend.position = "top"))
 
-ggsave(here::here("figures/loess_power.eps"),
+ggsave(here::here("figures/png/loess_power.png"),
+       loess_power, dpi = 300,
+       height = 5, width = 8)
+
+ggsave(here::here("figures/tiff/loess_power.tiff"),
        loess_power, dpi = 300,
        height = 5, width = 8)
 ```

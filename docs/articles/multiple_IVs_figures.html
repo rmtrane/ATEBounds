@@ -128,16 +128,16 @@
     
 <p>This script creates figures that illustrates the behavior of two-sample bounds when multiple IVs are present.</p>
 <p>We first load the needed packages, read in the data created <a href="articles/multiple_IVs_sims.html">here</a>, and unnest a few list columns.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rmtrane/ATEBounds">ATEBounds</a></span><span class="op">)</span>
 
-<span class="va">bounds_and_ATE</span> <span class="op">&lt;-</span> <span class="fu">read_rds</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"data/multiple_IV_sims/bounds_and_ATE.Rds"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">bounds_and_ATE</span> <span class="op">&lt;-</span> <span class="fu">read_rds</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data/multiple_IV_sims/bounds_and_ATE.Rds"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="va">bounds_and_ATE_unnested</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE</span> <span class="op">%&gt;%</span>
   <span class="fu">unnest</span><span class="op">(</span><span class="va">subset</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">data_file</span>, <span class="op">-</span><span class="va">indIVs_on_X</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">unnest</span><span class="op">(</span><span class="va">sums_and_bounds</span><span class="op">)</span></pre></div>
+  <span class="fu">unnest</span><span class="op">(</span><span class="va">sums_and_bounds</span><span class="op">)</span></code></pre></div>
 <p>Next, we create similar figures for each of the four scenarios described <a href="articles/multiple_IVs_sims.html">here</a>. A few interesting observations based on these plots:</p>
 <ul>
 <li><p>In all cases, the bounds are nested in each other. As a consequence of this, intersections of bounds will simply return the bounds based on the strongest IV, and there is therefore little to gain by intersecting multiple bounds</p></li>
@@ -146,8 +146,8 @@
 <div id="scenario-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#scenario-1" class="anchor"></a>Scenario 1</h2>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="op">(</span><span class="va">bounds_plot_MR</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE_unnested</span> <span class="op">%&gt;%</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">(</span><span class="va">bounds_plot_MR</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE_unnested</span> <span class="op">%&gt;%</span>
   <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">bounds</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">scenario</span> <span class="op">==</span> <span class="st">"MR"</span>,
          <span class="op">!</span><span class="va">many_weak</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -173,9 +173,8 @@
              labeller <span class="op">=</span> <span class="va">label_parsed</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span>,
-        axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></pre></div>
+        axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="multiple_IVs_figures_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span>plot <span class="op">=</span> <span class="va">bounds_plot_MR</span>,
        filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/tiff/bounds_from_multiple_IV_sims_MR.tiff"</span><span class="op">)</span>,
@@ -184,18 +183,12 @@
 <span class="fu">ggsave</span><span class="op">(</span>plot <span class="op">=</span> <span class="va">bounds_plot_MR</span>,
        filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/png/bounds_from_multiple_IV_sims_MR.png"</span><span class="op">)</span>,
        dpi <span class="op">=</span> <span class="fl">300</span>, height <span class="op">=</span> <span class="fl">7.5</span>, width <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu">ggsave</span><span class="op">(</span>plot <span class="op">=</span> <span class="va">bounds_plot_MR</span>,
-       filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/bounds_from_multiple_IV_sims_MR.png"</span><span class="op">)</span>,
-       dpi <span class="op">=</span> <span class="fl">300</span>, height <span class="op">=</span> <span class="fl">7.5</span>, width <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></pre></div>
->>>>>>> parent of 7e42af4... Change figure format from png to tiff
 </div>
 <div id="scenario-2" class="section level2">
 <h2 class="hasAnchor">
 <a href="#scenario-2" class="anchor"></a>Scenario 2</h2>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="op">(</span><span class="va">bounds_plot_power</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE</span> <span class="op">%&gt;%</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">(</span><span class="va">bounds_plot_power</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE</span> <span class="op">%&gt;%</span>
   <span class="fu">unnest</span><span class="op">(</span><span class="va">subset</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">data_file</span>, <span class="op">-</span><span class="va">indIVs_on_X</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">unnest</span><span class="op">(</span><span class="va">sums_and_bounds</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -224,9 +217,8 @@
              labeller <span class="op">=</span> <span class="va">label_parsed</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span>,
-        axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></pre></div>
+        axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="multiple_IVs_figures_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span>plot <span class="op">=</span> <span class="va">bounds_plot_power</span>,
        filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/png/bounds_from_multiple_IV_sims_power.png"</span><span class="op">)</span>,
@@ -234,18 +226,12 @@
 <span class="fu">ggsave</span><span class="op">(</span>plot <span class="op">=</span> <span class="va">bounds_plot_power</span>,
        filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/tiff/bounds_from_multiple_IV_sims_power.tiff"</span><span class="op">)</span>,
        dpi <span class="op">=</span> <span class="fl">300</span>, height <span class="op">=</span> <span class="fl">7.5</span>, width <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu">ggsave</span><span class="op">(</span>plot <span class="op">=</span> <span class="va">bounds_plot_power</span>,
-       filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/bounds_from_multiple_IV_sims_power.png"</span><span class="op">)</span>,
-       dpi <span class="op">=</span> <span class="fl">300</span>, height <span class="op">=</span> <span class="fl">7.5</span>, width <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></pre></div>
->>>>>>> parent of 7e42af4... Change figure format from png to tiff
 </div>
 <div id="scenario-3" class="section level2">
 <h2 class="hasAnchor">
 <a href="#scenario-3" class="anchor"></a>Scenario 3</h2>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="op">(</span><span class="va">bounds_plot_MR_many_weak</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE_unnested</span> <span class="op">%&gt;%</span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">(</span><span class="va">bounds_plot_MR_many_weak</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE_unnested</span> <span class="op">%&gt;%</span>
   <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">bounds</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">scenario</span> <span class="op">==</span> <span class="st">"MR"</span>,
          <span class="va">many_weak</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -271,9 +257,8 @@
              labeller <span class="op">=</span> <span class="va">label_parsed</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span>,
-        axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></pre></div>
+        axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="multiple_IVs_figures_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span>plot <span class="op">=</span> <span class="va">bounds_plot_MR_many_weak</span>,
        filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/tiff/bounds_from_multiple_IV_sims_MR_many_weak.tiff"</span><span class="op">)</span>,
@@ -282,18 +267,12 @@
 <span class="fu">ggsave</span><span class="op">(</span>plot <span class="op">=</span> <span class="va">bounds_plot_MR_many_weak</span>,
        filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/png/bounds_from_multiple_IV_sims_MR_many_weak.png"</span><span class="op">)</span>,
        dpi <span class="op">=</span> <span class="fl">300</span>, height <span class="op">=</span> <span class="fl">7.5</span>, width <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="fu">ggsave</span><span class="op">(</span>plot <span class="op">=</span> <span class="va">bounds_plot_MR_many_weak</span>,
-       filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/bounds_from_multiple_IV_sims_MR_many_weak.png"</span><span class="op">)</span>,
-       dpi <span class="op">=</span> <span class="fl">300</span>, height <span class="op">=</span> <span class="fl">7.5</span>, width <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></pre></div>
->>>>>>> parent of 7e42af4... Change figure format from png to tiff
 </div>
 <div id="scenario-4" class="section level2">
 <h2 class="hasAnchor">
 <a href="#scenario-4" class="anchor"></a>Scenario 4</h2>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="op">(</span><span class="va">bounds_plot_power_many_weak</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE</span> <span class="op">%&gt;%</span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">(</span><span class="va">bounds_plot_power_many_weak</span> <span class="op">&lt;-</span> <span class="va">bounds_and_ATE</span> <span class="op">%&gt;%</span>
   <span class="fu">unnest</span><span class="op">(</span><span class="va">subset</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">data_file</span>, <span class="op">-</span><span class="va">indIVs_on_X</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">unnest</span><span class="op">(</span><span class="va">sums_and_bounds</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -322,9 +301,8 @@
              labeller <span class="op">=</span> <span class="va">label_parsed</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span>,
-        axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></pre></div>
+        axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="multiple_IVs_figures_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span>plot <span class="op">=</span> <span class="va">bounds_plot_power_many_weak</span>,
        filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/tiff/bounds_from_multiple_IV_sims_power_many_weak.tiff"</span><span class="op">)</span>,
@@ -333,12 +311,6 @@
 <span class="fu">ggsave</span><span class="op">(</span>plot <span class="op">=</span> <span class="va">bounds_plot_power_many_weak</span>,
        filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/png/bounds_from_multiple_IV_sims_power_many_weak.png"</span><span class="op">)</span>,
        dpi <span class="op">=</span> <span class="fl">300</span>, height <span class="op">=</span> <span class="fl">7.5</span>, width <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="fu">ggsave</span><span class="op">(</span>plot <span class="op">=</span> <span class="va">bounds_plot_power_many_weak</span>,
-       filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/bounds_from_multiple_IV_sims_power_many_weak.png"</span><span class="op">)</span>,
-       dpi <span class="op">=</span> <span class="fl">300</span>, height <span class="op">=</span> <span class="fl">7.5</span>, width <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></pre></div>
->>>>>>> parent of 7e42af4... Change figure format from png to tiff
 </div>
 <div id="dilution-effect" class="section level2">
 <h2 class="hasAnchor">

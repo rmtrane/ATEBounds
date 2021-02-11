@@ -1277,7 +1277,7 @@ trivariate_bounds <- smoking_lung_cancer_individual_SNPs_plot_subset +
   plot_annotation(tag_levels = "A")
 
 ggsave(trivariate_bounds,
-       filename = here::here("figures/example_analyses/trivariate_bounds.png"),
+       filename = here::here("figures/png/example_analyses/trivariate_bounds.png"),
        height = 8, width = 8,
        dpi = 300)
 

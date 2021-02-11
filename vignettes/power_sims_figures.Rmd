@@ -70,6 +70,7 @@ Our first plot compares $\gamma_1$ and resulting strength.
     theme_bw() +
     theme(legend.position = "top"))
 
+<<<<<<< HEAD
 write_rds(coefs_vs_strength, 
           here::here("vignettes_data/coefs_vs_strength.Rds"))
 
@@ -77,6 +78,9 @@ ggsave(here::here("figures/tiff/MR_coefs_vs_strength.tiff"),
        coefs_vs_strength, dpi = 300,
        width = 4, height = 4.7)
 ggsave(here::here("figures/png/MR_coefs_vs_strength.png"),
+=======
+ggsave(here::here("figures/MR_coefs_vs_strength.png"),
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
        coefs_vs_strength, dpi = 300,
        width = 4, height = 4.7)
 ```
@@ -117,11 +121,15 @@ The second plot shows all the two-sample bounds and ATEs.
     theme_bw() +
     theme(legend.position = "top"))
 
+<<<<<<< HEAD
 ggsave(here::here("figures/png/power.png"),
        pretty_plot, dpi = 300,
        height = 6, width = 8, units = "in")
 
 ggsave(here::here("figures/tiff/power.tiff"),
+=======
+ggsave(here::here("figures/power.png"),
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
        pretty_plot, dpi = 300,
        height = 6, width = 8, units = "in")
 ```
@@ -176,11 +184,15 @@ Using these values, we plot the smallest values of $\gamma_1$ needed to make sur
     theme_bw() +
     theme(legend.position = "top"))
 
+<<<<<<< HEAD
 ggsave(here::here("figures/png/loess_power.png"),
        loess_power, dpi = 300,
        height = 5, width = 8)
 
 ggsave(here::here("figures/tiff/loess_power.tiff"),
+=======
+ggsave(here::here("figures/loess_power.png"),
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
        loess_power, dpi = 300,
        height = 5, width = 8)
 ```

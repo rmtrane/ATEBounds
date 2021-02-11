@@ -128,9 +128,9 @@
     
     
 <p>Bounds constructed using two-sample data generally provides much less information than bounds constructed using one-sample data. We will here see how we can squeeze a bit more information out of two-sample data by considering the potential distributions of <span class="math inline">\((X,Y)|Z\)</span> that are in agreement with the observed <span class="math inline">\(X|Z\)</span> and <span class="math inline">\(Y|Z\)</span>, and the model.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rmtrane/ATEBounds">ATEBounds</a></span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rmtrane/ATEBounds">ATEBounds</a></span><span class="op">)</span></pre></div>
 <p>We will consider IVs that take three levels. To generate values of <span class="math inline">\(P(X = 1 | Z = z)\)</span> we simply choose three values from a uniform distribution. The matrices obtained from the polymake program give us some constraints on the values of <span class="math inline">\(P(Y = 1 | Z = z)\)</span>. These are included below.</p>
 <table class="table">
 <colgroup>
@@ -308,8 +308,8 @@
 </tbody>
 </table>
 <p>The function <code>simulate_gammas_from_thetas</code> takes a vector of length 3 of values of <span class="math inline">\(P(X = 1 | Z = z)\)</span>, and return a vector of length 3 of values of <span class="math inline">\(P(Y = 1 | Z = z)\)</span> such that no constraint is violated.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">simulate_gammas_from_thetas</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">thetas</span><span class="op">)</span><span class="op">{</span>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="va">simulate_gammas_from_thetas</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">thetas</span><span class="op">)</span><span class="op">{</span>
 
   <span class="va">gammas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html">vector</a></span><span class="op">(</span>length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">thetas</span><span class="op">)</span><span class="op">)</span>
 
@@ -337,7 +337,7 @@
                                <span class="va">gammas</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">-</span> <span class="va">thetas</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">-</span> <span class="va">thetas</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span> <span class="op">+</span> <span class="fl">2</span>, <span class="co"># row 17</span>
                                <span class="va">gammas</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">thetas</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">thetas</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="co"># row 15</span>
   <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">gammas</span><span class="op">)</span>
-<span class="op">}</span></code></pre></div>
+<span class="op">}</span></pre></div>
 <p>For each set of values of <span class="math inline">\(P(X = 1 | Z = z)\)</span> and <span class="math inline">\(P(Y = 1 | Z = z)\)</span>, we first get the constraints on the values of <span class="math inline">\(\text{Cov}(X,Y | Z = z)\)</span> that must be satisfied for the resulting distribution of <span class="math inline">\((X,Y|Z)\)</span> to be valid. Note: the constraints used are based on the inequalities <span class="math inline">\(0 \le P(X = x, Y = y | Z = z) \le 1\)</span>, and the IV inequalities <span class="math inline">\(\max_x \sum_y \max_z P(X = x, Y = y | Z = z) \le 1\)</span>. These hold no matter the number of levels of <span class="math inline">\(Z\)</span>. However, when the number of levels of <span class="math inline">\(Z\)</span> is greater than <span class="math inline">\(2\)</span>, these are not sufficient, only necessary, for the joint condition <span class="math inline">\((X,Y|Z)\)</span> to be valid. Therefore, every time we sample a set of values of <span class="math inline">\(\text{Cov}(X,Y | Z = z)\)</span>, we check if the resulting joint conditional violates any of the constraints using the results from polymake. If they do violate, we reject the set of values, and sample a new set of values. We do this <span class="math inline">\(1000\)</span> times, which results in us getting <span class="math inline">\(1000\)</span> possible distributions of <span class="math inline">\((X,Y|Z)\)</span> for each set of <span class="math inline">\((X|Z)\)</span> and <span class="math inline">\((Y|Z)\)</span>. Since this takes a while to run, we save the results to a .rds file, so we can read it in for later use.</p>
 <p>The result of this chunk is a <code>tibble</code> calles <code>many_sample_joints</code> with 5 columns:</p>
 <ul>
@@ -356,9 +356,9 @@
 <code>samp_joints</code> with the sampled joint distributions, <span class="math inline">\(1000\)</span> for each set of <span class="math inline">\(P(X = 1 | Z = z)\)</span> and <span class="math inline">\(P(Y = 1 | Z = z)\)</span>.</li>
 </ul>
 <p>The first six rows are shown below.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html">file.exists</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/many_sample_joints.rds"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
-  <span class="va">many_sample_joints</span> <span class="op">&lt;-</span> <span class="fu">read_rds</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/many_sample_joints.rds"</span><span class="op">)</span><span class="op">)</span>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html">file.exists</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/many_sample_joints.rds"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
+  <span class="va">many_sample_joints</span> <span class="op">&lt;-</span> <span class="fu">read_rds</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/many_sample_joints.rds"</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span>
   
   <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/DavisVaughan/furrr">furrr</a></span><span class="op">)</span>
@@ -380,10 +380,10 @@
     <span class="op">)</span>
   
   <span class="fu">write_rds</span><span class="op">(</span><span class="va">many_sample_joints</span>,
-            <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/many_sample_joints.rds"</span><span class="op">)</span><span class="op">)</span>
+            <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/many_sample_joints.rds"</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">many_sample_joints</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">many_sample_joints</span><span class="op">)</span></pre></div>
 <pre><code>## # A tibble: 6 x 5
 ##       j thetas    gammas    pot_covs         samp_joints         
 ##   &lt;int&gt; &lt;list&gt;    &lt;list&gt;    &lt;list&gt;           &lt;list&gt;              
@@ -394,14 +394,14 @@
 ## 5     5 &lt;dbl [3]&gt; &lt;dbl [3]&gt; &lt;named list [4]&gt; &lt;tibble [1,000 × 4]&gt;
 ## 6     6 &lt;dbl [3]&gt; &lt;dbl [3]&gt; &lt;named list [4]&gt; &lt;tibble [1,000 × 4]&gt;</code></pre>
 <p>Everything we need is included in this object. We simply need to unnest a few list columns to get the upper and lower bounds for the sampled joint distributions.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">trivariate_bounds</span> <span class="op">&lt;-</span> <span class="va">many_sample_joints</span> <span class="op">%&gt;%</span> 
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="va">trivariate_bounds</span> <span class="op">&lt;-</span> <span class="va">many_sample_joints</span> <span class="op">%&gt;%</span> 
   <span class="fu">unnest</span><span class="op">(</span><span class="va">samp_joints</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">unnest</span><span class="op">(</span><span class="va">joint</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">bounds</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">j</span>, <span class="va">joint</span>, trivariate_lower <span class="op">=</span> <span class="va">lower</span>, trivariate_upper <span class="op">=</span> <span class="va">upper</span>, <span class="va">n_rejected</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">trivariate_bounds</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">trivariate_bounds</span><span class="op">)</span></pre></div>
 <pre><code>## # A tibble: 6 x 5
 ##       j joint                   trivariate_lower trivariate_upper n_rejected
 ##   &lt;int&gt; &lt;list&gt;                             &lt;dbl&gt;            &lt;dbl&gt;      &lt;dbl&gt;
@@ -412,8 +412,8 @@
 ## 5     1 &lt;dbl[,2,3] [2 × 2 × 3]&gt;           -0.334            0.259          0
 ## 6     1 &lt;dbl[,2,3] [2 × 2 × 3]&gt;           -0.336            0.282          0</code></pre>
 <p>We then find the bounds we get if we only use the two-sample distributions.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">bivariate_bounds</span> <span class="op">&lt;-</span> <span class="va">many_sample_joints</span> <span class="op">%&gt;%</span> 
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="va">bivariate_bounds</span> <span class="op">&lt;-</span> <span class="va">many_sample_joints</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>bounds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_bounds.html">get_bounds</a></span><span class="op">(</span>thetas <span class="op">=</span> <span class="va">thetas</span>, gammas <span class="op">=</span> <span class="va">gammas</span>, stop <span class="op">=</span> <span class="cn">FALSE</span>, warning <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>,
          bivariate_constraints_violated <span class="op">=</span> <span class="va">bounds</span><span class="op">$</span><span class="va">constraints_violated</span>,
@@ -424,7 +424,7 @@
          bivariate_upper <span class="op">=</span> <span class="va">upper</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">j</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"bivariate"</span><span class="op">)</span>, <span class="va">thetas</span>, <span class="va">gammas</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">bivariate_bounds</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">bivariate_bounds</span><span class="op">)</span></pre></div>
 <pre><code>## # A tibble: 6 x 6
 ##       j bivariate_constraints_… bivariate_lower bivariate_upper thetas   gammas 
 ##   &lt;int&gt; &lt;lgl&gt;                             &lt;dbl&gt;           &lt;dbl&gt; &lt;list&gt;   &lt;list&gt; 
@@ -435,8 +435,8 @@
 ## 5     5 FALSE                            -0.478          0.0735 &lt;dbl [3… &lt;dbl […
 ## 6     6 FALSE                            -0.331          0.814  &lt;dbl [3… &lt;dbl […</code></pre>
 <p>To plot it all, we combine the two sets of bounds. We order by lower limit of one-sample bounds, give <code>id</code> for plotting, and then create a variable <code>contains_zero</code> which simply tells us if the one-sample bounds contain zero (<code>TRUE</code>) or not (<code>FALSE</code>).</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">for_plot</span> <span class="op">&lt;-</span> <span class="va">trivariate_bounds</span> <span class="op">%&gt;%</span> 
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="va">for_plot</span> <span class="op">&lt;-</span> <span class="va">trivariate_bounds</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">bivariate_bounds</span> <span class="op">%&gt;%</span> 
               <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>center <span class="op">=</span> <span class="op">(</span><span class="va">bivariate_upper</span> <span class="op">+</span> <span class="va">bivariate_lower</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span> 
               <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">center</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -447,11 +447,11 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>contains_zero <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">trivariate_lower</span> <span class="op">&lt;</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="va">trivariate_upper</span> <span class="op">&gt;</span> <span class="fl">0</span>, <span class="st">"Overlaps Zero"</span>, <span class="st">"Does not Overlap Zero"</span><span class="op">)</span>,
          facet_row <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">ceiling</a></span><span class="op">(</span><span class="va">k</span><span class="op">/</span><span class="fl">10</span><span class="op">)</span>, 
-         facet_col <span class="op">=</span> <span class="va">k</span> <span class="op">-</span> <span class="op">(</span><span class="va">facet_row</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">*</span><span class="fl">10</span><span class="op">)</span></code></pre></div>
+         facet_col <span class="op">=</span> <span class="va">k</span> <span class="op">-</span> <span class="op">(</span><span class="va">facet_row</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">*</span><span class="fl">10</span><span class="op">)</span></pre></div>
 <pre><code>## Joining, by = "j"</code></pre>
 <p>Finally, the plot.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="op">(</span><span class="va">plot</span> <span class="op">&lt;-</span> <span class="va">for_plot</span> <span class="op">%&gt;%</span> 
+<div class="sourceCode" id="cb11"><pre class="downlit">
+<span class="op">(</span><span class="va">plot</span> <span class="op">&lt;-</span> <span class="va">for_plot</span> <span class="op">%&gt;%</span> 
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">id</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu">geom_vline</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">bivariate_lower</span>, color <span class="op">=</span> <span class="st">"Two-sample Bounds"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu">geom_vline</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">bivariate_upper</span>, color <span class="op">=</span> <span class="st">"Two-sample Bounds"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
@@ -476,23 +476,27 @@
     <span class="fu">theme</span><span class="op">(</span>axis.ticks.y <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span>,
           axis.text.y <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span>,
           strip.background <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span>,
-          strip.text <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+          strip.text <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p><img src="bounds_from_trivariate_files/figure-html/plot-1.png" width="1500"></p>
 <p>Save the plot to a file for later use.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span>
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="fu">ggsave</span><span class="op">(</span>
   <span class="va">plot</span>, 
+<<<<<<< HEAD
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/png/trivariate_bounds_plot.png"</span><span class="op">)</span>,
   width <span class="op">=</span> <span class="fl">10</span>, height <span class="op">=</span> <span class="fl">8</span>, dpi <span class="op">=</span> <span class="fl">300</span>
 <span class="op">)</span>
 <span class="fu">ggsave</span><span class="op">(</span>
   <span class="va">plot</span>, 
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/tiff/trivariate_bounds_plot.tiff"</span><span class="op">)</span>,
+=======
+  filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/trivariate_bounds_plot.png"</span><span class="op">)</span>,
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   width <span class="op">=</span> <span class="fl">10</span>, height <span class="op">=</span> <span class="fl">8</span>, dpi <span class="op">=</span> <span class="fl">300</span>
-<span class="op">)</span></code></pre></div>
+<span class="op">)</span></pre></div>
 <p>Below are 9 of the 100 runs displayed. The figures are the same as in the plot below.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">chosen_ones</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">53</span>, <span class="fl">6</span>, <span class="fl">66</span>, 
+<div class="sourceCode" id="cb13"><pre class="downlit">
+<span class="va">chosen_ones</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">53</span>, <span class="fl">6</span>, <span class="fl">66</span>, 
                  <span class="fl">38</span>, <span class="fl">7</span>, <span class="fl">88</span>,
                  <span class="fl">73</span>, <span class="fl">44</span>, <span class="fl">60</span><span class="op">)</span>
 
@@ -514,10 +518,10 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>thetas <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="va">thetas</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"P(X = 1 | Z = "</span>, <span class="fl">0</span><span class="op">:</span><span class="fl">2</span>, <span class="st">")"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,
          gammas <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="va">gammas</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"P(Y = 1 | Z = "</span>, <span class="fl">0</span><span class="op">:</span><span class="fl">2</span>, <span class="st">")"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">thetas</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">gammas</span><span class="op">)</span></code></pre></div>
+  <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">gammas</span><span class="op">)</span></pre></div>
 <pre><code>## `summarise()` has grouped output by 'row_i', 'col_j', 'thetas', 'gammas'. You can override using the `.groups` argument.</code></pre>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">subset_plot</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">for_subset_plot</span>,
+<div class="sourceCode" id="cb15"><pre class="downlit">
+<span class="va">subset_plot</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">for_subset_plot</span>,
                       <span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">id</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">geom_rect</span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x_min <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">3</span><span class="op">)</span>,
                               x_max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">3</span><span class="op">)</span>,
@@ -564,7 +568,7 @@
         legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span>
 
 <span class="va">subset_plot</span> <span class="op">+</span>
-  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Bounds on ATE"</span><span class="op">)</span></code></pre></div>
+  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Bounds on ATE"</span><span class="op">)</span></pre></div>
 <p><img src="bounds_from_trivariate_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p>This is meant to illustrate the different scenarios we can end up in:</p>
 <ul>
@@ -592,12 +596,13 @@
 </li>
 </ul>
 <p>Save plot and a few summaries for later use.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">write_rds</span><span class="op">(</span>x <span class="op">=</span> <span class="va">subset_plot_summaries</span>,
-          file <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data"</span>, <span class="st">"subset_plot_summaries.Rds"</span><span class="op">)</span><span class="op">)</span>
+<div class="sourceCode" id="cb16"><pre class="downlit">
+<span class="fu">write_rds</span><span class="op">(</span>x <span class="op">=</span> <span class="va">subset_plot_summaries</span>,
+          file <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data"</span>, <span class="st">"subset_plot_summaries.Rds"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="fu">ggsave</span><span class="op">(</span>
   plot <span class="op">=</span> <span class="va">subset_plot</span>,
+<<<<<<< HEAD
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/tiff/trivariate_bounds_subset_plot.tiff"</span><span class="op">)</span>,
   width <span class="op">=</span> <span class="fl">8</span>, dpi <span class="op">=</span> <span class="fl">300</span>, height <span class="op">=</span> <span class="fl">8</span>
 <span class="op">)</span>
@@ -605,8 +610,11 @@
 <span class="fu">ggsave</span><span class="op">(</span>
   plot <span class="op">=</span> <span class="va">subset_plot</span>,
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/png/trivariate_bounds_subset_plot.png"</span><span class="op">)</span>,
+=======
+  filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures"</span>, <span class="st">"trivariate_bounds_subset_plot.png"</span><span class="op">)</span>,
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   width <span class="op">=</span> <span class="fl">8</span>, dpi <span class="op">=</span> <span class="fl">300</span>, height <span class="op">=</span> <span class="fl">8</span>
-<span class="op">)</span></code></pre></div>
+<span class="op">)</span></pre></div>
 <!-- ## Monotonicity of $P(X = 1 | Z = z, U)$. -->
 <!-- Below, we go through the exact same steps as above, except we now assume that $P(X = 1 | Z = z, U)$ is monotonically increasing.  -->
 <!-- ```{r fig.width = 10, fig.height = 10, dpi = 300} -->
@@ -701,7 +709,11 @@
 <!--     theme(axis.ticks.x = element_blank(), -->
 <!--           axis.text.x = element_blank()) -->
 <!-- plot_mono -->
+<<<<<<< HEAD
 <!-- ggsave(plot_mono, filename = here::here("figures/trivariate_bounds_mono_plot.eps"), -->
+=======
+<!-- ggsave(plot_mono, filename = here::here("figures/trivariate_bounds_mono_plot.png"), -->
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
 <!--        width = 10, height = 10, dpi = 300) -->
 <!-- ``` -->
   </div>

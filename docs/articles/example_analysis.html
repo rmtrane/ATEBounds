@@ -132,24 +132,24 @@
 <h1 class="hasAnchor">
 <a href="#effect-of-smoking-on-lung-cancer" class="anchor"></a>Effect of Smoking on Lung Cancer</h1>
 <p>Our first example will use smoking as exposure, and lung cancer as outcome (both as binary).</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">TwoSampleMR</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">TwoSampleMR</span><span class="op">)</span></pre></div>
 <pre><code>## TwoSampleMR version 0.5.5 
 ## [&gt;] New: Option to use non-European LD reference panels for clumping etc
 ## [&gt;] Some studies temporarily quarantined to verify effect allele
 ## [&gt;] See news(package='TwoSampleMR') and https://gwas.mrcieu.ac.uk for further details</code></pre>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></pre></div>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
 ## ✓ tibble  3.0.6     ✓ dplyr   1.0.3
 ## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
+## ✓ readr   1.4.0     ✓ forcats 0.5.0</code></pre>
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span></pre></div>
 <pre><code>## 
 ## Attaching package: 'magrittr'</code></pre>
 <pre><code>## The following object is masked from 'package:purrr':
@@ -158,48 +158,48 @@
 <pre><code>## The following object is masked from 'package:tidyr':
 ## 
 ##     extract</code></pre>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rmtrane/ATEBounds">ATEBounds</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb11"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rmtrane/ATEBounds">ATEBounds</a></span><span class="op">)</span>
 
 
-<span class="fu">theme_set</span><span class="op">(</span><span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="fu">theme_set</span><span class="op">(</span><span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></pre></div>
 <div id="collect-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#collect-data" class="anchor"></a>Collect Data</h2>
 <p>Using the <code>TwoSampleMR</code> package, we get the data from the online database. First, we get a <code>tibble</code> with all available outcomes.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ao</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/TwoSampleMR/man/available_outcomes.html">available_outcomes</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="va">ao</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/TwoSampleMR/man/available_outcomes.html">available_outcomes</a></span><span class="op">(</span><span class="op">)</span></pre></div>
 <pre><code>## API: public: http://gwas-api.mrcieu.ac.uk/</code></pre>
 <p>From this, we identify an experiment. We save information about the experiment to the <code>smoking_experiment</code> object.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">smoking_experiment</span> <span class="op">&lt;-</span> <span class="va">ao</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">id</span> <span class="op">==</span> <span class="st">"ukb-d-20116_0"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="va">smoking_experiment</span> <span class="op">&lt;-</span> <span class="va">ao</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">id</span> <span class="op">==</span> <span class="st">"ukb-d-20116_0"</span><span class="op">)</span></pre></div>
 <p>Next, we obtain potential instruments for the exposure variable.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">smoking_instruments</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/TwoSampleMR/man/extract_instruments.html">extract_instruments</a></span><span class="op">(</span><span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit">
+<span class="va">smoking_instruments</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/TwoSampleMR/man/extract_instruments.html">extract_instruments</a></span><span class="op">(</span><span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></pre></div>
 <p>Similarly, we obtain outcome data: identify an appropriate study with data on lung cancer, and create an object with the information available about that study. We call this object <code>lung_cancer_experiment</code>.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">lung_cancer_experiment</span> <span class="op">&lt;-</span> <span class="va">ao</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">id</span> <span class="op">==</span> <span class="st">"ukb-d-40001_C349"</span><span class="op">)</span>
-<span class="va">lung_cancer_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/TwoSampleMR/man/extract_outcome_data.html">extract_outcome_data</a></span><span class="op">(</span>snps <span class="op">=</span> <span class="va">smoking_instruments</span><span class="op">$</span><span class="va">SNP</span>, outcomes <span class="op">=</span> <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="downlit">
+<span class="va">lung_cancer_experiment</span> <span class="op">&lt;-</span> <span class="va">ao</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">id</span> <span class="op">==</span> <span class="st">"ukb-d-40001_C349"</span><span class="op">)</span>
+<span class="va">lung_cancer_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/TwoSampleMR/man/extract_outcome_data.html">extract_outcome_data</a></span><span class="op">(</span>snps <span class="op">=</span> <span class="va">smoking_instruments</span><span class="op">$</span><span class="va">SNP</span>, outcomes <span class="op">=</span> <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></pre></div>
 <pre><code>## Extracting data for 84 SNP(s) from 1 GWAS(s)</code></pre>
 <p>Finally, we extract data from the study.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">smoking_lung_cancer_harmonized</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/TwoSampleMR/man/harmonise_data.html">harmonise_data</a></span><span class="op">(</span><span class="va">smoking_instruments</span>, <span class="va">lung_cancer_data</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="downlit">
+<span class="va">smoking_lung_cancer_harmonized</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/TwoSampleMR/man/harmonise_data.html">harmonise_data</a></span><span class="op">(</span><span class="va">smoking_instruments</span>, <span class="va">lung_cancer_data</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span></pre></div>
 <pre><code>## Harmonising Smoking status: Never || id:ukb-d-20116_0 (ukb-d-20116_0) and Underlying (primary) cause of death: ICD10: C34.9 Bronchus or lung, unspecified || id:ukb-d-40001_C349 (ukb-d-40001_C349)</code></pre>
 <pre><code>## Removing the following SNPs for being palindromic with intermediate allele frequencies:
 ## rs11693702, rs1492546, rs2240294, rs264974, rs568599</code></pre>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">smoking_lung_cancer_pop_probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>regression <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"outcome"</span>, <span class="st">"exposure"</span><span class="op">)</span>,
+<div class="sourceCode" id="cb21"><pre class="downlit">
+<span class="va">smoking_lung_cancer_pop_probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>regression <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"outcome"</span>, <span class="st">"exposure"</span><span class="op">)</span>,
                                        p_outcome <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">lung_cancer_experiment</span>  <span class="op">%$%</span> <span class="op">{</span> <span class="va">ncase</span> <span class="op">/</span> <span class="op">(</span><span class="va">ncase</span> <span class="op">+</span> <span class="va">ncontrol</span><span class="op">)</span> <span class="op">}</span>,
-                                                     <span class="va">smoking_experiment</span> <span class="op">%$%</span> <span class="op">{</span> <span class="va">ncase</span> <span class="op">/</span> <span class="op">(</span><span class="va">ncase</span> <span class="op">+</span> <span class="va">ncontrol</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+                                                     <span class="va">smoking_experiment</span> <span class="op">%$%</span> <span class="op">{</span> <span class="va">ncase</span> <span class="op">/</span> <span class="op">(</span><span class="va">ncase</span> <span class="op">+</span> <span class="va">ncontrol</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p>The following helper function takes finds the intercept in logistic regression that ensures the marginal probabilities <span class="math inline">\(P(Y = 1)\)</span> and <span class="math inline">\(P(X = 1)\)</span> match what’s observed given the marginal distributions of the dependendt (i.e. either smoking or lung cancer) and the IV (SNPs).</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">find_intercept</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">beta1</span>, <span class="va">p_outcome</span>, <span class="va">pz</span>, <span class="va">interval</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span>, <span class="va">zs</span> <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">{</span>
+<div class="sourceCode" id="cb22"><pre class="downlit">
+<span class="va">find_intercept</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">beta1</span>, <span class="va">p_outcome</span>, <span class="va">pz</span>, <span class="va">interval</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span>, <span class="va">zs</span> <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">{</span>
   <span class="fu"><a href="https://rdrr.io/r/stats/uniroot.html">uniroot</a></span><span class="op">(</span>f <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">beta0</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="op">(</span><span class="fl">1</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">beta0</span><span class="op">-</span><span class="va">beta1</span><span class="op">*</span><span class="va">zs</span><span class="op">)</span><span class="op">)</span><span class="op">^</span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="va">pz</span><span class="op">)</span> <span class="op">-</span> <span class="va">p_outcome</span>,
           interval <span class="op">=</span> <span class="va">interval</span><span class="op">)</span>
-<span class="op">}</span></code></pre></div>
+<span class="op">}</span></pre></div>
 <p>We have <span class="math inline">\(P(X = 1)\)</span> and <span class="math inline">\(P(Y = 1)\)</span>. We still need <span class="math inline">\(P(Z = z)\)</span>. These can be found from the allele frequencies. Since we have data on <span class="math inline">\(Z\)</span> from two separate sources, and the allele frequencies vary ever so slightly between the two, we use a weighted average of the allele frequencies as our final estimates. With these estimated allele frequencies, we can find <span class="math inline">\(P(Z = z)\)</span>.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">smoking_lung_cancer_prep_for_bounds</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_harmonized</span> <span class="op">%&gt;%</span>
+<div class="sourceCode" id="cb23"><pre class="downlit">
+<span class="va">smoking_lung_cancer_prep_for_bounds</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_harmonized</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>samplesize.exposure <span class="op">=</span> <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">ncase</span> <span class="op">+</span> <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">ncontrol</span>,
          samplesize.outcome <span class="op">=</span> <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">ncase</span> <span class="op">+</span> <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">ncontrol</span>,
@@ -211,10 +211,10 @@
   <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">variable</span>, values_from <span class="op">=</span> <span class="va">value</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>`P(Z = 2)` <span class="op">=</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">ave_eaf</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span>,
          `P(Z = 1)` <span class="op">=</span> <span class="fl">2</span><span class="op">*</span><span class="va">ave_eaf</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">ave_eaf</span><span class="op">)</span>,
-         `P(Z = 0)` <span class="op">=</span> <span class="va">ave_eaf</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
+         `P(Z = 0)` <span class="op">=</span> <span class="va">ave_eaf</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></pre></div>
 <p>We add the values of <span class="math inline">\(P(X = 1)\)</span> and <span class="math inline">\(P(Y = 1)\)</span> to the tibble, and can now use the helper function defined above to find the intercepts that matches with the marginals.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">smoking_lung_cancer_w_intercept</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_prep_for_bounds</span> <span class="op">%&gt;%</span> 
+<div class="sourceCode" id="cb24"><pre class="downlit">
+<span class="va">smoking_lung_cancer_w_intercept</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_prep_for_bounds</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">smoking_lung_cancer_pop_probs</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>find_intercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu">find_intercept</span><span class="op">(</span>beta1 <span class="op">=</span> <span class="va">beta</span>,
@@ -222,15 +222,15 @@
                                               pz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">`P(Z = 0)`</span>, <span class="va">`P(Z = 1)`</span>, <span class="va">`P(Z = 2)`</span><span class="op">)</span>,
                                               interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">7</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,
          beta0 <span class="op">=</span> <span class="va">find_intercept</span><span class="op">$</span><span class="va">root</span>,
-         `thetas/gammas` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="op">(</span><span class="fl">1</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">beta0</span> <span class="op">-</span> <span class="fl">0</span><span class="op">:</span><span class="fl">2</span><span class="op">*</span><span class="va">beta</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+         `thetas/gammas` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="op">(</span><span class="fl">1</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">beta0</span> <span class="op">-</span> <span class="fl">0</span><span class="op">:</span><span class="fl">2</span><span class="op">*</span><span class="va">beta</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></pre></div>
 <pre><code>## Joining, by = "regression"</code></pre>
 </div>
 <div id="summaries-of-marginal-distributions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#summaries-of-marginal-distributions" class="anchor"></a>Summaries of Marginal Distributions</h2>
 <p>We get the summary statistics, save them to a file for later, and create a few figures.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">summaries_for_plots</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_w_intercept</span> <span class="op">%&gt;%</span> 
+<div class="sourceCode" id="cb26"><pre class="downlit">
+<span class="va">summaries_for_plots</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_w_intercept</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">SNP</span>, <span class="va">regression</span>, <span class="va">beta</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"P(Z ="</span><span class="op">)</span>, <span class="va">p_outcome</span>, <span class="va">beta0</span>, <span class="va">`thetas/gammas`</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>`thetas/gammas` <span class="op">=</span> <span class="fu">map</span><span class="op">(</span><span class="va">`thetas/gammas`</span>, <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="va">.x</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"xy_given_z0"</span>, <span class="st">"xy_given_z1"</span>, <span class="st">"xy_given_z2"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -238,11 +238,11 @@
 
 <span class="fu">write_csv</span><span class="op">(</span>
   <span class="va">summaries_for_plots</span>,
-  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/summary_stats_smoking_on_lung_cancer.csv"</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/summary_stats_smoking_on_lung_cancer.csv"</span><span class="op">)</span>
+<span class="op">)</span></pre></div>
 <p>First, a histogram of the marginal distributions of the SNPs.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="op">(</span><span class="va">marginal_Z</span> <span class="op">&lt;-</span> <span class="va">summaries_for_plots</span> <span class="op">%&gt;%</span> 
+<div class="sourceCode" id="cb27"><pre class="downlit">
+<span class="op">(</span><span class="va">marginal_Z</span> <span class="op">&lt;-</span> <span class="va">summaries_for_plots</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">regression</span> <span class="op">==</span> <span class="st">"exposure"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"P(Z ="</span><span class="op">)</span>,
                names_to <span class="op">=</span> <span class="st">"z"</span>, values_to <span class="op">=</span> <span class="st">"p"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -251,11 +251,12 @@
                    color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">facet_grid</span><span class="op">(</span><span class="op">~</span> <span class="va">z</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://rdrr.io/r/graphics/plot.window.html">xlim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p><img src="example_analysis_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span>
+<div class="sourceCode" id="cb28"><pre class="downlit">
+<span class="fu">ggsave</span><span class="op">(</span>
   plot <span class="op">=</span> <span class="va">marginal_Z</span>,
+<<<<<<< HEAD
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures"</span>, 
                         <span class="st">"tiff/example_analyses"</span>,
                         <span class="st">"smoking_lung_cancer_marginal_Z.tiff"</span><span class="op">)</span>,
@@ -270,9 +271,15 @@
                         <span class="st">"smoking_lung_cancer_marginal_Z.png"</span><span class="op">)</span>,
   dpi <span class="op">=</span> <span class="fl">300</span>, width <span class="op">=</span> <span class="fl">6.5</span>, height <span class="op">=</span> <span class="fl">2</span>
 <span class="op">)</span></code></pre></div>
+=======
+  filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/example_analyses"</span>, 
+                        <span class="st">"smoking_lung_cancer_marginal_Z.png"</span><span class="op">)</span>,
+  dpi <span class="op">=</span> <span class="fl">300</span>, width <span class="op">=</span> <span class="fl">6.5</span>, height <span class="op">=</span> <span class="fl">2</span>
+<span class="op">)</span></pre></div>
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
 <p>Next, coefficients. Here, we see histograms of the values of <span class="math inline">\(\beta_0\)</span> (intercepts inferred) and <span class="math inline">\(\beta_1\)</span> (coefficients reported) for both logistic regressions of SNPs on exposure and outcome. We notice a gap around <span class="math inline">\(0\)</span> for <span class="math inline">\(\beta_1\)</span> in the logistic regression of the SNPs on the exposure. This is as expected, since we only want SNPs that are associated with the exposure, which means we restrict ourselves to SNPs with coefficients significantly different from <span class="math inline">\(0\)</span>.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="op">(</span><span class="va">lung_cancer_coefficients</span> <span class="op">&lt;-</span> <span class="va">summaries_for_plots</span> <span class="op">%&gt;%</span> 
+<div class="sourceCode" id="cb29"><pre class="downlit">
+<span class="op">(</span><span class="va">lung_cancer_coefficients</span> <span class="op">&lt;-</span> <span class="va">summaries_for_plots</span> <span class="op">%&gt;%</span> 
   <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">beta</span>, <span class="va">beta0</span><span class="op">)</span>,
                names_to <span class="op">=</span> <span class="st">"coef"</span>, values_to <span class="op">=</span> <span class="st">"value"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>real_coefs <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span><span class="va">coef</span> <span class="op">==</span> <span class="st">"beta"</span> <span class="op">&amp;</span> <span class="va">regression</span> <span class="op">==</span> <span class="st">"exposure"</span> <span class="op">~</span> <span class="st">"beta[1]"</span>, 
@@ -285,11 +292,12 @@
     <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span> <span class="va">real_coefs</span>,
                scales <span class="op">=</span> <span class="st">"free"</span>,
                labeller <span class="op">=</span> <span class="va">label_parsed</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p><img src="example_analysis_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span>
+<div class="sourceCode" id="cb30"><pre class="downlit">
+<span class="fu">ggsave</span><span class="op">(</span>
   plot <span class="op">=</span> <span class="va">lung_cancer_coefficients</span>,
+<<<<<<< HEAD
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures"</span>, 
                         <span class="st">"tiff/example_analyses"</span>,
                         <span class="st">"smoking_lung_cancer_coefficients.tiff"</span><span class="op">)</span>,
@@ -303,9 +311,15 @@
                         <span class="st">"smoking_lung_cancer_coefficients.png"</span><span class="op">)</span>,
   dpi <span class="op">=</span> <span class="fl">300</span>, width <span class="op">=</span> <span class="fl">5</span>, height <span class="op">=</span> <span class="fl">3</span>
 <span class="op">)</span></code></pre></div>
+=======
+  filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/example_analyses"</span>, 
+                        <span class="st">"smoking_lung_cancer_coefficients.png"</span><span class="op">)</span>,
+  dpi <span class="op">=</span> <span class="fl">300</span>, width <span class="op">=</span> <span class="fl">5</span>, height <span class="op">=</span> <span class="fl">3</span>
+<span class="op">)</span></pre></div>
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
 <p>Finally, we have the marginal conditionals <span class="math inline">\(P(X = 1 | Z = z), z = 0,1,2\)</span> and <span class="math inline">\(P(Y = 1 | Z = z), z = 0,1,2\)</span>. We notice that the location of the histograms are about the same for the three levels of <span class="math inline">\(Z\)</span>, which is the reason for all the SNPs being very weak instruments.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="op">(</span><span class="va">marginal_conditionals</span> <span class="op">&lt;-</span> <span class="va">summaries_for_plots</span> <span class="op">%&gt;%</span> 
+<div class="sourceCode" id="cb31"><pre class="downlit">
+<span class="op">(</span><span class="va">marginal_conditionals</span> <span class="op">&lt;-</span> <span class="va">summaries_for_plots</span> <span class="op">%&gt;%</span> 
   <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"xy_given_z"</span><span class="op">)</span>,
                names_to <span class="op">=</span> <span class="st">"vars"</span>, values_to <span class="op">=</span> <span class="st">"p"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>regression <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">regression</span> <span class="op">==</span> <span class="st">"exposure"</span>,
@@ -316,11 +330,12 @@
                    color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu">facet_grid</span><span class="op">(</span><span class="va">vars</span> <span class="op">~</span> <span class="va">regression</span>,
                scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p><img src="example_analysis_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span>
+<div class="sourceCode" id="cb32"><pre class="downlit">
+<span class="fu">ggsave</span><span class="op">(</span>
   plot <span class="op">=</span> <span class="va">marginal_conditionals</span>,
+<<<<<<< HEAD
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures"</span>,
                         <span class="st">"tiff/example_analyses"</span>,
                         <span class="st">"smoking_lung_cancer_marginal_conditionals.tiff"</span><span class="op">)</span>,
@@ -333,13 +348,19 @@
                         <span class="st">"smoking_lung_cancer_marginal_conditionals.png"</span><span class="op">)</span>,
   dpi <span class="op">=</span> <span class="fl">300</span>, width <span class="op">=</span> <span class="fl">5</span>, height <span class="op">=</span> <span class="fl">3</span>
 <span class="op">)</span></code></pre></div>
+=======
+  filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/example_analyses"</span>,
+                        <span class="st">"smoking_lung_cancer_marginal_conditionals.png"</span><span class="op">)</span>,
+  dpi <span class="op">=</span> <span class="fl">300</span>, width <span class="op">=</span> <span class="fl">5</span>, height <span class="op">=</span> <span class="fl">3</span>
+<span class="op">)</span></pre></div>
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
 </div>
 <div id="bound-ate-using-the-bivariate-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bound-ate-using-the-bivariate-data" class="anchor"></a>Bound ATE using the bivariate data</h2>
 <p>Now, we calculate the bounds (both with and without assuming monotonicity of <span class="math inline">\(P(X = 1 | Z = z)\)</span>) using the <code><a href="../reference/get_bounds.html">get_bounds()</a></code> function.</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">smoking_lung_cancer_bounds</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_w_intercept</span> <span class="op">%&gt;%</span> 
+<div class="sourceCode" id="cb33"><pre class="downlit">
+<span class="va">smoking_lung_cancer_bounds</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_w_intercept</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">find_intercept</span>, <span class="op">-</span><span class="va">beta0</span>, <span class="op">-</span><span class="va">beta</span>, <span class="op">-</span><span class="va">p_outcome</span>, <span class="op">-</span><span class="va">ave_eaf</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>regression <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">regression</span> <span class="op">==</span> <span class="st">"outcome"</span>, <span class="st">"gammas"</span>, <span class="st">"thetas"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">regression</span>, values_from <span class="op">=</span> <span class="va">`thetas/gammas`</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -356,10 +377,10 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">unnest_wider</span><span class="op">(</span>col <span class="op">=</span> <span class="va">interval_mono</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>upper_mono <span class="op">=</span> <span class="va">upper</span>, lower_mono <span class="op">=</span> <span class="va">lower</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">interval</span><span class="op">)</span></code></pre></div>
+  <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">interval</span><span class="op">)</span></pre></div>
 <p>The bivariate bounds obtained from the 84 SNPs are shown on the following plot. As can be seen, none of the bounds provide much information at all, and all intervals are rather wide.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">smoking_lung_cancer_bivariate_bounds</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_bounds</span> <span class="op">%&gt;%</span> 
+<div class="sourceCode" id="cb34"><pre class="downlit">
+<span class="va">smoking_lung_cancer_bivariate_bounds</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_bounds</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">lower</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">SNP</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">geom_errorbar</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>xmax <span class="op">=</span> <span class="va">upper</span>, xmin <span class="op">=</span> <span class="va">lower</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
@@ -377,11 +398,12 @@
 <span class="va">smoking_lung_cancer_bivariate_bounds</span> <span class="op">+</span>
       <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Bivariate bounds"</span>,
          subtitle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Exposure: Smoking (id: "</span>, <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"). "</span>,
-                           <span class="st">"Outcome: Lung Cancer (id: "</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">")."</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+                           <span class="st">"Outcome: Lung Cancer (id: "</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">")."</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p><img src="example_analysis_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span>
+<div class="sourceCode" id="cb35"><pre class="downlit">
+<span class="fu">ggsave</span><span class="op">(</span>
   plot <span class="op">=</span> <span class="va">smoking_lung_cancer_bivariate_bounds</span>,
+<<<<<<< HEAD
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/tiff/example_analyses"</span>, 
                         <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"smoking_lung_cancer_bivariate_bounds_"</span>, <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".tiff"</span><span class="op">)</span><span class="op">)</span>,
   width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">10</span>, dpi <span class="op">=</span> <span class="fl">300</span>
@@ -392,9 +414,15 @@
                         <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"smoking_lung_cancer_bivariate_bounds_"</span>, <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".png"</span><span class="op">)</span><span class="op">)</span>,
   width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">10</span>, dpi <span class="op">=</span> <span class="fl">300</span>
 <span class="op">)</span></code></pre></div>
+=======
+  filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/example_analyses"</span>, 
+                        <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"smoking_lung_cancer_bivariate_bounds_"</span>, <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".png"</span><span class="op">)</span><span class="op">)</span>,
+  width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">10</span>, dpi <span class="op">=</span> <span class="fl">300</span>
+<span class="op">)</span></pre></div>
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
 <p>We save a figure with just a subset of the bounds to be included in the main manuscript.</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">smoking_SNP_subset</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">smoking_lung_cancer_bounds</span><span class="op">$</span><span class="va">SNP</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">5</span>, <span class="fl">17</span>, <span class="fl">25</span>, <span class="fl">34</span>, <span class="fl">52</span>, <span class="fl">65</span>, <span class="fl">78</span><span class="op">)</span><span class="op">]</span>
+<div class="sourceCode" id="cb36"><pre class="downlit">
+<span class="va">smoking_SNP_subset</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">smoking_lung_cancer_bounds</span><span class="op">$</span><span class="va">SNP</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">5</span>, <span class="fl">17</span>, <span class="fl">25</span>, <span class="fl">34</span>, <span class="fl">52</span>, <span class="fl">65</span>, <span class="fl">78</span><span class="op">)</span><span class="op">]</span>
 
 <span class="va">smoking_lung_cancer_bivariate_bounds_subset</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_bounds</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">SNP</span> <span class="op">%in%</span> <span class="va">smoking_SNP_subset</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -412,6 +440,7 @@
 
 <span class="fu">ggsave</span><span class="op">(</span>
   plot <span class="op">=</span> <span class="va">smoking_lung_cancer_bivariate_bounds_subset</span>,
+<<<<<<< HEAD
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/tiff/example_analyses"</span>, 
                         <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"smoking_lung_cancer_bivariate_bounds_subset_"</span>, <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".tiff"</span><span class="op">)</span><span class="op">)</span>,
   width <span class="op">=</span> <span class="fl">4</span>, height <span class="op">=</span> <span class="fl">4</span>, dpi <span class="op">=</span> <span class="fl">300</span>
@@ -423,9 +452,15 @@
                         <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"smoking_lung_cancer_bivariate_bounds_subset_"</span>, <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".png"</span><span class="op">)</span><span class="op">)</span>,
   width <span class="op">=</span> <span class="fl">4</span>, height <span class="op">=</span> <span class="fl">4</span>, dpi <span class="op">=</span> <span class="fl">300</span>
 <span class="op">)</span></code></pre></div>
+=======
+  filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/example_analyses"</span>, 
+                        <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"smoking_lung_cancer_bivariate_bounds_subset_"</span>, <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".png"</span><span class="op">)</span><span class="op">)</span>,
+  width <span class="op">=</span> <span class="fl">4</span>, height <span class="op">=</span> <span class="fl">4</span>, dpi <span class="op">=</span> <span class="fl">300</span>
+<span class="op">)</span></pre></div>
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
 <p>That all the bounds are rather wide is no surprise – all the IVs are rather weak, as can be seen on the histogram of the strengths below.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">strength_histogram</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_bounds</span> <span class="op">%&gt;%</span> 
+<div class="sourceCode" id="cb37"><pre class="downlit">
+<span class="va">strength_histogram</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_bounds</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>strength <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/outer.html">outer</a></span><span class="op">(</span><span class="va">thetas</span>, <span class="va">thetas</span>, <span class="va">`-`</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -437,11 +472,12 @@
     <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span>
 
 <span class="va">strength_histogram</span> <span class="op">+</span>
-  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Strength of IVs on Smoking"</span><span class="op">)</span></code></pre></div>
+  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Strength of IVs on Smoking"</span><span class="op">)</span></pre></div>
 <p><img src="example_analysis_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span>
+<div class="sourceCode" id="cb38"><pre class="downlit">
+<span class="fu">ggsave</span><span class="op">(</span>
   plot <span class="op">=</span> <span class="va">strength_histogram</span>,
+<<<<<<< HEAD
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/png/example_analyses"</span>,
                         <span class="st">"strength_histogram.png"</span><span class="op">)</span>,
   dpi <span class="op">=</span> <span class="fl">300</span>, width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">4</span>
@@ -451,19 +487,23 @@
   plot <span class="op">=</span> <span class="va">strength_histogram</span>,
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/tiff/example_analyses"</span>,
                         <span class="st">"strength_histogram.tiff"</span><span class="op">)</span>,
+=======
+  filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/example_analyses"</span>,
+                        <span class="st">"strength_histogram.png"</span><span class="op">)</span>,
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   dpi <span class="op">=</span> <span class="fl">300</span>, width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">4</span>
-<span class="op">)</span></code></pre></div>
+<span class="op">)</span></pre></div>
 </div>
 <div id="random-sampling-of-potential-joint-distributions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#random-sampling-of-potential-joint-distributions" class="anchor"></a>Random Sampling of Potential Joint Distributions</h2>
 <p>To try to squeeze more information out of the data at hand, we try to randomly sample distributions <span class="math inline">\(P(Y = y, X = x | Z = z)\)</span> that match the marginals we have, and don’t violate the IV model.</p>
 <p>Using the function <code><a href="../reference/potential_covs.html">potential_covs()</a></code>, we get constraints on the values of <span class="math inline">\(\text{Cov}(X,Y | Z = z)\)</span>. Feeding these constraints to <code><a href="../reference/sample_joint_probs.html">sample_joint_probs()</a></code>, we sample <span class="math inline">\(500\)</span> joint distributions for each SNP. (Note: we save the results to a file so we can recompile this document much more efficiently.)</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">smoking_lung_cancer_filename</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"samples_of_joints_"</span>, <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">".Rds"</span><span class="op">)</span>
+<div class="sourceCode" id="cb39"><pre class="downlit">
+<span class="va">smoking_lung_cancer_filename</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"samples_of_joints_"</span>, <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">".Rds"</span><span class="op">)</span>
 
-<span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html">file.exists</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses"</span>, <span class="va">smoking_lung_cancer_filename</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
-  <span class="va">smoking_lung_cancer_samples_of_joints</span> <span class="op">&lt;-</span> <span class="fu">read_rds</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses"</span>, <span class="va">smoking_lung_cancer_filename</span><span class="op">)</span><span class="op">)</span>
+<span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html">file.exists</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses"</span>, <span class="va">smoking_lung_cancer_filename</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
+  <span class="va">smoking_lung_cancer_samples_of_joints</span> <span class="op">&lt;-</span> <span class="fu">read_rds</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses"</span>, <span class="va">smoking_lung_cancer_filename</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span>
   <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">7892312</span><span class="op">)</span>
   
@@ -472,20 +512,20 @@
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>pot_covs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/potential_covs.html">potential_covs</a></span><span class="op">(</span>thetas <span class="op">=</span> <span class="va">thetas</span>, gammas <span class="op">=</span> <span class="va">gammas</span><span class="op">)</span><span class="op">)</span>,
            sample_joint <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/sample_joint_probs.html">sample_joint_probs</a></span><span class="op">(</span><span class="va">pot_covs</span>, n <span class="op">=</span> <span class="fl">500</span>, return_bounds <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
   
-  <span class="fu">write_rds</span><span class="op">(</span><span class="va">smoking_lung_cancer_samples_of_joints</span>, <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses"</span>, <span class="va">smoking_lung_cancer_filename</span><span class="op">)</span><span class="op">)</span>
-<span class="op">}</span></code></pre></div>
+  <span class="fu">write_rds</span><span class="op">(</span><span class="va">smoking_lung_cancer_samples_of_joints</span>, <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses"</span>, <span class="va">smoking_lung_cancer_filename</span><span class="op">)</span><span class="op">)</span>
+<span class="op">}</span></pre></div>
 <p>We do some expanding to expose the bounds from these joint distributions.</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">smoking_lung_cancer_trivariate_bounds</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_samples_of_joints</span> <span class="op">%&gt;%</span> 
+<div class="sourceCode" id="cb40"><pre class="downlit">
+<span class="va">smoking_lung_cancer_trivariate_bounds</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_samples_of_joints</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">SNP</span>, bivariate_lower <span class="op">=</span> <span class="va">lower</span>, bivariate_upper <span class="op">=</span> <span class="va">upper</span>, <span class="va">sample_joint</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">unnest</span><span class="op">(</span><span class="va">sample_joint</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">unnest</span><span class="op">(</span><span class="va">joint</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">bounds</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>contains_zero <span class="op">=</span> <span class="va">lower</span> <span class="op">&lt;</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="va">upper</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>contains_zero <span class="op">=</span> <span class="va">lower</span> <span class="op">&lt;</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="va">upper</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></pre></div>
 <p>The plot below shows all bounds obtained from sampled joint distributions along with the original bivariate bounds. In this particular example, having a dataset with observations of <span class="math inline">\((X,Y,Z)\)</span> would not provide much more information. There seems to be essentially no setting where the IV model holds, the marginals we observe are correct, AND the joint distribution would allow to determine direction of the ATE.</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">smoking_lung_cancer_individual_SNPs_plot</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_trivariate_bounds</span> <span class="op">%&gt;%</span> 
+<div class="sourceCode" id="cb41"><pre class="downlit">
+<span class="va">smoking_lung_cancer_individual_SNPs_plot</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_trivariate_bounds</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">SNP</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">lower</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/ranking.html">row_number</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -522,11 +562,12 @@
 <span class="va">smoking_lung_cancer_individual_SNPs_plot</span> <span class="op">+</span> 
     <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Possible Trivariate Bounds from Bivariate Data"</span>,
          subtitle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Exposure: Smoking (id: "</span>, <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"). "</span>,
-                           <span class="st">"Outcome: Lung Cancer (id: "</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">")."</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+                           <span class="st">"Outcome: Lung Cancer (id: "</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">")."</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p><img src="example_analysis_files/figure-html/unnamed-chunk-21-1.png" width="768"></p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span>
+<div class="sourceCode" id="cb42"><pre class="downlit">
+<span class="fu">ggsave</span><span class="op">(</span>
   plot <span class="op">=</span> <span class="va">smoking_lung_cancer_individual_SNPs_plot</span>,
+<<<<<<< HEAD
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/tiff/example_analyses"</span>, 
                         <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"smoking_lung_cancer_individual_SNPs_plot_"</span>, <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".tiff"</span><span class="op">)</span><span class="op">)</span>,
   height <span class="op">=</span> <span class="fl">7</span>, width <span class="op">=</span> <span class="fl">10</span>, dpi <span class="op">=</span> <span class="fl">300</span>
@@ -538,9 +579,15 @@
                         <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"smoking_lung_cancer_individual_SNPs_plot_"</span>, <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".png"</span><span class="op">)</span><span class="op">)</span>,
   height <span class="op">=</span> <span class="fl">7</span>, width <span class="op">=</span> <span class="fl">10</span>, dpi <span class="op">=</span> <span class="fl">300</span>
 <span class="op">)</span></code></pre></div>
+=======
+  filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/example_analyses"</span>, 
+                        <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"smoking_lung_cancer_individual_SNPs_plot_"</span>, <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".png"</span><span class="op">)</span><span class="op">)</span>,
+  height <span class="op">=</span> <span class="fl">7</span>, width <span class="op">=</span> <span class="fl">10</span>, dpi <span class="op">=</span> <span class="fl">300</span>
+<span class="op">)</span></pre></div>
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
 <p>Again, we save figure with only a subset of the SNPs for our manuscript:</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">smoking_lung_cancer_individual_SNPs_plot_subset</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_trivariate_bounds</span> <span class="op">%&gt;%</span> 
+<div class="sourceCode" id="cb43"><pre class="downlit">
+<span class="va">smoking_lung_cancer_individual_SNPs_plot_subset</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_trivariate_bounds</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">SNP</span> <span class="op">%in%</span> <span class="va">smoking_SNP_subset</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">SNP</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">lower</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -577,6 +624,7 @@
 
 <span class="fu">ggsave</span><span class="op">(</span>
   plot <span class="op">=</span> <span class="va">smoking_lung_cancer_individual_SNPs_plot_subset</span>,
+<<<<<<< HEAD
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/png/example_analyses"</span>, 
                         <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"smoking_lung_cancer_individual_SNPs_plot_subset_"</span>, <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".png"</span><span class="op">)</span><span class="op">)</span>,
   width <span class="op">=</span> <span class="fl">4</span>, height <span class="op">=</span> <span class="fl">6</span>, dpi <span class="op">=</span> <span class="fl">300</span>
@@ -586,14 +634,18 @@
   plot <span class="op">=</span> <span class="va">smoking_lung_cancer_individual_SNPs_plot_subset</span>,
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/tiff/example_analyses"</span>, 
                         <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"smoking_lung_cancer_individual_SNPs_plot_subset_"</span>, <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".tiff"</span><span class="op">)</span><span class="op">)</span>,
+=======
+  filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/example_analyses"</span>, 
+                        <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"smoking_lung_cancer_individual_SNPs_plot_subset_"</span>, <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".png"</span><span class="op">)</span><span class="op">)</span>,
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   width <span class="op">=</span> <span class="fl">4</span>, height <span class="op">=</span> <span class="fl">6</span>, dpi <span class="op">=</span> <span class="fl">300</span>
-<span class="op">)</span></code></pre></div>
+<span class="op">)</span></pre></div>
 <p>Below is a similar plot where we assume monotonicity of <span class="math inline">\(P(X = 1 | Z = z)\)</span>. This is only done in cases where the marginals are such that the bivariate constraints are not violated. We notice that the information in these bounds is not much different.</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">smoking_lung_cancer_filename_mono</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"samples_of_joints_mono_"</span>, <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">".Rds"</span><span class="op">)</span>
+<div class="sourceCode" id="cb44"><pre class="downlit">
+<span class="va">smoking_lung_cancer_filename_mono</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"samples_of_joints_mono_"</span>, <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">".Rds"</span><span class="op">)</span>
 
-<span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html">file.exists</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses"</span>, <span class="va">smoking_lung_cancer_filename_mono</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
-  <span class="va">smoking_lung_cancer_samples_of_joints_mono</span> <span class="op">&lt;-</span> <span class="fu">read_rds</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses"</span>,
+<span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html">file.exists</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses"</span>, <span class="va">smoking_lung_cancer_filename_mono</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
+  <span class="va">smoking_lung_cancer_samples_of_joints_mono</span> <span class="op">&lt;-</span> <span class="fu">read_rds</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses"</span>,
                                                                    <span class="va">smoking_lung_cancer_filename_mono</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span>
   <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">6925896</span><span class="op">)</span>
@@ -607,7 +659,7 @@
                                                   print_as_progress <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
   
   <span class="fu">write_rds</span><span class="op">(</span><span class="va">smoking_lung_cancer_samples_of_joints_mono</span>,
-            <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses"</span>,
+            <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses"</span>,
                        <span class="va">smoking_lung_cancer_filename_mono</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span>
 
@@ -642,25 +694,25 @@
          subtitle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Exposure: Smoking (id: "</span>, <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"). "</span>,
                            <span class="st">"Outcome: Lung Cancer (id: "</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">")."</span><span class="op">)</span><span class="op">)</span>
 
-<span class="va">smoking_lung_cancer_individual_SNPs_mono_plot</span></code></pre></div>
+<span class="va">smoking_lung_cancer_individual_SNPs_mono_plot</span></pre></div>
 <p><img src="example_analysis_files/figure-html/unnamed-chunk-23-1.png" width="1248"></p>
 </div>
 <div id="intersections-of-bounds-from-randomly-sampled-joint-distributions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#intersections-of-bounds-from-randomly-sampled-joint-distributions" class="anchor"></a>Intersections of Bounds from Randomly Sampled Joint Distributions</h2>
 <p>First, we create a tibble with all unique pairs of SNPs.</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">smoking_lung_cancer_pairs_of_snps</span> <span class="op">&lt;-</span> <span class="fu">expand_grid</span><span class="op">(</span>SNP1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">smoking_lung_cancer_trivariate_bounds</span><span class="op">$</span><span class="va">SNP</span><span class="op">)</span>,
+<div class="sourceCode" id="cb45"><pre class="downlit">
+<span class="va">smoking_lung_cancer_pairs_of_snps</span> <span class="op">&lt;-</span> <span class="fu">expand_grid</span><span class="op">(</span>SNP1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">smoking_lung_cancer_trivariate_bounds</span><span class="op">$</span><span class="va">SNP</span><span class="op">)</span>,
                                                  SNP2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">smoking_lung_cancer_trivariate_bounds</span><span class="op">$</span><span class="va">SNP</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">SNP1</span> <span class="op">!=</span> <span class="va">SNP2</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>SNPs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">SNP1</span>, <span class="va">SNP2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span><span class="op">(</span><span class="va">SNPs</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>SNPs <span class="op">=</span> <span class="fu">map</span><span class="op">(</span><span class="va">SNPs</span>, <span class="op">~</span><span class="fu">tibble_row</span><span class="op">(</span>SNP1 <span class="op">=</span> <span class="va">.x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, SNP2 <span class="op">=</span> <span class="va">.x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">SNPs</span><span class="op">)</span></code></pre></div>
+  <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">SNPs</span><span class="op">)</span></pre></div>
 <pre><code>## `summarise()` has ungrouped output. You can override using the `.groups` argument.</code></pre>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">smoking_lung_cancer_pairs_of_snps</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="downlit">
+<span class="va">smoking_lung_cancer_pairs_of_snps</span></pre></div>
 <pre><code>## # A tibble: 3,486 x 2
 ##    SNP1       SNP2      
 ##    &lt;chr&gt;      &lt;chr&gt;     
@@ -677,13 +729,13 @@
 ## # … with 3,476 more rows</code></pre>
 <p>The resulting tibble has 3486 rows, which is exactly <span class="math inline">\({84 \choose 2}\)</span>.</p>
 <p>It is not feasible (and probably not even useful…) to go through all pairs, so instead we will simply look at a random sample of 8 pairs.</p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">493637</span><span class="op">)</span>
+<div class="sourceCode" id="cb49"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">493637</span><span class="op">)</span>
 
 <span class="va">smoking_lung_cancer_chosen_pairs</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_pairs_of_snps</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">8</span><span class="op">)</span>
 
-<span class="fu">pander</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html">pander</a></span><span class="op">(</span><span class="va">smoking_lung_cancer_chosen_pairs</span><span class="op">)</span></code></pre></div>
+<span class="fu">pander</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html">pander</a></span><span class="op">(</span><span class="va">smoking_lung_cancer_chosen_pairs</span><span class="op">)</span></pre></div>
 <table class="table">
 <colgroup>
 <col width="18%">
@@ -729,8 +781,8 @@
 </tbody>
 </table>
 <p>We simply reuse the joint distributions and bounds found previously noting that this imposes the assumption that the distributions of <span class="math inline">\((X,Y|Z_1)\)</span> and <span class="math inline">\((X,Y|Z_2)\)</span> are independent of each other.</p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">smoking_lung_cancer_both_bounds</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_chosen_pairs</span> <span class="op">%&gt;%</span> 
+<div class="sourceCode" id="cb50"><pre class="downlit">
+<span class="va">smoking_lung_cancer_both_bounds</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_chosen_pairs</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>
     SNP1_bounds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
@@ -749,7 +801,7 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">unnest</span><span class="op">(</span>cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">SNP1_bounds</span>, <span class="va">SNP2_bounds</span><span class="op">)</span><span class="op">)</span>
 
-<span class="va">smoking_lung_cancer_both_bounds</span></code></pre></div>
+<span class="va">smoking_lung_cancer_both_bounds</span></pre></div>
 <pre><code>## # A tibble: 4,000 x 10
 ##    SNP1  SNP2  SNP1_bivariate_… SNP1_bivariate_… SNP1_lower SNP1_upper
 ##    &lt;chr&gt; &lt;chr&gt;            &lt;dbl&gt;            &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
@@ -766,8 +818,8 @@
 ## # … with 3,990 more rows, and 4 more variables: SNP2_bivariate_lower &lt;dbl&gt;,
 ## #   SNP2_bivariate_upper &lt;dbl&gt;, SNP2_lower &lt;dbl&gt;, SNP2_upper &lt;dbl&gt;</code></pre>
 <p>Finally, we construct intersection bounds.</p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">smoking_lung_cancer_intersection_bounds</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_both_bounds</span> <span class="op">%&gt;%</span> 
+<div class="sourceCode" id="cb52"><pre class="downlit">
+<span class="va">smoking_lung_cancer_intersection_bounds</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_both_bounds</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>intersection_lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">SNP1_lower</span>, <span class="va">SNP2_lower</span><span class="op">)</span>,
          intersection_upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">SNP1_upper</span>, <span class="va">SNP2_upper</span><span class="op">)</span>,
@@ -775,10 +827,10 @@
          bivariate_intersection_upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">SNP1_bivariate_upper</span>, <span class="va">SNP2_bivariate_upper</span><span class="op">)</span>,
   <span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>contains_zero <span class="op">=</span> <span class="va">intersection_lower</span> <span class="op">&lt;</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="va">intersection_upper</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>contains_zero <span class="op">=</span> <span class="va">intersection_lower</span> <span class="op">&lt;</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="va">intersection_upper</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></pre></div>
 <p>A plot to display them.</p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">smoking_lung_cancer_intersection_bounds_plot</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_intersection_bounds</span> <span class="op">%&gt;%</span> 
+<div class="sourceCode" id="cb53"><pre class="downlit">
+<span class="va">smoking_lung_cancer_intersection_bounds_plot</span> <span class="op">&lt;-</span> <span class="va">smoking_lung_cancer_intersection_bounds</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">SNP1</span>, <span class="va">SNP2</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">intersection_lower</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>i <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/ranking.html">row_number</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -818,8 +870,13 @@
 
 <span class="fu">ggsave</span><span class="op">(</span>
   plot <span class="op">=</span> <span class="va">smoking_lung_cancer_intersection_bounds_plot</span>,
+<<<<<<< HEAD
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/tiff/example_analyses"</span>, 
                         <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"smoking_lung_cancer_intersection_bounds_plot_"</span>, <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".tiff"</span><span class="op">)</span><span class="op">)</span>,
+=======
+  filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/example_analyses"</span>, 
+                        <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"smoking_lung_cancer_intersection_bounds_plot_"</span>, <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".png"</span><span class="op">)</span><span class="op">)</span>,
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">6</span>, dpi <span class="op">=</span> <span class="fl">300</span>
 <span class="op">)</span>
 
@@ -833,7 +890,7 @@
 <span class="va">smoking_lung_cancer_intersection_bounds_plot</span> <span class="op">+</span>
     <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Intersections of Possible Trivariate Bounds from Bivariate Data"</span>,
          subtitle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Exposure: Smoking (id: "</span>, <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"). "</span>,
-                           <span class="st">"Outcome: Lung Cancer (id: "</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">")."</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+                           <span class="st">"Outcome: Lung Cancer (id: "</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">")."</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p><img src="example_analysis_files/figure-html/unnamed-chunk-28-1.png" width="960"></p>
 </div>
 </div>
@@ -844,21 +901,21 @@
 <div id="collect-data-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#collect-data-1" class="anchor"></a>Collect Data</h2>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cholesterol_experiment</span> <span class="op">&lt;-</span> <span class="va">ao</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">id</span> <span class="op">==</span> <span class="st">"ukb-a-108"</span><span class="op">)</span> 
+<div class="sourceCode" id="cb54"><pre class="downlit">
+<span class="va">cholesterol_experiment</span> <span class="op">&lt;-</span> <span class="va">ao</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">id</span> <span class="op">==</span> <span class="st">"ukb-a-108"</span><span class="op">)</span> 
 <span class="va">cholesterol_instruments</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/TwoSampleMR/man/extract_instruments.html">extract_instruments</a></span><span class="op">(</span><span class="va">cholesterol_experiment</span><span class="op">$</span><span class="va">id</span><span class="op">)</span>
 
 <span class="va">heart_attack_experiment</span> <span class="op">&lt;-</span> <span class="va">ao</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">id</span> <span class="op">==</span> <span class="st">"ukb-a-434"</span><span class="op">)</span>
 
-<span class="va">heart_attack_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/TwoSampleMR/man/extract_outcome_data.html">extract_outcome_data</a></span><span class="op">(</span>snps <span class="op">=</span> <span class="va">cholesterol_instruments</span><span class="op">$</span><span class="va">SNP</span>, outcomes <span class="op">=</span> <span class="va">heart_attack_experiment</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></code></pre></div>
+<span class="va">heart_attack_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/TwoSampleMR/man/extract_outcome_data.html">extract_outcome_data</a></span><span class="op">(</span>snps <span class="op">=</span> <span class="va">cholesterol_instruments</span><span class="op">$</span><span class="va">SNP</span>, outcomes <span class="op">=</span> <span class="va">heart_attack_experiment</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></pre></div>
 <pre><code>## Extracting data for 54 SNP(s) from 1 GWAS(s)</code></pre>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cholesterol_heart_attack_harmonized</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/TwoSampleMR/man/harmonise_data.html">harmonise_data</a></span><span class="op">(</span><span class="va">cholesterol_instruments</span>, <span class="va">heart_attack_data</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="downlit">
+<span class="va">cholesterol_heart_attack_harmonized</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/TwoSampleMR/man/harmonise_data.html">harmonise_data</a></span><span class="op">(</span><span class="va">cholesterol_instruments</span>, <span class="va">heart_attack_data</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span></pre></div>
 <pre><code>## Harmonising Non-cancer illness code  self-reported: high cholesterol || id:ukb-a-108 (ukb-a-108) and Vascular/heart problems diagnosed by doctor: Heart attack || id:ukb-a-434 (ukb-a-434)</code></pre>
 <pre><code>## Removing the following SNPs for being palindromic with intermediate allele frequencies:
 ## rs28601761, rs7213086</code></pre>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cholesterol_heart_attack_pop_probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>regression <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"outcome"</span>, <span class="st">"exposure"</span><span class="op">)</span>,
+<div class="sourceCode" id="cb59"><pre class="downlit">
+<span class="va">cholesterol_heart_attack_pop_probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>regression <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"outcome"</span>, <span class="st">"exposure"</span><span class="op">)</span>,
                                              p_outcome <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">cholesterol_experiment</span>  <span class="op">%$%</span> <span class="op">{</span> <span class="va">ncase</span> <span class="op">/</span> <span class="op">(</span><span class="va">ncase</span> <span class="op">+</span> <span class="va">ncontrol</span><span class="op">)</span> <span class="op">}</span>,
                                                            <span class="va">heart_attack_experiment</span> <span class="op">%$%</span> <span class="op">{</span> <span class="va">ncase</span> <span class="op">/</span> <span class="op">(</span><span class="va">ncase</span> <span class="op">+</span> <span class="va">ncontrol</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span><span class="op">)</span>
 
@@ -884,14 +941,14 @@
                                               pz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">`P(Z = 0)`</span>, <span class="va">`P(Z = 1)`</span>, <span class="va">`P(Z = 2)`</span><span class="op">)</span>,
                                               interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">7</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,
          beta0 <span class="op">=</span> <span class="va">find_intercept</span><span class="op">$</span><span class="va">root</span>,
-         `thetas/gammas` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="op">(</span><span class="fl">1</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">beta0</span> <span class="op">-</span> <span class="fl">0</span><span class="op">:</span><span class="fl">2</span><span class="op">*</span><span class="va">beta</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+         `thetas/gammas` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="op">(</span><span class="fl">1</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">beta0</span> <span class="op">-</span> <span class="fl">0</span><span class="op">:</span><span class="fl">2</span><span class="op">*</span><span class="va">beta</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></pre></div>
 <pre><code>## Joining, by = "regression"</code></pre>
 </div>
 <div id="summaries-of-marginal-distributions-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#summaries-of-marginal-distributions-1" class="anchor"></a>Summaries of Marginal Distributions</h2>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">summaries_for_plots_cholesterol_HA</span> <span class="op">&lt;-</span> <span class="va">cholesterol_heart_attack_w_intercept</span> <span class="op">%&gt;%</span> 
+<div class="sourceCode" id="cb61"><pre class="downlit">
+<span class="va">summaries_for_plots_cholesterol_HA</span> <span class="op">&lt;-</span> <span class="va">cholesterol_heart_attack_w_intercept</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">SNP</span>, <span class="va">regression</span>, <span class="va">beta</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"P(Z ="</span><span class="op">)</span>, <span class="va">p_outcome</span>, <span class="va">beta0</span>, <span class="va">`thetas/gammas`</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>`thetas/gammas` <span class="op">=</span> <span class="fu">map</span><span class="op">(</span><span class="va">`thetas/gammas`</span>, <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="va">.x</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"xy_given_z0"</span>, <span class="st">"xy_given_z1"</span>, <span class="st">"xy_given_z2"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -899,7 +956,7 @@
 
 <span class="fu">write_csv</span><span class="op">(</span>
   <span class="va">summaries_for_plots_cholesterol_HA</span>,
-  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/summary_stats_cholesterol_on_heart_attack.csv"</span><span class="op">)</span>
+  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/summary_stats_cholesterol_on_heart_attack.csv"</span><span class="op">)</span>
 <span class="op">)</span>
 
 <span class="op">(</span><span class="va">marginal_Z_cholesterol_HA</span> <span class="op">&lt;-</span> <span class="va">summaries_for_plots_cholesterol_HA</span> <span class="op">%&gt;%</span> 
@@ -911,11 +968,12 @@
                    color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">facet_grid</span><span class="op">(</span><span class="op">~</span> <span class="va">z</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://rdrr.io/r/graphics/plot.window.html">xlim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p><img src="example_analysis_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
-<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span>
+<div class="sourceCode" id="cb62"><pre class="downlit">
+<span class="fu">ggsave</span><span class="op">(</span>
   plot <span class="op">=</span> <span class="va">marginal_Z_cholesterol_HA</span>,
+<<<<<<< HEAD
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/png/example_analyses"</span>, 
                         <span class="st">"cholesterol_heart_attack_marginal_Z.png"</span><span class="op">)</span>,
   dpi <span class="op">=</span> <span class="fl">300</span>, width <span class="op">=</span> <span class="fl">6.5</span>, height <span class="op">=</span> <span class="fl">2</span>
@@ -924,6 +982,10 @@
   plot <span class="op">=</span> <span class="va">marginal_Z_cholesterol_HA</span>,
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/tiff/example_analyses"</span>, 
                         <span class="st">"cholesterol_heart_attack_marginal_Z.tiff"</span><span class="op">)</span>,
+=======
+  filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/example_analyses"</span>, 
+                        <span class="st">"cholesterol_heart_attack_marginal_Z.png"</span><span class="op">)</span>,
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   dpi <span class="op">=</span> <span class="fl">300</span>, width <span class="op">=</span> <span class="fl">6.5</span>, height <span class="op">=</span> <span class="fl">2</span>
 <span class="op">)</span>
 
@@ -940,11 +1002,12 @@
     <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span> <span class="va">real_coefs</span>,
                scales <span class="op">=</span> <span class="st">"free"</span>,
                labeller <span class="op">=</span> <span class="va">label_parsed</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p><img src="example_analysis_files/figure-html/unnamed-chunk-30-2.png" width="700"></p>
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span>
+<div class="sourceCode" id="cb63"><pre class="downlit">
+<span class="fu">ggsave</span><span class="op">(</span>
   plot <span class="op">=</span> <span class="va">heart_attack_coefficients</span>,
+<<<<<<< HEAD
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/png/example_analyses"</span>, 
                         <span class="st">"cholesterol_heart_attack_coefficients.png"</span><span class="op">)</span>,
   dpi <span class="op">=</span> <span class="fl">300</span>, width <span class="op">=</span> <span class="fl">5</span>, height <span class="op">=</span> <span class="fl">3</span>
@@ -953,6 +1016,10 @@
   plot <span class="op">=</span> <span class="va">heart_attack_coefficients</span>,
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/tiff/example_analyses"</span>, 
                         <span class="st">"cholesterol_heart_attack_coefficients.tiff"</span><span class="op">)</span>,
+=======
+  filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/example_analyses"</span>, 
+                        <span class="st">"cholesterol_heart_attack_coefficients.png"</span><span class="op">)</span>,
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   dpi <span class="op">=</span> <span class="fl">300</span>, width <span class="op">=</span> <span class="fl">5</span>, height <span class="op">=</span> <span class="fl">3</span>
 <span class="op">)</span>
 
@@ -967,13 +1034,18 @@
                    color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu">facet_grid</span><span class="op">(</span><span class="va">vars</span> <span class="op">~</span> <span class="va">regression</span>,
                scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p><img src="example_analysis_files/figure-html/unnamed-chunk-30-3.png" width="700"></p>
-<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span>
+<div class="sourceCode" id="cb64"><pre class="downlit">
+<span class="fu">ggsave</span><span class="op">(</span>
   plot <span class="op">=</span> <span class="va">cholesterol_heart_attack_marginal_conditionals</span>,
+<<<<<<< HEAD
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/tiff/example_analyses"</span>,
                         <span class="st">"cholesterol_heart_attack_marginal_conditionals.tiff"</span><span class="op">)</span>,
+=======
+  filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/example_analyses"</span>,
+                        <span class="st">"cholesterol_heart_attack_marginal_conditionals.png"</span><span class="op">)</span>,
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   dpi <span class="op">=</span> <span class="fl">300</span>, width <span class="op">=</span> <span class="fl">5</span>, height <span class="op">=</span> <span class="fl">3</span>
 <span class="op">)</span>
 
@@ -1022,13 +1094,18 @@
 <span class="va">cholesterol_heart_attack_bivariate_bounds</span> <span class="op">+</span>
       <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Bivariate bounds"</span>,
          subtitle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Exposure: High Cholesterol (id: "</span>, <span class="va">cholesterol_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"). "</span>,
-                           <span class="st">"Outcome: Heart Attack (id: "</span>, <span class="va">heart_attack_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">")."</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+                           <span class="st">"Outcome: Heart Attack (id: "</span>, <span class="va">heart_attack_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">")."</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p><img src="example_analysis_files/figure-html/unnamed-chunk-30-4.png" width="700"></p>
-<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span>
+<div class="sourceCode" id="cb65"><pre class="downlit">
+<span class="fu">ggsave</span><span class="op">(</span>
   plot <span class="op">=</span> <span class="va">cholesterol_heart_attack_bivariate_bounds</span>,
+<<<<<<< HEAD
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/tiff/example_analyses"</span>, 
                         <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"cholesterol_heart_attack_bivariate_bounds_"</span>, <span class="va">cholesterol_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">heart_attack_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".tiff"</span><span class="op">)</span><span class="op">)</span>,
+=======
+  filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/example_analyses"</span>, 
+                        <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"cholesterol_heart_attack_bivariate_bounds_"</span>, <span class="va">cholesterol_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">heart_attack_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".png"</span><span class="op">)</span><span class="op">)</span>,
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">10</span>, dpi <span class="op">=</span> <span class="fl">300</span>
 <span class="op">)</span>
 
@@ -1058,8 +1135,13 @@
 
 <span class="fu">ggsave</span><span class="op">(</span>
   plot <span class="op">=</span> <span class="va">cholesterol_heart_attack_bivariate_bounds_subset</span>,
+<<<<<<< HEAD
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/tiff/example_analyses"</span>, 
                         <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"cholesterol_heart_attack_bivariate_bounds_subset_"</span>, <span class="va">cholesterol_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">heart_attack_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".tiff"</span><span class="op">)</span><span class="op">)</span>,
+=======
+  filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/example_analyses"</span>, 
+                        <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"cholesterol_heart_attack_bivariate_bounds_subset_"</span>, <span class="va">cholesterol_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">heart_attack_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".png"</span><span class="op">)</span><span class="op">)</span>,
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   width <span class="op">=</span> <span class="fl">4</span>, height <span class="op">=</span> <span class="fl">4</span>, dpi <span class="op">=</span> <span class="fl">300</span>
 <span class="op">)</span>
 
@@ -1083,11 +1165,12 @@
     <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span>
 
 <span class="va">strength_histogram_cholesterol</span> <span class="op">+</span>
-  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Strength of IVs on High Cholesterol"</span><span class="op">)</span></code></pre></div>
+  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Strength of IVs on High Cholesterol"</span><span class="op">)</span></pre></div>
 <p><img src="example_analysis_files/figure-html/unnamed-chunk-30-5.png" width="700"></p>
-<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span>
+<div class="sourceCode" id="cb66"><pre class="downlit">
+<span class="fu">ggsave</span><span class="op">(</span>
   plot <span class="op">=</span> <span class="va">strength_histogram_cholesterol</span>,
+<<<<<<< HEAD
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/tiff/example_analyses"</span>,
                         <span class="st">"cholesterol_heart_attack_strength_histogram.tiff"</span><span class="op">)</span>,
   dpi <span class="op">=</span> <span class="fl">300</span>, width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">4</span>
@@ -1099,15 +1182,21 @@
                         <span class="st">"cholesterol_heart_attack_strength_histogram.png"</span><span class="op">)</span>,
   dpi <span class="op">=</span> <span class="fl">300</span>, width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">4</span>
 <span class="op">)</span></code></pre></div>
+=======
+  filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/example_analyses"</span>,
+                        <span class="st">"cholesterol_heart_attack_strength_histogram.png"</span><span class="op">)</span>,
+  dpi <span class="op">=</span> <span class="fl">300</span>, width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">4</span>
+<span class="op">)</span></pre></div>
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
 </div>
 <div id="random-sampling-of-potential-joint-distributions-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#random-sampling-of-potential-joint-distributions-1" class="anchor"></a>Random Sampling of Potential Joint Distributions</h2>
-<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cholesterol_heart_attack_filename</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"samples_of_joints_"</span>, <span class="va">cholesterol_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">heart_attack_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">".Rds"</span><span class="op">)</span>
+<div class="sourceCode" id="cb67"><pre class="downlit">
+<span class="va">cholesterol_heart_attack_filename</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"samples_of_joints_"</span>, <span class="va">cholesterol_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">heart_attack_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">".Rds"</span><span class="op">)</span>
 
-<span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html">file.exists</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses"</span>, <span class="va">cholesterol_heart_attack_filename</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
-  <span class="va">cholesterol_heart_attack_samples_of_joints</span> <span class="op">&lt;-</span> <span class="fu">read_rds</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses"</span>, <span class="va">cholesterol_heart_attack_filename</span><span class="op">)</span><span class="op">)</span>
+<span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html">file.exists</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses"</span>, <span class="va">cholesterol_heart_attack_filename</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
+  <span class="va">cholesterol_heart_attack_samples_of_joints</span> <span class="op">&lt;-</span> <span class="fu">read_rds</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses"</span>, <span class="va">cholesterol_heart_attack_filename</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span>
   <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">7892312</span><span class="op">)</span>
   
@@ -1116,7 +1205,7 @@
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>pot_covs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/potential_covs.html">potential_covs</a></span><span class="op">(</span>thetas <span class="op">=</span> <span class="va">thetas</span>, gammas <span class="op">=</span> <span class="va">gammas</span><span class="op">)</span><span class="op">)</span>,
            sample_joint <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/sample_joint_probs.html">sample_joint_probs</a></span><span class="op">(</span><span class="va">pot_covs</span>, n <span class="op">=</span> <span class="fl">500</span>, return_bounds <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
   
-  <span class="fu">write_rds</span><span class="op">(</span><span class="va">cholesterol_heart_attack_samples_of_joints</span>, <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses"</span>, <span class="va">cholesterol_heart_attack_filename</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu">write_rds</span><span class="op">(</span><span class="va">cholesterol_heart_attack_samples_of_joints</span>, <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses"</span>, <span class="va">cholesterol_heart_attack_filename</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span>
 
 <span class="va">cholesterol_heart_attack_trivariate_bounds</span> <span class="op">&lt;-</span> <span class="va">cholesterol_heart_attack_samples_of_joints</span> <span class="op">%&gt;%</span> 
@@ -1164,13 +1253,18 @@
 <span class="va">cholesterol_heart_attack_individual_SNPs_plot</span> <span class="op">+</span> 
     <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Possible Trivariate Bounds from Bivariate Data"</span>,
          subtitle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Exposure: High Cholesterol (id: "</span>, <span class="va">cholesterol_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"). "</span>,
-                           <span class="st">"Outcome: Heart Attack (id: "</span>, <span class="va">heart_attack_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">")."</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+                           <span class="st">"Outcome: Heart Attack (id: "</span>, <span class="va">heart_attack_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">")."</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p><img src="example_analysis_files/figure-html/unnamed-chunk-31-1.png" width="700"></p>
-<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span>
+<div class="sourceCode" id="cb68"><pre class="downlit">
+<span class="fu">ggsave</span><span class="op">(</span>
   plot <span class="op">=</span> <span class="va">cholesterol_heart_attack_individual_SNPs_plot</span>,
+<<<<<<< HEAD
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/tiff/example_analyses"</span>, 
                         <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"cholesterol_heart_attack_individual_SNPs_plot_"</span>, <span class="va">cholesterol_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">heart_attack_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".tiff"</span><span class="op">)</span><span class="op">)</span>,
+=======
+  filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/example_analyses"</span>, 
+                        <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"cholesterol_heart_attack_individual_SNPs_plot_"</span>, <span class="va">cholesterol_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">heart_attack_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".png"</span><span class="op">)</span><span class="op">)</span>,
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   height <span class="op">=</span> <span class="fl">5.5</span>, width <span class="op">=</span> <span class="fl">10</span>, dpi <span class="op">=</span> <span class="fl">300</span>
 <span class="op">)</span>
 
@@ -1219,8 +1313,13 @@
 
 <span class="fu">ggsave</span><span class="op">(</span>
   plot <span class="op">=</span> <span class="va">cholesterol_heart_attack_individual_SNPs_plot_subset</span>,
+<<<<<<< HEAD
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/tiff/example_analyses"</span>, 
                         <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"cholesterol_heart_attack_individual_SNPs_plot_subset_"</span>, <span class="va">cholesterol_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">heart_attack_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".tiff"</span><span class="op">)</span><span class="op">)</span>,
+=======
+  filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/example_analyses"</span>, 
+                        <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"cholesterol_heart_attack_individual_SNPs_plot_subset_"</span>, <span class="va">cholesterol_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">heart_attack_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".png"</span><span class="op">)</span><span class="op">)</span>,
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   width <span class="op">=</span> <span class="fl">4</span>, height <span class="op">=</span> <span class="fl">6</span>, dpi <span class="op">=</span> <span class="fl">300</span>
 <span class="op">)</span>
 
@@ -1234,8 +1333,8 @@
 
 <span class="va">cholesterol_heart_attack_filename_mono</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"samples_of_joints_mono_"</span>, <span class="va">smoking_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">lung_cancer_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">".Rds"</span><span class="op">)</span>
 
-<span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html">file.exists</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses"</span>, <span class="va">cholesterol_heart_attack_filename_mono</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
-  <span class="va">cholesterol_heart_attack_samples_of_joints_mono</span> <span class="op">&lt;-</span> <span class="fu">read_rds</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses"</span>,
+<span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html">file.exists</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses"</span>, <span class="va">cholesterol_heart_attack_filename_mono</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
+  <span class="va">cholesterol_heart_attack_samples_of_joints_mono</span> <span class="op">&lt;-</span> <span class="fu">read_rds</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses"</span>,
                                                                    <span class="va">cholesterol_heart_attack_filename_mono</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span>
   <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">6925896</span><span class="op">)</span>
@@ -1249,7 +1348,7 @@
                                                   print_as_progress <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
   
   <span class="fu">write_rds</span><span class="op">(</span><span class="va">cholesterol_heart_attack_samples_of_joints_mono</span>,
-            <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses"</span>,
+            <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses"</span>,
                        <span class="va">cholesterol_heart_attack_filename_mono</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span>
 
@@ -1284,24 +1383,24 @@
          subtitle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Exposure: High Cholesterol (id: "</span>, <span class="va">cholesterol_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"). "</span>,
                            <span class="st">"Outcome: Heart Attack (id: "</span>, <span class="va">heart_attack_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">")."</span><span class="op">)</span><span class="op">)</span>
 
-<span class="va">cholesterol_heart_attack_individual_SNPs_mono_plot</span></code></pre></div>
+<span class="va">cholesterol_heart_attack_individual_SNPs_mono_plot</span></pre></div>
 <p><img src="example_analysis_files/figure-html/unnamed-chunk-31-2.png" width="700"></p>
 </div>
 <div id="intersections-of-bounds-from-randomly-sampled-joint-distributions-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#intersections-of-bounds-from-randomly-sampled-joint-distributions-1" class="anchor"></a>Intersections of Bounds from Randomly Sampled Joint Distributions</h2>
-<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cholesterol_heart_attack_pairs_of_snps</span> <span class="op">&lt;-</span> <span class="fu">expand_grid</span><span class="op">(</span>SNP1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">cholesterol_heart_attack_trivariate_bounds</span><span class="op">$</span><span class="va">SNP</span><span class="op">)</span>,
+<div class="sourceCode" id="cb69"><pre class="downlit">
+<span class="va">cholesterol_heart_attack_pairs_of_snps</span> <span class="op">&lt;-</span> <span class="fu">expand_grid</span><span class="op">(</span>SNP1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">cholesterol_heart_attack_trivariate_bounds</span><span class="op">$</span><span class="va">SNP</span><span class="op">)</span>,
                                                       SNP2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">cholesterol_heart_attack_trivariate_bounds</span><span class="op">$</span><span class="va">SNP</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">SNP1</span> <span class="op">!=</span> <span class="va">SNP2</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>SNPs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">SNP1</span>, <span class="va">SNP2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span><span class="op">(</span><span class="va">SNPs</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>SNPs <span class="op">=</span> <span class="fu">map</span><span class="op">(</span><span class="va">SNPs</span>, <span class="op">~</span><span class="fu">tibble_row</span><span class="op">(</span>SNP1 <span class="op">=</span> <span class="va">.x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, SNP2 <span class="op">=</span> <span class="va">.x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">SNPs</span><span class="op">)</span></code></pre></div>
+  <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">SNPs</span><span class="op">)</span></pre></div>
 <pre><code>## `summarise()` has ungrouped output. You can override using the `.groups` argument.</code></pre>
-<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cholesterol_heart_attack_pairs_of_snps</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="downlit">
+<span class="va">cholesterol_heart_attack_pairs_of_snps</span></pre></div>
 <pre><code>## # A tibble: 1,431 x 2
 ##    SNP1       SNP2      
 ##    &lt;chr&gt;      &lt;chr&gt;     
@@ -1316,13 +1415,13 @@
 ##  9 rs10410835 rs10804330
 ## 10 rs10504255 rs10804330
 ## # … with 1,421 more rows</code></pre>
-<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">493637</span><span class="op">)</span>
+<div class="sourceCode" id="cb73"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">493637</span><span class="op">)</span>
 
 <span class="va">cholesterol_heart_attack_chosen_pairs</span> <span class="op">&lt;-</span> <span class="va">cholesterol_heart_attack_pairs_of_snps</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">8</span><span class="op">)</span>
 
-<span class="fu">pander</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html">pander</a></span><span class="op">(</span><span class="va">cholesterol_heart_attack_chosen_pairs</span><span class="op">)</span></code></pre></div>
+<span class="fu">pander</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html">pander</a></span><span class="op">(</span><span class="va">cholesterol_heart_attack_chosen_pairs</span><span class="op">)</span></pre></div>
 <table class="table">
 <colgroup>
 <col width="18%">
@@ -1367,8 +1466,8 @@
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cholesterol_heart_attack_both_bounds</span> <span class="op">&lt;-</span> <span class="va">cholesterol_heart_attack_chosen_pairs</span> <span class="op">%&gt;%</span> 
+<div class="sourceCode" id="cb74"><pre class="downlit">
+<span class="va">cholesterol_heart_attack_both_bounds</span> <span class="op">&lt;-</span> <span class="va">cholesterol_heart_attack_chosen_pairs</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>
     SNP1_bounds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
@@ -1387,7 +1486,7 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">unnest</span><span class="op">(</span>cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">SNP1_bounds</span>, <span class="va">SNP2_bounds</span><span class="op">)</span><span class="op">)</span>
 
-<span class="va">cholesterol_heart_attack_both_bounds</span></code></pre></div>
+<span class="va">cholesterol_heart_attack_both_bounds</span></pre></div>
 <pre><code>## # A tibble: 4,000 x 10
 ##    SNP1  SNP2  SNP1_bivariate_… SNP1_bivariate_… SNP1_lower SNP1_upper
 ##    &lt;chr&gt; &lt;chr&gt;            &lt;dbl&gt;            &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
@@ -1403,8 +1502,8 @@
 ## 10 rs11… rs31…           -0.146            0.901    -0.123       0.873
 ## # … with 3,990 more rows, and 4 more variables: SNP2_bivariate_lower &lt;dbl&gt;,
 ## #   SNP2_bivariate_upper &lt;dbl&gt;, SNP2_lower &lt;dbl&gt;, SNP2_upper &lt;dbl&gt;</code></pre>
-<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cholesterol_heart_attack_intersection_bounds</span> <span class="op">&lt;-</span> <span class="va">cholesterol_heart_attack_both_bounds</span> <span class="op">%&gt;%</span> 
+<div class="sourceCode" id="cb76"><pre class="downlit">
+<span class="va">cholesterol_heart_attack_intersection_bounds</span> <span class="op">&lt;-</span> <span class="va">cholesterol_heart_attack_both_bounds</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>intersection_lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">SNP1_lower</span>, <span class="va">SNP2_lower</span><span class="op">)</span>,
          intersection_upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">SNP1_upper</span>, <span class="va">SNP2_upper</span><span class="op">)</span>,
@@ -1454,6 +1553,7 @@
 
 <span class="fu">ggsave</span><span class="op">(</span>
   plot <span class="op">=</span> <span class="va">cholesterol_heart_attack_intersection_bounds_plot</span>,
+<<<<<<< HEAD
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/png/example_analyses"</span>, 
                         <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"cholesterol_heart_attack_intersection_bounds_plot_"</span>, <span class="va">cholesterol_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">heart_attack_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".png"</span><span class="op">)</span><span class="op">)</span>,
   width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">6</span>, dpi <span class="op">=</span> <span class="fl">300</span>
@@ -1463,6 +1563,10 @@
   plot <span class="op">=</span> <span class="va">cholesterol_heart_attack_intersection_bounds_plot</span>,
   filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/tiff/example_analyses"</span>, 
                         <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"cholesterol_heart_attack_intersection_bounds_plot_"</span>, <span class="va">cholesterol_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">heart_attack_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".tiff"</span><span class="op">)</span><span class="op">)</span>,
+=======
+  filename <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"figures/example_analyses"</span>, 
+                        <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"cholesterol_heart_attack_intersection_bounds_plot_"</span>, <span class="va">cholesterol_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"_"</span>, <span class="va">heart_attack_experiment</span><span class="op">$</span><span class="va">id</span>,<span class="st">".png"</span><span class="op">)</span><span class="op">)</span>,
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">6</span>, dpi <span class="op">=</span> <span class="fl">300</span>
 <span class="op">)</span>
 
@@ -1471,23 +1575,23 @@
 <span class="va">cholesterol_heart_attack_intersection_bounds_plot</span> <span class="op">+</span>
     <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Intersections of Possible Trivariate Bounds from Bivariate Data"</span>,
          subtitle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Exposure: High Cholesterol (id: "</span>, <span class="va">cholesterol_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">"). "</span>,
-                           <span class="st">"Outcome: Heart Attack (id: "</span>, <span class="va">heart_attack_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">")."</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+                           <span class="st">"Outcome: Heart Attack (id: "</span>, <span class="va">heart_attack_experiment</span><span class="op">$</span><span class="va">id</span>, <span class="st">")."</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p><img src="example_analysis_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
 </div>
 </div>
 <div id="save-experiment-information" class="section level1">
 <h1 class="hasAnchor">
 <a href="#save-experiment-information" class="anchor"></a>Save Experiment Information</h1>
-<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">write_csv</span><span class="op">(</span>x <span class="op">=</span> 
+<div class="sourceCode" id="cb77"><pre class="downlit">
+<span class="fu">write_csv</span><span class="op">(</span>x <span class="op">=</span> 
             <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span>
               <span class="va">smoking_experiment</span>,
               <span class="va">lung_cancer_experiment</span>,
               <span class="va">cholesterol_experiment</span>,
               <span class="va">heart_attack_experiment</span>
             <span class="op">)</span>,
-          file <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses/experiment_info.csv"</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+          file <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span><span class="op">(</span><span class="st">"vignettes_data/example_analyses/experiment_info.csv"</span><span class="op">)</span>
+<span class="op">)</span></pre></div>
 </div>
   </div>
 

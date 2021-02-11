@@ -141,9 +141,14 @@ First, a histogram of the marginal distributions of the SNPs.
 
 ggsave(
   plot = marginal_Z,
+<<<<<<< HEAD
   filename = here::here("figures", 
                         "tiff/example_analyses",
                         "smoking_lung_cancer_marginal_Z.tiff"),
+=======
+  filename = here::here("figures/example_analyses", 
+                        "smoking_lung_cancer_marginal_Z.png"),
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   dpi = 300, width = 6.5, height = 2
 )
 
@@ -178,9 +183,14 @@ Next, coefficients. Here, we see histograms of the values of $\beta_0$ (intercep
 
 ggsave(
   plot = lung_cancer_coefficients,
+<<<<<<< HEAD
   filename = here::here("figures", 
                         "tiff/example_analyses",
                         "smoking_lung_cancer_coefficients.tiff"),
+=======
+  filename = here::here("figures/example_analyses", 
+                        "smoking_lung_cancer_coefficients.png"),
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   dpi = 300, width = 5, height = 3
 )
 
@@ -211,9 +221,14 @@ Finally, we have the marginal conditionals $P(X = 1 | Z = z), z = 0,1,2$ and $P(
 
 ggsave(
   plot = marginal_conditionals,
+<<<<<<< HEAD
   filename = here::here("figures",
                         "tiff/example_analyses",
                         "smoking_lung_cancer_marginal_conditionals.tiff"),
+=======
+  filename = here::here("figures/example_analyses",
+                        "smoking_lung_cancer_marginal_conditionals.png"),
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   dpi = 300, width = 5, height = 3
 )
 ggsave(
@@ -275,8 +290,13 @@ smoking_lung_cancer_bivariate_bounds +
 
 ggsave(
   plot = smoking_lung_cancer_bivariate_bounds,
+<<<<<<< HEAD
   filename = here::here("figures/tiff/example_analyses", 
                         paste0("smoking_lung_cancer_bivariate_bounds_", smoking_experiment$id, "_", lung_cancer_experiment$id,".tiff")),
+=======
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_lung_cancer_bivariate_bounds_", smoking_experiment$id, "_", lung_cancer_experiment$id,".png")),
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   width = 8, height = 10, dpi = 300
 )
 ggsave(
@@ -308,8 +328,13 @@ smoking_lung_cancer_bivariate_bounds_subset <- smoking_lung_cancer_bounds %>%
 
 ggsave(
   plot = smoking_lung_cancer_bivariate_bounds_subset,
+<<<<<<< HEAD
   filename = here::here("figures/tiff/example_analyses", 
                         paste0("smoking_lung_cancer_bivariate_bounds_subset_", smoking_experiment$id, "_", lung_cancer_experiment$id,".tiff")),
+=======
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_lung_cancer_bivariate_bounds_subset_", smoking_experiment$id, "_", lung_cancer_experiment$id,".png")),
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   width = 4, height = 4, dpi = 300
 )
 
@@ -342,6 +367,7 @@ strength_histogram +
 
 ggsave(
   plot = strength_histogram,
+<<<<<<< HEAD
   filename = here::here("figures/png/example_analyses",
                         "strength_histogram.png"),
   dpi = 300, width = 8, height = 4
@@ -351,6 +377,10 @@ ggsave(
   plot = strength_histogram,
   filename = here::here("figures/tiff/example_analyses",
                         "strength_histogram.tiff"),
+=======
+  filename = here::here("figures/example_analyses",
+                        "strength_histogram.png"),
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   dpi = 300, width = 8, height = 4
 )
 ```
@@ -435,8 +465,13 @@ smoking_lung_cancer_individual_SNPs_plot +
 
 ggsave(
   plot = smoking_lung_cancer_individual_SNPs_plot,
+<<<<<<< HEAD
   filename = here::here("figures/tiff/example_analyses", 
                         paste0("smoking_lung_cancer_individual_SNPs_plot_", smoking_experiment$id, "_", lung_cancer_experiment$id,".tiff")),
+=======
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_lung_cancer_individual_SNPs_plot_", smoking_experiment$id, "_", lung_cancer_experiment$id,".png")),
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   height = 7, width = 10, dpi = 300
 )
 
@@ -488,6 +523,7 @@ smoking_lung_cancer_individual_SNPs_plot_subset <- smoking_lung_cancer_trivariat
 
 ggsave(
   plot = smoking_lung_cancer_individual_SNPs_plot_subset,
+<<<<<<< HEAD
   filename = here::here("figures/png/example_analyses", 
                         paste0("smoking_lung_cancer_individual_SNPs_plot_subset_", smoking_experiment$id, "_", lung_cancer_experiment$id,".png")),
   width = 4, height = 6, dpi = 300
@@ -497,6 +533,10 @@ ggsave(
   plot = smoking_lung_cancer_individual_SNPs_plot_subset,
   filename = here::here("figures/tiff/example_analyses", 
                         paste0("smoking_lung_cancer_individual_SNPs_plot_subset_", smoking_experiment$id, "_", lung_cancer_experiment$id,".tiff")),
+=======
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_lung_cancer_individual_SNPs_plot_subset_", smoking_experiment$id, "_", lung_cancer_experiment$id,".png")),
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   width = 4, height = 6, dpi = 300
 )
 ```
@@ -671,8 +711,13 @@ smoking_lung_cancer_intersection_bounds_plot <- smoking_lung_cancer_intersection
 
 ggsave(
   plot = smoking_lung_cancer_intersection_bounds_plot,
+<<<<<<< HEAD
   filename = here::here("figures/tiff/example_analyses", 
                         paste0("smoking_lung_cancer_intersection_bounds_plot_", smoking_experiment$id, "_", lung_cancer_experiment$id,".tiff")),
+=======
+  filename = here::here("figures/example_analyses", 
+                        paste0("smoking_lung_cancer_intersection_bounds_plot_", smoking_experiment$id, "_", lung_cancer_experiment$id,".png")),
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   width = 8, height = 6, dpi = 300
 )
 
@@ -762,6 +807,7 @@ write_csv(
 
 ggsave(
   plot = marginal_Z_cholesterol_HA,
+<<<<<<< HEAD
   filename = here::here("figures/png/example_analyses", 
                         "cholesterol_heart_attack_marginal_Z.png"),
   dpi = 300, width = 6.5, height = 2
@@ -770,6 +816,10 @@ ggsave(
   plot = marginal_Z_cholesterol_HA,
   filename = here::here("figures/tiff/example_analyses", 
                         "cholesterol_heart_attack_marginal_Z.tiff"),
+=======
+  filename = here::here("figures/example_analyses", 
+                        "cholesterol_heart_attack_marginal_Z.png"),
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   dpi = 300, width = 6.5, height = 2
 )
 
@@ -790,6 +840,7 @@ ggsave(
 
 ggsave(
   plot = heart_attack_coefficients,
+<<<<<<< HEAD
   filename = here::here("figures/png/example_analyses", 
                         "cholesterol_heart_attack_coefficients.png"),
   dpi = 300, width = 5, height = 3
@@ -798,6 +849,10 @@ ggsave(
   plot = heart_attack_coefficients,
   filename = here::here("figures/tiff/example_analyses", 
                         "cholesterol_heart_attack_coefficients.tiff"),
+=======
+  filename = here::here("figures/example_analyses", 
+                        "cholesterol_heart_attack_coefficients.png"),
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   dpi = 300, width = 5, height = 3
 )
 
@@ -816,8 +871,13 @@ ggsave(
 
 ggsave(
   plot = cholesterol_heart_attack_marginal_conditionals,
+<<<<<<< HEAD
   filename = here::here("figures/tiff/example_analyses",
                         "cholesterol_heart_attack_marginal_conditionals.tiff"),
+=======
+  filename = here::here("figures/example_analyses",
+                        "cholesterol_heart_attack_marginal_conditionals.png"),
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   dpi = 300, width = 5, height = 3
 )
 
@@ -870,8 +930,13 @@ cholesterol_heart_attack_bivariate_bounds +
 
 ggsave(
   plot = cholesterol_heart_attack_bivariate_bounds,
+<<<<<<< HEAD
   filename = here::here("figures/tiff/example_analyses", 
                         paste0("cholesterol_heart_attack_bivariate_bounds_", cholesterol_experiment$id, "_", heart_attack_experiment$id,".tiff")),
+=======
+  filename = here::here("figures/example_analyses", 
+                        paste0("cholesterol_heart_attack_bivariate_bounds_", cholesterol_experiment$id, "_", heart_attack_experiment$id,".png")),
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   width = 8, height = 10, dpi = 300
 )
 
@@ -901,8 +966,13 @@ cholesterol_heart_attack_bivariate_bounds_subset <- cholesterol_heart_attack_bou
 
 ggsave(
   plot = cholesterol_heart_attack_bivariate_bounds_subset,
+<<<<<<< HEAD
   filename = here::here("figures/tiff/example_analyses", 
                         paste0("cholesterol_heart_attack_bivariate_bounds_subset_", cholesterol_experiment$id, "_", heart_attack_experiment$id,".tiff")),
+=======
+  filename = here::here("figures/example_analyses", 
+                        paste0("cholesterol_heart_attack_bivariate_bounds_subset_", cholesterol_experiment$id, "_", heart_attack_experiment$id,".png")),
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   width = 4, height = 4, dpi = 300
 )
 
@@ -930,8 +1000,13 @@ strength_histogram_cholesterol +
 
 ggsave(
   plot = strength_histogram_cholesterol,
+<<<<<<< HEAD
   filename = here::here("figures/tiff/example_analyses",
                         "cholesterol_heart_attack_strength_histogram.tiff"),
+=======
+  filename = here::here("figures/example_analyses",
+                        "cholesterol_heart_attack_strength_histogram.png"),
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   dpi = 300, width = 8, height = 4
 )
 
@@ -1011,8 +1086,13 @@ cholesterol_heart_attack_individual_SNPs_plot +
 
 ggsave(
   plot = cholesterol_heart_attack_individual_SNPs_plot,
+<<<<<<< HEAD
   filename = here::here("figures/tiff/example_analyses", 
                         paste0("cholesterol_heart_attack_individual_SNPs_plot_", cholesterol_experiment$id, "_", heart_attack_experiment$id,".tiff")),
+=======
+  filename = here::here("figures/example_analyses", 
+                        paste0("cholesterol_heart_attack_individual_SNPs_plot_", cholesterol_experiment$id, "_", heart_attack_experiment$id,".png")),
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   height = 5.5, width = 10, dpi = 300
 )
 
@@ -1061,8 +1141,13 @@ cholesterol_heart_attack_individual_SNPs_plot_subset <- cholesterol_heart_attack
 
 ggsave(
   plot = cholesterol_heart_attack_individual_SNPs_plot_subset,
+<<<<<<< HEAD
   filename = here::here("figures/tiff/example_analyses", 
                         paste0("cholesterol_heart_attack_individual_SNPs_plot_subset_", cholesterol_experiment$id, "_", heart_attack_experiment$id,".tiff")),
+=======
+  filename = here::here("figures/example_analyses", 
+                        paste0("cholesterol_heart_attack_individual_SNPs_plot_subset_", cholesterol_experiment$id, "_", heart_attack_experiment$id,".png")),
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   width = 4, height = 6, dpi = 300
 )
 
@@ -1221,6 +1306,7 @@ cholesterol_heart_attack_intersection_bounds_plot <- cholesterol_heart_attack_in
 
 ggsave(
   plot = cholesterol_heart_attack_intersection_bounds_plot,
+<<<<<<< HEAD
   filename = here::here("figures/png/example_analyses", 
                         paste0("cholesterol_heart_attack_intersection_bounds_plot_", cholesterol_experiment$id, "_", heart_attack_experiment$id,".png")),
   width = 8, height = 6, dpi = 300
@@ -1230,6 +1316,10 @@ ggsave(
   plot = cholesterol_heart_attack_intersection_bounds_plot,
   filename = here::here("figures/tiff/example_analyses", 
                         paste0("cholesterol_heart_attack_intersection_bounds_plot_", cholesterol_experiment$id, "_", heart_attack_experiment$id,".tiff")),
+=======
+  filename = here::here("figures/example_analyses", 
+                        paste0("cholesterol_heart_attack_intersection_bounds_plot_", cholesterol_experiment$id, "_", heart_attack_experiment$id,".png")),
+>>>>>>> parent of 7e42af4... Change figure format from png to tiff
   width = 8, height = 6, dpi = 300
 )
 

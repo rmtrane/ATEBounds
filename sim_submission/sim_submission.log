@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.2.8)  10 FEB 2021 18:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.2.8)  10 FEB 2021 18:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -997,6 +997,9 @@ LaTeX Warning: Unused global option(s):
 
 LaTeX Warning: Label `introduction' multiply defined.
 
+
+LaTeX Warning: Label `properties-of-iv-bounds' multiply defined.
+
 )
 \openout1 = `sim_submission.aux'.
 
@@ -1391,37 +1394,12 @@ on input line 326.
 
 [3]
 
-LaTeX Warning: Reference `thm:upperBoundWidth' on page 4 undefined on input lin
-e 372.
-
-
-LaTeX Warning: Reference `eq:ate_bound' on page 4 undefined on input line 373.
-
-
-LaTeX Warning: Reference `eq:ate_bound' on page 4 undefined on input line 380.
-
-
 LaTeX Warning: Reference `proof-of-theorem' on page 4 undefined on input line 3
 83.
 
 
-LaTeX Warning: Reference `thm:upperBoundWidth' on page 4 undefined on input lin
-e 384.
-
-
 Package natbib Warning: Citation `balke_bounds_1997' on page 4 undefined on inp
 ut line 386.
-
-
-LaTeX Warning: Reference `fig:biv_bounds_vs_strength' on page 4 undefined on in
-put line 396.
-
-
-LaTeX Warning: Reference `thm:upperBoundWidth' on page 4 undefined on input lin
-e 397.
-
-
-LaTeX Warning: Reference `eq:ate_bound' on page 4 undefined on input line 398.
 
 
 Package natbib Warning: Citation `cholesterol_treatment_trialists_ctt_collabora
@@ -1440,10 +1418,6 @@ LaTeX Warning: Reference `data-analysis' on page 4 undefined on input line 407.
 
 
 
-LaTeX Warning: Reference `fig:biv_bounds_vs_strength' on page 4 undefined on in
-put line 411.
-
-
 LaTeX Warning: Reference `appendix-sim-results' on page 4 undefined on input li
 ne 415.
 
@@ -1452,7 +1426,7 @@ Package natbib Warning: Citation `schmitt_occupational_2011' on page 4 undefine
 d on input line 425.
 
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/pip_and_coefs_
-vs_strength.png, id=39, 2409.0pt x 1415.2875pt>
+vs_strength.png, id=47, 2409.0pt x 1415.2875pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/pip_and_c
 oefs_vs_strength.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/pip_and_co
@@ -1472,13 +1446,9 @@ LaTeX Warning: Reference `data-analysis' on page 4 undefined on input line 430.
 LaTeX Warning: Reference `appendix-sim-results' on page 4 undefined on input li
 ne 439.
 
-
-LaTeX Warning: Reference `fig:power_curves' on page 4 undefined on input line 4
-40.
-
 [4]
 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/loess_power.pn
-g, id=51, 2409.0pt x 1505.625pt>
+g, id=61, 2409.0pt x 1505.625pt>
 File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/loess_pow
 er.png Graphic file (type png)
 <use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/loess_powe
@@ -1513,44 +1483,16 @@ Package natbib Warning: Citation `yang_common_2010' on page 6 undefined on inpu
 t line 505.
 
 
-LaTeX Warning: Reference `bounds-from-bivariate-data' on page 6 undefined on in
-put line 508.
-
-
 LaTeX Warning: Reference `appendix-sim-results' on page 6 undefined on input li
 ne 514.
-
-
-LaTeX Warning: Reference `fig:bounds_from_multiple_IV_sims_MR' on page 6 undefi
-ned on input line 516.
-
-
-LaTeX Warning: Reference `fig:bounds_from_multiple_IV_sims_power' on page 6 und
-efined on input line 517.
-
-
-LaTeX Warning: Reference `fig:bounds_from_multiple_IV_sims_MR_many_weak' on pag
-e 6 undefined on input line 518.
 
 
 LaTeX Warning: Reference `fig:bounds_from_multiple_IV_sims_power_many_weak' on 
 page 6 undefined on input line 519.
 
 
-LaTeX Warning: Reference `fig:bounds_from_multiple_IV_sims_power' on page 6 und
-efined on input line 529.
-
-
-LaTeX Warning: Reference `bounds-from-bivariate-data' on page 6 undefined on in
-put line 537.
-
-
 LaTeX Warning: Reference `fig:bounds_from_multiple_IV_sims_power_many_weak' on 
 page 6 undefined on input line 544.
-
-
-LaTeX Warning: Reference `fig:strength_vs_coef_multiple_IVs' on page 6 undefine
-d on input line 550.
 
 [6 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/loess_power
 .png>]
@@ -1558,32 +1500,174 @@ d on input line 550.
 Package natbib Warning: Citation `swanson_commentary_2017' on page 7 undefined 
 on input line 558.
 
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/strength_vs_co
+ef_multiple_IVs.png, id=91, 2409.0pt x 1204.5pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/strength_
+vs_coef_multiple_IVs.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/strength_v
+s_coef_multiple_IVs.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/png/strength_vs_coef_multiple_IVs.png  used on input line 577.
+(pdftex.def)             Requested size: 456.75398pt x 228.36115pt.
+[7 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/strength_vs
+_coef_multiple_IVs.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/bounds_from_mu
+ltiple_IV_sims_MR.png, id=99, 3011.25pt x 2258.4375pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/bounds_fr
+om_multiple_IV_sims_MR.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/bounds_fro
+m_multiple_IV_sims_MR.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/png/bounds_from_multiple_IV_sims_MR.png  used on input line 586.
+(pdftex.def)             Requested size: 668.79605pt x 501.57893pt.
+[8 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/bounds_from
+_multiple_IV_sims_MR.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/bounds_from_mu
+ltiple_IV_sims_power.png, id=105, 3011.25pt x 2258.4375pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/bounds_fr
+om_multiple_IV_sims_power.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/bounds_fro
+m_multiple_IV_sims_power.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/png/bounds_from_multiple_IV_sims_power.png  used on input line 595.
+(pdftex.def)             Requested size: 668.79605pt x 501.57893pt.
+[9 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/bounds_from
+_multiple_IV_sims_power.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/bounds_from_mu
+ltiple_IV_sims_MR_many_weak.png, id=111, 3011.25pt x 2258.4375pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/bounds_fr
+om_multiple_IV_sims_MR_many_weak.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/bounds_fro
+m_multiple_IV_sims_MR_many_weak.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/png/bounds_from_multiple_IV_sims_MR_many_weak.png  used on input line 604
+.
+(pdftex.def)             Requested size: 668.79605pt x 501.57893pt.
+[10 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/bounds_fro
+m_multiple_IV_sims_MR_many_weak.png>]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/bounds_from_mu
+ltiple_IV_sims_power_many_weak.png, id=117, 3011.25pt x 2258.4375pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/bounds_fr
+om_multiple_IV_sims_power_many_weak.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/bounds_fro
+m_multiple_IV_sims_power_many_weak.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/png/bounds_from_multiple_IV_sims_power_many_weak.png  used on input line 
+613.
+(pdftex.def)             Requested size: 668.79605pt x 501.57893pt.
+[11 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/bounds_fro
+m_multiple_IV_sims_power_many_weak.png>]
 
-LaTeX Warning: Reference `bounds-from-bivariate-data' on page 7 undefined on in
-put line 568.
+Package natbib Warning: Citation `balke_bounds_1997' on page 12 undefined on in
+put line 636.
 
+
+Package natbib Warning: Citation `richardson_ace_2014' on page 12 undefined on 
+input line 637.
+
+
+LaTeX Warning: Reference `appendix-quasi-bayesian-details' on page 12 undefined
+ on input line 638.
+
+
+LaTeX Warning: Reference `tab:subset_plot_summaries' on page 12 undefined on in
+put line 648.
+
+
+LaTeX Warning: Reference `fig:trivariate_bounds' on page 12 undefined on input 
+line 651.
+
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/trivariate_bou
+nds_subset_plot.png, id=125, 2409.0pt x 2409.0pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/trivariat
+e_bounds_subset_plot.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/trivariate
+_bounds_subset_plot.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/png/trivariate_bounds_subset_plot.png  used on input line 656.
+(pdftex.def)             Requested size: 507.50787pt x 507.48555pt.
+
+LaTeX Warning: Reference `fig:trivariate_bounds' on page 12 undefined on input 
+line 661.
+
+
+Package natbib Warning: Citation `united1964smoking' on page 12 undefined on in
+put line 709.
+
+
+Package natbib Warning: Citation `holmes_mendelian_2015' on page 12 undefined o
+n input line 711.
+
+
+Package natbib Warning: Citation `richardson_evaluating_2020' on page 12 undefi
+ned on input line 711.
+
+
+Package natbib Warning: Citation `20051267' on page 12 undefined on input line 
+714.
+
+
+Package natbib Warning: Citation `cholesterol_treatment_trialists_ctt_collabora
+tors_effects_2012' on page 12 undefined on input line 714.
+
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 7
+21.
+(/Users/ralphtrane/Library/TinyTeX/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
+)
+
+Package natbib Warning: Citation `mrbase' on page 12 undefined on input line 72
+1.
+
+
+LaTeX Warning: Reference `more-details-data-application-appendix' on page 12 un
+defined on input line 723.
+
+
+LaTeX Warning: Reference `fig:two-sample-bounds' on page 12 undefined on input 
+line 731.
+
+
+LaTeX Warning: Reference `quasi-bayesian' on page 12 undefined on input line 73
+4.
+
+
+LaTeX Warning: Reference `fig:one-sample-bounds' on page 12 undefined on input 
+line 736.
+
+
+LaTeX Warning: Reference `more-details-data-application-appendix' on page 12 un
+defined on input line 737.
+
+[12
+
+
+
+
+
+]
 
 LaTeX Warning: File `/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figure
-s/png/strength_vs_coefs_multiple_IVs.png' not found on input line 577.
+s/png/example_analyses/bivariate_bounds.png' not found on input line 743.
 
 
 ! Package pdftex.def Error: File `/Users/ralphtrane/Documents/RPackages_dev/ACE
-Bounds/figures/png/strength_vs_coefs_multiple_IVs.png' not found: using draft s
-etting.
+Bounds/figures/png/example_analyses/bivariate_bounds.png' not found: using draf
+t setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.577 ...s/png/strength_vs_coefs_multiple_IVs.png}
+l.743 ...ng/example_analyses/bivariate_bounds.png}
                                                    
 Here is how much of TeX's memory you used:
- 19965 strings out of 481250
- 289507 string characters out of 5914546
- 595639 words of memory out of 5000000
- 36485 multiletter control sequences out of 15000+600000
+ 20059 strings out of 481250
+ 294354 string characters out of 5914546
+ 596624 words of memory out of 5000000
+ 36554 multiletter control sequences out of 15000+600000
  498544 words of font info for 144 fonts, out of 8000000 for 9000
  40 hyphenation exceptions out of 8191
- 86i,15n,88p,1253b,419s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 86i,15n,88p,1253b,477s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 !  ==> Fatal error occurred, no output PDF file produced!

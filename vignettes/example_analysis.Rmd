@@ -1263,7 +1263,12 @@ bivariate_bounds <- smoking_lung_cancer_bivariate_bounds_subset +
   plot_annotation(tag_levels = "A")
 
 ggsave(bivariate_bounds,
-       filename = here::here("figures/example_analyses/bivariate_bounds.png"),
+       filename = here::here("figures/png/example_analyses/bivariate_bounds.png"),
+       height = 4, width = 8,
+       dpi = 300)
+
+ggsave(bivariate_bounds,
+       filename = here::here("figures/tiff/example_analyses/bivariate_bounds.tiff"),
        height = 4, width = 8,
        dpi = 300)
 
@@ -1275,5 +1280,11 @@ ggsave(trivariate_bounds,
        filename = here::here("figures/example_analyses/trivariate_bounds.png"),
        height = 8, width = 8,
        dpi = 300)
+
+ggsave(trivariate_bounds,
+       filename = here::here("figures/tiff/example_analyses/trivariate_bounds.tiff"),
+       height = 8, width = 8,
+       dpi = 300)
+
 ```
 

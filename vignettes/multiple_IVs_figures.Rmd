@@ -206,7 +206,7 @@ ggsave(plot = bounds_plot_power_many_weak,
           U_on_XY = paste0("gamma[U]==", U_on_XY),
           p = factor(paste0("p==", p),
                      levels = paste0("p==", c(10,50))),
-          many_weak = if_else(many_weak, "Many Weak", "Uniform")) %>%
+          many_weak = if_else(many_weak, "Scenario 4", "Scenario 2")) %>%
    ggplot(aes(x = strength, y = indIVs_on_X, color = many_weak)) +
    geom_point() +
    facet_grid(p ~ U_on_XY,
@@ -226,10 +226,6 @@ ggsave(plot = bounds_plot_power_many_weak,
          axis.text.x = element_text(angle = 45, hjust = 1))
 )
 
-ggsave(here::here("figures/strength_vs_coef_multiple_IVs_power.png"),
-       strength_vs_coefs_power,
-       width = 4, height = 4, dpi = 300)
-
 (strength_vs_coefs_MR <- bounds_and_ATE_unnested %>%
     filter(scenario == "MR", X_on_Y == 2) %>%
     unnest_wider(bounds) %>%
@@ -237,7 +233,7 @@ ggsave(here::here("figures/strength_vs_coef_multiple_IVs_power.png"),
            U_on_XY = paste0("gamma[U]==", U_on_XY),
            p = factor(paste0("p==", p),
                       levels = paste0("p==", c(10,50))),
-           many_weak = if_else(many_weak, "Many Weak", "Uniform")) %>%
+           many_weak = if_else(many_weak, "Scenario 3", "Scenario 1")) %>%
     ggplot(aes(x = strength, y = indIVs_on_X, color = many_weak)) +
     geom_point() +
     facet_grid(p ~ U_on_XY,
@@ -245,7 +241,7 @@ ggsave(here::here("figures/strength_vs_coef_multiple_IVs_power.png"),
     labs(
       y = bquote(gamma[j]),
       x = "Strength",
-      color = "Simulation Scenario"
+      color = ""
     ) +
     scale_color_manual(values = c("red", "black")) +
     theme_bw() +
@@ -253,17 +249,17 @@ ggsave(here::here("figures/strength_vs_coef_multiple_IVs_power.png"),
           axis.text.x = element_text(angle = 45, hjust = 1))
 )
 
-ggsave(here::here("figures/strength_vs_coef_multiple_IVs_MR.png"),
-       strength_vs_coefs_MR,
-       width = 4, height = 4, dpi = 300)
-
 library(patchwork)
 
 strength_vs_coefs <- strength_vs_coefs_MR + strength_vs_coefs_power +
   plot_annotation(tag_levels = "A")
 
-ggsave(strength_vs_coefs,
-       filename = here::here("figures/strength_vs_coefs_multiple_IVs.png"),
+ggsave(here::here("figures/png/strength_vs_coef_multiple_IVs.png"),
+       strength_vs_coefs,
+       width = 8, height = 4, dpi = 300)
+
+ggsave(here::here("figures/tiff/strength_vs_coef_multiple_IVs.tiff"),
+       strength_vs_coefs,
        width = 8, height = 4, dpi = 300)
 ```
 

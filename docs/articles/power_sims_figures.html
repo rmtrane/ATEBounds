@@ -205,7 +205,10 @@
     <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="power_sims_figures_files/figure-html/unnamed-chunk-4-1.png" width="2187.5"></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/MR_coefs_vs_strength.eps"</span><span class="op">)</span>,
+<code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/tiff/MR_coefs_vs_strength.tiff"</span><span class="op">)</span>,
+       <span class="va">coefs_vs_strength</span>, dpi <span class="op">=</span> <span class="fl">300</span>,
+       width <span class="op">=</span> <span class="fl">4</span>, height <span class="op">=</span> <span class="fl">4.7</span><span class="op">)</span>
+<span class="fu">ggsave</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/png/MR_coefs_vs_strength.png"</span><span class="op">)</span>,
        <span class="va">coefs_vs_strength</span>, dpi <span class="op">=</span> <span class="fl">300</span>,
        width <span class="op">=</span> <span class="fl">4</span>, height <span class="op">=</span> <span class="fl">4.7</span><span class="op">)</span></code></pre></div>
 <p>The second plot shows all the two-sample bounds and ATEs.</p>
@@ -244,7 +247,11 @@
     <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="power_sims_figures_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/power.eps"</span><span class="op">)</span>,
+<code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/png/power.png"</span><span class="op">)</span>,
+       <span class="va">pretty_plot</span>, dpi <span class="op">=</span> <span class="fl">300</span>,
+       height <span class="op">=</span> <span class="fl">6</span>, width <span class="op">=</span> <span class="fl">8</span>, units <span class="op">=</span> <span class="st">"in"</span><span class="op">)</span>
+
+<span class="fu">ggsave</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/tiff/power.tiff"</span><span class="op">)</span>,
        <span class="va">pretty_plot</span>, dpi <span class="op">=</span> <span class="fl">300</span>,
        height <span class="op">=</span> <span class="fl">6</span>, width <span class="op">=</span> <span class="fl">8</span>, units <span class="op">=</span> <span class="st">"in"</span><span class="op">)</span></code></pre></div>
 <p>The plot above naturally leads to the question: what is the smallest value of <span class="math inline">\(\gamma_1\)</span> that results in two-sample bounds that do NOT include <span class="math inline">\(0\)</span>? To answer this question, we model the lower bounds as a function of the coefficients using <code>loess</code>:</p>
@@ -475,7 +482,11 @@
     <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="power_sims_figures_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/loess_power.eps"</span><span class="op">)</span>,
+<code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/png/loess_power.png"</span><span class="op">)</span>,
+       <span class="va">loess_power</span>, dpi <span class="op">=</span> <span class="fl">300</span>,
+       height <span class="op">=</span> <span class="fl">5</span>, width <span class="op">=</span> <span class="fl">8</span><span class="op">)</span>
+
+<span class="fu">ggsave</span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"figures/tiff/loess_power.tiff"</span><span class="op">)</span>,
        <span class="va">loess_power</span>, dpi <span class="op">=</span> <span class="fl">300</span>,
        height <span class="op">=</span> <span class="fl">5</span>, width <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></code></pre></div>
   </div>

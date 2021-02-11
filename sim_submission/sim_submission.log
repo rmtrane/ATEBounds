@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.2.8)  10 FEB 2021 16:58
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.2.8)  10 FEB 2021 18:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1451,38 +1451,139 @@ ne 415.
 Package natbib Warning: Citation `schmitt_occupational_2011' on page 4 undefine
 d on input line 425.
 
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/pip_and_coefs_
+vs_strength.png, id=39, 2409.0pt x 1415.2875pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/pip_and_c
+oefs_vs_strength.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/pip_and_co
+efs_vs_strength.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/png/pip_and_coefs_vs_strength.png  used on input line 429.
+(pdftex.def)             Requested size: 482.13092pt x 283.24684pt.
+
+LaTeX Warning: Reference `data-analysis' on page 4 undefined on input line 430.
+
+
+
+LaTeX Warning: Reference `data-analysis' on page 4 undefined on input line 430.
+
+
+
+LaTeX Warning: Reference `appendix-sim-results' on page 4 undefined on input li
+ne 439.
+
+
+LaTeX Warning: Reference `fig:power_curves' on page 4 undefined on input line 4
+40.
+
+[4]
+</Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/loess_power.pn
+g, id=51, 2409.0pt x 1505.625pt>
+File: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/loess_pow
+er.png Graphic file (type png)
+<use /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/loess_powe
+r.png>
+Package pdftex.def Info: /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/fi
+gures/png/loess_power.png  used on input line 449.
+(pdftex.def)             Requested size: 482.13092pt x 301.32643pt.
+
+Package natbib Warning: Citation `swanson_commentary_2017' on page 5 undefined 
+on input line 465.
+
+
+Package natbib Warning: Citation `swanson_commentary_2017' on page 5 undefined 
+on input line 470.
+
+[5 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/pip_and_coe
+fs_vs_strength.png>]
+
+Package natbib Warning: Citation `loh_contrasting_2015' on page 6 undefined on 
+input line 502.
+
+
+Package natbib Warning: Citation `shi_contrasting_2016' on page 6 undefined on 
+input line 502.
+
+
+Package natbib Warning: Citation `nj_genetic_2017' on page 6 undefined on input
+ line 502.
+
+
+Package natbib Warning: Citation `yang_common_2010' on page 6 undefined on inpu
+t line 505.
+
+
+LaTeX Warning: Reference `bounds-from-bivariate-data' on page 6 undefined on in
+put line 508.
+
+
+LaTeX Warning: Reference `appendix-sim-results' on page 6 undefined on input li
+ne 514.
+
+
+LaTeX Warning: Reference `fig:bounds_from_multiple_IV_sims_MR' on page 6 undefi
+ned on input line 516.
+
+
+LaTeX Warning: Reference `fig:bounds_from_multiple_IV_sims_power' on page 6 und
+efined on input line 517.
+
+
+LaTeX Warning: Reference `fig:bounds_from_multiple_IV_sims_MR_many_weak' on pag
+e 6 undefined on input line 518.
+
+
+LaTeX Warning: Reference `fig:bounds_from_multiple_IV_sims_power_many_weak' on 
+page 6 undefined on input line 519.
+
+
+LaTeX Warning: Reference `fig:bounds_from_multiple_IV_sims_power' on page 6 und
+efined on input line 529.
+
+
+LaTeX Warning: Reference `bounds-from-bivariate-data' on page 6 undefined on in
+put line 537.
+
+
+LaTeX Warning: Reference `fig:bounds_from_multiple_IV_sims_power_many_weak' on 
+page 6 undefined on input line 544.
+
+
+LaTeX Warning: Reference `fig:strength_vs_coef_multiple_IVs' on page 6 undefine
+d on input line 550.
+
+[6 </Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/loess_power
+.png>]
+
+Package natbib Warning: Citation `swanson_commentary_2017' on page 7 undefined 
+on input line 558.
+
+
+LaTeX Warning: Reference `bounds-from-bivariate-data' on page 7 undefined on in
+put line 568.
+
 
 LaTeX Warning: File `/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figure
-s/pip_and_coefs_vs_strength.eps' not found on input line 429.
+s/png/strength_vs_coefs_multiple_IVs.png' not found on input line 577.
 
-Package epstopdf Info: Source file: </Users/ralphtrane/Documents/RPackages_dev/
-ACEBounds/figures/pip_and_coefs_vs_strength.eps>
-(epstopdf)             Output file: </Users/ralphtrane/Documents/RPackages_dev/
-ACEBounds/figures/pip_and_coefs_vs_strength-eps-converted-to.pdf>
-(epstopdf)             Command: <repstopdf --outfile=/Users/ralphtrane/Document
-s/RPackages_dev/ACEBounds/figures/pip_and_coefs_vs_strength-eps-converted-to.pd
-f /Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/pip_and_coefs_vs_
-strength.eps>
-(epstopdf)             \includegraphics on input line 429.
-Package epstopdf Info: Output file is already uptodate.
 
 ! Package pdftex.def Error: File `/Users/ralphtrane/Documents/RPackages_dev/ACE
-Bounds/figures/pip_and_coefs_vs_strength-eps-converted-to.pdf' not found: using
- draft setting.
+Bounds/figures/png/strength_vs_coefs_multiple_IVs.png' not found: using draft s
+etting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.429 ...ds/figures/pip_and_coefs_vs_strength.eps}
+l.577 ...s/png/strength_vs_coefs_multiple_IVs.png}
                                                    
 Here is how much of TeX's memory you used:
- 19923 strings out of 481250
- 287860 string characters out of 5914546
- 590639 words of memory out of 5000000
- 36462 multiletter control sequences out of 15000+600000
+ 19965 strings out of 481250
+ 289507 string characters out of 5914546
+ 595639 words of memory out of 5000000
+ 36485 multiletter control sequences out of 15000+600000
  498544 words of font info for 144 fonts, out of 8000000 for 9000
  40 hyphenation exceptions out of 8191
- 86i,15n,88p,1252b,415s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 86i,15n,88p,1253b,419s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 !  ==> Fatal error occurred, no output PDF file produced!

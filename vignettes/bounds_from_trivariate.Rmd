@@ -191,9 +191,15 @@ Save the plot to a file for later use.
 ```{r}
 ggsave(
   plot, 
-  filename = here::here("figures/trivariate_bounds_plot.eps"),
+  filename = here::here("figures/png/trivariate_bounds_plot.png"),
   width = 10, height = 8, dpi = 300
 )
+ggsave(
+  plot, 
+  filename = here::here("figures/tiff/trivariate_bounds_plot.tiff"),
+  width = 10, height = 8, dpi = 300
+)
+
 ```
 
 Below are 9 of the 100 runs displayed. The figures are the same as in the plot below. 
@@ -300,9 +306,16 @@ write_rds(x = subset_plot_summaries,
 
 ggsave(
   plot = subset_plot,
-  filename = here::here("figures", "trivariate_bounds_subset_plot.eps"),
+  filename = here::here("figures/tiff/trivariate_bounds_subset_plot.tiff"),
   width = 8, dpi = 300, height = 8
 )
+
+ggsave(
+  plot = subset_plot,
+  filename = here::here("figures/png/trivariate_bounds_subset_plot.png"),
+  width = 8, dpi = 300, height = 8
+)
+
 ```
 
 

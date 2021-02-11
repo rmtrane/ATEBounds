@@ -62,7 +62,11 @@ Next, we create similar figures for each of the four scenarios described [here](
         axis.text.x = element_text(angle = 45, hjust = 1)))
 
 ggsave(plot = bounds_plot_MR,
-       filename = here::here("figures/bounds_from_multiple_IV_sims_MR.eps"),
+       filename = here::here("figures/tiff/bounds_from_multiple_IV_sims_MR.tiff"),
+       dpi = 300, height = 7.5, width = 10)
+
+ggsave(plot = bounds_plot_MR,
+       filename = here::here("figures/png/bounds_from_multiple_IV_sims_MR.png"),
        dpi = 300, height = 7.5, width = 10)
 ```
 
@@ -101,7 +105,10 @@ ggsave(plot = bounds_plot_MR,
         axis.text.x = element_text(angle = 45, hjust = 1)))
 
 ggsave(plot = bounds_plot_power,
-       filename = here::here("figures/bounds_from_multiple_IV_sims_power.eps"),
+       filename = here::here("figures/png/bounds_from_multiple_IV_sims_power.png"),
+       dpi = 300, height = 7.5, width = 10)
+ggsave(plot = bounds_plot_power,
+       filename = here::here("figures/tiff/bounds_from_multiple_IV_sims_power.tiff"),
        dpi = 300, height = 7.5, width = 10)
 ```
 
@@ -138,7 +145,11 @@ ggsave(plot = bounds_plot_power,
         axis.text.x = element_text(angle = 45, hjust = 1)))
 
 ggsave(plot = bounds_plot_MR_many_weak,
-       filename = here::here("figures/bounds_from_multiple_IV_sims_MR_many_weak.eps"),
+       filename = here::here("figures/tiff/bounds_from_multiple_IV_sims_MR_many_weak.tiff"),
+       dpi = 300, height = 7.5, width = 10)
+
+ggsave(plot = bounds_plot_MR_many_weak,
+       filename = here::here("figures/png/bounds_from_multiple_IV_sims_MR_many_weak.png"),
        dpi = 300, height = 7.5, width = 10)
 ```
 
@@ -177,7 +188,11 @@ ggsave(plot = bounds_plot_MR_many_weak,
         axis.text.x = element_text(angle = 45, hjust = 1)))
 
 ggsave(plot = bounds_plot_power_many_weak,
-       filename = here::here("figures/bounds_from_multiple_IV_sims_power_many_weak.eps"),
+       filename = here::here("figures/tiff/bounds_from_multiple_IV_sims_power_many_weak.tiff"),
+       dpi = 300, height = 7.5, width = 10)
+
+ggsave(plot = bounds_plot_power_many_weak,
+       filename = here::here("figures/png/bounds_from_multiple_IV_sims_power_many_weak.png"),
        dpi = 300, height = 7.5, width = 10)
 ```
 

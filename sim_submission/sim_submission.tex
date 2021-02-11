@@ -426,7 +426,7 @@ skin cancer where the odds ratios are estimated to be in the range of
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.95\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/pip_and_coefs_vs_strength.eps}
+  \includegraphics[width=0.95\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/pip_and_coefs_vs_strength.png}
   \caption{Illustration of the relationship between instrument strength, width of bounds obtained from two-sample design, and coefficients from logistic regression model. A: Relationship between instrument strength (ST) and width of the IV bounds. Black line is the upper bound on the two-sample IV bounds from Theorem 1. Black dots indicate one of the 10,000 IV bounds. Colored dots indicate bounds from real data; see Section \ref{data-analysis} for details. B: Coefficients from logistic regression model and instrument strength (ST).}
   \label{fig:biv_bounds_vs_strength}
 \end{figure}
@@ -446,7 +446,7 @@ larger \(\gamma_1\) is needed to exclude the null effect.
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.95\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/loess_power.eps}
+  \includegraphics[width=0.95\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/loess_power.png}
   \caption{The smallest $\gamma_1$ needed for a two-sample IV bound to exclude $0$.}
   \label{fig:power_curves}
 \end{figure}
@@ -574,7 +574,7 @@ having a single, strong instrument.
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.9\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/strength_vs_coefs_multiple_IVs.eps}
+  \includegraphics[width=0.9\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/strength_vs_coefs_multiple_IVs.png}
   \caption{When $p$ is larger, similar sized coefficients lead to lower strength. The effect is smaller when we are in a scenario where one coefficient is relatively much larger than the rest, rather than when the coefficients are evenly spread out. A: Scenarios 1 and 3. B: Scenarios 2 and 4.}
   \label{fig:strength_vs_coef_multiple_IVs}
 \end{figure}
@@ -583,7 +583,7 @@ having a single, strong instrument.
 
 \begin{sidewaysfigure}
   \centering
-  \includegraphics[width=\textheight]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multiple_IV_sims_MR.eps}
+  \includegraphics[width=\textheight]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/bounds_from_multiple_IV_sims_MR.png}
   \caption{Bounds based on monte carlo integration with 1,000,000 resamples in scenario 1.}
   \label{fig:bounds_from_multiple_IV_sims_MR}
 \end{sidewaysfigure}
@@ -592,7 +592,7 @@ having a single, strong instrument.
 
 \begin{sidewaysfigure}
   \centering
-  \includegraphics[width=\textheight]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multiple_IV_sims_power.eps}
+  \includegraphics[width=\textheight]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/bounds_from_multiple_IV_sims_power.png}
   \caption{Bounds based on monte carlo integration with 1,000,000 resamples in scenario 2.}
   \label{fig:bounds_from_multiple_IV_sims_power}
 \end{sidewaysfigure}
@@ -601,7 +601,7 @@ having a single, strong instrument.
 
 \begin{sidewaysfigure}
   \centering
-  \includegraphics[width=\textheight]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multiple_IV_sims_MR_many_weak.eps}
+  \includegraphics[width=\textheight]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/bounds_from_multiple_IV_sims_MR_many_weak.png}
   \caption{Bounds based on monte carlo integration with 1,000,000 resamples in scenario 3.}
   \label{fig:bounds_from_multiple_IV_sims_MR_many_weak}
 \end{sidewaysfigure}
@@ -610,7 +610,7 @@ having a single, strong instrument.
 
 \begin{sidewaysfigure}
   \centering
-  \includegraphics[width=\textheight]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/bounds_from_multiple_IV_sims_power_many_weak.eps}
+  \includegraphics[width=\textheight]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/pngbounds_from_multiple_IV_sims_power_many_weak.png}
   \caption{Bounds based on monte carlo integration with 1,000,000 resamples in scenario 4.}
   \label{fig:bounds_from_multiple_IV_sims_power_many_weak}
 \end{sidewaysfigure}
@@ -653,7 +653,7 @@ bounds from the procedure we illustrated above.
 
 \begin{figure}[ht]
   \center
-  \includegraphics[width=\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/trivariate_bounds_subset_plot.eps}
+  \includegraphics[width=\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/trivariate_bounds_subset_plot.png}
   \caption{One-sample bounds (horizontal lines) and two-sample bounds (vertical dotted lines). Red color represents one-sample bounds that do not cover zero and gray color represents one-sample bounds that do cover zero.}
   \label{fig:trivariate_bounds}
 \end{figure}
@@ -740,14 +740,14 @@ intersections are also non-informative.
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width = 0.95\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/bivariate_bounds.eps}
+  \includegraphics[width = 0.95\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/example_analyses/bivariate_bounds.png}
   \caption{Two-sample IV bounds for the two real data examples with 8 SNPs from each data set. A: Two-sample IV bounds for the ATE of smoking on the incidence of lung cancer. B: Two-sample IV bounds for the ATE of high cholesterol on the incidence of heart attack.}
   \label{fig:two-sample-bounds}
 \end{figure}
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width = 0.95\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/trivariate_bounds.eps}
+  \includegraphics[width = 0.95\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/example_analyses/trivariate_bounds.png}
   \caption{Potential one-sample IV bounds for the two real data examples using the method described in Section \ref{quasi-bayesian}. A: One-sample IV bounds for the ATE of smoking on the incidence of lung cancer from 500 potential one-sample distributions for each SNP. B: One-sample IV bounds for the ATE of high cholesterol on the incidence of heart attack from 500 potential one-sample distributions for each SNP.}
   \label{fig:one-sample-bounds}
 \end{figure}
@@ -1691,7 +1691,7 @@ results in the values depicted on Figure \ref{fig:power_curves}.
 \clearpage
 \begin{sidewaysfigure}
   \centering
-  \includegraphics[width=\textheight]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/power.eps}
+  \includegraphics[width=\textheight]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/power.png}
   \caption{Bounds based on simulations as described. Upper and lower bounds are connected by a curve (dotted lines) based on a loess extrapolation. This curve is used to find the smallest coefficients needed to detect direction as plotted on Figure \ref{fig:power_curves}.}
   \label{fig:power}
 \end{sidewaysfigure}
@@ -1860,7 +1860,7 @@ was from data entry ID ukb-a-434.
 
 \begin{figure}[ht]
   \center
-  \includegraphics[width = 0.9\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_lung_cancer_marginal_Z.eps}
+  \includegraphics[width = 0.9\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/example_analyses/smoking_lung_cancer_marginal_Z.png}
   \caption{Histograms of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing.}
   \label{fig:marginal-distribution-of-instruments-lung-cancer}
 \end{figure}
@@ -1989,7 +1989,7 @@ rs9487626 & 0.0332246 & 0.2981030 & 0.6686724\\
 
 \begin{figure}[ht]
   \center
-  \includegraphics[width = 0.9\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_lung_cancer_coefficients.eps}
+  \includegraphics[width = 0.9\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/example_analyses/smoking_lung_cancer_coefficients.png}
   \caption{Histograms of the coefficients from GWAS results of logistic regression of the SNPs on smoking status and lung cancer status. Intercepts ($\beta_0$ and $\gamma_0$) are inferred, while slopes ($\beta_1$ and $\gamma_1$) are as reported.}
   \label{fig:marginal-distribution-of-coefficients-lung-cancer}
 \end{figure}
@@ -2106,14 +2106,14 @@ rs9487626 & 0.0131029 & 0.1648247 & -0.0136868 & -1.978168\\*
 
 \begin{figure}[ht]
  \center
- \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/strength_histogram.eps}
+ \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/strength_histogram.png}
  \caption{Histogram of strengths of IVs on the exposure. Here, SNPs are IVs, and smoking status (ever/never) is exposure. We see that all IVs are very weak, with the largest value just below 0.01.}
  \label{fig:strength_histogram}
 \end{figure}
 
 \begin{figure}[ht]
   \center
-  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_lung_cancer_bivariate_bounds_ukb-d-20116_0_ukb-d-40001_C349.eps}
+  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_lung_cancer_bivariate_bounds_ukb-d-20116_0_ukb-d-40001_C349.png}
   \caption{Nonparametric two-sample IV bounds on the average treatment effect of smoking on the incidence of lung cancer.}
   \label{fig:smoking_on_lung_cancer_ind_bounds}
 \end{figure}
@@ -2122,7 +2122,7 @@ rs9487626 & 0.0131029 & 0.1648247 & -0.0136868 & -1.978168\\*
 
 \begin{sidewaysfigure}
   \center
-  \includegraphics[width = \textheight]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_lung_cancer_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.eps}
+  \includegraphics[width = \textheight]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/example_analyses/smoking_lung_cancer_individual_SNPs_plot_ukb-d-20116_0_ukb-d-40001_C349.png}
   \caption{500 sets of bounds of the average treatment effect of smoking on lung cancer for each of the 84 SNPs. Each bound is based on a set of values for the trivariate distribution randomly sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
   \label{fig:smoking_on_lung_cancer_tri_bounds_all}
 \end{sidewaysfigure}
@@ -2131,7 +2131,7 @@ rs9487626 & 0.0131029 & 0.1648247 & -0.0136868 & -1.978168\\*
 
 \begin{figure}[ht]
   \center
-  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_lung_cancer_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C349.eps}
+  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/smoking_lung_cancer_intersection_bounds_plot_ukb-d-20116_0_ukb-d-40001_C349.png}
   \caption{Intersection bounds of the average treatment effect of smoking on lung cancer based on randomly sampled trivariate distributions from pairs of SNPs. These 8 pairs were randomly chosen from all possible pairs.}
   \label{fig:smoking_on_lung_cancer_intersections}
 \end{figure}
@@ -2142,7 +2142,7 @@ rs9487626 & 0.0131029 & 0.1648247 & -0.0136868 & -1.978168\\*
 
 \begin{figure}[ht]
   \center
-  \includegraphics[width = 0.9\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/cholesterol_heart_attack_marginal_Z.eps}
+  \includegraphics[width = 0.9\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/example_analyses/cholesterol_heart_attack_marginal_Z.png}
   \caption{Histograms of the marginal distribution of instruments, $P(Z = z), z=0,1,2$, estimated after preprocessing.}
   \label{fig:marginal-distribution-of-instruments-cholesterol-heart-attack}
 \end{figure}
@@ -2243,14 +2243,14 @@ rs964184 & 0.0174433 & 0.2292594 & 0.7532973\\
 
 \begin{figure}[ht]
   \center
-  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/cholesterol_heart_attack_marginal_conditionals.eps}
+  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/example_analyses/cholesterol_heart_attack_marginal_conditionals.png}
   \caption{Histograms of the marginal conditional probabilities $P(X = 1 | Z = z), z = 0,1,2$ and $P(Y = 1 | Z = z), z=0,1,2$.}
   \label{fig:smoking_on_depression_marginals}
 \end{figure}
 
 \begin{figure}[ht]
   \center
-  \includegraphics[width = 0.9\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/cholesterol_heart_attack_coefficients.eps}
+  \includegraphics[width = 0.9\textwidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/example_analyses/cholesterol_heart_attack_coefficients.png}
   \caption{Histograms of the coefficients from GWAS results of logistic regression of the SNPs on high cholesterol and heart attack, respectively. Intercepts ($\beta_0$ and $\gamma_0$) are inferred, while slopes ($\beta_1$ and $\gamma_1$) are as reported.}
   \label{fig:marginal-distribution-of-coefficients-depression}
 \end{figure}
@@ -2338,13 +2338,13 @@ rs964184 & -0.0215630 & -3.737246 & -0.0013629 & -1.968778\\*
 
 \begin{figure}[ht]
  \center
- \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/cholesterol_heart_attack_strength_histogram.eps}
+ \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/cholesterol_heart_attack_strength_histogram.png}
  \caption{Histogram of strengths of IVs on the exposure. Here, SNPs are IVs, and high cholesterol is the exposure. We see that all IVs are very weak, with the largest value below 0.003.}
  \label{fig:cholesterol_heart_attack_strength_histogram}
 \end{figure}
 
 \begin{figure}[ht]
-  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/cholesterol_heart_attack_bivariate_bounds_ukb-a-108_ukb-a-434.eps}
+  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/example_analyses/cholesterol_heart_attack_bivariate_bounds_ukb-a-108_ukb-a-434.png}
   \caption{Nonparametric two-sample IV bounds on the average treatment effect of high cholesterol on the incidence of heart attack.}
   \label{fig:cholesterol_on_heart_attack_ind_bounds}
 \end{figure}
@@ -2353,7 +2353,7 @@ rs964184 & -0.0215630 & -3.737246 & -0.0013629 & -1.968778\\*
 
 \begin{sidewaysfigure}
   \center
-  \includegraphics[width = \textheight]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/cholesterol_heart_attack_individual_SNPs_plot_ukb-a-108_ukb-a-434.eps}
+  \includegraphics[width = \textheight]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/png/example_analyses/cholesterol_heart_attack_individual_SNPs_plot_ukb-a-108_ukb-a-434.png}
     \caption{500 sets of bounds of the average treatment effect of high cholesterol on heart attack for each of the 54 SNPs. Each bound is based on a set of values for the trivariate distribution randomly sampled. Bounds are color coded to show if they overlap 0 (grey) or do not (red). All bounds overlap 0.}
     \label{fig:cholesterol_heart_attack_tri_bounds_all}
 \end{sidewaysfigure}
@@ -2362,7 +2362,7 @@ rs964184 & -0.0215630 & -3.737246 & -0.0013629 & -1.968778\\*
 
 \begin{figure}[ht]
   \center
-  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/cholesterol_heart_attack_intersection_bounds_plot_ukb-a-108_ukb-a-434.eps}
+  \includegraphics[width = 0.99\linewidth]{/Users/ralphtrane/Documents/RPackages_dev/ACEBounds/figures/example_analyses/cholesterol_heart_attack_intersection_bounds_plot_ukb-a-108_ukb-a-434.png}
   \caption{Intersection bounds of the average treatment effect of high cholesterol on heart attack based on randomly sampled trivariate distributions from pairs of SNPs. These 8 pairs were randomly chosen from all possible pairs.}
   \label{fig:cholesterol_on_heart_attack_intersections}
 \end{figure}

@@ -153,15 +153,11 @@ width_vs_strength +
   labs(title = "Width of Two-Sample Bounds as function of strength")
 
 ggsave(plot = width_vs_strength,
-<<<<<<< HEAD
        filename = here::here("figures/tiff/bivariate_width_vs_strength.tiff"), 
        dpi = 300, width = 4, height = 2.86)
 
 ggsave(plot = width_vs_strength,
        filename = here::here("figures/png/bivariate_width_vs_strength.png"), 
-=======
-       filename = here::here("figures", "bivariate_width_vs_strength.png"), 
->>>>>>> parent of 7e42af4... Change figure format from png to tiff
        dpi = 300, width = 4, height = 2.86)
 ```
 
@@ -206,15 +202,11 @@ all_bounds_plot +
        caption = paste("Note:", sum(bounds$upper <= bounds$lower), "of the", nrow(bounds), "simulated distributions resulted in upper limits smaller than the lower limits. These have been removed."))
 
 ggsave(plot = all_bounds_plot,
-<<<<<<< HEAD
        filename = here::here("figures/png/all_bivariate_bounds.png"),
        dpi = 300, width = 4, height = 2.86)
 
 ggsave(plot = all_bounds_plot,
        filename = here::here("figures/tiff/all_bivariate_bounds.tiff"),
-=======
-       filename = here::here("figures", "all_bivariate_bounds.png"),
->>>>>>> parent of 7e42af4... Change figure format from png to tiff
        dpi = 300, width = 4, height = 2.86)
 ```
 
@@ -418,7 +410,6 @@ zoomed_in_y2 <- 2.075
             fill = NA, color = "red")
 )
 
-<<<<<<< HEAD
 write_rds(pip_figure, 
           file = here::here("vignettes_data/pip_figure.Rds"))
 
@@ -427,9 +418,6 @@ ggsave(filename = here::here("figures/tiff/bivariate_width_vs_strength_pip.tiff"
        dpi = 300, width = 4, height = 4.7)
 
 ggsave(filename = here::here("figures/png/bivariate_width_vs_strength_pip.png"),
-=======
-ggsave(filename = here::here("figures/bivariate_width_vs_strength_pip.png"),
->>>>>>> parent of 7e42af4... Change figure format from png to tiff
        plot = pip_figure, 
        dpi = 300, width = 4, height = 4.7)
 ```

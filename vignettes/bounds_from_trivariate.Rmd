@@ -191,11 +191,7 @@ Save the plot to a file for later use.
 ```{r}
 ggsave(
   plot, 
-<<<<<<< HEAD
   filename = here::here("figures/png/trivariate_bounds_plot.png"),
-=======
-  filename = here::here("figures/trivariate_bounds_plot.png"),
->>>>>>> parent of 7e42af4... Change figure format from png to tiff
   width = 10, height = 8, dpi = 300
 )
 ggsave(
@@ -310,11 +306,7 @@ write_rds(x = subset_plot_summaries,
 
 ggsave(
   plot = subset_plot,
-<<<<<<< HEAD
   filename = here::here("figures/tiff/trivariate_bounds_subset_plot.tiff"),
-=======
-  filename = here::here("figures", "trivariate_bounds_subset_plot.png"),
->>>>>>> parent of 7e42af4... Change figure format from png to tiff
   width = 8, dpi = 300, height = 8
 )
 
@@ -441,11 +433,7 @@ ggsave(
 
 <!-- plot_mono -->
 
-<<<<<<< HEAD
-<!-- ggsave(plot_mono, filename = here::here("figures/trivariate_bounds_mono_plot.eps"), -->
-=======
 <!-- ggsave(plot_mono, filename = here::here("figures/trivariate_bounds_mono_plot.png"), -->
->>>>>>> parent of 7e42af4... Change figure format from png to tiff
 <!--        width = 10, height = 10, dpi = 300) -->
 <!-- ``` -->
 

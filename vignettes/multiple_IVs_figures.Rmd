@@ -217,6 +217,7 @@ sub_figure <- bounds_and_ATE %>%
                               scenario == "power" & many_weak ~ "Scenario~4",
                               TRUE ~ NA_character_),
          X_on_Y = paste0("beta[X]==", X_on_Y)) %>%
+  filter(!(scenario %in% c("Scenario~1","Scenario~2","Scenario~3") & p == "p==50")) %>% 
   group_by(scenario, U_on_XY) %>% 
   mutate(strongest = if_else(indIVs_on_X == max(indIVs_on_X), "strongest"," ")) %>% 
   ungroup() %>% 
@@ -240,19 +241,15 @@ sub_figure <- bounds_and_ATE %>%
                scales = "free_y",
                labeller = label_parsed) +
     guides(color = "none") +
-    theme_bw() #+
-    # theme(#legend.position = "top",
-    #       axis.text.x = element_text(angle = 45, hjust = 1))
-
-
+    theme_bw() 
 
 ggsave(filename = here::here("figures/png/bounds_from_multiple_IVs.png"),
        plot = sub_figure,
-       width = 8, height = 10, dpi = 300)
+       width = 8, height = 8.525, dpi = 300)
 
 ggsave(filename = here::here("figures/tiff/bounds_from_multiple_IVs.tiff"),
        plot = sub_figure,
-       width = 8, height = 11, dpi = 300)
+       width = 8, height = 8.525, dpi = 300)
 ```
 
 

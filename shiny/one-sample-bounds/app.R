@@ -235,19 +235,22 @@ server <- function(input, output) {
                               xmax = x_max,
                               ymin = y_min,
                               ymax = y_max,
-                              fill = contains_zero),
-                          alpha = 0) +
-                geom_errorbar() +
+                              linetype = contains_zero,
+                              color = contains_zero),
+                          alpha = 0,
+                          size = 0) +
+                geom_errorbar(aes(linetype = contains_zero)) +
                 geom_vline(data = data.frame(),
                            aes(xintercept = RVs$two_sample_bounds$interval,
-                               color = rep("Two-Sample Bounds", 2)),
-                           linetype = "dashed") +
+                               linetype = rep("Two-Sample Bounds", 2),
+                               color = rep("Two-Sample Bounds", 2))
+                ) +
                 scale_x_continuous(limits = c(-1, 1),
                                    breaks = c(-1, -0.5, 0, 0.5, 1)) +
-                scale_fill_manual(values = c("black", "grey50", "red"),
-                                  breaks = c("Two-Sample Bounds", "Overlaps Zero", "Does Not Overlap Zero")) +
                 scale_color_manual(values = c("black", "grey50", "red"),
                                    breaks = c("Two-Sample Bounds", "Overlaps Zero", "Does Not Overlap Zero")) +
+                scale_linetype_manual(values = c("dashed", "solid", "solid"),
+                                      breaks = c("Two-Sample Bounds", "Overlaps Zero", "Does Not Overlap Zero")) +
                 labs(
                     x = "ATE",
                     y = "",
@@ -256,63 +259,14 @@ server <- function(input, output) {
                     linetype = "",
                     caption = paste0("Proportion of one-sample bounds not overlapping 0: ", 100*round(mean(RVs$joint_samples$contains_zero != "Overlaps Zero"), digits = 3), "%.")
                 ) +
-                guides(
-                    color = "none",
-                    fill = guide_legend(override.aes = list(alpha = 1))
-                ) +
                 theme_bw() +
                 theme(axis.ticks.y = element_blank(),
                       axis.text.y = element_blank(),
                       text = element_text(size = 20),
-                      # legend.text = element_text(size = 12),
                       legend.position = "top")
 
             output$prettyPlot <- renderPlot({
-                ggplot(RVs$joint_samples,
-                       aes(xmin = lower, xmax = upper,
-                           y = id,
-                           color = contains_zero)) +
-                    geom_rect(data = data.frame(x_min = rep(0.2, 3),
-                                                x_max = rep(0.3, 3),
-                                                y_min = rep(0.1, 3),
-                                                y_max = rep(0.2, 3),
-                                                contains_zero = c("Two-Sample Bounds", "Overlaps Zero", "Does Not Overlap Zero")),
-                              inherit.aes = FALSE,
-                              aes(xmin = x_min,
-                                  xmax = x_max,
-                                  ymin = y_min,
-                                  ymax = y_max,
-                                  fill = contains_zero),
-                              alpha = 0) +
-                    geom_errorbar() +
-                    geom_vline(data = data.frame(),
-                               aes(xintercept = RVs$two_sample_bounds$interval,
-                                   color = rep("Two-Sample Bounds", 2)),
-                               linetype = "dashed") +
-                    scale_x_continuous(limits = c(-1, 1),
-                                       breaks = c(-1, -0.5, 0, 0.5, 1)) +
-                    scale_fill_manual(values = c("black", "grey50", "red"),
-                                      breaks = c("Two-Sample Bounds", "Overlaps Zero", "Does Not Overlap Zero")) +
-                    scale_color_manual(values = c("black", "grey50", "red"),
-                                       breaks = c("Two-Sample Bounds", "Overlaps Zero", "Does Not Overlap Zero")) +
-                    labs(
-                        x = "ATE",
-                        y = "",
-                        color = "",
-                        fill = "",
-                        linetype = "",
-                        caption = paste0("Proportion of one-sample bounds not overlapping 0: ", 100*round(mean(RVs$joint_samples$contains_zero != "Overlaps Zero"), digits = 3), "%.")
-                    ) +
-                    guides(
-                        color = "none",
-                        fill = guide_legend(override.aes = list(alpha = 1))
-                    ) +
-                    theme_bw() +
-                    theme(axis.ticks.y = element_blank(),
-                          axis.text.y = element_blank(),
-                          text = element_text(size = 20),
-                          # legend.text = element_text(size = 12),
-                          legend.position = "top")
+                print(RVs$pretty_plot)
             })
 
             output$rds_data <- downloadHandler(

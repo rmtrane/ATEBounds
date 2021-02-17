@@ -1,9 +1,8 @@
 #' Create tidy DAG from simulation
 #'
-#' @importFrom dagitty dagitty
-#' @importFrom ggdag tidy_dagitty
-#'
 from_simulated_to_dag <- function(simulated_data, layout = "auto"){
+  if(!"ggdag" %in% rownames(installed.packages()))
+    stop("You have to install the ggdag package to use this function.")
 
   coefs <- simulated_data$coefficients
 
@@ -16,10 +15,10 @@ from_simulated_to_dag <- function(simulated_data, layout = "auto"){
   DAG <- paste0("dag{",
                 paste(tmp$edges, collapse = ""),
                 "}") %>%
-    dagitty()
+    dagitty::dagitty()
 
-  tidy_dag <- tidy_dagitty(DAG,
-                           layout = layout)
+  tidy_dag <- ggdag::tidy_dagitty(DAG,
+                                  layout = layout)
 
   tidy_dag$data <- tidy_dag$data %>%
     left_join(
@@ -52,8 +51,8 @@ from_simulated_to_dag <- function(simulated_data, layout = "auto"){
 #' @export
 plot_DAG <- function(sim_data){
 
-  if(!"ggdag" %in% loadedNamespaces())
-    stop("You have to load the ggdag library to use this function.")
+  if(!"ggdag" %in% rownames(installed.packages()))
+    stop("You have to install the ggdag package to use this function.")
 
   tidyDAG <- from_simulated_to_dag(sim_data)
 

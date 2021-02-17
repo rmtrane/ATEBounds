@@ -93,10 +93,12 @@ joint_from_marginal <- function(thetas, gammas, cov, stop = TRUE, message = TRUE
 
 #' Valid range of Covs
 #'
-#' From values of P(X = 1 | Z = z) and P(Y = 1 | Z = z) (for all z = 0, ..., `n_z_levels` - 1),
-#' this function returns ranges of valid values for the quantities Cov(X,Y|Z = z) and Cov(X,Y|Z = z1) - Cov(X,Y|Z = z2),
-#' such that there probability distribution defined by the input and any set of covariances chosen to fulfill the
-#' constraints will be valid, and not violated the IV inequalities.
+#' Given values of P(X = 1 | Z = z) and P(Y = 1 | Z = z) (for all z = 0, ..., `n_z_levels` - 1),
+#' this function returns constraints that the quantities Cov(X,Y|Z = z) and Cov(X,Y|Z = z1) - Cov(X,Y|Z = z2)
+#' must satisfy for the reconstructed distribution of $P(X = x, Y = y | Z = z)$ to be a valid
+#' probability distribution and not violate the IV inequalities. Note: fulfilling these constraints is a
+#' necessary but not sufficient requirement for the reconstructed distribution to be valid and not violate the IV
+#' inequalities.
 #'
 #' @param gammas vector of length `n_z_levels` giving P(Y = 1 | Z = z), z = 0, ..., (`n_z_levels` - 1).
 #' @param thetas vector of length `n_z_levels` giving P(X = 1 | Z = z), z = 0, ..., (`n_z_levels` - 1).

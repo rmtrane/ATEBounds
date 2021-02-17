@@ -3,8 +3,8 @@ Type: Package
 Title: ATE Bounds using IVs
 Version: 0.1.0
 Authors@R: person("Ralph Møller", "Trane", email = "rtrane@wisc.edu", role = c("aut", "cre"))
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: Find Average Treatment Effects using IVs. Utilizes polymake to find bounds for any categorical IV.
+Maintainer: Ralph Møller Trane <rtrane@wisc.edu>
+Description: Find Bounds on the Average Treatment Effects using IVs. Utilizes polymake to find bounds for any categorical IV.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -18,7 +18,7 @@ Imports:
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 Depends: 
-    R (>= 2.10)
+    R (>= 4.0)
 URL: https://github.com/rmtrane/ATEBounds
 Suggests: 
     knitr,

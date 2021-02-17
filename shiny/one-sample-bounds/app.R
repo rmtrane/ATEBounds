@@ -18,97 +18,113 @@ ui <- fluidPage(
     # Setup busy indicator
     useShinyjs(),
     tags$body(inlineCSS(list(".shinysky-busy-indicator" = "position: absolute !important; z-index:800; "))),
-    navbarPage(
-        # Application title
-        "One-Sample Bounds From Two-Sample Summary Statistics",
-
-        tabPanel(
-            "Potential One-Sample Bounds",
-            # Sidebar with a slider input for number of bins
-            sidebarLayout(
-                sidebarPanel(
-                    column(12,
-                           numericInput(inputId = "seed",
-                                        label = "Seed to use",
-                                        value = round(runif(1), 5)*10e4),
-                           radioButtons(inputId = "x_mono",
-                                        label = "Assume P(X = 1 | Z = z) < P(X = 1 | Z = z+1)?",
-                                        choices = list("Yes" = TRUE,
-                                                       "No" = FALSE),
-                                        selected = FALSE),
-                           sliderInput(inputId = "n_joints",
-                                       label = "Number of joint distributions to sample",
-                                       min = 1, max = 1000,
-                                       step = 1,
-                                       value = 100)
-                    ),
-                    fluidRow(
-                        column(4,
-                               numericInput("theta0",
-                                            "P(X = 1 | Z = 0)",
-                                            min = 0,
-                                            max = 1,
-                                            value = 0.2)),
-                        column(4,
-                               numericInput("theta1",
-                                            "P(X = 1 | Z = 1)",
-                                            min = 0,
-                                            max = 1,
-                                            value = 0.2)),
-                        column(4,
-                               numericInput("theta2",
-                                            "P(X = 1 | Z = 2)",
-                                            min = 0,
-                                            max = 1,
-                                            value = 0.2))
-                    ),
-                    fluidRow(
-                        column(4,
-                               numericInput("gamma0",
-                                            "P(Y = 1 | Z = 0)",
-                                            min = 0,
-                                            max = 1,
-                                            value = 0.2)),
-                        column(4,
-                               numericInput("gamma1",
-                                            "P(Y = 1 | Z = 1)",
-                                            min = 0,
-                                            max = 1,
-                                            value = 0.2)),
-                        column(4,
-                               numericInput("gamma2",
-                                            "P(Y = 1 | Z = 2)",
-                                            min = 0,
-                                            max = 1,
-                                            value = 0.2)
-                        )
-                    ),
-                    fluidRow(
-                        column(
-                            6,
-                            actionButton(inputId = "run",
-                                         label = "GO!")
-                        ),
-                        column(
-                            6,
-                            actionButton(inputId = "sim",
-                                         label = "Create Random Values")
-                        )
-                    ),
-                    textOutput("go")
+    # Application title
+    titlePanel("One-Sample Bounds From Two-Sample Summary Statistics"),
+    # navbarPage(
+    # tabPanel(
+    #     "Introduction",
+    #     includeMarkdown("README.md"),
+    #     withMathJax()
+    # ),    #     # Application title
+    #     "One-Sample Bounds From Two-Sample Summary Statistics",
+    # tabPanel(
+    #     "Potential One-Sample Bounds",
+    # Sidebar with a slider input for number of bins
+    sidebarLayout(
+        sidebarPanel(
+            column(12,
+                   numericInput(inputId = "seed",
+                                label = "Seed to use",
+                                value = round(runif(1), 5)*10e4),
+                   radioButtons(inputId = "x_mono",
+                                label = "Assume P(X = 1 | Z = z) < P(X = 1 | Z = z+1)?",
+                                choices = list("Yes" = TRUE,
+                                               "No" = FALSE),
+                                selected = FALSE),
+                   sliderInput(inputId = "n_joints",
+                               label = "Number of joint distributions to sample",
+                               min = 1, max = 1000,
+                               step = 1,
+                               value = 50)
+            ),
+            fluidRow(
+                column(4,
+                       numericInput("theta0",
+                                    "P(X = 1 | Z = 0)",
+                                    min = 0,
+                                    max = 1,
+                                    value = 0.2)),
+                column(4,
+                       numericInput("theta1",
+                                    "P(X = 1 | Z = 1)",
+                                    min = 0,
+                                    max = 1,
+                                    value = 0.2)),
+                column(4,
+                       numericInput("theta2",
+                                    "P(X = 1 | Z = 2)",
+                                    min = 0,
+                                    max = 1,
+                                    value = 0.2))
+            ),
+            fluidRow(
+                column(4,
+                       numericInput("gamma0",
+                                    "P(Y = 1 | Z = 0)",
+                                    min = 0,
+                                    max = 1,
+                                    value = 0.2)),
+                column(4,
+                       numericInput("gamma1",
+                                    "P(Y = 1 | Z = 1)",
+                                    min = 0,
+                                    max = 1,
+                                    value = 0.2)),
+                column(4,
+                       numericInput("gamma2",
+                                    "P(Y = 1 | Z = 2)",
+                                    min = 0,
+                                    max = 1,
+                                    value = 0.2)
+                )
+            ),
+            fluidRow(
+                column(
+                    6,
+                    actionButton(inputId = "run",
+                                 label = "GO!")
                 ),
+                column(
+                    6,
+                    actionButton(inputId = "sim",
+                                 label = "Create Random Values")
+                )
+            ),
+            textOutput("go")
+        ),
 
-                # Show a plot of the generated distribution
-                mainPanel(
+        # Show a plot of the generated distribution
+        mainPanel(
+            tabsetPanel(
+                id = "main_panels",
+                tabPanel(
+                    "Introduction",
+                    includeMarkdown("README.md"),
+                    withMathJax()
+                ),
+                tabPanel(
+                    "Potential One-Sample Bounds",
                     busyIndicator(),
-                    uiOutput("error_or_plot")
+                    conditionalPanel(
+                        "input.run == 0",
+                        h2("Specify probabilities on the left and click the 'GO!' button")
+                    ),
+                    conditionalPanel(
+                        "input.run != 0",
+                        uiOutput("error_or_plot")
+                    )
                 )
             )
-        ),
-        tabPanel(
-            "README",
-            includeMarkdown("README.md"),
-            withMathJax()
         )
     )
 )
@@ -118,7 +134,7 @@ if(FALSE){
     input <- list(theta0 = 0.2, theta1 = 0.2, theta2 = 0.2,
                   gamma0 = 0.2, gamma1 = 0.2, gamma2 = 0.2,
                   x_mono = TRUE, seed = 26971,
-                  n_joints = 100)
+                  n_joints = 50)
 }
 
 # Define server logic required to draw a histogram
@@ -160,6 +176,9 @@ server <- function(input, output) {
                                      gammas[1] - thetas[1] - thetas[3] + 2, # row 17
                                      gammas[1] + thetas[1] + thetas[3])) # row 15
 
+        thetas <- round(thetas, 4)
+        gammas <- round(gammas, 4)
+
         updateNumericInput(inputId = "theta0", value = thetas[1])
         updateNumericInput(inputId = "theta1", value = thetas[2])
         updateNumericInput(inputId = "theta2", value = thetas[3])
@@ -196,6 +215,8 @@ server <- function(input, output) {
     })
 
     observeEvent(input$run, {
+        updateTabsetPanel(inputId = "main_panels",
+                          selected = "Potential One-Sample Bounds")
         set.seed(input$seed)
         cat(input$seed, "\n")
 
@@ -239,6 +260,7 @@ server <- function(input, output) {
                               color = contains_zero),
                           alpha = 0,
                           size = 0) +
+                geom_vline(xintercept = 0) +
                 geom_errorbar(aes(linetype = contains_zero)) +
                 geom_vline(data = data.frame(),
                            aes(xintercept = RVs$two_sample_bounds$interval,

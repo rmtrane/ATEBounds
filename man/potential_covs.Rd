@@ -24,8 +24,10 @@ corresponding values of \code{z1} and \code{z2}.
 }
 }
 \description{
-From values of P(X = 1 | Z = z) and P(Y = 1 | Z = z) (for all z = 0, ..., \code{n_z_levels} - 1),
-this function returns ranges of valid values for the quantities Cov(X,Y|Z = z) and Cov(X,Y|Z = z1) - Cov(X,Y|Z = z2),
-such that there probability distribution defined by the input and any set of covariances chosen to fulfill the
-constraints will be valid, and not violated the IV inequalities.
+Given values of P(X = 1 | Z = z) and P(Y = 1 | Z = z) (for all z = 0, ..., \code{n_z_levels} - 1),
+this function returns constraints that the quantities Cov(X,Y|Z = z) and Cov(X,Y|Z = z1) - Cov(X,Y|Z = z2)
+must satisfy for the reconstructed distribution of $P(X = x, Y = y | Z = z)$ to be a valid
+probability distribution and not violate the IV inequalities. Note: fulfilling these constraints is a
+necessary but not sufficient requirement for the reconstructed distribution to be valid and not violate the IV
+inequalities.
 }

@@ -1,0 +1,13 @@
+name: shiny-ATE-Bounds
+title: shiny-ATE-Bounds
+username:
+account: rtrane
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3655641
+bundleId: 4242224
+url: https://rtrane.shinyapps.io/shiny-ATE-Bounds/
+when: 1613675535.59723
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: README.md~|sim_data_from_shiny.Rds|simulation-README.md~

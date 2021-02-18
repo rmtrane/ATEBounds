@@ -1,6 +1,6 @@
 #' Create tidy DAG from simulation
 #'
-from_simulated_to_dag <- function(simulated_data, layout = "auto"){
+from_simulated_to_dag <- function(simulated_data, layout = "nicely"){
   if(!"ggdag" %in% rownames(installed.packages()))
     stop("You have to install the ggdag package to use this function.")
 
@@ -19,6 +19,19 @@ from_simulated_to_dag <- function(simulated_data, layout = "auto"){
 
   tidy_dag <- ggdag::tidy_dagitty(DAG,
                                   layout = layout)
+
+  # Check if any IVs are placed at different level than the rest
+  # if(n_distinct(filter(tidy_dag$data, str_starts(name, "Z"))$y) > 1){
+  #   # y's
+  #   ys <- filter(tidy_dag$data, str_starts(name, "Z"))$y
+  #   # unique y's
+  #   uniq_ys <- unique(ys)
+  #   # most common y
+  #   Z_y <- uniq_ys[which.max(tabulate(match(ys, uniq_ys)))]
+  #
+  #   tidy_dag$data <- tidy_dag$data %>%
+  #     mutate(y = if_else(str_starts(name, "Z"), Z_y, y))
+  # }
 
   tidy_dag$data <- tidy_dag$data %>%
     left_join(

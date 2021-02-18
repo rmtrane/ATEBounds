@@ -7,7 +7,7 @@
 #'
 #' Data are simulated from a logistic model as follows:
 #' \itemize{
-#'   \item A binary confounder \eqn{U} is simulated with user specified \eqn{P(U = 1)}.
+#'   \item A confounder \eqn{U} is simulated based on the distribution specified.
 #'   \item A user specified number of independent IVs (\eqn{Z_1, ..., Z_p}) that are either
 #'     di- or trichotomous. Probabilities \eqn{P(Z_j = z), z=0,1} (and \eqn{P(Z_j = 2)} if trichotomous
 #'     case is considered) are specified by the user.

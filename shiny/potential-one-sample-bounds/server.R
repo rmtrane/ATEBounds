@@ -14,6 +14,9 @@ if(FALSE){
 
 
 server <- function(input, output){
+  ## Setup reactiveValues
+  RVs <- reactiveValues()
+
   ## One-Sample Bounds From Two-Sample Summary Statistics
   observeEvent(input$sim, {
     thetas <- runif(3)

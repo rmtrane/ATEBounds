@@ -4,7 +4,7 @@
 \alias{from_simulated_to_dag}
 \title{Create tidy DAG from simulation}
 \usage{
-from_simulated_to_dag(simulated_data, layout = "auto")
+from_simulated_to_dag(simulated_data, layout = "nicely")
 }
 \description{
 Create tidy DAG from simulation

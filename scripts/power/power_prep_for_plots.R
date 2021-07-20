@@ -12,7 +12,7 @@ if(!require(V8)){
 }
 
 library(tidyverse)
-library(ACEBounds)
+library(ATEBounds)
 library(distributions3)
 library(furrr)
 library(progressr)
@@ -56,13 +56,13 @@ with_progress({
           ## ... find summary statistics and ATE
           out <- tmp %>%
             mutate(
-              sum_stats = map(sim_data, ~c(ACEBounds::probs_from_data(.x$simulated_data, X, Y, Z1, data_format = "bivariate"),
+              sum_stats = map(sim_data, ~c(ATEBounds::probs_from_data(.x$simulated_data, X, Y, Z1, data_format = "bivariate"),
                                            ATE = ATE_from_simulated_data(.x)))
             ) %>%
             select(-sim_data) %>%
             ## ... find bounds
             mutate(
-              get_bounds_res = map(sum_stats, ~ACEBounds::get_bounds(gammas = .x$gammas, thetas = .x$thetas, stop = FALSE, warning = FALSE)),
+              get_bounds_res = map(sum_stats, ~ATEBounds::get_bounds(gammas = .x$gammas, thetas = .x$thetas, stop = FALSE, warning = FALSE)),
               bounds = map(get_bounds_res, "interval")
             )
 

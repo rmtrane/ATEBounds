@@ -1,27 +1,23 @@
 library(tidyverse)
-matrices_from_polymake <- expand_grid(data_format = c("bivariate", "trivariate"),
-            n_z_levels = 2:4,
-            x_monotone = c(TRUE, FALSE),
-            y_monotone = c(TRUE, FALSE)) %>%
-  bind_rows(
-    tibble(data_format = "bivariate",
-           n_z_levels = 9,
-           x_monotone = FALSE,
-           y_monotone = FALSE)
-  ) %>%
-  rowwise() %>%
-  mutate(matrix = list(
-    read_polymake_results(here::here(paste0(data_format, "_bound_matrices/",
-                                            "n_z_levels-", n_z_levels,"-x_monotone-", x_monotone, "-y_monotone-", y_monotone)),
-                          data_format = data_format)
-  )
-  ) %>%
-  ungroup()
+
+## Old code
+# matrices_from_polymake <- expand_grid(data_format = c("bivariate", "trivariate"),
+#             n_z_levels = 2:4,
+#             x_monotone = c(TRUE, FALSE),
+#             y_monotone = c(TRUE, FALSE)) %>%
+#   rowwise() %>%
+#   mutate(matrix = list(
+#     read_polymake_results(here::here(paste0(data_format, "_bound_matrices/",
+#                                             "n_z_levels-", n_z_levels,"-x_monotone-", x_monotone, "-y_monotone-", y_monotone)),
+#                           data_format = data_format)
+#   )
+#   ) %>%
+#   ungroup()
 
 
-new_matrices_from_polymake <- tibble(data_format = c("bivariate", "trivariate"),
-                                     files = map(data_format, ~list.files(here::here(paste0(.x, "_bound_matrices")),
-                                                                          full.names = TRUE))) %>%
+matrices_from_polymake <- tibble(data_format = c("bivariate", "trivariate"),
+                                 files = map(data_format, ~list.files(here::here(paste0(.x, "_bound_matrices")),
+                                                                      full.names = TRUE))) %>%
   unnest_longer(files) %>%
   mutate(
     matrix = map2(files, data_format, read_polymake_results),
